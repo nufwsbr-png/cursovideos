@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Motor POV · fábrica de vídeos</title>
+<style>
+  @font-face { font-family: 'Anton'; src: url('/node_modules/@fontsource/anton/files/anton-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-display: block; }
+  @font-face { font-family: 'Anton'; src: url('/node_modules/@fontsource/anton/files/anton-latin-ext-400-normal.woff2') format('woff2'); font-weight: 400; font-display: block; unicode-range: U+0100-024F, U+1E00-1EFF; }
+  @font-face { font-family: 'Nunito'; src: url('/node_modules/@fontsource/nunito/files/nunito-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-display: block; }
+  @font-face { font-family: 'Nunito'; src: url('/node_modules/@fontsource/nunito/files/nunito-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-display: block; }
+  @font-face { font-family: 'Nunito'; src: url('/node_modules/@fontsource/nunito/files/nunito-latin-ext-400-normal.woff2') format('woff2'); font-weight: 400; font-display: block; unicode-range: U+0100-024F, U+1E00-1EFF; }
+  @font-face { font-family: 'Nunito'; src: url('/node_modules/@fontsource/nunito/files/nunito-latin-ext-700-normal.woff2') format('woff2'); font-weight: 700; font-display: block; unicode-range: U+0100-024F, U+1E00-1EFF; }
+  html, body { margin: 0; background: #111; }
+  canvas { display: block; }
+  #gl { position: absolute; left: 0; top: 0; visibility: hidden; }
+  #final { position: absolute; left: 0; top: 0; }
+  #pre { position: absolute; left: -9999px; font-family: Anton, Nunito; }
+</style>
+<script type="importmap">
+  { "imports": { "three": "/node_modules/three/build/three.module.js" } }
+</script>
+</head>
+<body>
+<canvas id="gl" width="1080" height="1920"></canvas>
+<canvas id="final" width="1080" height="1920"></canvas>
+<div id="pre"><span style="font-family:Anton">Aã</span><span style="font-family:Nunito">Aã</span><b style="font-family:Nunito">Aã</b></div>
+<script type="module" src="/motor/motor.js"></script>
+</body>
+</html>
