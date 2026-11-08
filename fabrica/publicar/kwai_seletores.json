@@ -1,0 +1,12 @@
+{
+  "_aviso": "Seletores do site do Kwai para o modo navegador. O site muda sem aviso: ajuste aqui quando o upload parar de funcionar. NÃO CONFERIDO NA DOC (o Kwai não tem API pública de publicação).",
+  "url_upload": "https://www.kwai.com/upload",
+  "url_login": "https://www.kwai.com/",
+  "indicador_logado": "[class*=avatar], [class*=Avatar], img[alt*=avatar i]",
+  "campo_arquivo": "input[type=file]",
+  "campo_legenda": "textarea, [contenteditable=true]",
+  "botao_publicar": "button:has-text('Publicar'), button:has-text('Postar'), button:has-text('Post'), button:has-text('Publish')",
+  "texto_sucesso": "text=/publicad|sucesso|success|posted/i",
+  "espera_processamento_ms": 180000,
+  "espera_sucesso_ms": 120000
+}

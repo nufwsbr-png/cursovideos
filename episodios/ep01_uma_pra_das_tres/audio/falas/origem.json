@@ -1,0 +1,128 @@
+{
+  "f01": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Gacrux",
+    "gerado_em": "2026-11-08T15:58:00+00:00",
+    "duracao_s": 2.911
+  },
+  "f02": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Iapetus",
+    "gerado_em": "2026-11-08T15:58:00+00:00",
+    "duracao_s": 0.896
+  },
+  "f03": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Gacrux",
+    "gerado_em": "2026-11-08T15:58:00+00:00",
+    "duracao_s": 3.721
+  },
+  "f04": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Iapetus",
+    "gerado_em": "2026-11-08T15:58:00+00:00",
+    "duracao_s": 3.476
+  },
+  "f05": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Gacrux",
+    "gerado_em": "2026-11-08T15:58:01+00:00",
+    "duracao_s": 2.812
+  },
+  "f06": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Erinome",
+    "gerado_em": "2026-11-08T15:58:01+00:00",
+    "duracao_s": 6.928
+  },
+  "f07": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Gacrux",
+    "gerado_em": "2026-11-08T15:58:01+00:00",
+    "duracao_s": 1.603
+  },
+  "f08": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Gacrux",
+    "gerado_em": "2026-11-08T15:58:01+00:00",
+    "duracao_s": 1.812
+  },
+  "f09": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Algenib",
+    "gerado_em": "2026-11-08T15:58:01+00:00",
+    "duracao_s": 6.139
+  },
+  "f10": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Iapetus",
+    "gerado_em": "2026-11-08T15:58:01+00:00",
+    "duracao_s": 3.774
+  },
+  "f11": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Algenib",
+    "gerado_em": "2026-11-08T15:58:01+00:00",
+    "duracao_s": 3.794
+  },
+  "f12": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Gacrux",
+    "gerado_em": "2026-11-08T15:58:01+00:00",
+    "duracao_s": 3.69
+  },
+  "f13": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Gacrux",
+    "gerado_em": "2026-11-08T15:58:01+00:00",
+    "duracao_s": 1.865
+  },
+  "f14": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Gacrux",
+    "gerado_em": "2026-11-08T15:58:01+00:00",
+    "duracao_s": 4.123
+  },
+  "f15": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Schedar",
+    "gerado_em": "2026-11-08T15:58:01+00:00",
+    "duracao_s": 1.859
+  },
+  "f16": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Schedar",
+    "gerado_em": "2026-11-08T15:58:01+00:00",
+    "duracao_s": 3.002
+  },
+  "f17": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Gacrux",
+    "gerado_em": "2026-11-08T15:58:01+00:00",
+    "duracao_s": 4.867
+  },
+  "f18": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Schedar",
+    "gerado_em": "2026-11-08T15:58:01+00:00",
+    "duracao_s": 2.425
+  }
+}

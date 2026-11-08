@@ -1,0 +1,35 @@
+{
+  "etapa": "tempo",
+  "aprovado": false,
+  "bloqueios": [
+    "voz falsa: gere as vozes de verdade antes de publicar"
+  ],
+  "avisos": [],
+  "historico": [
+    {
+      "em": "2026-11-08T16:13:20.674Z",
+      "etapa": "roteiro"
+    },
+    {
+      "em": "2026-11-08T16:13:20.674Z",
+      "etapa": "vozes"
+    },
+    {
+      "em": "2026-11-08T16:13:21.113Z",
+      "etapa": "conferido"
+    },
+    {
+      "em": "2026-11-08T16:13:21.232Z",
+      "etapa": "conferido"
+    },
+    {
+      "em": "2026-11-08T16:13:21.233Z",
+      "etapa": "tempo"
+    }
+  ],
+  "atualizado_em": "2026-11-08T16:13:21.233Z",
+  "avisos_vozes": [
+    "Whisper indisponível: falas não transcritas; conferir de ouvido"
+  ],
+  "duracao_s": 111.731
+}

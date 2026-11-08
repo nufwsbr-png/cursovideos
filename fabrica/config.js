@@ -1,0 +1,33 @@
+// Caminhos e leitura do canal. Tudo parte da raiz do repositório.
+import path from "node:path";
+import fs from "node:fs";
+import { fileURLToPath } from "node:url";
+
+export const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+export const PASTA_EPISODIOS = path.join(RAIZ, "episodios");
+export const PASTA_MEMORIA = path.join(RAIZ, "memoria");
+export const PASTA_CANAL = path.join(RAIZ, "canal");
+export const ARQUIVO_CANAL = path.join(PASTA_CANAL, "canal.json");
+export const PASTA_MOTOR = path.join(RAIZ, "motor");
+export const PASTA_AUDIO = path.join(RAIZ, "audio");
+export const PASTA_PADRAO = path.join(RAIZ, "padrao_aprovado");
+
+export const ETAPAS = ["roteiro", "vozes", "conferir", "tempo", "render", "som", "prova", "capa", "publicar", "memoria"];
+
+export function lerCanal() {
+  const canal = JSON.parse(fs.readFileSync(ARQUIVO_CANAL, "utf8"));
+  canal.formato ??= { largura: 1080, altura: 1920, fps: 30, duracao_alvo_s: 100, duracao_min_s: 65, duracao_max_s: 130 };
+  canal.publicacao ??= {};
+  canal.plataformas ??= {};
+  return canal;
+}
+
+export function personagemPorId(canal, id) {
+  if (id === canal.protagonista?.id || id === "eu") return { ...canal.protagonista, id: "eu", nome: canal.protagonista?.como_chamam ?? "Eu" };
+  return (canal.elenco ?? []).find((p) => p.id === id) ?? null;
+}
+
+export function hojeNoFuso(canal) {
+  const fuso = canal.publicacao?.fuso || "America/Sao_Paulo";
+  return new Intl.DateTimeFormat("sv-SE", { timeZone: fuso, year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+}

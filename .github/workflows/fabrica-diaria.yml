@@ -1,0 +1,101 @@
+name: Fábrica diária (produz e publica um episódio por dia)
+
+on:
+  schedule:
+    # 20:30 UTC = 17:30 em Brasília (ajuste à vontade). O GitHub pode atrasar alguns minutos.
+    - cron: "30 20 * * *"
+  workflow_dispatch:
+    inputs:
+      simular:
+        description: "Só simular a publicação (não envia nada às redes)"
+        type: boolean
+        default: false
+      escala:
+        description: "Escala do render (1 = 1080x1920; 0.5 para teste rápido)"
+        default: "1"
+
+concurrency:
+  group: fabrica-diaria
+  cancel-in-progress: false
+
+jobs:
+  diario:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar FFmpeg e fontes
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
+
+      - name: Instalar dependências
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+          pip install -r requirements.txt
+
+      - name: Baixar modelo do Whisper (opcional; falha não para a fábrica)
+        continue-on-error: true
+        run: python3 -c "from faster_whisper import WhisperModel; WhisperModel('${WHISPER_MODELO:-small}', device='cpu', compute_type='int8')"
+
+      - name: Rodar a rotina diária
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
+          TIKTOK_ACCESS_TOKEN: ${{ secrets.TIKTOK_ACCESS_TOKEN }}
+          TIKTOK_REFRESH_TOKEN: ${{ secrets.TIKTOK_REFRESH_TOKEN }}
+          META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
+          META_PAGE_ACCESS_TOKEN: ${{ secrets.META_PAGE_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          KWAI_MODO: fila_manual
+          WHISPER_MODELO: small
+        run: |
+          ARGS="--escala ${{ github.event.inputs.escala || '1' }}"
+          if [ "${{ github.event.inputs.simular }}" = "true" ]; then ARGS="$ARGS --simular"; fi
+          node fabrica/cli.js diario $ARGS
+
+      - name: Guardar o episódio do dia (vídeo, capas, prova) como artefato
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: episodio-${{ github.run_number }}
+          retention-days: 14
+          path: |
+            episodios/*/ep*.mp4
+            episodios/*/capa*.png
+            episodios/*/folha*.png
+            episodios/*/prova.json
+            episodios/*/publicacao*.json
+            fila_manual/**
+
+      - name: Salvar memória e estado no repositório
+        if: always()
+        run: |
+          git config user.name "fabrica-bot"
+          git config user.email "fabrica-bot@users.noreply.github.com"
+          git add memoria episodios/*/*.json episodios/*/textos.json episodios/*/capa.png episodios/*/metricas 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "Fábrica diária: $(date -u +%Y-%m-%d)"
+          git pull --rebase origin ${{ github.ref_name }} || true
+          git push origin HEAD:${{ github.ref_name }} || true

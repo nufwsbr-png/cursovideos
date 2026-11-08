@@ -1,0 +1,934 @@
+{
+  "fps": 30,
+  "duracao_total_s": 111.731,
+  "deslocamento_final_s": 12.731,
+  "origem": "linha_previa",
+  "falas": [
+    {
+      "id": "f01",
+      "quem": "dalva",
+      "inicio_s": 2.0,
+      "fim_s": 4.911,
+      "filtro": null
+    },
+    {
+      "id": "f02",
+      "quem": "eu",
+      "inicio_s": 5.261,
+      "fim_s": 6.157,
+      "filtro": null
+    },
+    {
+      "id": "f03",
+      "quem": "dalva",
+      "inicio_s": 9.107,
+      "fim_s": 12.828,
+      "filtro": null
+    },
+    {
+      "id": "f04",
+      "quem": "eu",
+      "inicio_s": 13.178,
+      "fim_s": 16.654,
+      "filtro": null
+    },
+    {
+      "id": "f05",
+      "quem": "dalva",
+      "inicio_s": 18.604,
+      "fim_s": 21.416,
+      "filtro": null
+    },
+    {
+      "id": "f06",
+      "quem": "alto_falante",
+      "inicio_s": 21.766,
+      "fim_s": 28.694,
+      "filtro": "alto_falante"
+    },
+    {
+      "id": "f07",
+      "quem": "dalva",
+      "inicio_s": 29.044,
+      "fim_s": 30.647,
+      "filtro": null
+    },
+    {
+      "id": "f08",
+      "quem": "dalva",
+      "inicio_s": 31.844,
+      "fim_s": 33.656,
+      "filtro": null
+    },
+    {
+      "id": "f09",
+      "quem": "amaral",
+      "inicio_s": 37.444,
+      "fim_s": 43.583,
+      "filtro": "telefone"
+    },
+    {
+      "id": "f10",
+      "quem": "eu",
+      "inicio_s": 43.933,
+      "fim_s": 47.707,
+      "filtro": null
+    },
+    {
+      "id": "f11",
+      "quem": "amaral",
+      "inicio_s": 48.057,
+      "fim_s": 51.851,
+      "filtro": "telefone"
+    },
+    {
+      "id": "f12",
+      "quem": "dalva",
+      "inicio_s": 52.201,
+      "fim_s": 55.891,
+      "filtro": null
+    },
+    {
+      "id": "f13",
+      "quem": "dalva",
+      "inicio_s": 62.041,
+      "fim_s": 63.906,
+      "filtro": null
+    },
+    {
+      "id": "f14",
+      "quem": "dalva",
+      "inicio_s": 69.241,
+      "fim_s": 73.364,
+      "filtro": null
+    },
+    {
+      "id": "f15",
+      "quem": "passageiro",
+      "inicio_s": 73.714,
+      "fim_s": 75.573,
+      "filtro": null
+    },
+    {
+      "id": "f16",
+      "quem": "passageiro",
+      "inicio_s": 81.714,
+      "fim_s": 84.716,
+      "filtro": null
+    },
+    {
+      "id": "f17",
+      "quem": "dalva",
+      "inicio_s": 88.914,
+      "fim_s": 93.781,
+      "filtro": null
+    },
+    {
+      "id": "f18",
+      "quem": "passageiro",
+      "inicio_s": 96.331,
+      "fim_s": 98.756,
+      "filtro": null
+    }
+  ],
+  "linhas": [
+    {
+      "indice": 0,
+      "t_nominal": 0,
+      "inicio_s": 0.0,
+      "ato": "rotina",
+      "fala": null,
+      "direcao": {
+        "olhar": "maos",
+        "acao": "trabalhar",
+        "clima": "rotina",
+        "eventos": [
+          "personagem.dalva.visivel=true",
+          "personagem.dalva.posicao=dalva_limpando",
+          "personagem.dalva.pose=limpando",
+          "prop.relogio.texto=02:40"
+        ]
+      },
+      "som": "zumbido de lâmpada, ventilador, carimbo",
+      "imagem": "Mãos carimbam um bloco de passagens amarelo. Caneta mordida ao lado. Saguão vazio atrás do vidro, madrugada.",
+      "fim_s": 2.0
+    },
+    {
+      "indice": 1,
+      "t_nominal": 2,
+      "inicio_s": 2.0,
+      "ato": "rotina",
+      "fala": "f01",
+      "direcao": {
+        "olhar": "dalva",
+        "acao": "parar",
+        "clima": "rotina",
+        "eventos": []
+      },
+      "som": "rodo arrastando no ladrilho",
+      "imagem": "A cabeça sobe um pouco. Dalva passa o rodo perto dos bancos, sem olhar para cá.",
+      "fim_s": 5.261
+    },
+    {
+      "indice": 2,
+      "t_nominal": 4.6,
+      "inicio_s": 5.261,
+      "ato": "rotina",
+      "fala": "f02",
+      "direcao": {
+        "olhar": "maos",
+        "acao": "trabalhar",
+        "clima": "rotina",
+        "eventos": []
+      },
+      "som": "carimbo",
+      "imagem": "Volta para as mãos. Mais um carimbo.",
+      "fim_s": 6.507
+    },
+    {
+      "indice": 3,
+      "t_nominal": 5.6,
+      "inicio_s": 6.507,
+      "ato": "sinal",
+      "fala": null,
+      "direcao": {
+        "olhar": "painel",
+        "acao": "parar",
+        "clima": "sinal",
+        "eventos": [
+          "prop.painel.estado=alerta",
+          "prop.painel.texto=23:40  CAPÃO ALTO     PLAT 2|00:15  SÃO JERÔNIMO   PLAT 1|03:00  · · · · · · ·   PLAT 7|04:30  BOA VISTA      PLAT 3"
+        ]
+      },
+      "som": "clique triplo do alto-falante, estalo",
+      "imagem": "Clique seco vindo do teto. A cabeça sobe até o painel: as letras âmbar piscam e surge uma linha nova: 03:00 · · · PLAT 7.",
+      "fim_s": 9.107
+    },
+    {
+      "indice": 4,
+      "t_nominal": 8.2,
+      "inicio_s": 9.107,
+      "ato": "negacao",
+      "fala": "f03",
+      "direcao": {
+        "olhar": "dalva",
+        "acao": "parar",
+        "clima": "sinal",
+        "eventos": []
+      },
+      "som": "rodo",
+      "imagem": "Dalva continua passando o rodo, nem olha para o painel.",
+      "fim_s": 13.178
+    },
+    {
+      "indice": 5,
+      "t_nominal": 11,
+      "inicio_s": 13.178,
+      "ato": "negacao",
+      "fala": "f04",
+      "direcao": {
+        "olhar": "painel",
+        "acao": "parar",
+        "clima": "sinal",
+        "eventos": []
+      },
+      "som": "ventilador",
+      "imagem": "A cabeça volta ao painel. A linha continua lá.",
+      "fim_s": 17.004
+    },
+    {
+      "indice": 6,
+      "t_nominal": 13.4,
+      "inicio_s": 17.004,
+      "ato": "negacao",
+      "fala": null,
+      "direcao": {
+        "olhar": "bilhete",
+        "acao": "parar",
+        "clima": "sinal",
+        "eventos": []
+      },
+      "som": "ventilador",
+      "imagem": "Olho de lado para o bilhete amarelo colado no vidro: NUNCA VENDA PASSAGEM PRA O DAS 3H.",
+      "fim_s": 18.604
+    },
+    {
+      "indice": 7,
+      "t_nominal": 15,
+      "inicio_s": 18.604,
+      "ato": "negacao",
+      "fala": "f05",
+      "direcao": {
+        "olhar": "dalva",
+        "acao": "parar",
+        "clima": "sinal",
+        "eventos": [
+          "personagem.dalva.pose=em_pe"
+        ]
+      },
+      "som": "rodo",
+      "imagem": "Dalva para o rodo por um segundo e volta a limpar.",
+      "fim_s": 21.766
+    },
+    {
+      "indice": 8,
+      "t_nominal": 17.4,
+      "inicio_s": 21.766,
+      "ato": "escalada",
+      "fala": "f06",
+      "direcao": {
+        "olhar": "alto_falante_prop",
+        "acao": "parar",
+        "clima": "escalada",
+        "eventos": [
+          "personagem.dalva.pose=limpando"
+        ]
+      },
+      "som": "estática do alto-falante",
+      "imagem": "O alto-falante estala no teto e uma voz gravada anuncia a partida que não existe.",
+      "fim_s": 29.044
+    },
+    {
+      "indice": 9,
+      "t_nominal": 22.6,
+      "inicio_s": 29.044,
+      "ato": "escalada",
+      "fala": "f07",
+      "direcao": {
+        "olhar": "dalva",
+        "acao": "parar",
+        "clima": "escalada",
+        "eventos": [
+          "personagem.dalva.pose=em_pe",
+          "personagem.dalva.expressao=surpresa"
+        ]
+      },
+      "som": "rodo caindo no banco",
+      "imagem": "Dalva larga o rodo encostado no banco e olha para o teto.",
+      "fim_s": 31.844
+    },
+    {
+      "indice": 10,
+      "t_nominal": 25.4,
+      "inicio_s": 31.844,
+      "ato": "escalada",
+      "fala": "f08",
+      "direcao": {
+        "olhar": "lanchonete",
+        "acao": "parar",
+        "clima": "escalada",
+        "eventos": [
+          "prop.luz_saguao.estado=fraca",
+          "prop.lanchonete.estado=acesa",
+          "personagem.dalva.expressao=medo"
+        ]
+      },
+      "som": "estalo de lâmpada",
+      "imagem": "As luzes do saguão caem um tom. A lanchonete fechada acende sozinha atrás da grade.",
+      "fim_s": 35.444
+    },
+    {
+      "indice": 11,
+      "t_nominal": 29,
+      "inicio_s": 35.444,
+      "ato": "autoridade",
+      "fala": null,
+      "direcao": {
+        "olhar": "telefone",
+        "acao": "segurar:telefone",
+        "clima": "escalada",
+        "eventos": [
+          "prop.telefone.estado=tocando"
+        ]
+      },
+      "som": "campainha do telefone",
+      "imagem": "O telefone fixo do guichê toca. A mão direita pega o fone.",
+      "fim_s": 37.444
+    },
+    {
+      "indice": 12,
+      "t_nominal": 31,
+      "inicio_s": 37.444,
+      "ato": "autoridade",
+      "fala": "f09",
+      "direcao": {
+        "olhar": "maos",
+        "acao": "segurar:telefone",
+        "clima": "escalada",
+        "eventos": [
+          "prop.telefone.estado=na_mao"
+        ]
+      },
+      "som": "voz de telefone",
+      "imagem": "Fone no ouvido. Olho para o balcão. A voz de Seu Amaral sai abafada.",
+      "fim_s": 43.933
+    },
+    {
+      "indice": 13,
+      "t_nominal": 36.2,
+      "inicio_s": 43.933,
+      "ato": "autoridade",
+      "fala": "f10",
+      "direcao": {
+        "olhar": "painel",
+        "acao": "segurar:telefone",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "som": null,
+      "imagem": "Levanto os olhos para o painel enquanto falo.",
+      "fim_s": 48.057
+    },
+    {
+      "indice": 14,
+      "t_nominal": 38.8,
+      "inicio_s": 48.057,
+      "ato": "autoridade",
+      "fala": "f11",
+      "direcao": {
+        "olhar": "painel",
+        "acao": "segurar:telefone",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "som": null,
+      "imagem": "Silêncio na linha, depois a resposta.",
+      "fim_s": 52.201
+    },
+    {
+      "indice": 15,
+      "t_nominal": 41.8,
+      "inicio_s": 52.201,
+      "ato": "desobediencia",
+      "fala": "f12",
+      "direcao": {
+        "olhar": "dalva",
+        "acao": "voltar",
+        "clima": "escalada",
+        "eventos": [
+          "prop.telefone.estado=parado",
+          "personagem.dalva.pose=limpando",
+          "personagem.dalva.expressao=normal"
+        ]
+      },
+      "som": "tom de ocupado, rodo rápido",
+      "imagem": "A linha cai. Tom de ocupado. Dalva volta a passar o rodo, mais rápido que antes.",
+      "fim_s": 56.241
+    },
+    {
+      "indice": 16,
+      "t_nominal": 45.4,
+      "inicio_s": 56.241,
+      "ato": "desobediencia",
+      "fala": null,
+      "direcao": {
+        "olhar": "maos",
+        "acao": "segurar:bloco_passagens",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "som": "papel",
+      "imagem": "As mãos começam a guardar o bloco de passagens. Obedecendo.",
+      "fim_s": 58.441
+    },
+    {
+      "indice": 17,
+      "t_nominal": 47.6,
+      "inicio_s": 58.441,
+      "ato": "desobediencia",
+      "fala": null,
+      "direcao": {
+        "olhar": "porta",
+        "acao": "parar",
+        "clima": "escalada",
+        "eventos": [
+          "prop.porta.estado=aberta",
+          "prop.onibus.estado=chegando"
+        ]
+      },
+      "som": "porta rangendo, motor de ônibus chegando",
+      "imagem": "Um rangido longo: a porta da plataforma abre sozinha. Lá fora, um motor se aproxima.",
+      "fim_s": 62.041
+    },
+    {
+      "indice": 18,
+      "t_nominal": 51.2,
+      "inicio_s": 62.041,
+      "ato": "desobediencia",
+      "fala": "f13",
+      "direcao": {
+        "olhar": "porta",
+        "acao": "parar",
+        "clima": "escalada",
+        "eventos": [
+          "prop.onibus.estado=parado",
+          "personagem.dalva.pose=em_pe",
+          "personagem.dalva.expressao=medo",
+          "personagem.dalva.andar=dalva_perto"
+        ]
+      },
+      "som": "freio de ar",
+      "imagem": "O ônibus para na plataforma. Janelas embaçadas, luz de dentro acesa. Ninguém no volante.",
+      "fim_s": 65.441
+    },
+    {
+      "indice": 19,
+      "t_nominal": 54.6,
+      "inicio_s": 65.441,
+      "ato": "desobediencia",
+      "fala": null,
+      "direcao": {
+        "olhar": "passageiro",
+        "acao": "parar",
+        "clima": "escalada",
+        "eventos": [
+          "personagem.passageiro.visivel=true",
+          "personagem.passageiro.posicao=porta_plataforma",
+          "personagem.passageiro.pose=andando",
+          "personagem.passageiro.expressao=calma",
+          "personagem.passageiro.andar=guiche_frente"
+        ]
+      },
+      "som": "passos lentos no ladrilho",
+      "imagem": "Pela porta entra um senhor de casaco cinza comprido, mala pequena na mão, andando devagar na direção do guichê.",
+      "fim_s": 69.241
+    },
+    {
+      "indice": 20,
+      "t_nominal": 58.4,
+      "inicio_s": 69.241,
+      "ato": "desobediencia",
+      "fala": "f14",
+      "direcao": {
+        "olhar": "dalva",
+        "acao": "parar",
+        "clima": "escalada",
+        "eventos": [
+          "personagem.dalva.posicao=dalva_perto",
+          "personagem.dalva.pose=em_pe"
+        ]
+      },
+      "som": "passos continuam",
+      "imagem": "Dalva chega do lado do vidro, sem olhar para o senhor, e fala baixo.",
+      "fim_s": 73.714
+    },
+    {
+      "indice": 21,
+      "t_nominal": 62.4,
+      "inicio_s": 73.714,
+      "ato": "dilema",
+      "fala": "f15",
+      "direcao": {
+        "olhar": "passageiro",
+        "acao": "parar",
+        "clima": "climax",
+        "eventos": [
+          "personagem.passageiro.pose=em_pe",
+          "personagem.passageiro.posicao=guiche_frente"
+        ]
+      },
+      "som": "passos param",
+      "imagem": "O senhor chega ao vidro. Para. Olha para baixo, para as minhas mãos, e sorri sem pressa.",
+      "fim_s": 76.514
+    },
+    {
+      "indice": 22,
+      "t_nominal": 65.2,
+      "inicio_s": 76.514,
+      "ato": "dilema",
+      "fala": null,
+      "direcao": {
+        "olhar": "celular",
+        "acao": "pegar_celular",
+        "clima": "climax",
+        "eventos": [
+          "celular.notificacao=0"
+        ]
+      },
+      "som": "vibração no balcão",
+      "imagem": "O celular vibra no balcão. Olho para baixo e pego.",
+      "fim_s": 78.714
+    },
+    {
+      "indice": 23,
+      "t_nominal": 67.4,
+      "inicio_s": 78.714,
+      "ato": "dilema",
+      "fala": null,
+      "direcao": {
+        "olhar": "celular",
+        "acao": "parar",
+        "clima": "climax",
+        "eventos": [
+          "celular.tela=0"
+        ]
+      },
+      "som": "silêncio",
+      "imagem": "Na tela trincada, mensagem da mãe: 'Filho, cê tá bem? Sonhei contigo num ônibus.' Silêncio total.",
+      "fim_s": 81.714
+    },
+    {
+      "indice": 24,
+      "t_nominal": 70.4,
+      "inicio_s": 81.714,
+      "ato": "dilema",
+      "fala": "f16",
+      "direcao": {
+        "olhar": "passageiro",
+        "acao": "guardar_celular",
+        "clima": "climax",
+        "eventos": []
+      },
+      "som": "silêncio",
+      "imagem": "Levanto os olhos. O senhor já pôs uma nota dobrada na fenda do vidro.",
+      "fim_s": 85.714
+    },
+    {
+      "indice": 25,
+      "t_nominal": 74.4,
+      "inicio_s": 85.714,
+      "ato": "dilema",
+      "fala": null,
+      "direcao": {
+        "olhar": "bilhete",
+        "acao": "parar",
+        "clima": "climax",
+        "eventos": []
+      },
+      "som": null,
+      "imagem": "Olho para o bilhete amarelo.",
+      "fim_s": 87.314
+    },
+    {
+      "indice": 26,
+      "t_nominal": 76,
+      "inicio_s": 87.314,
+      "ato": "dilema",
+      "fala": null,
+      "direcao": {
+        "olhar": "painel",
+        "acao": "parar",
+        "clima": "climax",
+        "eventos": [
+          "prop.painel.estado=alerta_forte"
+        ]
+      },
+      "som": "estalo",
+      "imagem": "Depois para o painel: a linha 03:00 PLAT 7 pisca em vermelho-tijolo.",
+      "fim_s": 88.914
+    },
+    {
+      "indice": 27,
+      "t_nominal": 77.6,
+      "inicio_s": 88.914,
+      "ato": "dilema",
+      "fala": "f17",
+      "direcao": {
+        "olhar": "dalva",
+        "acao": "parar",
+        "clima": "climax",
+        "eventos": []
+      },
+      "som": null,
+      "imagem": "Dalva, quase encostada no vidro, fala sem mexer a boca direito.",
+      "fim_s": 94.131
+    },
+    {
+      "indice": 28,
+      "t_nominal": 81.4,
+      "inicio_s": 94.131,
+      "ato": "dilema",
+      "fala": null,
+      "direcao": {
+        "olhar": "telefone",
+        "acao": "tremor:0.4",
+        "clima": "climax",
+        "eventos": [
+          "prop.telefone.estado=tocando"
+        ]
+      },
+      "som": "campainha",
+      "imagem": "O telefone toca de novo. Não atendo. A mão treme um pouco.",
+      "fim_s": 96.331
+    },
+    {
+      "indice": 29,
+      "t_nominal": 83.6,
+      "inicio_s": 96.331,
+      "ato": "dilema",
+      "fala": "f18",
+      "direcao": {
+        "olhar": "passageiro",
+        "acao": "parar",
+        "clima": "climax",
+        "eventos": []
+      },
+      "som": "campainha continua",
+      "imagem": "O senhor continua olhando para as minhas mãos.",
+      "fim_s": 99.531
+    },
+    {
+      "indice": 30,
+      "t_nominal": 86.8,
+      "inicio_s": 99.531,
+      "ato": "dilema",
+      "fala": null,
+      "direcao": {
+        "olhar": "celular",
+        "acao": "pegar_celular",
+        "clima": "climax",
+        "eventos": [
+          "celular.notificacao=1",
+          "celular.tela=1",
+          "prop.telefone.estado=parado"
+        ]
+      },
+      "som": "vibração, grave começa a subir",
+      "imagem": "O celular vibra de novo: 'Tô indo aí te buscar.'",
+      "fim_s": 102.731
+    },
+    {
+      "indice": 31,
+      "t_nominal": 90,
+      "inicio_s": 102.731,
+      "ato": "dilema",
+      "fala": null,
+      "direcao": {
+        "olhar": "maos",
+        "acao": "aproximar:maos",
+        "clima": "climax",
+        "eventos": []
+      },
+      "som": "grave crescente",
+      "imagem": "Olho para as mãos: o carimbo. A lente fecha devagar sobre ele. Tudo vai escurecendo.",
+      "fim_s": 106.731
+    },
+    {
+      "indice": 32,
+      "t_nominal": 94,
+      "inicio_s": 106.731,
+      "ato": "pergunta",
+      "fala": null,
+      "direcao": {
+        "olhar": "frente",
+        "acao": "fade",
+        "clima": "pergunta",
+        "eventos": []
+      },
+      "som": "pancada, depois silêncio",
+      "imagem": "Tela escura. Pancada seca. A pergunta aparece com as duas opções.",
+      "fim_s": 111.731
+    }
+  ],
+  "climas": [
+    {
+      "inicio_s": 0.0,
+      "clima": "rotina"
+    },
+    {
+      "inicio_s": 6.507,
+      "clima": "sinal"
+    },
+    {
+      "inicio_s": 21.766,
+      "clima": "escalada"
+    },
+    {
+      "inicio_s": 73.714,
+      "clima": "climax"
+    },
+    {
+      "inicio_s": 106.731,
+      "clima": "pergunta"
+    }
+  ],
+  "celular": [
+    {
+      "inicio_s": 76.514,
+      "evento": "notificacao",
+      "indice": 0,
+      "de": "Mãe",
+      "texto": "Filho, cê tá bem? Sonhei contigo num ônibus.",
+      "tipo": "mensagem",
+      "hora": "02:52"
+    },
+    {
+      "inicio_s": 78.714,
+      "evento": "tela",
+      "indice": 0,
+      "de": "Mãe",
+      "texto": "Filho, cê tá bem? Sonhei contigo num ônibus.",
+      "tipo": "mensagem",
+      "hora": "02:52"
+    },
+    {
+      "inicio_s": 99.531,
+      "evento": "notificacao",
+      "indice": 1,
+      "de": "Mãe",
+      "texto": "Tô indo aí te buscar.",
+      "tipo": "mensagem",
+      "hora": "02:58"
+    },
+    {
+      "inicio_s": 99.531,
+      "evento": "tela",
+      "indice": 1,
+      "de": "Mãe",
+      "texto": "Tô indo aí te buscar.",
+      "tipo": "mensagem",
+      "hora": "02:58"
+    }
+  ],
+  "efeitos": [
+    {
+      "t": 0.3,
+      "tipo": "carimbo"
+    },
+    {
+      "t": 5.561,
+      "tipo": "carimbo"
+    },
+    {
+      "t": 6.507,
+      "tipo": "clique_triplo"
+    },
+    {
+      "t": 6.557,
+      "tipo": "lampada_estalo"
+    },
+    {
+      "t": 21.816,
+      "tipo": "estatica_radio"
+    },
+    {
+      "t": 31.844,
+      "tipo": "lampada_estalo"
+    },
+    {
+      "t": 35.444,
+      "tipo": "campainha",
+      "duracao_s": 2.0
+    },
+    {
+      "t": 35.544,
+      "tipo": "clique",
+      "ganho_db": -8
+    },
+    {
+      "t": 37.444,
+      "tipo": "clique"
+    },
+    {
+      "t": 52.201,
+      "tipo": "clique"
+    },
+    {
+      "t": 56.291,
+      "tipo": "papel"
+    },
+    {
+      "t": 56.341,
+      "tipo": "clique",
+      "ganho_db": -8
+    },
+    {
+      "t": 58.441,
+      "tipo": "porta_abrir"
+    },
+    {
+      "t": 58.441,
+      "tipo": "motor_onibus",
+      "duracao_s": 3.6
+    },
+    {
+      "t": 62.041,
+      "tipo": "freio_onibus"
+    },
+    {
+      "t": 62.041,
+      "tipo": "passos",
+      "duracao_s": 3.05,
+      "ritmo": "lento"
+    },
+    {
+      "t": 65.441,
+      "tipo": "passos",
+      "duracao_s": 8.91,
+      "ritmo": "lento"
+    },
+    {
+      "t": 76.514,
+      "tipo": "celular_vibrar"
+    },
+    {
+      "t": 76.614,
+      "tipo": "clique",
+      "ganho_db": -8
+    },
+    {
+      "t": 76.664,
+      "tipo": "notificacao"
+    },
+    {
+      "t": 81.814,
+      "tipo": "clique",
+      "ganho_db": -8
+    },
+    {
+      "t": 87.314,
+      "tipo": "lampada_estalo"
+    },
+    {
+      "t": 94.131,
+      "tipo": "campainha",
+      "duracao_s": 5.4
+    },
+    {
+      "t": 99.531,
+      "tipo": "celular_vibrar"
+    },
+    {
+      "t": 99.531,
+      "tipo": "clique"
+    },
+    {
+      "t": 99.531,
+      "tipo": "grave_crescente",
+      "duracao_s": 7.2
+    },
+    {
+      "t": 99.681,
+      "tipo": "notificacao"
+    },
+    {
+      "t": 106.731,
+      "tipo": "pancada"
+    }
+  ],
+  "ambiente": [
+    {
+      "inicio_s": 0.0,
+      "fim_s": 111.731,
+      "tipo": "saguao_noite",
+      "ganho_db": -26
+    }
+  ],
+  "silencios": [
+    {
+      "inicio_s": 78.714,
+      "fim_s": 81.714
+    },
+    {
+      "inicio_s": 107.331,
+      "fim_s": 111.731
+    }
+  ],
+  "pergunta": {
+    "inicio_s": 106.731,
+    "fim_s": 111.731,
+    "pergunta": "O que você faria?",
+    "opcao_a": "Vender a passagem",
+    "opcao_b": "Fechar o guichê"
+  }
+}

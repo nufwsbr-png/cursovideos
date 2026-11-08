@@ -1,0 +1,24 @@
+{
+  "name": "fabrica-pov-viral",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Fábrica de conteúdos POV em primeira pessoa: roteiro, vozes, animação 3D, som, prova e publicação diária (TikTok, Instagram, Kwai, Facebook e YouTube).",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "fabrica": "node fabrica/cli.js",
+    "diario": "node fabrica/cli.js diario",
+    "episodio": "node fabrica/cli.js episodio",
+    "stills": "node motor/renderizar.js",
+    "testes": "node --test 'fabrica/testes/*.test.js' 'fabrica/publicar/testes/*.test.js'"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.6.0",
+    "@fontsource/anton": "^5.2.5",
+    "@fontsource/nunito": "^5.2.5",
+    "playwright": "1.63.0",
+    "three": "^0.170.0"
+  }
+}

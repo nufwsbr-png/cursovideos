@@ -1,0 +1,104 @@
+{
+  "escala": 0.5,
+  "previa": false,
+  "medidas_sinteticas": false,
+  "comandos": [
+    "stills 0,2,5.6"
+  ],
+  "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "avisos": [],
+  "duracao_total_s": 111.731,
+  "fps": 30,
+  "variacao": "cartela",
+  "segundos_por_quadro_stills": 0.5056666666666666,
+  "legendas": [
+    {
+      "t": 2,
+      "id": "f01",
+      "quem": "dalva",
+      "texto": "Tá quieto hoje, hein, novato.",
+      "caixa": [
+        57,
+        577,
+        378,
+        37
+      ]
+    },
+    {
+      "t": 5.6,
+      "id": "f02",
+      "quem": "eu",
+      "texto": "Tá.",
+      "caixa": [
+        225,
+        577,
+        42,
+        37
+      ]
+    },
+    {
+      "t": 24,
+      "id": "f06",
+      "quem": "alto_falante",
+      "texto": "Partida com destino a... ...",
+      "caixa": [
+        72,
+        540,
+        348,
+        37
+      ]
+    },
+    {
+      "t": 24,
+      "id": "f06",
+      "quem": "alto_falante",
+      "texto": "plataforma sete. Embarque",
+      "caixa": [
+        64,
+        577,
+        363,
+        37
+      ]
+    },
+    {
+      "t": 24,
+      "id": "f06",
+      "quem": "alto_falante",
+      "texto": "imediato.",
+      "caixa": [
+        181,
+        614,
+        129,
+        37
+      ]
+    }
+  ],
+  "amostras": [
+    {
+      "t": 0,
+      "luminancia": 0.4807283027717259,
+      "uniforme": 0.19926697530864199,
+      "clima": "rotina"
+    },
+    {
+      "t": 2,
+      "luminancia": 0.48056270651779104,
+      "uniforme": 0.19232253086419754,
+      "clima": "rotina"
+    },
+    {
+      "t": 5.6,
+      "luminancia": 0.4615535803982004,
+      "uniforme": 0.1537422839506173,
+      "clima": "rotina"
+    },
+    {
+      "t": 24,
+      "luminancia": 0.5181038928225458,
+      "uniforme": 0.1853780864197531,
+      "clima": "escalada"
+    }
+  ],
+  "tempo_total_s": 3.018,
+  "atualizado_em": "2026-11-08T16:15:09.940Z"
+}
