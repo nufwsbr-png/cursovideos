@@ -40,7 +40,9 @@ export class Estilo {
   luminoso(cor, opcoes = {}) {
     const chave = 'lum:' + cor + ':' + JSON.stringify(opcoes);
     if (cacheMateriais.has(chave)) return cacheMateriais.get(chave);
-    const m = new THREE.MeshBasicMaterial({ color: new THREE.Color(cor), opacity: 0.99, ...opcoes }); // alfa 0,99 = "superfície que brilha": sem traço por cor
+    // alfa 0,99 = "superfície que brilha" (tela, painel, lâmpada): o pós-processo não desenha traço por diferença de cor dentro dela.
+    // transparent + NoBlending: o three.js não força alfa 1 e grava 0,99 direto no quadro.
+    const m = new THREE.MeshBasicMaterial({ color: new THREE.Color(cor), opacity: 0.99, transparent: true, blending: THREE.NoBlending, ...opcoes });
     cacheMateriais.set(chave, m);
     return m;
   }
@@ -48,7 +50,7 @@ export class Estilo {
     return new THREE.MeshToonMaterial({ map: textura, gradientMap: this.gradiente, ...opcoes });
   }
   luminosoTextura(textura, opcoes = {}) {
-    return new THREE.MeshBasicMaterial({ map: textura, opacity: 0.99, ...opcoes });
+    return new THREE.MeshBasicMaterial({ map: textura, opacity: 0.99, transparent: true, blending: THREE.NoBlending, ...opcoes });
   }
 }
 

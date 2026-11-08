@@ -17,3 +17,7 @@ episodios/*/linha_do_tempo_previa.json
 episodios/*/quadro_capa_*.png
 fabrica-diaria.log
 canal/canal.anterior.*.json
+episodios/*/folha*.png
+episodios/*/capa_[0-9].png
+episodios/*/capas_grade.png
+episodios/*/video_mudo_*.mp4

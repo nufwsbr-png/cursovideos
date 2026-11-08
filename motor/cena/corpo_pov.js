@@ -48,8 +48,8 @@ export class CorpoPOV {
       // antebraço: do punho para baixo/trás (sai do quadro pela borda inferior). Manga dobrada mais atrás.
       // antebraço e manga são alinhados a cada quadro entre o punho (atrás da palma) e um cotovelo fixo fora do quadro
       const ante = new THREE.Mesh(new THREE.CylinderGeometry(0.026, 0.031, 1, 10), estilo.material(this.pele));
-      const mangaM = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.052, 1, 10), estilo.material(this.manga));
-      const dobra = new THREE.Mesh(new THREE.CylinderGeometry(0.043, 0.043, 0.045, 10), estilo.material(escurecer(this.manga, 0.8)));
+      const mangaM = new THREE.Mesh(new THREE.CylinderGeometry(0.036, 0.046, 1, 10), estilo.material(this.manga));
+      const dobra = new THREE.Mesh(new THREE.CylinderGeometry(0.039, 0.039, 0.04, 10), estilo.material(escurecer(this.manga, 0.8)));
       this.grupo.add(ante); this.grupo.add(mangaM); this.grupo.add(dobra);
       const cotovelo = new THREE.Vector3(s * 0.2, 0.62, 0.22);
       const ombro = new THREE.Vector3(s * 0.26, 0.45, 0.65);
@@ -81,7 +81,7 @@ export class CorpoPOV {
     // celular: tela recebe a textura do motor
     const celular = new THREE.Group();
     const corpoCel = new THREE.Mesh(new THREE.BoxGeometry(0.076, 0.156, 0.008), estilo.material('#1a1a1a')); celular.add(corpoCel);
-    this.telaCelular = new THREE.Mesh(new THREE.PlaneGeometry(0.068, 0.146), new THREE.MeshBasicMaterial({ color: '#e9eef2', opacity: 0.99 })); this.telaCelular.position.z = 0.0045; celular.add(this.telaCelular);
+    this.telaCelular = new THREE.Mesh(new THREE.PlaneGeometry(0.068, 0.146), new THREE.MeshBasicMaterial({ color: '#e9eef2', opacity: 0.99, transparent: true, blending: THREE.NoBlending })); this.telaCelular.position.z = 0.0045; celular.add(this.telaCelular);
     this.objetos.celular = celular;
     for (const k in this.objetos) { this.objetos[k].visible = false; this.grupo.add(this.objetos[k]); }
     // posições de descanso (sentado ao balcão; balcão a 1,05 m)
@@ -92,7 +92,7 @@ export class CorpoPOV {
     this.celularNoBalcao = new THREE.Vector3(0.30, 1.072, -0.30);
   }
 
-  definirTexturaCelular(tex) { this.telaCelular.material = new THREE.MeshBasicMaterial({ map: tex, opacity: 0.99 }); }
+  definirTexturaCelular(tex) { this.telaCelular.material = new THREE.MeshBasicMaterial({ map: tex, opacity: 0.99, transparent: true, blending: THREE.NoBlending }); }
 
   // acao: string da direção; tLinha: segundos desde o começo da linha; tremor 0..1
   aplicar(acao, tLinha, t, tremor, acaoAnterior) {
@@ -188,9 +188,9 @@ export class CorpoPOV {
       // Mão no balcão: o antebraço vai para trás, apoiado, e sai do quadro por baixo (como quem está sentado atendendo).
       // Mão levantada (celular, fone): o cotovelo desce quase na vertical e se afasta um pouco para o lado.
       const levantada = clamp((maoPos.y - 1.13) / 0.03, 0, 1);
-      const cot = new THREE.Vector3(maoPos.x + m.s * lerp(0.07, 0.12, levantada), maoPos.y - lerp(0.04, 0.33, levantada), maoPos.z + lerp(0.48, 0.08, levantada));
-      const omb = new THREE.Vector3(maoPos.x + m.s * 0.22, maoPos.y - lerp(0.28, 0.55, levantada), maoPos.z + lerp(0.78, 0.40, levantada));
-      const meio = new THREE.Vector3().lerpVectors(punho, cot, 0.42);
+      const cot = new THREE.Vector3(maoPos.x + m.s * lerp(0.07, 0.12, levantada), maoPos.y - lerp(0.20, 0.33, levantada), maoPos.z + lerp(0.28, 0.08, levantada));
+      const omb = new THREE.Vector3(maoPos.x + m.s * 0.2, maoPos.y - lerp(0.60, 0.55, levantada), maoPos.z + lerp(0.52, 0.40, levantada));
+      const meio = new THREE.Vector3().lerpVectors(punho, cot, 0.5);
       alinhar(m.ante, punho, meio);
       m.dobra.position.copy(meio); m.dobra.quaternion.copy(m.ante.quaternion); m.dobra.scale.set(1, 1, 1);
       alinhar(m.mangaM, meio, omb);

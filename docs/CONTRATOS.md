@@ -120,10 +120,12 @@ node motor/renderizar.js --episodio episodios/ep01_x --stills 0,2,5,8,13,24     
 node motor/renderizar.js --episodio episodios/ep01_x --folha                    # folha.png (1 quadro a cada 2 s, tempo escrito)
 node motor/renderizar.js --episodio episodios/ep01_x --video [--escala 0.5]     # video_mudo.mp4 (h264 yuv420p, fps do canal)
 node motor/renderizar.js --episodio episodios/ep01_x --sequencia 23.5,25.5      # quadros próximos (a cada 0,1 s) para conferir giros
-node motor/renderizar.js --teste-estilos --cenario saguao --saida padrao_aprovado/estilos  # 3 versões A/B/C do mesmo quadro
+node motor/renderizar.js --teste-estilos --cenario saguao --saida padrao_aprovado/estilos [--tempo-estilo 74]  # 3 versões A/B/C do mesmo quadro
+node motor/renderizar.js --episodio episodios/ep01_x --folha --passo 2          # 1 miniatura a cada 2 s, com tempo e clima escritos
+node motor/revisar.js --episodio episodios/ep01_x                               # revisao.json (problemas, avisos, aprovado, nao_conferido)
 ```
 Entradas: `canal/canal.json`, `<ep>/roteiro.json`, `<ep>/linha_do_tempo.json`, `<ep>/medidas.json`.
-Saídas: na pasta do episódio. O motor também grava `<ep>/render.json` com `{ "quadros": N, "segundos_por_quadro": x, "gpu": "...", "legendas": [ {"t": 2.0, "caixa": [x,y,w,h]} ] }`.
+Saídas: na pasta do episódio (`stills/`, `sequencia/`, `folha.png`, `video_mudo.mp4`; em modo prévia também `linha_do_tempo_previa.json`). O motor também grava `<ep>/render.json` com `{ "quadros": N, "segundos_por_quadro": x, "gpu": "...", "legendas": [ {"t": 2.0, "caixa": [x,y,w,h]} ] }`.
 Área segura: nada importante abaixo de 80 % da altura nem nos 15 % à direita (botões do TikTok). Legenda centrada em `estilo.legenda.y_centro`.
 
 ## 7. Som e prova (etapas 07 e 08)

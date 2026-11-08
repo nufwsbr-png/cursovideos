@@ -33,6 +33,7 @@ export function iniciarServidor(porta = 0, raiz = RAIZ) {
         const url = new URL(req.url, 'http://localhost');
         let caminho = decodeURIComponent(url.pathname);
         if (caminho === '/') caminho = '/motor/index.html';
+        if (caminho === '/favicon.ico') { res.writeHead(204); res.end(); return; }
         const arquivo = path.normalize(path.join(raiz, caminho));
         if (!arquivo.startsWith(raiz)) { res.writeHead(403); res.end('fora da raiz'); return; }
         if (!fs.existsSync(arquivo) || fs.statSync(arquivo).isDirectory()) { res.writeHead(404); res.end('não encontrado: ' + caminho); return; }

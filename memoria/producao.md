@@ -25,6 +25,11 @@
 Voz falsa · LUFS fora de -17..-14 · pico > -1 dBTP · fala faltando na transcrição (quando conferido) · formato errado · revisor com problema grave · duração fora de 65–130 s.
 
 ## Medições desta máquina (CPU, SwiftShader) — ver `aprendizados.md` (seção "Medido")
+- Render: 0,17 s/quadro em meia escala; 0,71 s/quadro em 1080x1920 (≈ 36 min por episódio de 100 s). Síntese de som ≈ 46 s; mixagem ≈ 20 s.
+- Ordem de verificação que o livro pede e a fábrica segue: stills → sequências nos giros → folha → revisor → vídeo → prova → assistir no celular.
+
+## Teste dos 3 estilos
+`node fabrica/cli.js estilos` gera `padrao_aprovado/estilos/estilo_A.png` (xilogravura), `estilo_B.png` (gibi com retícula), `estilo_C.png` (cartaz pintado) e a folha comparativa. O dono escolhe, refina em rodadas (capítulo 35) e anota os valores em `canal/canal.json → estilo` e em `estilo_visual.md`.
 
 ## Cópia de segurança
 A pasta do canal é o maior bem: git + cópia semanal fora do computador (capítulo 53).
