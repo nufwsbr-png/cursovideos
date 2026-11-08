@@ -13,6 +13,13 @@ function cilindroEntre(estilo, a, b, raioA, raioB, cor) {
   return m;
 }
 
+function alinhar(mesh, a, b) {
+  const dir = new THREE.Vector3().subVectors(b, a); const comp = dir.length();
+  mesh.position.copy(a).add(dir.clone().multiplyScalar(0.5));
+  mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.normalize());
+  mesh.scale.set(1, comp, 1);
+}
+
 export class CorpoPOV {
   constructor(protagonista, estilo, cores) {
     this.estilo = estilo;
@@ -39,20 +46,21 @@ export class CorpoPOV {
         const esp = new THREE.Mesh(new THREE.BoxGeometry(0.023, 0.026, 0.02), estilo.material('#f3efe6')); esp.position.set((0 - 1.5) * 0.021, 0, -0.08); esp.rotation.x = -0.35; dedos.add(esp);
       }
       // antebraço: do punho para baixo/trás (sai do quadro pela borda inferior). Manga dobrada mais atrás.
-      const punho = new THREE.Vector3(0, -0.005, 0.06);
-      const cotovelo = new THREE.Vector3(s * 0.08, -0.26, 0.42);
-      const ante = cilindroEntre(estilo, punho, cotovelo, 0.032, 0.042, this.pele); g.add(ante);
-      const ombro = new THREE.Vector3(s * 0.2, -0.62, 0.75);
-      const mangaM = cilindroEntre(estilo, cotovelo.clone().add(new THREE.Vector3(0, 0.02, -0.04)), ombro, 0.055, 0.07, this.manga); g.add(mangaM);
-      const dobra = cilindroEntre(estilo, cotovelo.clone().add(new THREE.Vector3(0, 0.02, -0.04)), cotovelo.clone().add(new THREE.Vector3(s * 0.01, -0.03, 0.04)), 0.058, 0.058, escurecer(this.manga, 0.85)); g.add(dobra);
+      // antebraço e manga são alinhados a cada quadro entre o punho (atrás da palma) e um cotovelo fixo fora do quadro
+      const ante = new THREE.Mesh(new THREE.CylinderGeometry(0.026, 0.031, 1, 10), estilo.material(this.pele));
+      const mangaM = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.052, 1, 10), estilo.material(this.manga));
+      const dobra = new THREE.Mesh(new THREE.CylinderGeometry(0.043, 0.043, 0.045, 10), estilo.material(escurecer(this.manga, 0.8)));
+      this.grupo.add(ante); this.grupo.add(mangaM); this.grupo.add(dobra);
+      const cotovelo = new THREE.Vector3(s * 0.2, 0.62, 0.22);
+      const ombro = new THREE.Vector3(s * 0.26, 0.45, 0.65);
       this.grupo.add(g);
-      this.maos[lado] = { grupo: g, palma, dedos, polegar };
+      this.maos[lado] = { grupo: g, palma, dedos, polegar, ante, mangaM, dobra, cotovelo, ombro, s };
     }
     // objetos
     this.objetos = {};
     const carimbo = new THREE.Group();
     const cabo = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.014, 0.07, 8), estilo.material('#8a5a3a')); cabo.position.y = -0.03; carimbo.add(cabo);
-    const botao = new THREE.Mesh(new THREE.SphereGeometry(0.02, 8, 6), estilo.material('#8a5a3a')); botao.position.y = 0.01; carimbo.add(botao);
+    const botao = new THREE.Mesh(new THREE.SphereGeometry(0.013, 8, 6), estilo.material('#8a5a3a')); botao.position.y = 0.012; carimbo.add(botao);
     const baseC = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.018, 0.035), estilo.material('#2a2a2a')); baseC.position.y = -0.072; carimbo.add(baseC);
     this.objetos.carimbo = carimbo;
     const bloco = new THREE.Group();
@@ -73,18 +81,18 @@ export class CorpoPOV {
     // celular: tela recebe a textura do motor
     const celular = new THREE.Group();
     const corpoCel = new THREE.Mesh(new THREE.BoxGeometry(0.076, 0.156, 0.008), estilo.material('#1a1a1a')); celular.add(corpoCel);
-    this.telaCelular = new THREE.Mesh(new THREE.PlaneGeometry(0.068, 0.146), new THREE.MeshBasicMaterial({ color: '#e9eef2' })); this.telaCelular.position.z = 0.0045; celular.add(this.telaCelular);
+    this.telaCelular = new THREE.Mesh(new THREE.PlaneGeometry(0.068, 0.146), new THREE.MeshBasicMaterial({ color: '#e9eef2', opacity: 0.99 })); this.telaCelular.position.z = 0.0045; celular.add(this.telaCelular);
     this.objetos.celular = celular;
     for (const k in this.objetos) { this.objetos[k].visible = false; this.grupo.add(this.objetos[k]); }
     // posições de descanso (sentado ao balcão; balcão a 1,05 m)
     this.repouso = {
-      esq: { pos: new THREE.Vector3(-0.21, 1.085, -0.40), rot: new THREE.Euler(0, 0.15, 0) },
-      dir: { pos: new THREE.Vector3(0.19, 1.105, -0.40), rot: new THREE.Euler(0, -0.12, 0) },
+      esq: { pos: new THREE.Vector3(-0.13, 1.082, -0.36), rot: new THREE.Euler(0, 0.18, 0) },
+      dir: { pos: new THREE.Vector3(0.15, 1.098, -0.35), rot: new THREE.Euler(0, -0.15, 0) },
     };
-    this.celularNoBalcao = new THREE.Vector3(0.38, 1.075, -0.33);
+    this.celularNoBalcao = new THREE.Vector3(0.30, 1.072, -0.30);
   }
 
-  definirTexturaCelular(tex) { this.telaCelular.material = new THREE.MeshBasicMaterial({ map: tex }); }
+  definirTexturaCelular(tex) { this.telaCelular.material = new THREE.MeshBasicMaterial({ map: tex, opacity: 0.99 }); }
 
   // acao: string da direção; tLinha: segundos desde o começo da linha; tremor 0..1
   aplicar(acao, tLinha, t, tremor, acaoAnterior) {
@@ -99,11 +107,11 @@ export class CorpoPOV {
     if (tremorAmp > 0) { dir.position.x += Math.sin(t * 37) * tremorAmp; dir.position.y += Math.sin(t * 29 + 1) * tremorAmp; esq.position.y += Math.sin(t * 31 + 2) * tremorAmp * 0.6; }
 
     // objetos de descanso: bloco sob a mão esquerda; carimbo na mão direita; celular no balcão
-    const bloco = this.objetos.bloco_passagens; bloco.visible = true; bloco.position.set(-0.19, 1.065, -0.42); bloco.rotation.set(0, 0.1, 0);
-    const caneta = this.objetos.caneta; caneta.visible = true; caneta.position.set(-0.05, 1.058, -0.30); 
+    const bloco = this.objetos.bloco_passagens; bloco.visible = true; bloco.position.set(-0.12, 1.065, -0.38); bloco.rotation.set(0, 0.1, 0);
+    const caneta = this.objetos.caneta; caneta.visible = true; caneta.position.set(0.02, 1.056, -0.46); caneta.rotation.set(Math.PI / 2, 0, 0.25); 
     const carimbo = this.objetos.carimbo; carimbo.visible = true;
     const celular = this.objetos.celular; celular.visible = true; celular.position.copy(this.celularNoBalcao); celular.rotation.set(-Math.PI / 2 + 0.05, 0.3, 0);
-    const colocarCarimboNaMaoDireita = () => { carimbo.position.copy(dir.position).add(new THREE.Vector3(0, -0.012, -0.055)); carimbo.rotation.set(0, 0, 0); };
+    const colocarCarimboNaMaoDireita = () => { carimbo.position.copy(dir.position).add(new THREE.Vector3(0.005, 0.035, -0.035)); carimbo.rotation.set(0, 0, 0); };
     colocarCarimboNaMaoDireita();
 
     const k = suave(tLinha / 0.7);
@@ -112,9 +120,9 @@ export class CorpoPOV {
       const ciclo = (t % 1.8) / 1.8;
       const sobe = Math.sin(ciclo * Math.PI);
       const indo = ciclo < 0.5 ? suave(ciclo / 0.5) : 1 - suave((ciclo - 0.5) / 0.5);
-      dir.position.x = lerp(r.dir.pos.x, -0.12, indo);
-      dir.position.z = lerp(r.dir.pos.z, -0.42, indo);
-      dir.position.y = r.dir.pos.y + sobe * 0.07 + (ciclo > 0.46 && ciclo < 0.54 ? -0.012 : 0);
+      dir.position.x = lerp(r.dir.pos.x, -0.06, indo);
+      dir.position.z = lerp(r.dir.pos.z, -0.39, indo);
+      dir.position.y = r.dir.pos.y + sobe * 0.035 + (ciclo > 0.46 && ciclo < 0.54 ? -0.01 : 0);
       dir.rotation.z = -0.1 * indo;
       colocarCarimboNaMaoDireita();
     } else if (nome === 'segurar' && arg === 'telefone') {
@@ -122,12 +130,12 @@ export class CorpoPOV {
       const alvo = new THREE.Vector3(0.46, 1.42, -0.02);
       dir.position.lerpVectors(r.dir.pos, alvo, k);
       dir.rotation.set(-0.6 * k, -0.9 * k, 0.8 * k);
-      carimbo.position.set(0.24, 1.065, -0.45); carimbo.rotation.set(0, 0, 0); // carimbo deixado no balcão
+      carimbo.position.set(0.2, 1.068, -0.44); carimbo.rotation.set(0, 0, 0); // carimbo deixado no balcão
       const fone = this.objetos.fone; fone.visible = true; fone.position.copy(dir.position).add(new THREE.Vector3(0, -0.02, -0.03)); fone.rotation.copy(dir.rotation);
     } else if (nome === 'pegar_celular' || nome === 'guardar_celular') {
       const kk = nome === 'pegar_celular' ? k : 1 - k;
       // fase 1: mão vai ao celular no balcão; fase 2: traz para a frente dos olhos
-      const alvoFinal = new THREE.Vector3(0.11, 1.16, -0.29);
+      const alvoFinal = new THREE.Vector3(0.06, 1.165, -0.22);
       const meio = this.celularNoBalcao.clone().add(new THREE.Vector3(0, 0.02, 0.02));
       let p;
       if (kk < 0.4) p = new THREE.Vector3().lerpVectors(r.dir.pos, meio, suave(kk / 0.4));
@@ -135,19 +143,21 @@ export class CorpoPOV {
       dir.position.copy(p);
       const inclinacao = kk < 0.4 ? 0 : suave((kk - 0.4) / 0.6);
       dir.rotation.set(-1.05 * inclinacao, 0.1, 0.0);
-      carimbo.position.set(0.24, 1.065, -0.45); carimbo.rotation.set(0, 0, 0);
+      carimbo.position.set(0.2, 1.068, -0.44); carimbo.rotation.set(0, 0, 0);
       if (kk >= 0.4) {
-        // celular na mão: a palma atrás, dedos nas laterais, tela virada para a câmera (nada tampa o texto)
-        celular.position.copy(dir.position).add(new THREE.Vector3(0.0, 0.02, -0.045));
-        celular.rotation.set(-0.5 + 0.0 * inclinacao, 0.05, 0);
-        if (nome === 'guardar_celular' || nome === 'pegar_celular') { celular.rotation.x = lerp(-Math.PI / 2 + 0.05, -0.55, inclinacao); }
+        // celular segurado por baixo: a palma fica abaixo da borda inferior, os dedos sobem só até o rodapé da tela (nada tampa a mensagem)
+        const C = new THREE.Vector3().lerpVectors(meio, alvoFinal, suave((kk - 0.4) / 0.6)).add(new THREE.Vector3(0, 0.1 * inclinacao, 0));
+        celular.position.copy(C);
+        celular.rotation.set(lerp(-Math.PI / 2 + 0.05, -0.3, inclinacao), 0.03, 0);
+        dir.position.copy(C).add(new THREE.Vector3(0.0, -0.13, 0.03));
+        dir.rotation.set(lerp(0, 1.3, inclinacao), 0.03, 0);
       }
     } else if (nome === 'segurar' && arg === 'bloco_passagens') {
       // as duas mãos levantam o bloco e o levam para a direita (guardando)
       const dx = 0.22 * k;
       esq.position.add(new THREE.Vector3(dx, 0.02 * k, 0.03 * k)); dir.position.add(new THREE.Vector3(-0.14 + dx * 0.6, 0.0, 0.02 * k)); dir.rotation.y = 0.35;
-      bloco.position.set(-0.19 + dx + 0.05, 1.07 + 0.02 * k, -0.42 + 0.03 * k); bloco.rotation.set(0, 0.1 + 0.2 * k, 0);
-      carimbo.position.set(0.28, 1.065, -0.48); carimbo.rotation.set(0, 0, 0);
+      bloco.position.set(-0.12 + dx + 0.05, 1.07 + 0.02 * k, -0.38 + 0.03 * k); bloco.rotation.set(0, 0.1 + 0.2 * k, 0);
+      carimbo.position.set(0.2, 1.068, -0.46); carimbo.rotation.set(0, 0, 0);
     } else if (nome === 'andar') {
       const fase = t * 2 * Math.PI * 1.8;
       esq.position.set(-0.26, 0.78 + Math.sin(fase) * 0.02, -0.25 + Math.sin(fase) * 0.06);
@@ -159,14 +169,32 @@ export class CorpoPOV {
         // volta do telefone: a mão desce de volta
         const alvo = new THREE.Vector3(0.46, 1.42, -0.02);
         dir.position.lerpVectors(alvo, r.dir.pos, k); dir.rotation.set(-0.6 * (1 - k), -0.9 * (1 - k), 0.8 * (1 - k));
-        carimbo.position.set(0.24, 1.065, -0.45); carimbo.rotation.set(0, 0, 0);
+        carimbo.position.set(0.2, 1.068, -0.44); carimbo.rotation.set(0, 0, 0);
       }
       if (acaoAnterior && acaoAnterior.startsWith('pegar_celular')) {
         // continua com o celular na mão enquanto a ação não for guardar
-        dir.position.set(0.11, 1.16, -0.29); dir.rotation.set(-1.05, 0.1, 0);
-        celular.position.copy(dir.position).add(new THREE.Vector3(0, 0.02, -0.045)); celular.rotation.set(-0.55, 0.05, 0);
-        carimbo.position.set(0.24, 1.065, -0.45); carimbo.rotation.set(0, 0, 0);
+        const C = new THREE.Vector3(0.06, 1.265, -0.22);
+        celular.position.copy(C); celular.rotation.set(-0.3, 0.03, 0);
+        dir.position.copy(C).add(new THREE.Vector3(0, -0.13, 0.03)); dir.rotation.set(1.3, 0.03, 0);
+        carimbo.position.set(0.2, 1.068, -0.44); carimbo.rotation.set(0, 0, 0);
       }
     }
+    // antebraços: do punho (atrás da palma) até o cotovelo fixo, e a manga do cotovelo até o ombro
+    for (const lado of ['esq', 'dir']) {
+      const m = this.maos[lado];
+      m.grupo.updateMatrix();
+      const punho = new THREE.Vector3(0, -0.004, 0.05).applyMatrix4(m.grupo.matrix); // espaço local do corpo
+      const maoPos = m.grupo.position;
+      // Mão no balcão: o antebraço vai para trás, apoiado, e sai do quadro por baixo (como quem está sentado atendendo).
+      // Mão levantada (celular, fone): o cotovelo desce quase na vertical e se afasta um pouco para o lado.
+      const levantada = clamp((maoPos.y - 1.13) / 0.03, 0, 1);
+      const cot = new THREE.Vector3(maoPos.x + m.s * lerp(0.07, 0.12, levantada), maoPos.y - lerp(0.04, 0.33, levantada), maoPos.z + lerp(0.48, 0.08, levantada));
+      const omb = new THREE.Vector3(maoPos.x + m.s * 0.22, maoPos.y - lerp(0.28, 0.55, levantada), maoPos.z + lerp(0.78, 0.40, levantada));
+      const meio = new THREE.Vector3().lerpVectors(punho, cot, 0.42);
+      alinhar(m.ante, punho, meio);
+      m.dobra.position.copy(meio); m.dobra.quaternion.copy(m.ante.quaternion); m.dobra.scale.set(1, 1, 1);
+      alinhar(m.mangaM, meio, omb);
+    }
+
   }
 }

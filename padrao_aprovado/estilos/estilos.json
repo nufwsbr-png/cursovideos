@@ -1,0 +1,22 @@
+{
+  "tempo": 74,
+  "cenario": "saguao",
+  "variacoes": [
+    {
+      "letra": "A",
+      "nome": "A · xilogravura (traço grosso, papel forte)",
+      "arquivo": "estilo_A.png"
+    },
+    {
+      "letra": "B",
+      "nome": "B · gibi antigo (retícula, cores vivas)",
+      "arquivo": "estilo_B.png"
+    },
+    {
+      "letra": "C",
+      "nome": "C · cartaz pintado à mão (chapado, lente suave)",
+      "arquivo": "estilo_C.png"
+    }
+  ],
+  "gerado_em": "2026-11-08T16:29:37.357Z"
+}

@@ -124,7 +124,7 @@ export class Sobreposicao {
       ctx.fillStyle = cor; arredondado(ctx, x, yo - h / 2, w, h, 28 * esc); ctx.fill();
       ctx.strokeStyle = '#000'; ctx.lineWidth = 6 * esc; arredondado(ctx, x, yo - h / 2, w, h, 28 * esc); ctx.stroke();
       ctx.font = `${Math.round(72 * esc)}px ${this.fonte}, sans-serif`;
-      ctx.fillStyle = '#111'; ctx.textAlign = 'left'; ctx.fillText(letra, x + 40 * esc, yo + 4 * esc);
+      ctx.fillStyle = '#ffffff'; ctx.lineWidth = 8 * esc; ctx.strokeStyle = '#000'; ctx.textAlign = 'left'; ctx.strokeText(letra, x + 40 * esc, yo + 4 * esc); ctx.fillText(letra, x + 40 * esc, yo + 4 * esc);
       ctx.font = `${Math.round(54 * esc)}px ${this.fonte}, sans-serif`; ctx.fillStyle = '#fff'; ctx.lineWidth = 8 * esc; ctx.strokeStyle = '#000';
       const tx = quebrarLinhas(ctx, texto, w - 160 * esc)[0];
       ctx.strokeText(tx, x + 130 * esc, yo + 4 * esc); ctx.fillText(tx, x + 130 * esc, yo + 4 * esc);
@@ -162,23 +162,23 @@ export class TelaCelular {
     c.strokeStyle = '#111'; c.lineWidth = 3; c.strokeRect(W - 66, 16, 44, 22); c.fillStyle = '#c0392b'; c.fillRect(W - 63, 19, 7, 16); c.fillStyle = '#111'; c.fillRect(W - 21, 22, 4, 10);
     // cabeçalho do app
     c.fillStyle = this.cfg.cor_app || '#2f7d5a'; c.fillRect(0, 50, W, 92);
-    c.fillStyle = '#fff'; c.textAlign = 'left'; c.font = 'bold 30px Nunito, sans-serif'; c.fillText(msg?.de || 'Mãe', 86, 96);
+    c.fillStyle = '#fff'; c.textAlign = 'left'; c.font = 'bold 36px Nunito, sans-serif'; c.fillText(msg?.de || 'Mãe', 86, 92);
     c.font = '20px Nunito, sans-serif'; c.fillStyle = '#d8f0e3'; c.fillText(this.cfg.app_mensagens_nome || 'mensagens', 86, 124);
     c.fillStyle = '#f3d9b1'; c.beginPath(); c.arc(48, 96, 26, 0, Math.PI * 2); c.fill();
     c.fillStyle = '#5a3a2a'; c.beginPath(); c.arc(48, 86, 12, 0, Math.PI * 2); c.fill(); c.fillRect(30, 96, 36, 20);
     // balões: mensagens anteriores (apagadas) e a atual
     let y = 180;
-    c.font = '27px Nunito, sans-serif';
+    c.font = '40px Nunito, sans-serif';
     const ate = indice === null ? -1 : indice;
     for (let i = 0; i <= ate && i < this.mensagens.length; i++) {
       const m = this.mensagens[i];
-      const linhas = quebrarLinhas(c, m.texto, 240);
-      const h = linhas.length * 34 + 40;
+      const linhas = quebrarLinhas(c, m.texto, 256);
+      const h = linhas.length * 50 + 46;
       c.fillStyle = i === ate ? '#ffffff' : '#f4f6f8';
       arredondado(c, 16, y, 290, h, 18); c.fill();
       c.fillStyle = '#111';
-      linhas.forEach((l, j) => c.fillText(l, 32, y + 28 + j * 34));
-      c.fillStyle = '#8a8f94'; c.font = '18px Nunito, sans-serif'; c.textAlign = 'right'; c.fillText(m.hora || hora, 296, y + h - 14); c.textAlign = 'left'; c.font = '27px Nunito, sans-serif';
+      linhas.forEach((l, j) => c.fillText(l, 28, y + 32 + j * 50));
+      c.fillStyle = '#8a8f94'; c.font = '20px Nunito, sans-serif'; c.textAlign = 'right'; c.fillText(m.hora || hora, 296, y + h - 16); c.textAlign = 'left'; c.font = '40px Nunito, sans-serif';
       y += h + 16;
     }
     if (indice === null) { c.fillStyle = '#9aa0a6'; c.font = '24px Nunito, sans-serif'; c.textAlign = 'center'; c.fillText('sem mensagens novas', W / 2, 260); c.textAlign = 'left'; }

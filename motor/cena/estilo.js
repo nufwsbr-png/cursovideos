@@ -40,7 +40,7 @@ export class Estilo {
   luminoso(cor, opcoes = {}) {
     const chave = 'lum:' + cor + ':' + JSON.stringify(opcoes);
     if (cacheMateriais.has(chave)) return cacheMateriais.get(chave);
-    const m = new THREE.MeshBasicMaterial({ color: new THREE.Color(cor), ...opcoes });
+    const m = new THREE.MeshBasicMaterial({ color: new THREE.Color(cor), opacity: 0.99, ...opcoes }); // alfa 0,99 = "superfície que brilha": sem traço por cor
     cacheMateriais.set(chave, m);
     return m;
   }
@@ -48,7 +48,7 @@ export class Estilo {
     return new THREE.MeshToonMaterial({ map: textura, gradientMap: this.gradiente, ...opcoes });
   }
   luminosoTextura(textura, opcoes = {}) {
-    return new THREE.MeshBasicMaterial({ map: textura, ...opcoes });
+    return new THREE.MeshBasicMaterial({ map: textura, opacity: 0.99, ...opcoes });
   }
 }
 

@@ -52,12 +52,31 @@ const TIPOS = {
     teto.rotation.x = Math.PI / 2; teto.position.set(c[0], h, c[2]); g.add(teto);
     // paredes (planos virados para dentro)
     const paredes = [
-      { pos: [c[0], h / 2, c[2] - d / 2], rot: [0, 0, 0], w: w },          // fundo
+      { pos: [c[0], h / 2, c[2] - d / 2], rot: [0, 0, 0], w: w, fundo: true }, // fundo
       { pos: [c[0], h / 2, c[2] + d / 2], rot: [0, Math.PI, 0], w: w },    // atrás da câmera
       { pos: [c[0] - w / 2, h / 2, c[2]], rot: [0, Math.PI / 2, 0], w: d }, // esquerda
       { pos: [c[0] + w / 2, h / 2, c[2]], rot: [0, -Math.PI / 2, 0], w: d },// direita
     ];
+    // portas na parede do fundo viram aberturas (senão a parede tapa a plataforma)
+    const portas = (ctx.cenario?.props || []).filter(pp => pp.tipo === 'porta' && Math.abs(pp.pos[2] - (c[2] - d / 2)) < 1.2);
     for (const p of paredes) {
+      if (p.fundo && portas.length) {
+        for (const pt of portas) {
+          const [pw, ph] = pt.tamanho || [1.8, 2.4];
+          const abertura = pw + 0.3, altAb = ph + 0.15;
+          const esq = new THREE.Mesh(new THREE.PlaneGeometry((pt.pos[0] - abertura / 2) - (c[0] - w / 2), h), e.material(corParede));
+          esq.position.set((c[0] - w / 2 + pt.pos[0] - abertura / 2) / 2, h / 2, p.pos[2]); g.add(esq);
+          const dir = new THREE.Mesh(new THREE.PlaneGeometry((c[0] + w / 2) - (pt.pos[0] + abertura / 2), h), e.material(corParede));
+          dir.position.set((c[0] + w / 2 + pt.pos[0] + abertura / 2) / 2, h / 2, p.pos[2]); g.add(dir);
+          const cima = new THREE.Mesh(new THREE.PlaneGeometry(abertura, h - altAb), e.material(corParede));
+          cima.position.set(pt.pos[0], altAb + (h - altAb) / 2, p.pos[2]); g.add(cima);
+          // batentes ligando a porta à parede (túnel curto)
+          const prof = Math.max(0.05, p.pos[2] - pt.pos[2]) ;
+          for (const lado of [-1, 1]) { const b = caixa(e, 0.06, altAb, Math.abs(prof) + 0.02, escurecer(corParede, 0.75)); b.position.set(pt.pos[0] + lado * abertura / 2, altAb / 2, (p.pos[2] + pt.pos[2]) / 2); g.add(b); }
+          const topo = caixa(e, abertura, 0.06, Math.abs(prof) + 0.02, escurecer(corParede, 0.75)); topo.position.set(pt.pos[0], altAb, (p.pos[2] + pt.pos[2]) / 2); g.add(topo);
+        }
+        continue;
+      }
       const m = new THREE.Mesh(new THREE.PlaneGeometry(p.w, h), e.material(corParede));
       m.position.set(...p.pos); m.rotation.set(...p.rot); g.add(m);
       // rodapé e faixa pintada (detalhe de rodoviária antiga)
@@ -87,9 +106,9 @@ const TIPOS = {
     const balcao = caixa(e, larg + 0.4, hb - 0.05, 0.7, corB); balcao.position.set(x, (hb - 0.05) / 2, z + 0.05); g.add(balcao);
     const tampo = caixa(e, larg + 0.5, 0.05, 0.8, clarear(corB, 0.15)); tampo.position.set(x, hb - 0.025, z + 0.05); g.add(tampo); // tampo termina em hb: as mãos apoiam em cima
     // moldura e vidro (vidro não escreve profundidade, para o traço não "achatar" o saguão)
-    const alturaVidro = 1.3;
+    const alturaVidro = 1.45;
     const vidroTex = texturaVidro(def.furos !== false, def.fenda !== false, def.cor_vidro || '#bcd8e6');
-    const vidro = new THREE.Mesh(new THREE.PlaneGeometry(larg, alturaVidro), new THREE.MeshBasicMaterial({ map: vidroTex, transparent: true, opacity: 0.35, depthWrite: false }));
+    const vidro = new THREE.Mesh(new THREE.PlaneGeometry(larg, alturaVidro), new THREE.MeshBasicMaterial({ map: vidroTex, transparent: true, opacity: 1, depthWrite: false }));
     vidro.position.set(x, hb + alturaVidro / 2, z - 0.07); vidro.userData.vidro = true; g.add(vidro);
     const molduraCor = escurecer(corB, 0.7);
     const mold = [
@@ -100,11 +119,13 @@ const TIPOS = {
     // paredes da cabine (atrás e dos lados da câmera): fechar os 4 lados
     const corCab = ctx.cores.c2 || '#efe3c2';
     const prof = 1.8;
-    const lateralE = caixa(e, 0.1, 2.6, prof, escurecer(corCab, 0.9)); lateralE.position.set(x - larg / 2 - 0.17, 1.3, z + prof / 2); g.add(lateralE);
+    const lateralE = caixa(e, 0.1, 3.0, prof, escurecer(corCab, 0.9)); lateralE.position.set(x - larg / 2 - 0.17, 1.5, z + prof / 2); g.add(lateralE);
     const lateralD = lateralE.clone(); lateralD.position.x = x + larg / 2 + 0.17; g.add(lateralD);
-    const fundoCab = caixa(e, larg + 0.5, 2.6, 0.1, escurecer(corCab, 0.85)); fundoCab.position.set(x, 1.3, z + prof); g.add(fundoCab);
-    const tetoCab = caixa(e, larg + 0.5, 0.1, prof + 0.2, escurecer(corCab, 0.75)); tetoCab.position.set(x, 2.6, z + prof / 2); g.add(tetoCab);
-    const acima = caixa(e, larg + 0.5, 1.7, 0.1, escurecer(corCab, 0.95)); acima.position.set(x, hb + alturaVidro + 0.12 + 0.85, z - 0.07); g.add(acima);
+    const fundoCab = caixa(e, larg + 0.5, 3.0, 0.1, escurecer(corCab, 0.85)); fundoCab.position.set(x, 1.5, z + prof); g.add(fundoCab);
+    for (const lado of [-1, 1]) { const faixa = caixa(e, 0.02, 1.0, prof, ctx.cores.c1 || '#1f4e5f'); faixa.position.set(x + lado * (larg / 2 + 0.12), 0.5, z + prof / 2); g.add(faixa); }
+    const tetoCab = caixa(e, larg + 0.5, 0.1, prof + 0.2, escurecer(corCab, 0.75)); tetoCab.position.set(x, 3.0, z + prof / 2); g.add(tetoCab);
+    const alturaAcima = 3.0 - (hb + alturaVidro + 0.12);
+    const acima = caixa(e, larg + 0.5, alturaAcima, 0.1, escurecer(corCab, 0.95)); acima.position.set(x, hb + alturaVidro + 0.12 + alturaAcima / 2, z - 0.07); g.add(acima);
     // prateleira atrás com coisas (vida)
     const prat = caixa(e, 1.6, 0.04, 0.25, corB); prat.position.set(x, 1.9, z + prof - 0.2); g.add(prat);
     const rnd = mulberry32(ctx.semente + 5);
@@ -186,7 +207,7 @@ const TIPOS = {
         const s = est?.estado || 'normal';
         let fator = s === 'apagada' ? 0 : s === 'fraca' ? 0.42 : s === 'piscar' ? padraoPisca[Math.floor(t * 9) % padraoPisca.length] : 1;
         fator *= q.luz;
-        for (const l of luzes) l.intensity = (def.intensidade || 1.0) * fator * 2.2;
+        for (const l of luzes) l.intensity = (def.intensidade || 1.0) * fator * 1.5;
         for (const tb of tubos) tb.material.color.set(fator > 0.3 ? '#fff7dc' : fator > 0.05 ? '#8a8470' : '#3a3a3a');
       },
     };
@@ -232,7 +253,7 @@ const TIPOS = {
         const corForte = cores.alerta_forte || '#b3261e';
         const n = Math.max(1, linhas.length);
         const alturaLinha = (A * 0.84) / Math.max(4, n);
-        ctxT.font = `bold ${Math.round(alturaLinha * 0.62)}px monospace`;
+        ctxT.font = `bold ${Math.round(alturaLinha * 0.78)}px monospace`;
         linhas.forEach((ln, i) => {
           const estranha = /PLAT 7|· ·|SEM DESTINO|\?\?/.test(ln);
           let cor = corNormal;
@@ -452,10 +473,10 @@ const TIPOS = {
     const parabrisa = new THREE.Mesh(new THREE.PlaneGeometry(larg - 0.3, 1.4), new THREE.MeshBasicMaterial({ color: '#2a2f38' })); parabrisa.position.set(compr / 2 + 0.011, 2.5, 0); parabrisa.rotation.y = Math.PI / 2; corpo.add(parabrisa);
     const texDestino = texturaTexto({ largura: 512, altura: 128, fundo: '#111', cor: '#ffb000', linhas: def.texto || ['03:00'], fonte: 'bold 90px monospace' });
     const letreiro = planoTextura(e, larg - 0.5, 0.45, texDestino, true); letreiro.position.set(compr / 2 + 0.012, 3.35, 0); letreiro.rotation.y = Math.PI / 2; corpo.add(letreiro);
+    const letreiroLado = planoTextura(e, 2.2, 0.5, texDestino, true); letreiroLado.position.set(-def.pos[0], 3.3, larg / 2 + 0.012); corpo.add(letreiroLado); // centrado no vão da porta quando parado
     for (const dx of [-3.2, 3.0]) for (const dz of [-1, 1]) { const roda = cilindro(e, 0.55, 0.55, 0.35, '#222', 14); roda.rotation.x = Math.PI / 2; roda.position.set(dx, 0.55, dz * (larg / 2)); corpo.add(roda); }
     const luzInterna = new THREE.PointLight('#ffe9b0', 0, 8, 1.5); luzInterna.position.set(0, 2.6, larg / 2 + 0.8); corpo.add(luzInterna);
-    corpo.rotation.y = Math.PI / 2; // comprimento ao longo de z: frente vira para +z? ajustamos para a frente apontar para -x da cena
-    g.add(corpo);
+    g.add(corpo); // comprimento ao longo de x, paralelo à plataforma; o lado das janelas (+z) fica virado para a porta
     g.position.set(def.pos[0], 0, def.pos[2]);
     const pos0 = def.pos.slice();
     return {
@@ -483,9 +504,12 @@ const TIPOS = {
     const e = ctx.estilo; const g = new THREE.Group();
     const chao = new THREE.Mesh(new THREE.PlaneGeometry(60, 40), e.material(def.cor_chao || '#3b3a36')); chao.rotation.x = -Math.PI / 2; chao.position.set(def.pos[0], -0.01, def.pos[2] - 10); g.add(chao);
     const ceu = new THREE.Mesh(new THREE.PlaneGeometry(80, 40), e.luminoso(def.cor_ceu || '#0b1420')); ceu.position.set(def.pos[0], 15, def.pos[2] - 28); g.add(ceu);
-    const plataforma = caixa(e, 14, 0.25, 3, '#55524a'); plataforma.position.set(def.pos[0], 0.12, def.pos[2] + 2.2); g.add(plataforma);
-    const cobertura = caixa(e, 14, 0.12, 3.4, '#2f3a40'); cobertura.position.set(def.pos[0], 3.4, def.pos[2] + 2.2); g.add(cobertura);
-    for (const dx of [-5, 0, 5]) { const col = cilindro(e, 0.08, 0.08, 3.3, '#2f3a40'); col.position.set(def.pos[0] + dx, 1.7, def.pos[2] + 3.6); g.add(col); }
+    // calçada da plataforma colada à parede (z da parede ≈ pos.z + 3), cobertura e colunas fora do vão da porta
+    const zParede = def.pos[2] + 3.0;
+    const plataforma = caixa(e, 14, 0.25, 2.2, '#55524a'); plataforma.position.set(def.pos[0], 0.12, zParede - 1.0); g.add(plataforma);
+    const cobertura = caixa(e, 14, 0.12, 2.6, '#2f3a40'); cobertura.position.set(def.pos[0], 3.4, zParede - 1.1); g.add(cobertura);
+    for (const dx of [-4, 4]) { const col = cilindro(e, 0.08, 0.08, 3.3, '#2f3a40'); col.position.set(def.pos[0] + dx, 1.7, zParede - 2.0); g.add(col); }
+    const faixaAmarela = caixa(e, 14, 0.01, 0.12, '#ffe066'); faixaAmarela.position.set(def.pos[0], 0.255, zParede - 2.0); g.add(faixaAmarela);
     const luzes = [];
     for (let i = 0; i < (def.postes || 2); i++) {
       const x = def.pos[0] - 6 + i * 12;
@@ -494,7 +518,7 @@ const TIPOS = {
       const luz = new THREE.PointLight('#ffb866', 1.2, 14, 1.3); luz.position.set(x, 4.8, def.pos[2] - 4); g.add(luz); luzes.push(luz);
     }
     const texPlat = texturaTexto({ largura: 256, altura: 128, fundo: '#1f4e5f', cor: '#ffe066', linhas: ['7'], fonte: 'bold 100px Anton, sans-serif' });
-    const placa7 = planoTextura(e, 0.6, 0.3, texPlat, true); placa7.position.set(def.pos[0] + 0.6, 2.9, def.pos[2] + 3.0); g.add(placa7);
+    const placa7 = planoTextura(e, 0.6, 0.3, texPlat, true); placa7.position.set(def.pos[0] + 1.1, 2.9, zParede - 2.1); g.add(placa7);
     return { grupo: g, luzes, atualizar() {}, pontoOlhar: new THREE.Vector3(def.pos[0], 1.5, def.pos[2]) };
   },
 
@@ -564,14 +588,16 @@ function rotacionarEmTorno(ext, interno, def) {
 }
 
 function texturaVidro(furos, fenda, cor) {
-  const c = document.createElement('canvas'); c.width = 512; c.height = 304;
+  // Vidro quase invisível: fundo transparente, só um leve tom, um reflexo diagonal, os furos e a fenda.
+  const c = document.createElement('canvas'); c.width = 1024; c.height = 608;
   const ctx = c.getContext('2d');
-  ctx.fillStyle = cor; ctx.fillRect(0, 0, 512, 304);
-  // reflexo diagonal leve
-  ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.beginPath(); ctx.moveTo(60, 0); ctx.lineTo(160, 0); ctx.lineTo(40, 304); ctx.lineTo(0, 304); ctx.fill();
-  if (furos) { ctx.fillStyle = 'rgba(20,20,20,0.9)'; const cx = 256, cy = 150; for (let i = 0; i < 7; i++) for (let j = 0; j < 7; j++) { const x = cx + (i - 3) * 14, y = cy + (j - 3) * 14; if (Math.hypot(i - 3, j - 3) <= 3.2) { ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fill(); } } }
+  ctx.scale(2, 2);
+  ctx.clearRect(0, 0, 512, 304);
+  ctx.fillStyle = 'rgba(188,216,230,0.08)'; ctx.fillRect(0, 0, 512, 304);
+  ctx.fillStyle = 'rgba(255,255,255,0.16)'; ctx.beginPath(); ctx.moveTo(60, 0); ctx.lineTo(130, 0); ctx.lineTo(30, 304); ctx.lineTo(0, 304); ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,0.08)'; ctx.beginPath(); ctx.moveTo(420, 0); ctx.lineTo(470, 0); ctx.lineTo(300, 304); ctx.lineTo(270, 304); ctx.fill();
+  if (furos) { ctx.fillStyle = 'rgba(20,20,20,0.22)'; const cx = 256, cy = 250; for (let i = 0; i < 7; i++) for (let j = 0; j < 7; j++) { const x = cx + (i - 3) * 6, y = cy + (j - 3) * 6; if (Math.hypot(i - 3, j - 3) <= 3.2) { ctx.beginPath(); ctx.arc(x, y, 1.0, 0, Math.PI * 2); ctx.fill(); } } }
   if (fenda) { ctx.fillStyle = 'rgba(20,20,20,0.95)'; ctx.fillRect(176, 292, 160, 10); }
-  // fita adesiva segurando aviso (vida)
   ctx.fillStyle = 'rgba(255,250,220,0.7)'; ctx.fillRect(400, 30, 60, 16); ctx.fillRect(420, 20, 20, 36);
   const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.minFilter = THREE.LinearFilter; tex.generateMipmaps = false;
   return tex;

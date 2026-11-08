@@ -4,7 +4,9 @@ import { clamp, lerp, suave, mulberry32, sementeDeTexto } from './util.js';
 
 const EIXO_Y = new THREE.Vector3(0, 1, 0);
 const DURACAO_GIRO = 0.6;
-const FOV_BASE = 62;
+const FOV_BASE = 72;
+// Quando o alvo está longe, a lente fecha um pouco (atenção), como num quadrinho. Perto, abre.
+function fovPorDistancia(dist) { if (dist <= 5) return FOV_BASE; if (dist >= 12) return 50; return lerp(FOV_BASE, 50, (dist - 5) / 7); }
 
 export class Cabeca {
   constructor(linha, canal, cenario, resolverAlvo, semente) {
@@ -101,7 +103,10 @@ export class Cabeca {
       const dur = Math.min(Math.max(l.fim_s - l.inicio_s, 0.5), 6);
       return lerp(fovInicio, 30, suave((t - l.inicio_s) / dur));
     }
-    return lerp(fovInicio, FOV_BASE, suave((t - l.inicio_s) / 1.0));
+    const pos = this.posicao(t);
+    const alvo = this.alvoDaLinha(i, t);
+    const fovAlvo = fovPorDistancia(alvo ? alvo.distanceTo(pos) : 1);
+    return lerp(fovInicio, fovAlvo, suave((t - l.inicio_s) / 1.0));
   }
   _fovFimLinha(i) {
     if (this.cacheFov.has(i)) return this.cacheFov.get(i);

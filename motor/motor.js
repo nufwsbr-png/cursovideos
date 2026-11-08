@@ -83,7 +83,7 @@ window.carregar = async function carregar(canalOriginal, roteiro, linhaDoTempo, 
   M.cena.background = new THREE.Color(M.estiloCfg.traco?.cor || '#101820');
   M.camera = new THREE.PerspectiveCamera(62, W / H, 0.05, 80);
   M.estilo = new Estilo(M.estiloCfg);
-  const ctxProps = { estilo: M.estilo, cores: M.cores, semente: M.semente, avisos: M.avisos, canal };
+  const ctxProps = { estilo: M.estilo, cores: M.cores, semente: M.semente, avisos: M.avisos, canal, cenario: M.cenario };
   M.props = {}; M.luzesProps = [];
   for (const def of (M.cenario.props || [])) {
     const r = criarProp(def, ctxProps);
@@ -128,8 +128,8 @@ function resolverAlvo(nome, t, posCamera) {
   if (!nome) return null;
   const pc = posCamera || new THREE.Vector3(0, 1.25, 0);
   switch (nome) {
-    case 'maos': return new THREE.Vector3(pc.x - 0.02, 1.07, pc.z - 0.42);
-    case 'celular': return new THREE.Vector3(pc.x + 0.11, 1.17, pc.z - 0.29);
+    case 'maos': return new THREE.Vector3(pc.x, 1.03, pc.z - 0.36);
+    case 'celular': return new THREE.Vector3(pc.x + 0.06, 1.25, pc.z - 0.22);
     case 'frente': return new THREE.Vector3(pc.x, pc.y - 0.05, pc.z - 6);
     case 'chao': return new THREE.Vector3(pc.x, 0, pc.z - 1.5);
     case 'teto': return new THREE.Vector3(pc.x, 4, pc.z - 2);
@@ -220,10 +220,13 @@ function prepararPos() {
         ps.x /= asp;
         vec2 uv = ps*0.5 + 0.5;
         if (uv.x<0.0||uv.x>1.0||uv.y<0.0||uv.y>1.0) { gl_FragColor = vec4(corTraco*0.6, 1.0); return; }
-        vec3 cor = texture2D(tCor, uv).rgb;
-        vec2 px = (espessura*0.5) / resolucao;
-        if (irregular == 1) { float j = hash(floor(gl_FragCoord.xy/3.0)); px *= 0.75 + j*0.6; }
+        vec4 amostra = texture2D(tCor, uv);
+        vec3 cor = amostra.rgb;
+        float brilha = step(amostra.a, 0.995); // telas, painéis e lâmpadas: sem traço por diferença de cor
         float d0 = linear(texture2D(tProf, uv).x);
+        float fatorDist = clamp(2.2 / max(d0, 0.4), 0.3, 1.0); // traço mais fino ao longe: personagem distante não vira borrão
+        vec2 px = (espessura*0.5*fatorDist) / resolucao;
+        if (irregular == 1) { float j = hash(floor(gl_FragCoord.xy/3.0)); px *= 0.75 + j*0.6; }
         float dmax = 0.0;
         dmax = max(dmax, abs(linear(texture2D(tProf, uv+vec2(px.x,0.0)).x)-d0));
         dmax = max(dmax, abs(linear(texture2D(tProf, uv-vec2(px.x,0.0)).x)-d0));
@@ -242,7 +245,7 @@ function prepararPos() {
         cd = max(cd, length(texture2D(tCor, uv-vec2(px.x,0.0)).rgb - cor));
         cd = max(cd, length(texture2D(tCor, uv+vec2(0.0,px.y)).rgb - cor));
         cd = max(cd, length(texture2D(tCor, uv-vec2(0.0,px.y)).rgb - cor));
-        float bordaCor = step(limiarCor, cd);
+        float bordaCor = step(limiarCor, cd) * (1.0 - brilha);
         float borda = max(max(bordaProf, bordaNorm), bordaCor);
         cor = mix(cor, corTraco, borda);
         if (textura == 1) {
@@ -307,9 +310,9 @@ window.renderizarQuadro = function renderizarQuadro(t) {
   M.telaCelular.desenhar(est.celular.tela, t);
   // luzes gerais seguem o clima
   const luz = clima.luz;
-  M.hemi.intensity = 0.25 + 1.1 * luz; M.hemi.color.set(clima.cor_luz);
-  M.dir.intensity = 1.7 * luz; M.dir.color.set(clima.cor_luz);
-  M.dir2.intensity = 0.5 * luz;
+  M.hemi.intensity = 0.12 + 0.42 * luz; M.hemi.color.set(clima.cor_luz);
+  M.dir.intensity = 0.8 * luz; M.dir.color.set(clima.cor_luz);
+  M.dir2.intensity = 0.22 * luz;
 
   // fade
   let fade = 0;
@@ -319,6 +322,7 @@ window.renderizarQuadro = function renderizarQuadro(t) {
 
   // passes
   const r = M.renderer;
+  if (M.semPos) { r.setRenderTarget(null); r.setClearColor(M.cena.background); r.clear(); r.render(M.cena, M.camera); M.ctx.setTransform(1, 0, 0, 1, 0, 0); M.ctx.drawImage(M.canvasGL, 0, 0); M.ultimoQuadro = { t, clima: clima.nome, acao, linha: est.indice, legendas: [] }; return M.ultimoQuadro; }
   r.setRenderTarget(M.rtCor); r.setClearColor(M.cena.background); r.clear(); r.render(M.cena, M.camera);
   // normais em meia resolução (vidros e sombras de contato ficam fora)
   const escondidos = [];
@@ -402,7 +406,8 @@ window.sondar = function sondar(pontos) {
   const saida = [];
   for (const [nx, ny] of pontos) {
     rc.setFromCamera(new THREE.Vector2(nx * 2 - 1, -(ny * 2 - 1)), M.camera);
-    const hits = rc.intersectObjects(M.cena.children, true).filter(h => h.object.visible);
+    const visivelNaCadeia = (o) => { while (o) { if (!o.visible) return false; o = o.parent; } return true; };
+    const hits = rc.intersectObjects(M.cena.children, true).filter(h => visivelNaCadeia(h.object));
     const h = hits[0];
     let nome = null, cor = null;
     if (h) { let o = h.object; const cadeia = []; while (o) { if (o.name) cadeia.push(o.name); o = o.parent; } nome = cadeia.join(' < ') || h.object.type; cor = h.object.material?.color?.getHexString?.() || null; }

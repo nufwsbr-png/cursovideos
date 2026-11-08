@@ -77,21 +77,21 @@ export class Boneco {
       const coque = new THREE.Mesh(new THREE.SphereGeometry(raioCab * 0.42, 10, 8), estilo.material(corCabelo)); coque.position.set(0, raioCab * 0.95, -raioCab * 0.55); cabelo.add(coque);
     } else if (estiloCabelo !== 'nenhum') {
       const calota = new THREE.Mesh(new THREE.SphereGeometry(raioCab * 1.05, 14, 8, 0, Math.PI * 2, 0, Math.PI * 0.42), estilo.material(corCabelo)); calota.scale.set(oval[0], oval[1] * 1.02, oval[2]); calota.position.y = raioCab * 0.12; cabelo.add(calota);
-      if (estiloCabelo === 'curto_penteado') { const topete = new THREE.Mesh(new THREE.BoxGeometry(raioCab * 1.3, raioCab * 0.25, raioCab * 0.9), estilo.material(corCabelo)); topete.position.set(0, raioCab * 1.05, raioCab * 0.1); cabelo.add(topete); }
+      if (estiloCabelo === 'curto_penteado') { const topete = new THREE.Mesh(new THREE.SphereGeometry(raioCab * 0.55, 8, 6), estilo.material(corCabelo)); topete.scale.set(1.3, 0.45, 1.1); topete.position.set(0, raioCab * 0.95, raioCab * 0.15); cabelo.add(topete); }
     }
     this.cabeca.add(cabelo);
     // rosto: olhos grandes brancos, sobrancelhas, boca; sem nariz
     const zRosto = raioCab * oval[2] * 0.86;
     this.olhos = []; this.pupilas = []; this.sobrancelhas = [];
     for (const lado of [-1, 1]) {
-      const olho = new THREE.Mesh(new THREE.SphereGeometry(raioCab * 0.26, 10, 8), estilo.luminoso('#ffffff'));
+      const olho = new THREE.Mesh(new THREE.SphereGeometry(raioCab * 0.3, 10, 8), estilo.luminoso('#ffffff'));
       olho.position.set(lado * raioCab * 0.34, raioCab * oval[1] * 1.02, zRosto); olho.scale.set(1, 1.15, 0.6); this.cabeca.add(olho); this.olhos.push(olho);
       const pupila = new THREE.Mesh(new THREE.SphereGeometry(raioCab * 0.11, 8, 6), estilo.luminoso('#111111'));
       pupila.position.set(lado * raioCab * 0.34, raioCab * oval[1] * 1.02, zRosto + raioCab * 0.13); this.cabeca.add(pupila); this.pupilas.push(pupila);
       const sob = new THREE.Mesh(new THREE.BoxGeometry(raioCab * 0.42, raioCab * 0.07, raioCab * 0.05), estilo.material(corCabelo === '#bdbdbd' ? '#777' : escurecer(corCabelo, 0.9)));
       sob.position.set(lado * raioCab * 0.34, raioCab * oval[1] * 1.02 + raioCab * 0.36, zRosto + raioCab * 0.02); this.cabeca.add(sob); this.sobrancelhas.push(sob);
     }
-    this.boca = new THREE.Mesh(new THREE.BoxGeometry(raioCab * 0.5, raioCab * 0.08, raioCab * 0.08), estilo.luminoso('#3a1515'));
+    this.boca = new THREE.Mesh(new THREE.SphereGeometry(1, 10, 8), estilo.luminoso('#3a1515')); this.boca.scale.set(raioCab * 0.25, raioCab * 0.04, raioCab * 0.04);
     this.boca.position.set(0, raioCab * oval[1] * 0.5, zRosto + raioCab * 0.02); this.cabeca.add(this.boca);
     this.raioCab = raioCab; this.oval = oval;
 
@@ -137,9 +137,9 @@ export class Boneco {
   // estado: { visivel, pos:[x,y,z], direcao:[dx,dz]|null, andando, pose, expressao }, abertura 0..1, alvoOlhar Vector3|null
   aplicar(estado, t, abertura, alvoOlhar, voltadoPara) {
     this.grupo.visible = !!estado.visivel;
-    if (!this.grupo.visible) return;
     const { perna, tronco } = this.medidas;
     const pos = estado.pos;
+    if (!this.grupo.visible) { this.grupo.position.set(pos[0], -10, pos[2]); return; }
     this.grupo.position.set(pos[0], 0, pos[2]);
     // direção do corpo: para onde anda; parado, de frente para quem olha (câmera) salvo pose de costas
     let yaw;
@@ -213,6 +213,6 @@ export class Boneco {
     if (abertura > 0.02) alt = Math.max(alt, r * (0.06 + abertura * 0.55));
     if (ex === 'medo' && abertura <= 0.02) alt = r * 0.16;
     if (ex === 'calma' && abertura <= 0.02) larg = r * 0.62;
-    this.boca.scale.set(larg / (r * 0.5), alt / (r * 0.08), 1);
+    this.boca.scale.set(larg / 2, alt / 2, r * 0.05);
   }
 }
