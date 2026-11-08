@@ -15,19 +15,43 @@ async function abrirNavegador() {
   return chromium.launch({ executablePath, args: ["--no-sandbox", "--disable-gpu"] });
 }
 
+// Quadros da capa: o motor renderiza os instantes exatos em PNG (sempre com o visual atual, sem compressão do vídeo).
+// Se o motor falhar, cai para extrair do MP4 pronto.
+async function quadrosDoMotor(ep, tempos) {
+  const renderizar = path.join(RAIZ, "motor", "renderizar.js");
+  if (!fs.existsSync(renderizar)) return null;
+  const lista = tempos.map((t) => Number(t.toFixed(2)));
+  try {
+    await executar("node", [renderizar, "--episodio", ep.dir, "--stills", lista.join(","), "--formato", "png"]);
+  } catch (e) { log.aviso(`motor não conseguiu renderizar os quadros da capa (${e.message}); usando o vídeo pronto`); return null; }
+  const saida = [];
+  for (let i = 0; i < lista.length; i++) {
+    const origem = path.join(ep.dir, "stills", "t_" + lista[i].toFixed(2).padStart(7, "0") + ".png");
+    if (!fs.existsSync(origem)) return null;
+    const destino = path.join(ep.dir, `quadro_capa_${i + 1}.png`);
+    fs.copyFileSync(origem, destino); saida.push(destino);
+  }
+  return saida;
+}
+
 async function extrairQuadro(video, t, destino) {
   await executar("ffmpeg", ["-y", "-v", "error", "-ss", String(t), "-i", video, "-frames:v", "1", "-q:v", "2", destino]);
 }
 
+// A fonte da capa é a mesma das legendas (Baloo 2, peso 800): uma identidade só. Cai para Anton se a Baloo não estiver instalada.
 function fonteBase64() {
-  const p = path.join(RAIZ, "node_modules", "@fontsource", "anton", "files", "anton-latin-400-normal.woff2");
-  return fs.existsSync(p) ? fs.readFileSync(p).toString("base64") : null;
+  const base = path.join(RAIZ, "node_modules", "@fontsource");
+  const baloo = path.join(base, "baloo-2", "files", "baloo-2-latin-800-normal.woff2");
+  const balooExt = path.join(base, "baloo-2", "files", "baloo-2-latin-ext-800-normal.woff2");
+  if (fs.existsSync(baloo)) return { familia: "Baloo 2", peso: 800, latin: fs.readFileSync(baloo).toString("base64"), ext: fs.existsSync(balooExt) ? fs.readFileSync(balooExt).toString("base64") : null };
+  const anton = path.join(base, "anton", "files", "anton-latin-400-normal.woff2");
+  return fs.existsSync(anton) ? { familia: "Anton", peso: 400, latin: fs.readFileSync(anton).toString("base64"), ext: null } : null;
 }
 
 function htmlCapa({ quadroBase64, gancho, numero, cores, variante, nomeCanal, fonteB64, largura, altura }) {
   const ep = String(numero).padStart(2, "0");
-  const fonte = fonteB64 ? `@font-face{font-family:"Anton";src:url(data:font/woff2;base64,${fonteB64}) format("woff2");}` : "";
-  const familia = fonteB64 ? "Anton" : "Impact, 'Arial Black', sans-serif";
+  const fonte = fonteB64 ? `@font-face{font-family:"${fonteB64.familia}";font-weight:${fonteB64.peso};src:url(data:font/woff2;base64,${fonteB64.latin}) format("woff2");}` + (fonteB64.ext ? `@font-face{font-family:"${fonteB64.familia}";font-weight:${fonteB64.peso};src:url(data:font/woff2;base64,${fonteB64.ext}) format("woff2");unicode-range:U+0100-024F,U+1E00-1EFF;}` : "") + `.gancho,.epi,.canal{font-weight:${fonteB64.peso}}` : "";
+  const familia = fonteB64 ? `"${fonteB64.familia}"` : "Impact, 'Arial Black', sans-serif";
   const ganchoLinhas = gancho.toUpperCase();
   const posicoes = {
     1: `.gancho{top:300px}.epi{top:1380px}`,
@@ -89,7 +113,6 @@ export async function etapaCapaTextos({ canal, ep }) {
   log.passo(`Etapa 9 — Capa e textos do episódio ${ep.roteiro.numero}`);
   const r = ep.roteiro;
   const video = [path.join(ep.dir, nomeMp4(r.numero)), path.join(ep.dir, "video_mudo.mp4")].find((p) => fs.existsSync(p));
-  if (!video) throw new Error("Não há vídeo para tirar o quadro da capa (rode render/som antes).");
   const { largura, altura } = canal.formato;
   const cores = canal.estilo?.cores ?? { c1: "#1f4e5f", c2: "#efe3c2", c3: "#d9772b", alerta: "#ffb000" };
   const fonteB64 = fonteBase64();
@@ -108,13 +131,16 @@ export async function etapaCapaTextos({ canal, ep }) {
   const tempos = [r.capa?.t_quadro ?? 10, ...(r.capa?.alternativas_t ?? [])].slice(0, 3).map(semLegenda);
   while (tempos.length < 3) tempos.push(tempos[0]);
   log.info(`quadros da capa em ${tempos.map((t) => t.toFixed(1) + "s").join(", ")} (fora das falas)`);
+  const quadrosMotor = await quadrosDoMotor(ep, tempos);
+  if (!quadrosMotor && !video) throw new Error("Não há motor nem vídeo para tirar o quadro da capa (rode render antes).");
+  log.info(quadrosMotor ? "quadros renderizados pelo motor (PNG)" : "quadros extraídos do vídeo pronto");
   const navegador = await abrirNavegador();
   const capasB64 = [];
   try {
     const pagina = await navegador.newPage({ viewport: { width: largura, height: altura }, deviceScaleFactor: 1 });
     for (let i = 0; i < 3; i++) {
       const quadro = path.join(ep.dir, `quadro_capa_${i + 1}.png`);
-      await extrairQuadro(video, tempos[i], quadro);
+      if (!quadrosMotor) await extrairQuadro(video, tempos[i], quadro);
       const html = htmlCapa({ quadroBase64: fs.readFileSync(quadro).toString("base64"), gancho: r.capa?.frase_gancho ?? r.titulo, numero: r.numero, cores, variante: i + 1, nomeCanal: canal.nome_exibicao, fonteB64, largura, altura });
       await pagina.setContent(html, { waitUntil: "load" });
       await pagina.evaluate(() => document.fonts.ready);

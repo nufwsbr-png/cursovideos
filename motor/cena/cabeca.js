@@ -4,9 +4,8 @@ import { clamp, lerp, suave, mulberry32, sementeDeTexto } from './util.js';
 
 const EIXO_Y = new THREE.Vector3(0, 1, 0);
 const DURACAO_GIRO = 0.6;
-const FOV_BASE = 72;
-// Quando o alvo está longe, a lente fecha um pouco (atenção), como num quadrinho. Perto, abre.
-function fovPorDistancia(dist) { if (dist <= 5) return FOV_BASE; if (dist >= 12) return 50; return lerp(FOV_BASE, 50, (dist - 5) / 7); }
+// A lente é olho de peixe e não muda com a distância do alvo (como na referência): só a ação aproximar: fecha a abertura.
+let FOV_BASE = 115, FOV_APROXIMAR = 65, INCLINACAO_BASE = 0;
 
 export class Cabeca {
   constructor(linha, canal, cenario, resolverAlvo, semente) {
@@ -16,6 +15,8 @@ export class Cabeca {
     const rnd = mulberry32(semente + 17);
     this.fases = Array.from({ length: 6 }, () => rnd() * Math.PI * 2);
     this.cacheOrient = new Map(); this.cachePos = new Map(); this.cacheFov = new Map();
+    const lente = canal.estilo?.lente || {};
+    FOV_BASE = lente.fov_vertical || 115; FOV_APROXIMAR = lente.aproximar_fov || 65; INCLINACAO_BASE = (lente.inclinacao_base_graus ?? 10) * Math.PI / 180;
   }
   limparCache() { this.cacheOrient.clear(); this.cachePos.clear(); this.cacheFov.clear(); }
 
@@ -101,12 +102,9 @@ export class Cabeca {
     const fovInicio = i === 0 ? FOV_BASE : this._fovFimLinha(i - 1);
     if (d.acao && d.acao.startsWith('aproximar')) {
       const dur = Math.min(Math.max(l.fim_s - l.inicio_s, 0.5), 6);
-      return lerp(fovInicio, 30, suave((t - l.inicio_s) / dur));
+      return lerp(fovInicio, FOV_APROXIMAR, suave((t - l.inicio_s) / dur));
     }
-    const pos = this.posicao(t);
-    const alvo = this.alvoDaLinha(i, t);
-    const fovAlvo = fovPorDistancia(alvo ? alvo.distanceTo(pos) : 1);
-    return lerp(fovInicio, fovAlvo, suave((t - l.inicio_s) / 1.0));
+    return lerp(fovInicio, FOV_BASE, suave((t - l.inicio_s) / 1.0));
   }
   _fovFimLinha(i) {
     if (this.cacheFov.has(i)) return this.cacheFov.get(i);
@@ -151,7 +149,9 @@ export class Cabeca {
 
 function olharPara(pos, alvo) {
   const m = new THREE.Matrix4().lookAt(pos, alvo, EIXO_Y);
-  return new THREE.Quaternion().setFromRotationMatrix(m);
+  const q = new THREE.Quaternion().setFromRotationMatrix(m);
+  if (INCLINACAO_BASE) q.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), -INCLINACAO_BASE));
+  return q;
 }
 function yawDe(q) {
   const e = new THREE.Euler().setFromQuaternion(q, 'YXZ');

@@ -13,6 +13,7 @@ hoje; o dono pode trocar tudo com `node fabrica/cli.js entrevista`.
 ## Idioma e regras fixas
 - Tudo em **português do Brasil**: arquivos, mensagens, roteiros, falas. Estilos de voz ficam em inglês (regra do Google AI Studio).
 - **Nunca copiar** nome, personagem, história, cena ou visual de outro criador (inclusive o canal do livro, "Teco Sobrevive", e o exemplo "Posto 24h"). A fórmula é livre; a identidade é nossa.
+  - Exceção decidida pelo dono (2026-11-08): a **técnica e o acabamento visual** seguem a referência que ele mandou (lente olho-de-peixe, traço preto grosso, cores chapadas, bonecos de olhos grandes, legendas arredondadas na cor de quem fala). Personagens, lugar, história, nomes e objetos continuam nossos. Detalhes em `memoria/estilo_visual.md`.
 - **Separar medido de hipótese** em toda anotação (`memoria/aprendizados.md`).
 - Um quadro é função só do tempo: sem estado escondido, sem aleatório sem semente.
 - Nada de senha ou chave de API em arquivo do cérebro ou no git. Credenciais só em `.env` ou nos segredos do GitHub.

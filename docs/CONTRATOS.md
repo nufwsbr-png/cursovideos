@@ -17,11 +17,11 @@ Convenções gerais
 {
   "nome_exibicao": "...", "arroba": "...", "idioma": "pt-BR",
   "frase_do_canal": "Você é [PAPEL] em [LUGAR] quando acontece [CRISE], e a regra é [REGRA].",
-  "formato": { "largura": 1080, "altura": 1920, "fps": 30, "duracao_alvo_s": 100, "duracao_min_s": 65, "duracao_max_s": 130 },
+  "formato": { "largura": 1080, "altura": 1920, "fps": 60, "duracao_alvo_s": 100, "duracao_min_s": 65, "duracao_max_s": 130 },
   "protagonista": { "id": "eu", "como_chamam": "...", "pistas": {...}, "maos": { "pele": "#hex", "manga": "#hex", "detalhe": "..." }, "objetos": ["carimbo", "caneta", "celular"], "voz": {...} },
   "elenco": [ { "id": "dalva", "nome": "Dalva", "papel": "colega", "visivel": true, "visual": { "pele": "#", "cabelo": "#", "cabelo_estilo": "coque", "roupa_cima": "#", "roupa_baixo": "#", "acessorio": "colete", "altura": 1.58, "proporcao": "baixa_forte", "objeto": "rodo" }, "voz": { "nome": "Gacrux", "estilo_base": "..." , "filtro": null }, "cor_legenda": "#hex" } ],
   "cenarios": [ { "id": "saguao", "nome": "...", "camera_inicial": { "pos": [x,y,z], "olhar": "painel" }, "marcas": { "nome": [x,y,z] }, "props": [ { "id": "painel", "tipo": "painel", "pos": [..], "rot": [..], "tamanho": [..], "cor": "#", "texto": ["linha1", "linha2"], "estado": "normal" } ] } ],
-  "estilo": { "semente": 7, "traco": { "espessura": 0.012, "cor": "#101820" }, "cores": { "c1": "#", "c2": "#", "c3": "#", "alerta": "#", "alerta_forte": "#" }, "sombra": { "degraus": 2 }, "lente": { "rotina": 0.3, "climax": 0.55 }, "textura": "papel", "bonecos": { "cabeca": 1.35, "corpo": 0.85, "nariz": false }, "legenda": { "fonte": "Anton", "tamanho": 64, "contorno": "#0b0b0b", "espessura_contorno": 10, "y_centro": 0.62, "largura_max": 0.78, "cores_por_personagem": { "eu": "#fff", "dalva": "#ffd166" } }, "climas": { "rotina": {...}, "sinal": {...}, "escalada": {...}, "climax": {...}, "pergunta": {...} } },
+  "estilo": { "semente": 7, "traco": { "espessura_px": 6, "espessura_min_px": 2.2, "cor": "#1a1410", "limiar_distancia": 0.035, "limiar_normal": 0.22 }, "lente": { "fov_vertical": 115, "anamorfico": 1.2, "aproximar_fov": 65, "inclinacao_base_graus": 10, "tamanho_face": 1536 }, "antialias": "nenhum|fxaa", "cores": { "c1": "#", "c2": "#", "c3": "#", "alerta": "#", "alerta_forte": "#" }, "sombra": { "degraus": 3, "intensidade": 0.3 }, "textura": "papel|nenhuma", "intensidade_textura": 0.06, "bonecos": { "cabeca": 1.0, "corpo": 1.0, "nariz": true }, "legenda": { "fonte": "Baloo 2", "peso": 800, "tamanho": 58, "contorno": "#1a1410", "espessura_contorno": 9, "sombra": true, "y_centro": 0.62, "largura_max": 0.78, "cores_por_personagem": { "eu": "#bfe0ff", "dalva": "#ffb36b" } }, "selo": { "cor": "#c0392b", "cor_texto": "#fff", "tamanho": 56, "y": 0.08, "duracao_s": null }, "climas": { "rotina": {...}, "sinal": {...}, "escalada": {...}, "climax": {...}, "pergunta": {...} } },
   "vozes": { "provedor": "gemini", "modelo": "gemini-2.5-flash-preview-tts", "prefixo_estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent" },
   "plataformas": { "tiktok": {...}, "instagram": {...}, "facebook": {...}, "youtube": {...}, "kwai": {...} },
   "publicacao": { "fuso": "America/Sao_Paulo", "hora_local": "18:30", "hashtags_base": ["pov", "historia", "suspense"], "exigir_aprovacao_humana": false, "etiqueta_ia": true }
@@ -93,7 +93,7 @@ Vocabulário de `direcao` (o motor implementa exatamente isto):
 
 ```jsonc
 {
-  "fps": 30, "duracao_total_s": 98.6,
+  "fps": 60, "duracao_total_s": 98.6,
   "falas": [ { "id": "f01", "quem": "dalva", "inicio_s": 2.0, "fim_s": 3.84, "filtro": null } ],
   "linhas": [ { "indice": 0, "t_nominal": 0, "inicio_s": 0.0, "fim_s": 2.0, "ato": "rotina", "fala": null, "direcao": {...} } ],
   "climas": [ { "inicio_s": 0, "clima": "rotina" }, { "inicio_s": 5.2, "clima": "sinal" } ],

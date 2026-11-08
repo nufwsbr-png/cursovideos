@@ -1,13 +1,14 @@
 // Motor de vídeos em primeira pessoa. Expõe em window: carregar, renderizarQuadro, capturar, renderizarLote, montarFolha, estatisticasQuadro.
 // Regra de ouro: cada quadro depende só de t. Nada acumula entre quadros; aleatório só com semente.
 import * as THREE from 'three';
-import { Estilo } from './cena/estilo.js';
+import { Estilo, definirAnisotropia } from './cena/estilo.js';
 import { criarProp, criarDetalhesVida } from './cena/props.js';
 import { Boneco } from './cena/boneco.js';
 import { CorpoPOV } from './cena/corpo_pov.js';
 import { Estado } from './cena/estado.js';
 import { Cabeca } from './cena/cabeca.js';
 import { Sobreposicao, TelaCelular } from './cena/sobreposicao.js';
+import { Lente } from './cena/lente.js';
 import { construirLinhaDoTempo, medidasSinteticas, envelopeSintetico } from './cena/linha_previa.js';
 import { suave, lerp, misturarCor, hexParaRgb, clamp, sementeDeTexto, formatarTempo } from './cena/util.js';
 
@@ -16,12 +17,12 @@ window.__motor = M;
 
 // Variações para o teste dos 3 estilos (capítulo 35 / 57). Cada uma troca traço, paleta, sombra, textura e lente.
 const VARIACOES = {
-  A: { nome: 'A · xilogravura (traço grosso, papel forte)', traco: { espessura: 0.022, cor: '#14100c', acabamento: 'irregular' }, textura: 'papel', intensidade_textura: 0.34, sombra: { degraus: 2, intensidade: 0.7 },
-       mapaCores: { '#1f4e5f': '#17394a', '#efe3c2': '#e4d3a4', '#d9772b': '#b8611f', '#ffb000': '#ffa400' } },
-  B: { nome: 'B · gibi antigo (retícula, cores vivas)', traco: { espessura: 0.009, cor: '#101820', acabamento: 'uniforme' }, textura: 'reticula', intensidade_textura: 0.35, sombra: { degraus: 3, intensidade: 0.5 },
-       mapaCores: { '#1f4e5f': '#1d5f8a', '#efe3c2': '#f4e9c8', '#d9772b': '#e8832a', '#ffb000': '#ffc300' } },
-  C: { nome: 'C · cartaz pintado à mão (chapado, lente suave)', traco: { espessura: 0.013, cor: '#1c1a17', acabamento: 'uniforme' }, textura: 'papel', intensidade_textura: 0.12, sombra: { degraus: 1, intensidade: 0.35 }, lente: { rotina: 0.2, sinal: 0.22, escalada: 0.26, climax: 0.34, pergunta: 0.34 },
-       mapaCores: { '#1f4e5f': '#24505c', '#efe3c2': '#f2e6c4', '#d9772b': '#d9772b', '#ffb000': '#ffb000' } },
+  A: { nome: 'A · traço 8 px, papel', traco: { espessura_px: 8, espessura_min_px: 3, cor: '#14100c' }, textura: 'papel', intensidade_textura: 0.12, sombra: { degraus: 2, intensidade: 0.4 },
+       mapaCores: { '#1f5f8a': '#17496b', '#f3ead8': '#eadfc6', '#e07b2a': '#c8661c', '#ffb000': '#ffa400' } },
+  B: { nome: 'B · traço 4 px, sem papel', traco: { espessura_px: 4, espessura_min_px: 1.6, cor: '#101820' }, textura: 'nenhuma', intensidade_textura: 0, sombra: { degraus: 3, intensidade: 0.22 },
+       mapaCores: { '#1f5f8a': '#1d6fb0', '#f3ead8': '#f8f1e0', '#e07b2a': '#f08a2e', '#ffb000': '#ffc300' } },
+  C: { nome: 'C · referência, traço 6 px', traco: { espessura_px: 6, espessura_min_px: 2.2, cor: '#1a1410' }, textura: 'papel', intensidade_textura: 0.06, sombra: { degraus: 3, intensidade: 0.3 },
+       mapaCores: {} },
 };
 
 function clonar(o) { return JSON.parse(JSON.stringify(o)); }
@@ -44,7 +45,7 @@ function aplicarVariacao(canal, nomeVar) {
 }
 
 window.carregar = async function carregar(canalOriginal, roteiro, linhaDoTempo, medidas, opcoes = {}) {
-  await Promise.all([document.fonts.load('48px Anton'), document.fonts.load('30px Nunito'), document.fonts.load('bold 30px Nunito')]);
+  await Promise.all([document.fonts.load('48px Anton'), document.fonts.load('30px Nunito'), document.fonts.load('bold 30px Nunito'), document.fonts.load('800 48px "Baloo 2"'), document.fonts.load('700 48px "Baloo 2"')]);
   await document.fonts.ready;
   const canal = aplicarVariacao(canalOriginal, opcoes.estilo);
   const fps = canal.formato?.fps || 30;
@@ -77,11 +78,12 @@ window.carregar = async function carregar(canalOriginal, roteiro, linhaDoTempo, 
   const gl = M.renderer.getContext();
   const dbg = gl.getExtension('WEBGL_debug_renderer_info');
   M.gpu = dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER);
+  definirAnisotropia(Math.min(4, M.renderer.capabilities.getMaxAnisotropy()));
 
   // cena
   M.cena = new THREE.Scene();
   M.cena.background = new THREE.Color(M.estiloCfg.traco?.cor || '#101820');
-  M.camera = new THREE.PerspectiveCamera(62, W / H, 0.05, 80);
+  M.camera = new THREE.PerspectiveCamera(115, W / H, 0.05, 80); // a 'cabeça': posição, orientação e abertura vertical do olho de peixe
   M.estilo = new Estilo(M.estiloCfg);
   const ctxProps = { estilo: M.estilo, cores: M.cores, semente: M.semente, avisos: M.avisos, canal, cenario: M.cenario };
   M.props = {}; M.luzesProps = [];
@@ -92,9 +94,10 @@ window.carregar = async function carregar(canalOriginal, roteiro, linhaDoTempo, 
   }
   M.cena.add(criarDetalhesVida(M.cenario.detalhes_vida, M.cenario, ctxProps));
   // luzes gerais
-  M.hemi = new THREE.HemisphereLight('#fff4d6', '#3a3428', 1.2); M.cena.add(M.hemi);
-  M.dir = new THREE.DirectionalLight('#fff4d6', 1.6); M.dir.position.set(2, 6, 3); M.cena.add(M.dir);
-  M.dir2 = new THREE.DirectionalLight('#dfe6ff', 0.5); M.dir2.position.set(-3, 4, -6); M.cena.add(M.dir2);
+  // luz chapada e clara (como na referência): céu/chão + uma direcional que dá o degrau de sombra + um preenchimento frio
+  M.hemi = new THREE.HemisphereLight('#ffffff', '#b8b0a4', 1.0); M.cena.add(M.hemi);
+  M.dir = new THREE.DirectionalLight('#fff6e6', 1.3); M.dir.position.set(3, 8, 4); M.cena.add(M.dir);
+  M.dir2 = new THREE.DirectionalLight('#dfe8ff', 0.35); M.dir2.position.set(-4, 5, -6); M.cena.add(M.dir2);
   // elenco
   M.bonecos = {};
   for (const pe of (canal.elenco || [])) {
@@ -103,7 +106,7 @@ window.carregar = async function carregar(canalOriginal, roteiro, linhaDoTempo, 
     M.cena.add(b.grupo); M.bonecos[pe.id] = b;
   }
   // corpo em primeira pessoa e celular
-  M.corpo = new CorpoPOV(canal.protagonista || {}, M.estilo, M.cores);
+  M.corpo = new CorpoPOV(canal.protagonista || {}, M.estilo, M.cores, M.cenario.camera_inicial?.pos?.[1] || 1.48);
   M.cena.add(M.corpo.grupo);
   M.telaCelular = new TelaCelular(M.estiloCfg.celular, roteiro.celular || [], M.cores);
   M.corpo.definirTexturaCelular(M.telaCelular.textura);
@@ -113,7 +116,8 @@ window.carregar = async function carregar(canalOriginal, roteiro, linhaDoTempo, 
   M.sobre = new Sobreposicao(canal, M.estiloCfg, W, H, escala);
   M.pancadas = [ ...(M.linha.efeitos || []).filter(e => e.tipo === 'pancada').map(e => e.t) ];
   if (M.linha.pergunta && !M.pancadas.some(p => Math.abs(p - M.linha.pergunta.inicio_s) < 0.5)) M.pancadas.push(M.linha.pergunta.inicio_s);
-  prepararPos();
+  if (M.lente) M.lente.dispose();
+  M.lente = new Lente(M.renderer, W, H, escala, M.estiloCfg, { perto: M.camera.near, longe: M.camera.far, semFxaa: !!opcoes.semFxaa, tamanhoFace: opcoes.tamanhoFace || null, perfil: !!opcoes.perfil });
   M.pronto = true;
   return { gpu: M.gpu, avisos: M.avisos, duracao_total_s: M.linha.duracao_total_s, fps, previa: !!M.linha.previa, variacao: M.estiloCfg._variacao || 'cartela', linha: M.linha };
 };
@@ -128,8 +132,8 @@ function resolverAlvo(nome, t, posCamera) {
   if (!nome) return null;
   const pc = posCamera || new THREE.Vector3(0, 1.25, 0);
   switch (nome) {
-    case 'maos': return new THREE.Vector3(pc.x, 1.03, pc.z - 0.36);
-    case 'celular': return new THREE.Vector3(pc.x + 0.06, 1.25, pc.z - 0.22);
+    case 'maos': return new THREE.Vector3(pc.x, 1.04, pc.z - 0.8);
+    case 'celular': return new THREE.Vector3(pc.x + 0.06, pc.y - 0.2, pc.z - 0.22);
     case 'frente': return new THREE.Vector3(pc.x, pc.y - 0.05, pc.z - 6);
     case 'chao': return new THREE.Vector3(pc.x, 0, pc.z - 1.5);
     case 'teto': return new THREE.Vector3(pc.x, 4, pc.z - 2);
@@ -181,96 +185,6 @@ function quemFala(t) {
   return ativos.length ? ativos[ativos.length - 1].quem : null;
 }
 
-// ------------------------------------------------------------------ pós-processo (traço, lente, textura, vinheta)
-function prepararPos() {
-  const { W, H } = M;
-  if (M.rtCor) { M.rtCor.dispose(); M.rtNorm.dispose(); }
-  const depthTexture = new THREE.DepthTexture(W, H); depthTexture.type = THREE.UnsignedIntType;
-  M.rtCor = new THREE.WebGLRenderTarget(W, H, { depthTexture, depthBuffer: true, minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter });
-  M.rtNorm = new THREE.WebGLRenderTarget(Math.round(W / 2), Math.round(H / 2), { minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter });
-  M.matNormal = new THREE.MeshNormalMaterial();
-  const traco = M.estiloCfg.traco || {};
-  const espessuraPx = Math.max(1, (traco.espessura ?? 0.012) * 1000 * M.escala);
-  const [tr, tg, tb] = hexParaRgb(traco.cor || '#101820').map(v => Math.pow(v / 255, 2.2));
-  M.uniformes = {
-    tCor: { value: M.rtCor.texture }, tProf: { value: depthTexture }, tNorm: { value: M.rtNorm.texture },
-    resolucao: { value: new THREE.Vector2(W, H) }, espessura: { value: espessuraPx }, corTraco: { value: new THREE.Vector3(tr, tg, tb) },
-    lente: { value: 0.3 }, vinheta: { value: 0.15 }, textura: { value: M.estiloCfg.textura === 'reticula' ? 2 : M.estiloCfg.textura === 'nenhuma' ? 0 : 1 },
-    intensidadeTextura: { value: M.estiloCfg.intensidade_textura ?? 0.18 }, corLuz: { value: new THREE.Vector3(1, 1, 1) }, luz: { value: 1 },
-    semente: { value: (M.semente % 97) * 0.37 }, perto: { value: M.camera.near }, longe: { value: M.camera.far }, fade: { value: 0 },
-    limiarProf: { value: 0.035 }, limiarNorm: { value: 0.3 }, limiarCor: { value: 0.3 }, irregular: { value: traco.acabamento === 'irregular' ? 1 : 0 },
-  };
-  M.matPos = new THREE.ShaderMaterial({
-    uniforms: M.uniformes, depthTest: false, depthWrite: false,
-    vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }`,
-    fragmentShader: `
-      precision highp float;
-      uniform sampler2D tCor, tProf, tNorm; uniform vec2 resolucao; uniform float espessura; uniform vec3 corTraco;
-      uniform float lente, vinheta, intensidadeTextura, luz, semente, perto, longe, fade, limiarProf, limiarNorm, limiarCor; uniform int textura; uniform int irregular; uniform vec3 corLuz;
-      varying vec2 vUv;
-      float linear(float d){ float z = d*2.0-1.0; return (2.0*perto*longe)/(longe+perto - z*(longe-perto)); }
-      float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)) + semente)*43758.5453); }
-      void main(){
-        float asp = resolucao.x/resolucao.y;
-        vec2 p = (vUv - 0.5) * 2.0; p.x *= asp;
-        float r2 = dot(p,p);
-        float rmax2 = 1.0 + asp*asp;
-        float k = lente*0.33;
-        vec2 ps = p * (1.0 + k*r2) / (1.0 + k*rmax2*0.70);
-        ps.x /= asp;
-        vec2 uv = ps*0.5 + 0.5;
-        if (uv.x<0.0||uv.x>1.0||uv.y<0.0||uv.y>1.0) { gl_FragColor = vec4(corTraco*0.6, 1.0); return; }
-        vec4 amostra = texture2D(tCor, uv);
-        vec3 cor = amostra.rgb;
-        float brilha = step(amostra.a, 0.995); // telas, painéis e lâmpadas: sem traço por diferença de cor
-        float d0 = linear(texture2D(tProf, uv).x);
-        float fatorDist = clamp(2.2 / max(d0, 0.4), 0.3, 1.0); // traço mais fino ao longe: personagem distante não vira borrão
-        vec2 px = (espessura*0.5*fatorDist) / resolucao;
-        if (irregular == 1) { float j = hash(floor(gl_FragCoord.xy/3.0)); px *= 0.75 + j*0.6; }
-        float dmax = 0.0;
-        dmax = max(dmax, abs(linear(texture2D(tProf, uv+vec2(px.x,0.0)).x)-d0));
-        dmax = max(dmax, abs(linear(texture2D(tProf, uv-vec2(px.x,0.0)).x)-d0));
-        dmax = max(dmax, abs(linear(texture2D(tProf, uv+vec2(0.0,px.y)).x)-d0));
-        dmax = max(dmax, abs(linear(texture2D(tProf, uv-vec2(0.0,px.y)).x)-d0));
-        float bordaProf = step(limiarProf*d0 + 0.004, dmax);
-        vec3 n0 = texture2D(tNorm, uv).xyz*2.0-1.0;
-        float nd = 0.0;
-        nd = max(nd, 1.0-dot(n0, texture2D(tNorm, uv+vec2(px.x,0.0)).xyz*2.0-1.0));
-        nd = max(nd, 1.0-dot(n0, texture2D(tNorm, uv-vec2(px.x,0.0)).xyz*2.0-1.0));
-        nd = max(nd, 1.0-dot(n0, texture2D(tNorm, uv+vec2(0.0,px.y)).xyz*2.0-1.0));
-        nd = max(nd, 1.0-dot(n0, texture2D(tNorm, uv-vec2(0.0,px.y)).xyz*2.0-1.0));
-        float bordaNorm = step(limiarNorm, nd) * step(d0, 40.0);
-        float cd = 0.0;
-        cd = max(cd, length(texture2D(tCor, uv+vec2(px.x,0.0)).rgb - cor));
-        cd = max(cd, length(texture2D(tCor, uv-vec2(px.x,0.0)).rgb - cor));
-        cd = max(cd, length(texture2D(tCor, uv+vec2(0.0,px.y)).rgb - cor));
-        cd = max(cd, length(texture2D(tCor, uv-vec2(0.0,px.y)).rgb - cor));
-        float bordaCor = step(limiarCor, cd) * (1.0 - brilha);
-        float borda = max(max(bordaProf, bordaNorm), bordaCor);
-        cor = mix(cor, corTraco, borda);
-        if (textura == 1) {
-          float g = hash(floor(gl_FragCoord.xy)); float g2 = hash(floor(gl_FragCoord.xy/9.0)+3.0); float g3 = hash(floor(gl_FragCoord.xy/37.0)+7.0);
-          cor *= 1.0 - intensidadeTextura*((g-0.5)*0.7 + (g2-0.5)*0.5 + (g3-0.5)*0.4);
-        } else if (textura == 2) {
-          float lum = dot(cor, vec3(0.299,0.587,0.114));
-          float ang = 0.785; mat2 R = mat2(cos(ang),-sin(ang),sin(ang),cos(ang));
-          vec2 c = R*gl_FragCoord.xy / (6.0 + espessura*0.4); vec2 f = fract(c)-0.5; float dist = length(f);
-          float raio = (1.0-lum)*0.65; float ponto = smoothstep(raio, raio-0.15, dist);
-          cor = mix(cor, cor*0.55, ponto*intensidadeTextura*2.2*(1.0-borda));
-        }
-        cor *= corLuz;
-        float vin = smoothstep(0.45, 1.5, length(p)) * vinheta;
-        cor *= 1.0 - vin;
-        cor *= (1.0 - fade);
-        gl_FragColor = vec4(cor, 1.0);
-        #include <colorspace_fragment>
-      }`,
-  });
-  M.cenaPos = new THREE.Scene();
-  M.cenaPos.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), M.matPos));
-  M.camPos = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-}
-
 // ------------------------------------------------------------------ quadro
 window.renderizarQuadro = function renderizarQuadro(t) {
   if (!M.pronto) throw new Error('chame carregar() antes');
@@ -310,9 +224,9 @@ window.renderizarQuadro = function renderizarQuadro(t) {
   M.telaCelular.desenhar(est.celular.tela, t);
   // luzes gerais seguem o clima
   const luz = clima.luz;
-  M.hemi.intensity = 0.12 + 0.42 * luz; M.hemi.color.set(clima.cor_luz);
-  M.dir.intensity = 0.8 * luz; M.dir.color.set(clima.cor_luz);
-  M.dir2.intensity = 0.22 * luz;
+  M.hemi.intensity = 0.3 + 0.8 * luz; M.hemi.color.set(clima.cor_luz);
+  M.dir.intensity = 1.2 * luz; M.dir.color.set(clima.cor_luz);
+  M.dir2.intensity = 0.35 * luz;
 
   // fade
   let fade = 0;
@@ -320,24 +234,10 @@ window.renderizarQuadro = function renderizarQuadro(t) {
   if (clima.nome === 'pergunta') fade = Math.max(fade, suave((t - clima.inicio) / 0.9));
   if (M.linha.pergunta && t >= M.linha.pergunta.inicio_s) fade = Math.max(fade, suave((t - M.linha.pergunta.inicio_s) / 0.9));
 
-  // passes
-  const r = M.renderer;
-  if (M.semPos) { r.setRenderTarget(null); r.setClearColor(M.cena.background); r.clear(); r.render(M.cena, M.camera); M.ctx.setTransform(1, 0, 0, 1, 0, 0); M.ctx.drawImage(M.canvasGL, 0, 0); M.ultimoQuadro = { t, clima: clima.nome, acao, linha: est.indice, legendas: [] }; return M.ultimoQuadro; }
-  r.setRenderTarget(M.rtCor); r.setClearColor(M.cena.background); r.clear(); r.render(M.cena, M.camera);
-  // normais em meia resolução (vidros e sombras de contato ficam fora)
-  const escondidos = [];
-  M.cena.traverse(o => { if (o.isMesh && (o.userData.vidro || o.userData.semTraco) && o.visible) { o.visible = false; escondidos.push(o); } });
-  M.cena.overrideMaterial = M.matNormal;
-  r.setRenderTarget(M.rtNorm); r.setClearColor(0x808080); r.clear(); r.render(M.cena, M.camera);
-  M.cena.overrideMaterial = null;
-  for (const o of escondidos) o.visible = true;
-  // composição
-  const u = M.uniformes;
-  u.lente.value = clima.lente; u.vinheta.value = clima.vinheta; u.fade.value = fade; u.luz.value = luz;
+  // passes: a lente faz as duas câmeras, o G-buffer, o olho de peixe, o traço e o FXAA no canvas GL
   const cl = hexParaRgb(clima.cor_luz).map(v => v / 255); const mx = Math.max(cl[0], cl[1], cl[2], 0.01);
-  u.corLuz.value.set(cl[0] / mx, cl[1] / mx, cl[2] / mx).lerp(new THREE.Vector3(1, 1, 1), 0.5);
-  u.perto.value = M.camera.near; u.longe.value = M.camera.far;
-  r.setRenderTarget(null); r.render(M.cenaPos, M.camPos);
+  const corLuz = new THREE.Vector3(cl[0] / mx, cl[1] / mx, cl[2] / mx).lerp(new THREE.Vector3(1, 1, 1), 0.5);
+  M.lente.renderizar(M.cena, M.camera, { corLuz, vinheta: clima.vinheta, fade });
 
   // sobreposição 2D
   const ctx = M.ctx;
@@ -399,13 +299,21 @@ window.montarFolha = function montarFolha(tempos, colunas = 5, larguraMini = 216
 };
 
 window.linhaDoTempoAtual = () => M.linha;
+window.depurarLente = (modo) => M.lente.depurar(modo);
+window.perfilLente = () => { const t = M.lente.tempos; M.lente.tempos = {}; return t; };
+// Mede um quadro por etapa (só para afinar desempenho): render, sobreposição, captura.
+window.medirQuadro = function medirQuadro(t, formato = 'jpg') {
+  const a = performance.now(); window.renderizarQuadro(t); const b = performance.now();
+  const d = window.capturar(formato, 0.95); const c = performance.now();
+  return { render_ms: Math.round(b - a), captura_ms: Math.round(c - b), bytes: d.length, lente: window.perfilLente() };
+};
 
 // Sonda de depuração: o que a câmera vê em pontos da tela (nx, ny em 0..1). Devolve nomes dos objetos atingidos.
 window.sondar = function sondar(pontos) {
   const rc = new THREE.Raycaster();
   const saida = [];
   for (const [nx, ny] of pontos) {
-    rc.setFromCamera(new THREE.Vector2(nx * 2 - 1, -(ny * 2 - 1)), M.camera);
+    rc.set(M.camera.position.clone(), M.lente.direcaoDoPixel(nx, ny, M.camera));
     const visivelNaCadeia = (o) => { while (o) { if (!o.visible) return false; o = o.parent; } return true; };
     const hits = rc.intersectObjects(M.cena.children, true).filter(h => visivelNaCadeia(h.object));
     const h = hits[0];

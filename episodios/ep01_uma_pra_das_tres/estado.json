@@ -49,9 +49,17 @@
     {
       "em": "2026-11-08T17:15:45.982Z",
       "etapa": "capa"
+    },
+    {
+      "em": "2026-11-08T20:43:51.209Z",
+      "etapa": "capa"
+    },
+    {
+      "em": "2026-11-08T20:45:22.300Z",
+      "etapa": "capa"
     }
   ],
-  "atualizado_em": "2026-11-08T17:15:45.982Z",
+  "atualizado_em": "2026-11-08T20:45:22.300Z",
   "avisos_vozes": [
     "Whisper indisponível: falas não transcritas; conferir de ouvido"
   ],

@@ -15,8 +15,14 @@
     "o_que_nunca_vou_fazer": "sangue, arma apontada, tragédia real, empresa ou cidade real, farda ou brasão real, tutorial de crime, romance ou violência com menores, piada com raça, classe ou religião",
     "tom": "suspense calmo com humor seco da colega"
   },
-  "formato": { "largura": 1080, "altura": 1920, "fps": 30, "duracao_alvo_s": 100, "duracao_min_s": 65, "duracao_max_s": 130 },
-
+  "formato": {
+    "largura": 1080,
+    "altura": 1920,
+    "fps": 60,
+    "duracao_alvo_s": 100,
+    "duracao_min_s": 65,
+    "duracao_max_s": 130
+  },
   "protagonista": {
     "id": "eu",
     "nome_real": "nunca dito",
@@ -28,15 +34,34 @@
       "celular": "tela trincada no canto, bateria sempre baixa, mensagens da mãe (Dona Neusa)",
       "jeito_de_falar": "frases curtas, nervosas, muitas reticências; raramente completa uma pergunta"
     },
-    "maos": { "pele": "#7a4a28", "manga": "#a9c7e8", "detalhe": "esparadrapo branco no indicador esquerdo" },
-    "objetos": ["carimbo", "caneta", "celular", "pano", "bloco_passagens"],
-    "voz": { "nome": "Iapetus", "estilo_base": "young man in his early twenties, nervous, speaks little, short sentences, slightly shaky", "filtro": null, "status": "A CONFIRMAR no casting (capítulo 48)" },
-    "cor_legenda": "#ffffff"
+    "maos": {
+      "pele": "#7a4a28",
+      "manga": "#a9c7e8",
+      "detalhe": "esparadrapo branco no indicador esquerdo",
+      "punho": "#bdd5ee"
+    },
+    "objetos": [
+      "carimbo",
+      "caneta",
+      "celular",
+      "pano",
+      "bloco_passagens"
+    ],
+    "voz": {
+      "nome": "Iapetus",
+      "estilo_base": "young man in his early twenties, nervous, speaks little, short sentences, slightly shaky",
+      "filtro": null,
+      "status": "A CONFIRMAR no casting (capítulo 48)"
+    },
+    "cor_legenda": "#bfe0ff"
   },
-
   "elenco": [
     {
-      "id": "dalva", "nome": "Dalva", "apelido": "Dona Dalva", "idade": 56, "papel": "colega",
+      "id": "dalva",
+      "nome": "Dalva",
+      "apelido": "Dona Dalva",
+      "idade": 56,
+      "papel": "colega",
       "funcao_no_lugar": "faxineira do turno da noite há 19 anos",
       "funcao_na_historia": "nega o perigo, faz piada, representa quem ainda não acredita",
       "quer": "terminar o chão do saguão e ir embora às 5h",
@@ -44,12 +69,32 @@
       "frase_tipica": "Isso aí é o painel com mau contato.",
       "quando_para_de_brincar": "quando a lanchonete fechada acende sozinha",
       "visivel": true,
-      "visual": { "pele": "#8d5524", "cabelo": "#bdbdbd", "cabelo_estilo": "coque", "roupa_cima": "#f28c28", "roupa_baixo": "#1f4e5f", "acessorio": "colete laranja de limpeza", "altura": 1.58, "proporcao": "baixa_forte", "objeto": "rodo" },
-      "voz": { "nome": "Gacrux", "estilo_base": "woman in her mid-fifties, hoarse, fast, teasing, dry humor, from the countryside of Brazil", "filtro": null, "status": "A CONFIRMAR no casting" },
-      "cor_legenda": "#ffd166"
+      "visual": {
+        "pele": "#8d5524",
+        "cabelo": "#bdbdbd",
+        "cabelo_estilo": "coque",
+        "roupa_cima": "#f28c28",
+        "roupa_baixo": "#1f5f8a",
+        "acessorio": "colete laranja de limpeza",
+        "altura": 1.58,
+        "proporcao": "baixa_forte",
+        "objeto": "rodo",
+        "roupa_camisa": "#cfe3f0",
+        "sapato": "#3a3a3a"
+      },
+      "voz": {
+        "nome": "Gacrux",
+        "estilo_base": "woman in her mid-fifties, hoarse, fast, teasing, dry humor, from the countryside of Brazil",
+        "filtro": null,
+        "status": "A CONFIRMAR no casting"
+      },
+      "cor_legenda": "#ffb36b"
     },
     {
-      "id": "amaral", "nome": "Seu Amaral", "idade": 61, "papel": "autoridade",
+      "id": "amaral",
+      "nome": "Seu Amaral",
+      "idade": 61,
+      "papel": "autoridade",
       "funcao_no_lugar": "chefe da estação, nunca aparece de madrugada",
       "funcao_na_historia": "dá ordens curtas e estranhas pelo telefone fixo do guichê",
       "quer": "que ninguém mexa no que ele não explica",
@@ -57,114 +102,645 @@
       "frase_tipica": "Não olha pra plataforma sete, menino.",
       "visivel": false,
       "visual": null,
-      "voz": { "nome": "Algenib", "estilo_base": "man in his sixties, deep gravelly voice, tired, firm, never raises his voice", "filtro": "telefone", "status": "A CONFIRMAR no casting" },
-      "cor_legenda": "#9ad0ff"
+      "voz": {
+        "nome": "Algenib",
+        "estilo_base": "man in his sixties, deep gravelly voice, tired, firm, never raises his voice",
+        "filtro": "telefone",
+        "status": "A CONFIRMAR no casting"
+      },
+      "cor_legenda": "#cfd6e6"
     },
     {
-      "id": "alto_falante", "nome": "Alto-falante", "papel": "voz_distante",
+      "id": "alto_falante",
+      "nome": "Alto-falante",
+      "papel": "voz_distante",
       "funcao_no_lugar": "sistema de som da rodoviária, com voz gravada",
       "funcao_na_historia": "anuncia partidas, inclusive a que não existe",
       "frase_tipica": "Partida com destino a... plataforma sete.",
       "visivel": false,
       "visual": null,
-      "voz": { "nome": "Erinome", "estilo_base": "female announcer voice, flat, cold, no emotion, slow and clear, like an old recorded public address system", "filtro": "alto_falante", "status": "A CONFIRMAR no casting" },
-      "cor_legenda": "#c9c9c9"
+      "voz": {
+        "nome": "Erinome",
+        "estilo_base": "female announcer voice, flat, cold, no emotion, slow and clear, like an old recorded public address system",
+        "filtro": "alto_falante",
+        "status": "A CONFIRMAR no casting"
+      },
+      "cor_legenda": "#e6e6e6"
     },
     {
-      "id": "passageiro", "nome": "Passageiro do Casaco", "idade": 65, "papel": "ameaca_calma",
+      "id": "passageiro",
+      "nome": "Passageiro do Casaco",
+      "idade": 65,
+      "papel": "ameaca_calma",
       "funcao_no_lugar": "chega todo dia às 2h55 com uma mala pequena",
       "funcao_na_historia": "pede baixinho a passagem proibida; nunca levanta a voz",
       "quer": "uma passagem para o das três",
       "esconde": "A DECIDIR (a bíblia guarda isso fechado até o bloco 3)",
       "frase_tipica": "Uma pra das três, por favor.",
       "visivel": true,
-      "visual": { "pele": "#c68642", "cabelo": "#3a3a3a", "cabelo_estilo": "curto_penteado", "roupa_cima": "#8a8f99", "roupa_baixo": "#4a4f58", "acessorio": "casaco cinza comprido e mala marrom pequena", "altura": 1.75, "proporcao": "magro_alto", "objeto": "mala" },
-      "voz": { "nome": "Schedar", "estilo_base": "elderly man, polite and strangely calm, soft voice, slow, unhurried, almost smiling", "filtro": null, "status": "A CONFIRMAR no casting" },
-      "cor_legenda": "#f4a7a7"
+      "visual": {
+        "pele": "#c68642",
+        "cabelo": "#4a4a4a",
+        "cabelo_estilo": "curto_penteado",
+        "roupa_cima": "#8a8f99",
+        "roupa_baixo": "#4a4f58",
+        "acessorio": "casaco cinza comprido e mala marrom pequena",
+        "altura": 1.75,
+        "proporcao": "magro_alto",
+        "objeto": "mala",
+        "oculos": true
+      },
+      "voz": {
+        "nome": "Schedar",
+        "estilo_base": "elderly man, polite and strangely calm, soft voice, slow, unhurried, almost smiling",
+        "filtro": null,
+        "status": "A CONFIRMAR no casting"
+      },
+      "cor_legenda": "#d9c7ff"
     },
     {
-      "id": "neusa", "nome": "Dona Neusa (mãe)", "papel": "quem_voce_ama",
+      "id": "neusa",
+      "nome": "Dona Neusa (mãe)",
+      "papel": "quem_voce_ama",
       "funcao_na_historia": "aparece só por mensagem no celular; traz o dilema pessoal",
       "frase_tipica": "Filho, cê tá bem? Sonhei contigo num ônibus.",
-      "visivel": false, "visual": null, "voz": null, "cor_legenda": "#ffffff"
+      "visivel": false,
+      "visual": null,
+      "voz": null,
+      "cor_legenda": "#ffffff"
     }
   ],
-
   "cenarios": [
     {
       "id": "saguao",
       "nome": "Guichê 3 e saguão da rodoviária de Boa Vista do Sul, madrugada",
-      "descricao": "Câmera sentada dentro do guichê, olhando para o saguão através do vidro com furinhos. Balcão com carimbo, bloco de passagens, telefone fixo e bilhete amarelo colado no vidro. Saguão: bancos de plástico azul-petróleo, painel de partidas em LED âmbar sobre a porta da plataforma, lanchonete fechada com grade à esquerda, mural de avisos à direita, relógio redondo, ventilador de teto, alto-falante.",
-      "camera_inicial": { "pos": [0, 1.25, 0], "olhar": "maos" },
+      "descricao": "Câmera sentada dentro do guichê (olhos a 1,48 m, 43 cm acima do balcão), olhando para o saguão através do vidro com furinhos. Balcão com carimbo, bloco de passagens, telefone fixo e bilhete amarelo colado no vidro. Saguão: bancos de plástico azul-petróleo, painel de partidas em LED âmbar sobre a porta da plataforma, lanchonete fechada com grade à esquerda, mural de avisos à direita, relógio redondo, ventilador de teto, alto-falante.",
+      "camera_inicial": {
+        "pos": [
+          0,
+          1.48,
+          0
+        ],
+        "olhar": "maos"
+      },
       "marcas": {
-        "guiche_frente": [0, 0, -1.6],
-        "banco_1": [-1.2, 0, -4.5],
-        "banco_2": [1.4, 0, -6.5],
-        "dalva_limpando": [-2.6, 0, -5.2],
-        "dalva_perto": [-1.1, 0, -2.2],
-        "porta_plataforma": [0, 0, -11.4],
-        "lanchonete": [-5.2, 0, -7.5],
-        "corredor_esq": [-3.5, 0, -9.5],
-        "corredor_dir": [3.5, 0, -9.5],
-        "plataforma_7": [0, 0, -15.5]
+        "guiche_frente": [
+          0,
+          0,
+          -1.6
+        ],
+        "banco_1": [
+          -1.2,
+          0,
+          -4.5
+        ],
+        "banco_2": [
+          1.4,
+          0,
+          -6.5
+        ],
+        "dalva_limpando": [
+          -2.6,
+          0,
+          -5.2
+        ],
+        "dalva_perto": [
+          -1.1,
+          0,
+          -2.2
+        ],
+        "porta_plataforma": [
+          0,
+          0,
+          -11.4
+        ],
+        "lanchonete": [
+          -5.2,
+          0,
+          -7.5
+        ],
+        "corredor_esq": [
+          -3.5,
+          0,
+          -9.5
+        ],
+        "corredor_dir": [
+          3.5,
+          0,
+          -9.5
+        ],
+        "plataforma_7": [
+          0,
+          0,
+          -15.5
+        ]
       },
       "props": [
-        { "id": "sala", "tipo": "sala", "tamanho": [12, 4.2, 13], "centro": [0, 0, -6.5], "cor_piso": "#9d9480", "cor_parede": "#efe3c2", "cor_teto": "#d8d0b8", "piso_padrao": "ladrilho" },
-        { "id": "guiche", "tipo": "guiche", "pos": [0, 0, -0.55], "largura": 2.2, "altura_balcao": 1.05, "cor_balcao": "#6b4a2b", "cor_vidro": "#bcd8e6", "furos": true, "fenda": true },
-        { "id": "bilhete", "tipo": "bilhete", "pos": [0.55, 1.45, -0.62], "cor": "#ffe066", "texto": ["NUNCA VENDA", "PASSAGEM PRA", "O DAS 3H"], "manuscrito": true },
-        { "id": "telefone", "tipo": "telefone_fixo", "pos": [0.75, 1.06, -0.35], "cor": "#1f4e5f", "estado": "parado" },
-        { "id": "bloco_passagens", "tipo": "bloco_passagens", "pos": [-0.35, 1.06, -0.3], "cor": "#ffe066" },
-        { "id": "caneca", "tipo": "caneca", "pos": [-0.8, 1.06, -0.4], "cor": "#d9772b" },
-        { "id": "luz_guiche", "tipo": "lampada", "pos": [0, 2.4, -0.4], "tipo_luz": "fluorescente", "estado": "normal" },
-        { "id": "placa_guiche", "tipo": "placa", "pos": [0, 2.15, -0.66], "tamanho": [1.2, 0.3], "cor": "#1f4e5f", "cor_texto": "#efe3c2", "texto": ["GUICHÊ 3"] },
-        { "id": "placa_empresa", "tipo": "placa", "pos": [0, 3.3, -12.4], "tamanho": [4.5, 0.6], "cor": "#1f4e5f", "cor_texto": "#ffe066", "texto": ["VIAÇÃO SERRA AZUL"] },
-        { "id": "painel", "tipo": "painel", "pos": [0, 2.7, -12.35], "tamanho": [3.6, 1.1], "cor": "#141414", "cor_led": "#ffb000", "estado": "normal", "texto": ["23:40  CAPÃO ALTO     PLAT 2", "00:15  SÃO JERÔNIMO   PLAT 1", "04:30  BOA VISTA      PLAT 3"] },
-        { "id": "porta", "tipo": "porta", "pos": [0, 0, -12.4], "tamanho": [1.9, 2.4], "cor": "#1f4e5f", "estado": "fechada", "vidro": true },
-        { "id": "relogio", "tipo": "relogio", "pos": [3.2, 3.1, -12.35], "raio": 0.35, "hora": "02:40" },
-        { "id": "bancos_a", "tipo": "bancos", "pos": [-1.5, 0, -4.5], "fileiras": 1, "assentos": 4, "cor": "#1f4e5f" },
-        { "id": "bancos_b", "tipo": "bancos", "pos": [1.6, 0, -6.5], "fileiras": 1, "assentos": 4, "cor": "#1f4e5f" },
-        { "id": "bancos_c", "tipo": "bancos", "pos": [-1.5, 0, -8.5], "fileiras": 1, "assentos": 4, "cor": "#1f4e5f" },
-        { "id": "lanchonete", "tipo": "lanchonete", "pos": [-5.9, 0, -7.5], "rot": [0, 1.5708, 0], "tamanho": [3.2, 2.6], "cor": "#d9772b", "texto": ["LANCHES · CAFÉ"], "estado": "fechada" },
-        { "id": "mural", "tipo": "mural", "pos": [5.95, 1.6, -6.0], "rot": [0, -1.5708, 0], "tamanho": [2.0, 1.3], "cor": "#6b4a2b", "papeis": 7 },
-        { "id": "alto_falante_prop", "tipo": "alto_falante", "pos": [2.0, 3.9, -6.0], "cor": "#777" },
-        { "id": "ventilador", "tipo": "ventilador_teto", "pos": [0, 4.0, -6.5], "cor": "#d8d0b8", "estado": "girando" },
-        { "id": "luz_saguao", "tipo": "lampada", "pos": [0, 4.1, -6.5], "tipo_luz": "fluorescente", "quantidade": 3, "estado": "normal" },
-        { "id": "bebedouro", "tipo": "bebedouro", "pos": [5.5, 0, -10.5], "cor": "#bcd8e6" },
-        { "id": "lixeira", "tipo": "lixeira", "pos": [-4.8, 0, -10.8], "cor": "#1f4e5f" },
-        { "id": "planta", "tipo": "planta", "pos": [4.9, 0, -11.9], "cor": "#4f7a3a" },
-        { "id": "extintor", "tipo": "extintor", "pos": [5.9, 1.0, -3.0], "rot": [0, -1.5708, 0], "cor": "#b3261e" },
-        { "id": "onibus", "tipo": "onibus", "pos": [0.6, 0, -16.5], "rot": [0, 0.15, 0], "cor": "#8a8f99", "cor_detalhe": "#1f4e5f", "estado": "ausente", "texto": ["03:00"] },
-        { "id": "exterior", "tipo": "exterior", "pos": [0, 0, -16], "cor_chao": "#3b3a36", "cor_ceu": "#0b1420", "postes": 2 }
+        {
+          "id": "sala",
+          "tipo": "sala",
+          "tamanho": [
+            12,
+            4.2,
+            13
+          ],
+          "centro": [
+            0,
+            0,
+            -6.5
+          ],
+          "cor_piso": "#d9d4c9",
+          "cor_parede": "#f1e9d6",
+          "cor_teto": "#f4f1ea",
+          "piso_padrao": "ladrilho",
+          "cor_rejunte": "#7a756a",
+          "cor_faixa": "#2a7fb0",
+          "altura_faixa": 1.1,
+          "cor_rodape": "#6b6358"
+        },
+        {
+          "id": "guiche",
+          "tipo": "guiche",
+          "pos": [
+            0,
+            0,
+            -0.55
+          ],
+          "largura": 2.2,
+          "altura_balcao": 1.05,
+          "cor_balcao": "#8c5a2e",
+          "cor_vidro": "#bcd8e6",
+          "furos": true,
+          "fenda": true
+        },
+        {
+          "id": "bilhete",
+          "tipo": "bilhete",
+          "pos": [
+            0.55,
+            1.45,
+            -0.62
+          ],
+          "cor": "#ffe066",
+          "texto": [
+            "NUNCA VENDA",
+            "PASSAGEM PRA",
+            "O DAS 3H"
+          ],
+          "manuscrito": true
+        },
+        {
+          "id": "telefone",
+          "tipo": "telefone_fixo",
+          "pos": [
+            0.75,
+            1.06,
+            -0.35
+          ],
+          "cor": "#1f4e5f",
+          "estado": "parado"
+        },
+        {
+          "id": "bloco_passagens",
+          "tipo": "bloco_passagens",
+          "pos": [
+            -0.35,
+            1.06,
+            -0.3
+          ],
+          "cor": "#ffe066"
+        },
+        {
+          "id": "caneca",
+          "tipo": "caneca",
+          "pos": [
+            -0.8,
+            1.06,
+            -0.4
+          ],
+          "cor": "#d9772b"
+        },
+        {
+          "id": "luz_guiche",
+          "tipo": "lampada",
+          "pos": [
+            0,
+            2.4,
+            -0.4
+          ],
+          "tipo_luz": "fluorescente",
+          "estado": "normal"
+        },
+        {
+          "id": "placa_guiche",
+          "tipo": "placa",
+          "pos": [
+            0,
+            2.15,
+            -0.66
+          ],
+          "tamanho": [
+            1.2,
+            0.3
+          ],
+          "cor": "#1f5f8a",
+          "cor_texto": "#ffffff",
+          "texto": [
+            "GUICHÊ 3"
+          ]
+        },
+        {
+          "id": "placa_empresa",
+          "tipo": "placa",
+          "pos": [
+            0,
+            3.62,
+            -12.4
+          ],
+          "tamanho": [
+            4.2,
+            0.55
+          ],
+          "cor": "#1f5f8a",
+          "cor_texto": "#ffe066",
+          "texto": [
+            "VIAÇÃO SERRA AZUL"
+          ]
+        },
+        {
+          "id": "painel",
+          "tipo": "painel",
+          "pos": [
+            0,
+            2.7,
+            -12.35
+          ],
+          "tamanho": [
+            3.6,
+            1.1
+          ],
+          "cor": "#141414",
+          "cor_led": "#ffb000",
+          "estado": "normal",
+          "texto": [
+            "23:40  CAPÃO ALTO     PLAT 2",
+            "00:15  SÃO JERÔNIMO   PLAT 1",
+            "04:30  BOA VISTA      PLAT 3"
+          ]
+        },
+        {
+          "id": "porta",
+          "tipo": "porta",
+          "pos": [
+            0,
+            0,
+            -12.4
+          ],
+          "tamanho": [
+            1.9,
+            2.4
+          ],
+          "cor": "#2a7fb0",
+          "estado": "fechada",
+          "vidro": true
+        },
+        {
+          "id": "relogio",
+          "tipo": "relogio",
+          "pos": [
+            3.2,
+            3.1,
+            -12.35
+          ],
+          "raio": 0.35,
+          "hora": "02:40"
+        },
+        {
+          "id": "bancos_a",
+          "tipo": "bancos",
+          "pos": [
+            -1.5,
+            0,
+            -4.5
+          ],
+          "fileiras": 1,
+          "assentos": 4,
+          "cor": "#2a7fb0"
+        },
+        {
+          "id": "bancos_b",
+          "tipo": "bancos",
+          "pos": [
+            1.6,
+            0,
+            -6.5
+          ],
+          "fileiras": 1,
+          "assentos": 4,
+          "cor": "#2a7fb0"
+        },
+        {
+          "id": "bancos_c",
+          "tipo": "bancos",
+          "pos": [
+            -1.5,
+            0,
+            -8.5
+          ],
+          "fileiras": 1,
+          "assentos": 4,
+          "cor": "#2a7fb0"
+        },
+        {
+          "id": "lanchonete",
+          "tipo": "lanchonete",
+          "pos": [
+            -5.9,
+            0,
+            -7.5
+          ],
+          "rot": [
+            0,
+            1.5708,
+            0
+          ],
+          "tamanho": [
+            3.2,
+            2.6
+          ],
+          "cor": "#e07b2a",
+          "texto": [
+            "LANCHES · CAFÉ"
+          ],
+          "estado": "fechada"
+        },
+        {
+          "id": "mural",
+          "tipo": "mural",
+          "pos": [
+            5.95,
+            1.6,
+            -6.0
+          ],
+          "rot": [
+            0,
+            -1.5708,
+            0
+          ],
+          "tamanho": [
+            2.0,
+            1.3
+          ],
+          "cor": "#6b4a2b",
+          "papeis": 7
+        },
+        {
+          "id": "alto_falante_prop",
+          "tipo": "alto_falante",
+          "pos": [
+            2.0,
+            3.9,
+            -6.0
+          ],
+          "cor": "#777"
+        },
+        {
+          "id": "ventilador",
+          "tipo": "ventilador_teto",
+          "pos": [
+            0,
+            4.0,
+            -6.5
+          ],
+          "cor": "#d8d0b8",
+          "estado": "girando"
+        },
+        {
+          "id": "luz_saguao",
+          "tipo": "lampada",
+          "pos": [
+            0,
+            4.1,
+            -6.5
+          ],
+          "tipo_luz": "fluorescente",
+          "quantidade": 3,
+          "estado": "normal"
+        },
+        {
+          "id": "bebedouro",
+          "tipo": "bebedouro",
+          "pos": [
+            5.5,
+            0,
+            -10.5
+          ],
+          "cor": "#bcd8e6"
+        },
+        {
+          "id": "lixeira",
+          "tipo": "lixeira",
+          "pos": [
+            -4.8,
+            0,
+            -10.8
+          ],
+          "cor": "#2a7fb0"
+        },
+        {
+          "id": "planta",
+          "tipo": "planta",
+          "pos": [
+            4.9,
+            0,
+            -11.9
+          ],
+          "cor": "#4f7a3a"
+        },
+        {
+          "id": "extintor",
+          "tipo": "extintor",
+          "pos": [
+            5.9,
+            1.0,
+            -3.0
+          ],
+          "rot": [
+            0,
+            -1.5708,
+            0
+          ],
+          "cor": "#b3261e"
+        },
+        {
+          "id": "onibus",
+          "tipo": "onibus",
+          "pos": [
+            0.6,
+            0,
+            -16.5
+          ],
+          "rot": [
+            0,
+            0.15,
+            0
+          ],
+          "cor": "#8a8f99",
+          "cor_detalhe": "#1f4e5f",
+          "estado": "ausente",
+          "texto": [
+            "03:00"
+          ]
+        },
+        {
+          "id": "exterior",
+          "tipo": "exterior",
+          "pos": [
+            0,
+            0,
+            -16
+          ],
+          "cor_chao": "#3b3a36",
+          "cor_ceu": "#0b1420",
+          "postes": 2
+        }
       ],
-      "detalhes_vida": ["copo de café amassado no balcão", "mancha de óleo perto da porta", "cadeira de plástico com perna torta", "fita adesiva segurando aviso no vidro", "chiclete grudado embaixo do banco", "guarda-chuva esquecido no banco", "sacola de pão na lanchonete", "pôster rasgado de festa junina no mural"]
+      "detalhes_vida": [
+        "copo de café amassado no balcão",
+        "mancha de óleo perto da porta",
+        "cadeira de plástico com perna torta",
+        "fita adesiva segurando aviso no vidro",
+        "chiclete grudado embaixo do banco",
+        "guarda-chuva esquecido no banco",
+        "sacola de pão na lanchonete",
+        "pôster rasgado de festa junina no mural"
+      ]
     }
   ],
-
   "estilo": {
-    "nome": "Cartaz de rodoviária",
-    "referencias_fora_do_tiktok": ["lettering pintado à mão de para-brisa de ônibus do interior", "livro didático brasileiro dos anos 80 (cores chapadas, retícula, papel amarelado)"],
-    "em_uma_frase": "parece um cartaz de rodoviária impresso em papel kraft, com linha grossa e três cores",
+    "nome": "Desenho olho-de-peixe (estilo da referência aprovada pelo dono)",
+    "referencias_fora_do_tiktok": [
+      "desenho animado 3D de traço preto grosso e cores chapadas",
+      "lente olho-de-peixe de câmera de ação"
+    ],
+    "em_uma_frase": "desenho 3D de traço preto grosso, cores vivas e chapadas, visto por uma lente olho-de-peixe, com legendas arredondadas na cor de quem fala",
     "semente": 7,
-    "traco": { "espessura": 0.014, "cor": "#101820", "acabamento": "uniforme" },
-    "cores": { "c1": "#1f4e5f", "c2": "#efe3c2", "c3": "#d9772b", "alerta": "#ffb000", "alerta_forte": "#b3261e", "pele_padrao": "#8d5524" },
-    "sombra": { "degraus": 2, "intensidade": 0.55 },
-    "lente": { "rotina": 0.28, "sinal": 0.32, "escalada": 0.4, "climax": 0.55, "pergunta": 0.55 },
-    "textura": "papel",
-    "intensidade_textura": 0.18,
-    "bonecos": { "cabeca": 1.35, "corpo": 0.85, "nariz": false, "olhos": "grandes_brancos", "rosto": "oval_comprido" },
-    "legenda": { "fonte": "Anton", "tamanho": 66, "contorno": "#0b0b0b", "espessura_contorno": 11, "y_centro": 0.62, "largura_max": 0.76, "cores_por_personagem": { "eu": "#ffffff", "dalva": "#ffd166", "amaral": "#9ad0ff", "alto_falante": "#c9c9c9", "passageiro": "#f4a7a7" } },
-    "celular": { "cor": "#1a1a1a", "tela": "#e9eef2", "trincado": true, "app_mensagens_nome": "Zap da Família (inventado)", "cor_app": "#2f7d5a" },
-    "climas": {
-      "rotina":   { "luz": 1.0,  "cor_luz": "#fff4d6", "painel": "normal",       "vinheta": 0.15, "tremor": 0.0 },
-      "sinal":    { "luz": 0.92, "cor_luz": "#fff0c8", "painel": "alerta",       "vinheta": 0.22, "tremor": 0.05 },
-      "escalada": { "luz": 0.7,  "cor_luz": "#f7e2b0", "painel": "alerta_forte", "vinheta": 0.35, "tremor": 0.15 },
-      "climax":   { "luz": 0.35, "cor_luz": "#e8c48a", "painel": "alerta_forte", "vinheta": 0.55, "tremor": 0.35 },
-      "pergunta": { "luz": 0.05, "cor_luz": "#000000", "painel": "apagado",      "vinheta": 0.9,  "tremor": 0.0 }
+    "traco": {
+      "espessura_px": 6,
+      "espessura_min_px": 2.2,
+      "cor": "#1a1410",
+      "limiar_distancia": 0.035,
+      "limiar_normal": 0.22,
+      "distancia_referencia_m": 1.0
     },
-    "cor_que_conta_a_historia": "o âmbar do painel: âmbar = normal, vermelho-tijolo = o das 3h apareceu",
-    "o_que_nunca_pode_aparecer": ["sangue", "arma", "rosto do protagonista", "logotipo real", "brasão ou farda real", "marca real"]
+    "cores": {
+      "c1": "#1f5f8a",
+      "c2": "#f3ead8",
+      "c3": "#e07b2a",
+      "alerta": "#ffb000",
+      "alerta_forte": "#c0392b",
+      "pele_padrao": "#8d5524"
+    },
+    "sombra": {
+      "degraus": 3,
+      "intensidade": 0.3
+    },
+    "lente": {
+      "fov_vertical": 115,
+      "anamorfico": 1.2,
+      "aproximar_fov": 65,
+      "tamanho_face": 1536,
+      "msaa": 0
+    },
+    "textura": "papel",
+    "intensidade_textura": 0.06,
+    "bonecos": {
+      "cabeca": 1.0,
+      "corpo": 1.0,
+      "nariz": true,
+      "olhos": "grandes_brancos",
+      "rosto": "redondo"
+    },
+    "legenda": {
+      "fonte": "Baloo 2",
+      "peso": 800,
+      "tamanho": 58,
+      "contorno": "#1a1410",
+      "espessura_contorno": 9,
+      "sombra": true,
+      "y_centro": 0.62,
+      "largura_max": 0.78,
+      "cores_por_personagem": {
+        "eu": "#bfe0ff",
+        "dalva": "#ffb36b",
+        "amaral": "#cfd6e6",
+        "alto_falante": "#e6e6e6",
+        "passageiro": "#d9c7ff",
+        "neusa": "#ffffff"
+      }
+    },
+    "celular": {
+      "cor": "#1a1a1a",
+      "tela": "#e9eef2",
+      "trincado": true,
+      "app_mensagens_nome": "Zap da Família (inventado)",
+      "cor_app": "#2f7d5a"
+    },
+    "climas": {
+      "rotina": {
+        "luz": 1.0,
+        "cor_luz": "#fff4d6",
+        "painel": "normal",
+        "vinheta": 0.08,
+        "tremor": 0.0
+      },
+      "sinal": {
+        "luz": 0.92,
+        "cor_luz": "#fff0c8",
+        "painel": "alerta",
+        "vinheta": 0.12,
+        "tremor": 0.05
+      },
+      "escalada": {
+        "luz": 0.7,
+        "cor_luz": "#f7e2b0",
+        "painel": "alerta_forte",
+        "vinheta": 0.22,
+        "tremor": 0.15
+      },
+      "climax": {
+        "luz": 0.35,
+        "cor_luz": "#e8c48a",
+        "painel": "alerta_forte",
+        "vinheta": 0.4,
+        "tremor": 0.35
+      },
+      "pergunta": {
+        "luz": 0.05,
+        "cor_luz": "#000000",
+        "painel": "apagado",
+        "vinheta": 0.9,
+        "tremor": 0.0
+      }
+    },
+    "cor_que_conta_a_historia": "o âmbar do painel: âmbar = normal, vermelho = o das 3h apareceu",
+    "o_que_nunca_pode_aparecer": [
+      "sangue",
+      "arma",
+      "rosto do protagonista",
+      "logotipo real",
+      "brasão ou farda real",
+      "marca real"
+    ],
+    "antialias": "nenhum",
+    "selo": {
+      "cor": "#c0392b",
+      "cor_texto": "#ffffff",
+      "tamanho": 56,
+      "y": 0.08,
+      "duracao_s": null
+    }
   },
-
   "vozes": {
     "provedor": "gemini",
     "modelo": "gemini-2.5-flash-preview-tts",
@@ -172,34 +748,77 @@
     "taxa_amostragem": 24000,
     "palavras_por_segundo_estimadas": 2.5
   },
-
   "roteiro": {
     "modelo_ia": "claude-opus-5-5",
-    "falas_min": 10, "falas_max": 22,
+    "falas_min": 10,
+    "falas_max": 22,
     "sinal_ate_s": 7,
     "mudanca_a_cada_s": 10,
     "lugares_max": 2,
-    "temas_proibidos": ["tragédia real", "ataque em escola", "doença e remédios", "tutorial de golpe ou crime", "polícia ou exército reais", "política", "religião", "suicídio e automutilação", "sexualização ou violência com menores", "estereótipo de raça, classe ou religião", "sangue", "arma apontada"]
+    "temas_proibidos": [
+      "tragédia real",
+      "ataque em escola",
+      "doença e remédios",
+      "tutorial de golpe ou crime",
+      "polícia ou exército reais",
+      "política",
+      "religião",
+      "suicídio e automutilação",
+      "sexualização ou violência com menores",
+      "estereótipo de raça, classe ou religião",
+      "sangue",
+      "arma apontada"
+    ]
   },
-
   "plataformas": {
-    "tiktok":    { "ativo": true,  "privacidade": "PUBLIC_TO_EVERYONE", "comentarios": true, "dueto": false, "stitch": false, "etiqueta_ia": true },
-    "instagram": { "ativo": true,  "tipo": "REELS", "compartilhar_no_feed": true },
-    "facebook":  { "ativo": true,  "tipo": "REELS" },
-    "youtube":   { "ativo": true,  "privacidade": "public", "categoria": "24", "shorts": true, "conteudo_alterado_ou_sintetico": true, "feito_para_criancas": false },
-    "kwai":      { "ativo": true,  "modo": "navegador", "observacao": "Kwai não tem API pública de publicação; o adaptador usa o navegador com a sua própria sessão ou deixa o pacote pronto na fila manual." }
+    "tiktok": {
+      "ativo": true,
+      "privacidade": "PUBLIC_TO_EVERYONE",
+      "comentarios": true,
+      "dueto": false,
+      "stitch": false,
+      "etiqueta_ia": true
+    },
+    "instagram": {
+      "ativo": true,
+      "tipo": "REELS",
+      "compartilhar_no_feed": true
+    },
+    "facebook": {
+      "ativo": true,
+      "tipo": "REELS"
+    },
+    "youtube": {
+      "ativo": true,
+      "privacidade": "public",
+      "categoria": "24",
+      "shorts": true,
+      "conteudo_alterado_ou_sintetico": true,
+      "feito_para_criancas": false
+    },
+    "kwai": {
+      "ativo": true,
+      "modo": "navegador",
+      "observacao": "Kwai não tem API pública de publicação; o adaptador usa o navegador com a sua própria sessão ou deixa o pacote pronto na fila manual."
+    }
   },
-
   "publicacao": {
     "fuso": "America/Sao_Paulo",
     "hora_local": "18:30",
-    "hashtags_base": ["pov", "historia", "suspense"],
+    "hashtags_base": [
+      "pov",
+      "historia",
+      "suspense"
+    ],
     "hashtags_max": 4,
     "exigir_aprovacao_humana": false,
     "etiqueta_ia": true,
     "episodios_adiantados": 1,
     "um_por_dia": true
   },
-
-  "hospedagem": { "provedor": "supabase", "bucket": "videos", "pasta": "guiche3" }
+  "hospedagem": {
+    "provedor": "supabase",
+    "bucket": "videos",
+    "pasta": "guiche3"
+  }
 }

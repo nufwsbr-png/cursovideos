@@ -18,7 +18,7 @@ Tudo o que ela decide fica registrado no **cérebro** (`CLAUDE.md` + `memoria/`)
 | 3 | Vozes | Gemini TTS, uma fala por arquivo, mesmo elenco de vozes sempre, estilo com sotaque brasileiro | cap. 46–49 |
 | 4 | Conferir | Mede duração, volume, início/fim; transcreve com Whisper e compara (alerta, não prova); refaz só o que deu errado | cap. 50 |
 | 5 | Tempo | A voz manda: linha do tempo pelas durações medidas | cap. 62 |
-| 6 | Render | three.js determinístico: stills → folha → revisor automático → MP4 mudo 1080×1920 30 fps | cap. 56–61, 65 |
+| 6 | Render | three.js determinístico: stills → folha → revisor automático → MP4 mudo 1080×1920 60 fps | cap. 56–61, 65 |
 | 7 | Som | Ambiente, efeitos e tensão sintetizados do zero; mixagem com ducking; −16 LUFS, pico < −1 dB | cap. 64 |
 | 8 | Prova | Formato, duração, LUFS, pico, banda de voz, transcrição do vídeo pronto, folha, lista do revisor | cap. 66 |
 | 9 | Capa e textos | 3 capas com área segura (texto entre 240 e 1680 px), gancho ≤ 5 palavras, textos por plataforma | cap. 70–71 |
@@ -67,7 +67,8 @@ npm run testes                                               # testes automatiza
 - **GitHub Actions** (recomendado: não depende do seu computador ligado): `.github/workflows/fabrica-diaria.yml`
   roda todo dia (cron) ou à mão (*Run workflow*). Cadastre as chaves em *Settings → Secrets and variables → Actions*
   com os mesmos nomes do `.env.example`. O vídeo do dia fica como artefato e a memória é salva no repositório.
-  Render em CPU demora (sem placa de vídeo): conte 1 a 2 horas por episódio.
+  Render em CPU demora (sem placa de vídeo): a 60 fps, conte 2 a 3 horas por episódio (≈ 1 s por quadro); com placa de vídeo (`MOTOR_GPU=1`), minutos.
+  Para olhar rápido, use `--escala 0.5` ou troque `formato.fps` para 30 no `canal/canal.json`.
 - **Windows**: `powershell -ExecutionPolicy Bypass -File scripts\agendar-windows.ps1 -Hora 17:30`
 - **Linux/Mac**: `bash scripts/agendar-linux.sh 17:30`
 
@@ -100,3 +101,4 @@ scripts/, .github/         agendamento
 - Kwai não tem API pública de publicação: modo `fila_manual` (pacote pronto em `fila_manual/kwai/`) ou `navegador` (sessão própria, só na sua máquina; leia os termos do Kwai).
 - Sem `GEMINI_API_KEY` a fábrica usa **voz falsa** para testar e **bloqueia a publicação**.
 - O render aqui foi medido em CPU (SwiftShader). Com placa de vídeo use `MOTOR_GPU=1`.
+- O visual (lente olho-de-peixe, traço, bonecos, legendas) segue a referência aprovada pelo dono; os controles estão em `canal/canal.json → estilo` e explicados em `motor/README.md`.

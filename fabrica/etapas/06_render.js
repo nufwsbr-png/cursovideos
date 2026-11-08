@@ -44,7 +44,7 @@ export async function etapaRender({ canal, ep, escala = 1, semVideo = false, sem
     if (inicio !== null) args.push("--inicio", String(inicio));
     if (fim !== null) args.push("--fim", String(fim));
     if (rapido) args.push("--formato", "jpg");
-    log.info("gerando o vídeo mudo (pode demorar: 30 quadros por segundo de vídeo)...");
+    log.info(`gerando o vídeo mudo (pode demorar: ${canal.formato?.fps ?? 60} quadros por segundo de vídeo)...`);
     await executar("node", args);
     const render = lerJson(path.join(ep.dir, "render.json"), {});
     const minutos = ((Date.now() - t0) / 60000).toFixed(1);

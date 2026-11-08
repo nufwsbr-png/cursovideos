@@ -102,7 +102,8 @@ async function main() {
   const amostras = [];
   const saida = { escala, previa: !linha, medidas_sinteticas: !medidas, comandos: [] };
   try {
-    const info = await carregarMotor(pagina, servidor.url, canal, roteiro, linha, medidas, { escala });
+    const opcoesMotor = { escala, semFxaa: process.env.MOTOR_SEM_FXAA === '1', tamanhoFace: process.env.MOTOR_FACE ? Number(process.env.MOTOR_FACE) : null, perfil: process.env.MOTOR_PERFIL === '1' };
+    const info = await carregarMotor(pagina, servidor.url, canal, roteiro, linha, medidas, opcoesMotor);
     saida.gpu = info.gpu; saida.avisos = info.avisos; saida.duracao_total_s = info.duracao_total_s; saida.fps = info.fps; saida.variacao = info.variacao;
     log('GPU/WebGL:', info.gpu); log('duração:', info.duracao_total_s, 's', info.previa ? '(prévia)' : '');
     if (info.avisos?.length) log('avisos:', info.avisos.join(' | '));
@@ -110,6 +111,7 @@ async function main() {
     const dur = info.duracao_total_s;
     if (!linha) fs.writeFileSync(path.join(pastaEp, 'linha_do_tempo_previa.json'), JSON.stringify(info.linha, null, 2));
 
+    if (process.env.MOTOR_DEPURAR) await pagina.evaluate((m) => window.depurarLente(m), process.env.MOTOR_DEPURAR);
     if (args.stills) {
       const tempos = String(args.stills).split(',').map(Number).filter(n => !Number.isNaN(n));
       const pasta = path.join(pastaEp, 'stills');
@@ -164,7 +166,7 @@ async function main() {
       const total = Math.round((fim - ini) * fps);
       const fmt = formato || 'jpg';
       log(`vídeo: ${total} quadros (${ini}s → ${fim}s) a ${fps} fps → ${path.relative(RAIZ, arq)}`);
-      const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-vcodec', fmt === 'png' ? 'png' : 'mjpeg', '-framerate', String(fps), '-i', '-', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '18', '-preset', 'medium', '-movflags', '+faststart', arq], { stdio: ['pipe', 'inherit', 'inherit'] });
+      const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-vcodec', fmt === 'png' ? 'png' : 'mjpeg', '-framerate', String(fps), '-i', '-', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '18', '-preset', process.env.MOTOR_X264_PRESET || 'faster', '-threads', process.env.MOTOR_X264_THREADS || '2', '-movflags', '+faststart', arq], { stdio: ['pipe', 'inherit', 'inherit'] });
       const fimFf = new Promise((res, rej) => { ff.on('close', (c) => c === 0 ? res() : rej(new Error('ffmpeg saiu com código ' + c))); ff.on('error', rej); });
       const t1 = Date.now();
       const LOTE = 10;
@@ -183,6 +185,7 @@ async function main() {
           log(`quadro ${feitos}/${total} · ${(dt / feitos).toFixed(2)} s/quadro · faltam ~${((total - feitos) * dt / feitos / 60).toFixed(1)} min`);
         }
       }
+      if (process.env.MOTOR_PERFIL === '1') { const perfil = await pagina.evaluate(() => window.perfilLente()); log('perfil (ms somados):', JSON.stringify(Object.fromEntries(Object.entries(perfil).map(([k, v]) => [k, Math.round(v)])))); }
       ff.stdin.end();
       await fimFf;
       const dt = (Date.now() - t1) / 1000;

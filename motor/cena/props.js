@@ -1,10 +1,13 @@
 // Biblioteca de props paramétricos. Cada prop devolve { grupo, atualizar(estadoProp, t, ctxQuadro), pontoOlhar }.
 // Regras do livro: 4 lados fechados, objetos grandes nos cantos, muitos objetos pequenos, nada de marca real.
 import * as THREE from 'three';
-import { texturaTexto, texturaLadrilho, escurecer, clarear } from './estilo.js';
+import { texturaTexto, texturaLadrilho, texturaForro, texturaParede, escurecer, clarear, geoCaixaArredondada, FONTE_PLACA } from './estilo.js';
 import { mulberry32, sementeDeTexto, lerp, clamp } from './util.js';
 
 const V3 = (a) => new THREE.Vector3(a?.[0] || 0, a?.[1] || 0, a?.[2] || 0);
+// Luz pontual "falsa": guarda cor e intensidade (a história usa) sem entrar no shader. A luz do canal é chapada, como na referência;
+// o que brilha é emissivo. Cada luz pontual real custava ~10 % do tempo de cada quadro em CPU.
+function luzFalsa(cor, intensidade = 0) { const o = new THREE.Object3D(); o.intensity = intensidade; o.color = new THREE.Color(cor); return o; }
 
 function caixa(e, w, h, d, cor, opcoes) { return new THREE.Mesh(new THREE.BoxGeometry(w, h, d), e.material(cor, opcoes)); }
 function cilindro(e, r1, r2, h, cor, seg = 12) { return new THREE.Mesh(new THREE.CylinderGeometry(r1, r2, h, seg), e.material(cor)); }
@@ -46,10 +49,16 @@ const TIPOS = {
     const g = new THREE.Group();
     const corParede = def.cor_parede || '#efe3c2';
     const corPiso = def.cor_piso || '#9d9480';
-    const piso = new THREE.Mesh(new THREE.PlaneGeometry(w, d), def.piso_padrao === 'ladrilho' ? e.materialTextura(texturaLadrilho(corPiso, Math.round(w / 1.2), ctx.semente)) : e.material(corPiso));
+    const texPiso = def.piso_padrao === 'ladrilho' ? texturaLadrilho(corPiso, Math.round(w / 1.6), ctx.semente, def.cor_rejunte || null) : null;
+    if (texPiso) texPiso.repeat.set(Math.round(w / 1.6), Math.round(d / 1.6));
+    const piso = new THREE.Mesh(new THREE.PlaneGeometry(w, d), texPiso ? e.materialTextura(texPiso) : e.material(corPiso));
     piso.rotation.x = -Math.PI / 2; piso.position.set(c[0], 0, c[2]); g.add(piso);
-    const teto = new THREE.Mesh(new THREE.PlaneGeometry(w, d), e.material(def.cor_teto || '#d8d0b8'));
+    const corTeto = def.cor_teto || '#f3f0e8';
+    const texTeto = def.forro === false ? null : texturaForro(corTeto, 1, def.cor_friso || null); if (texTeto) texTeto.repeat.set(Math.round(w / 1.2), Math.round(d / 1.2));
+    const teto = new THREE.Mesh(new THREE.PlaneGeometry(w, d), texTeto ? e.materialTextura(texTeto) : e.material(corTeto));
     teto.rotation.x = Math.PI / 2; teto.position.set(c[0], h, c[2]); g.add(teto);
+    const texParede = texturaParede(corParede, ctx.semente, def.rabiscos ?? 30); const matParede = e.materialTextura(texParede);
+    const prepararParede = (m, larg) => { m.material = matParede.clone(); m.material.map = texParede.clone(); m.material.map.needsUpdate = true; m.material.map.repeat.set(Math.max(1, Math.round(larg / 4)), 1); };
     // paredes (planos virados para dentro)
     const paredes = [
       { pos: [c[0], h / 2, c[2] - d / 2], rot: [0, 0, 0], w: w, fundo: true }, // fundo
@@ -64,11 +73,11 @@ const TIPOS = {
         for (const pt of portas) {
           const [pw, ph] = pt.tamanho || [1.8, 2.4];
           const abertura = pw + 0.3, altAb = ph + 0.15;
-          const esq = new THREE.Mesh(new THREE.PlaneGeometry((pt.pos[0] - abertura / 2) - (c[0] - w / 2), h), e.material(corParede));
+          const esq = new THREE.Mesh(new THREE.PlaneGeometry((pt.pos[0] - abertura / 2) - (c[0] - w / 2), h), e.material(corParede)); prepararParede(esq, w / 2);
           esq.position.set((c[0] - w / 2 + pt.pos[0] - abertura / 2) / 2, h / 2, p.pos[2]); g.add(esq);
-          const dir = new THREE.Mesh(new THREE.PlaneGeometry((c[0] + w / 2) - (pt.pos[0] + abertura / 2), h), e.material(corParede));
+          const dir = new THREE.Mesh(new THREE.PlaneGeometry((c[0] + w / 2) - (pt.pos[0] + abertura / 2), h), e.material(corParede)); prepararParede(dir, w / 2);
           dir.position.set((c[0] + w / 2 + pt.pos[0] + abertura / 2) / 2, h / 2, p.pos[2]); g.add(dir);
-          const cima = new THREE.Mesh(new THREE.PlaneGeometry(abertura, h - altAb), e.material(corParede));
+          const cima = new THREE.Mesh(new THREE.PlaneGeometry(abertura, h - altAb), e.material(corParede)); prepararParede(cima, abertura);
           cima.position.set(pt.pos[0], altAb + (h - altAb) / 2, p.pos[2]); g.add(cima);
           // batentes ligando a porta à parede (túnel curto)
           const prof = Math.max(0.05, p.pos[2] - pt.pos[2]) ;
@@ -77,18 +86,19 @@ const TIPOS = {
         }
         continue;
       }
-      const m = new THREE.Mesh(new THREE.PlaneGeometry(p.w, h), e.material(corParede));
+      const m = new THREE.Mesh(new THREE.PlaneGeometry(p.w, h), e.material(corParede)); prepararParede(m, p.w);
       m.position.set(...p.pos); m.rotation.set(...p.rot); g.add(m);
-      // rodapé e faixa pintada (detalhe de rodoviária antiga)
-      const rodape = new THREE.Mesh(new THREE.PlaneGeometry(p.w, 0.18), e.material(escurecer(corParede, 0.55)));
-      rodape.position.set(...p.pos); rodape.position.y = 0.09; rodape.rotation.set(...p.rot); rodape.translateZ(0.005); g.add(rodape);
-      const faixa = new THREE.Mesh(new THREE.PlaneGeometry(p.w, 0.9), e.material(def.cor_faixa || escurecer(corParede, 0.8)));
-      faixa.position.set(...p.pos); faixa.position.y = 1.0; faixa.rotation.set(...p.rot); faixa.translateZ(0.004); g.add(faixa);
+      // rodapé (saliente: ganha traço) e faixa pintada na altura da cintura (cor do canal), como nas paredes da referência
+      const rodape = new THREE.Mesh(new THREE.BoxGeometry(p.w, 0.14, 0.03), e.material(def.cor_rodape || escurecer(corParede, 0.6)));
+      rodape.position.set(...p.pos); rodape.position.y = 0.07; rodape.rotation.set(...p.rot); rodape.translateZ(0.015); g.add(rodape);
+      if (def.cor_faixa) { const faixa = new THREE.Mesh(new THREE.PlaneGeometry(p.w, def.altura_faixa || 1.1), e.material(def.cor_faixa));
+        faixa.position.set(...p.pos); faixa.position.y = (def.altura_faixa || 1.1) / 2 + 0.14; faixa.rotation.set(...p.rot); faixa.translateZ(0.004); g.add(faixa);
+        const friso = new THREE.Mesh(new THREE.BoxGeometry(p.w, 0.04, 0.02), e.material(escurecer(def.cor_faixa, 0.7))); friso.position.set(...p.pos); friso.position.y = (def.altura_faixa || 1.1) + 0.16; friso.rotation.set(...p.rot); friso.translateZ(0.01); g.add(friso); }
     }
     // marcas de uso no piso (sujeira) com semente
     const rnd = mulberry32(ctx.semente + 11);
-    for (let i = 0; i < 9; i++) {
-      const mancha = new THREE.Mesh(new THREE.CircleGeometry(0.15 + rnd() * 0.3, 8), e.material(escurecer(corPiso, 0.8)));
+    for (let i = 0; i < 5; i++) {
+      const mancha = new THREE.Mesh(new THREE.CircleGeometry(0.15 + rnd() * 0.3, 14), e.material(escurecer(corPiso, 0.88)));
       mancha.rotation.x = -Math.PI / 2; mancha.position.set(c[0] + (rnd() - 0.5) * w * 0.9, 0.003, c[2] + (rnd() - 0.5) * d * 0.9);
       mancha.scale.set(1, 0.5 + rnd(), 1); g.add(mancha);
     }
@@ -107,9 +117,16 @@ const TIPOS = {
     const tampo = caixa(e, larg + 0.5, 0.05, 0.8, clarear(corB, 0.15)); tampo.position.set(x, hb - 0.025, z + 0.05); g.add(tampo); // tampo termina em hb: as mãos apoiam em cima
     // moldura e vidro (vidro não escreve profundidade, para o traço não "achatar" o saguão)
     const alturaVidro = 1.45;
-    const vidroTex = texturaVidro(def.furos !== false, def.fenda !== false, def.cor_vidro || '#bcd8e6');
-    const vidro = new THREE.Mesh(new THREE.PlaneGeometry(larg, alturaVidro), new THREE.MeshBasicMaterial({ map: vidroTex, transparent: true, opacity: 1, depthWrite: false }));
+    const vidro = new THREE.Mesh(new THREE.PlaneGeometry(larg, alturaVidro), new THREE.MeshBasicMaterial({ color: def.cor_vidro || '#bcd8e6', transparent: true, opacity: 0.07, depthWrite: false }));
     vidro.position.set(x, hb + alturaVidro / 2, z - 0.07); vidro.userData.vidro = true; g.add(vidro);
+    if (def.furos !== false) {
+      // furinhos de falar: discos escuros em círculo, na altura da boca de quem está do outro lado
+      const furos = new THREE.Group(); const cy = hb + 0.42, cz = z - 0.068;
+      const pontos = [[0, 0]]; for (let i = 0; i < 6; i++) { const a = i / 6 * Math.PI * 2; pontos.push([Math.cos(a) * 0.017, Math.sin(a) * 0.017]); }
+      for (const [px, py] of pontos) { const f = new THREE.Mesh(new THREE.CircleGeometry(0.0045, 12), e.luminoso('#4a4540')); f.position.set(x + px, cy + py, cz); f.userData.semTraco = true; furos.add(f); }
+      g.add(furos);
+    }
+    if (def.fenda !== false) { const fenda = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.016, 0.03, 1, 1, 1), e.luminoso('#2a2622')); fenda.position.set(x, hb + 0.035, z - 0.075); fenda.userData.semTraco = true; g.add(fenda); }
     const molduraCor = escurecer(corB, 0.7);
     const mold = [
       [x - larg / 2 - 0.06, hb + alturaVidro / 2, 0.12, alturaVidro + 0.12], [x + larg / 2 + 0.06, hb + alturaVidro / 2, 0.12, alturaVidro + 0.12],
@@ -141,8 +158,8 @@ const TIPOS = {
   bilhete(def, ctx) {
     const e = ctx.estilo;
     const g = new THREE.Group();
-    const tex = texturaTexto({ largura: 256, altura: 192, fundo: def.cor || '#ffe066', cor: '#2a2a2a', linhas: def.texto || ['AVISO'], fonte: def.manuscrito ? 'italic 700 34px Nunito, sans-serif' : 'bold 30px Anton, sans-serif', entrelinha: 1.2,
-      desenharExtra: (c, w, h) => { c.strokeStyle = 'rgba(0,0,0,0.12)'; c.lineWidth = 2; for (let y = 40; y < h; y += 40) { c.beginPath(); c.moveTo(16, y); c.lineTo(w - 16, y); c.stroke(); } c.fillStyle = 'rgba(255,255,255,0.55)'; c.fillRect(w / 2 - 36, -4, 72, 22); } });
+    const tex = texturaTexto({ largura: 512, altura: 384, fundo: def.cor || '#ffe066', cor: '#2a2a2a', linhas: def.texto || ['AVISO'], fonte: def.manuscrito ? 'italic 800 64px Nunito, sans-serif' : `800 60px ${FONTE_PLACA}, sans-serif`, entrelinha: 1.2, borda: { cor: 'rgba(0,0,0,0.35)', espessura: 10 },
+      desenharExtra: (c, w, h) => { c.strokeStyle = 'rgba(0,0,0,0.12)'; c.lineWidth = 3; for (let y = 80; y < h; y += 80) { c.beginPath(); c.moveTo(32, y); c.lineTo(w - 32, y); c.stroke(); } c.fillStyle = 'rgba(255,255,255,0.6)'; c.fillRect(w / 2 - 70, -6, 140, 40); } });
     const p = planoTextura(e, 0.22, 0.165, tex); p.position.set(def.pos[0], def.pos[1], def.pos[2]); p.rotation.z = -0.06; g.add(p);
     return { grupo: g, atualizar() {}, pontoOlhar: new THREE.Vector3(def.pos[0], def.pos[1], def.pos[2]) };
   },
@@ -174,7 +191,7 @@ const TIPOS = {
   bloco_passagens(def, ctx) {
     const e = ctx.estilo;
     const g = new THREE.Group();
-    const tex = texturaTexto({ largura: 256, altura: 160, fundo: def.cor || '#ffe066', cor: '#333', linhas: ['PASSAGEM', 'BOA VISTA DO SUL', '____  ____'], fonte: 'bold 22px Nunito, sans-serif', borda: { cor: '#7a6a2a', espessura: 6 } });
+    const tex = texturaTexto({ largura: 512, altura: 320, fundo: def.cor || '#ffe066', cor: '#333', linhas: ['PASSAGEM', 'BOA VISTA DO SUL', '____  ____'], fonte: `800 46px ${FONTE_PLACA}, sans-serif`, borda: { cor: '#7a6a2a', espessura: 12 } });
     const bloco = caixa(e, 0.16, 0.03, 0.1, escurecer(def.cor || '#ffe066', 0.9)); bloco.position.set(def.pos[0], def.pos[1] + 0.015, def.pos[2]); g.add(bloco);
     const capa = planoTextura(e, 0.16, 0.1, tex); capa.rotation.x = -Math.PI / 2; capa.position.set(def.pos[0], def.pos[1] + 0.031, def.pos[2]); g.add(capa);
     return { grupo: g, atualizar() {}, pontoOlhar: new THREE.Vector3(def.pos[0], def.pos[1] + 0.03, def.pos[2]) };
@@ -195,9 +212,9 @@ const TIPOS = {
     const tubos = [];
     for (let i = 0; i < q; i++) {
       const dz = (i - (q - 1) / 2) * 3.2;
-      const cal = caixa(e, 1.2, 0.08, 0.3, '#cfcfcf'); cal.position.set(def.pos[0], def.pos[1] - 0.04, def.pos[2] + dz); g.add(cal);
-      const tubo = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.04, 0.12), new THREE.MeshBasicMaterial({ color: '#fff7dc' })); tubo.position.set(def.pos[0], def.pos[1] - 0.09, def.pos[2] + dz); g.add(tubo); tubos.push(tubo);
-      const luz = new THREE.PointLight('#fff1cc', 1.0, 9, 1.2); luz.position.set(def.pos[0], def.pos[1] - 0.4, def.pos[2] + dz); g.add(luz); luzes.push(luz);
+      const cal = new THREE.Mesh(geoCaixaArredondada(1.25, 0.1, 0.32, 0.03), e.material('#e9e9e4')); cal.position.set(def.pos[0], def.pos[1] - 0.05, def.pos[2] + dz); g.add(cal);
+      const tubo = new THREE.Mesh(geoCaixaArredondada(1.12, 0.05, 0.16, 0.02), new THREE.MeshBasicMaterial({ color: '#fffbe8' })); tubo.position.set(def.pos[0], def.pos[1] - 0.105, def.pos[2] + dz); g.add(tubo); tubos.push(tubo);
+      const luz = luzFalsa('#fff1cc', 1.0); luz.position.set(def.pos[0], def.pos[1] - 0.4, def.pos[2] + dz); g.add(luz); luzes.push(luz);
     }
     const rnd = mulberry32(sementeDeTexto(def.id));
     const padraoPisca = Array.from({ length: 24 }, () => rnd() < 0.3 ? 0.15 : 1);
@@ -216,9 +233,11 @@ const TIPOS = {
   placa(def, ctx) {
     const e = ctx.estilo; const g = new THREE.Group();
     const [w, h] = def.tamanho || [1, 0.3];
-    const tex = texturaTexto({ largura: Math.round(w * 400), altura: Math.round(h * 400), fundo: def.cor || '#1f4e5f', cor: def.cor_texto || '#fff', linhas: def.texto || [''], fonte: `bold ${Math.round(h * 400 * 0.5)}px Anton, sans-serif`, borda: { cor: escurecer(def.cor || '#1f4e5f', 0.6), espessura: 8 } });
-    const p = planoTextura(e, w, h, tex); p.position.set(def.pos[0], def.pos[1], def.pos[2]); g.add(p);
-    const fundo = caixa(e, w + 0.04, h + 0.04, 0.03, escurecer(def.cor || '#1f4e5f', 0.6)); fundo.position.set(def.pos[0], def.pos[1], def.pos[2] - 0.02); g.add(fundo);
+    const L = Math.min(4096, Math.round(w * 600)), A = Math.round(L * h / w);
+    const nLin = Math.max(1, (def.texto || ['']).length);
+    const tex = texturaTexto({ largura: L, altura: A, fundo: def.cor || '#1f4e5f', cor: def.cor_texto || '#fff', linhas: def.texto || [''], fonte: `800 ${Math.round(A * (nLin === 1 ? 0.62 : 0.8 / nLin))}px ${FONTE_PLACA}, sans-serif`, entrelinha: 1.0, borda: { cor: escurecer(def.cor || '#1f4e5f', 0.5), espessura: Math.round(A * 0.07) }, cantosArredondados: Math.round(A * 0.12) });
+    const p = planoTextura(e, w, h, tex, !!def.luminosa, { transparent: true }); p.position.set(def.pos[0], def.pos[1], def.pos[2]); p.userData.semTraco = true; g.add(p);
+    const fundo = new THREE.Mesh(geoCaixaArredondada(w + 0.04, h + 0.04, 0.05, 0.02), e.material(escurecer(def.cor || '#1f4e5f', 0.5))); fundo.position.set(def.pos[0], def.pos[1], def.pos[2] - 0.03); g.add(fundo);
     return { grupo: g, atualizar() {}, pontoOlhar: new THREE.Vector3(def.pos[0], def.pos[1], def.pos[2]) };
   },
 
@@ -227,10 +246,10 @@ const TIPOS = {
     const e = ctx.estilo; const g = new THREE.Group();
     const [w, h] = def.tamanho || [3.6, 1.1];
     const corpo = caixa(e, w + 0.16, h + 0.16, 0.14, def.cor || '#141414'); corpo.position.set(def.pos[0], def.pos[1], def.pos[2] - 0.08); g.add(corpo);
-    const L = 1024, A = Math.round(L * h / w);
+    const L = 2048, A = Math.round(L * h / w);
     const tex = texturaTexto({ largura: L, altura: A, fundo: '#0a0a0a', linhas: [] });
     const tela = planoTextura(e, w, h, tex, true); tela.position.set(def.pos[0], def.pos[1], def.pos[2]); g.add(tela);
-    const luz = new THREE.PointLight(def.cor_led || '#ffb000', 0.6, 6, 1.5); luz.position.set(def.pos[0], def.pos[1] - 0.3, def.pos[2] + 0.8); g.add(luz);
+    const luz = luzFalsa(def.cor_led || '#ffb000', 0.6); luz.position.set(def.pos[0], def.pos[1] - 0.3, def.pos[2] + 0.8); g.add(luz);
     let chave = '';
     const ctxT = tex._ctx;
     const rnd = mulberry32(sementeDeTexto(def.id) + 3);
@@ -247,13 +266,13 @@ const TIPOS = {
         ctxT.fillStyle = '#0a0a0a'; ctxT.fillRect(0, 0, L, A);
         // cabeçalho
         ctxT.fillStyle = '#1c1c1c'; ctxT.fillRect(0, 0, L, A * 0.16);
-        ctxT.font = `bold ${Math.round(A * 0.1)}px monospace`; ctxT.textBaseline = 'middle'; ctxT.textAlign = 'left';
-        ctxT.fillStyle = '#777'; ctxT.fillText('PARTIDAS', 24, A * 0.08); ctxT.textAlign = 'right'; ctxT.fillText('PLATAFORMA', L - 24, A * 0.08); ctxT.textAlign = 'left';
+        ctxT.font = `800 ${Math.round(A * 0.11)}px ${FONTE_PLACA}, sans-serif`; ctxT.textBaseline = 'middle'; ctxT.textAlign = 'left';
+        ctxT.fillStyle = '#8a8a8a'; ctxT.fillText('PARTIDAS', 28, A * 0.08); ctxT.textAlign = 'right'; ctxT.fillText('PLATAFORMA', L - 28, A * 0.08); ctxT.textAlign = 'left';
         const corNormal = def.cor_led || '#ffb000';
         const corForte = cores.alerta_forte || '#b3261e';
         const n = Math.max(1, linhas.length);
-        const alturaLinha = (A * 0.84) / Math.max(4, n);
-        ctxT.font = `bold ${Math.round(alturaLinha * 0.78)}px monospace`;
+        const alturaLinha = (A * 0.84) / Math.max(3, n);
+        ctxT.font = `800 ${Math.round(alturaLinha * 0.72)}px ${FONTE_PLACA}, monospace`;
         linhas.forEach((ln, i) => {
           const estranha = /PLAT 7|· ·|SEM DESTINO|\?\?/.test(ln);
           let cor = corNormal;
@@ -296,8 +315,8 @@ const TIPOS = {
       g.add(pivo); folhas.push({ pivo, lado });
     }
     const placa = caixa(e, 0.9, 0.22, 0.03, '#2a2a2a'); placa.position.set(def.pos[0], h + 0.3, z + 0.02); g.add(placa);
-    const texSaida = texturaTexto({ largura: 256, altura: 64, fundo: null, cor: '#6fe39a', linhas: ['PLATAFORMAS'], fonte: 'bold 30px Anton, sans-serif' });
-    const pl = planoTextura(e, 0.86, 0.2, texSaida, true, { transparent: true }); pl.position.set(def.pos[0], h + 0.3, z + 0.04); g.add(pl);
+    const texSaida = texturaTexto({ largura: 1024, altura: 256, fundo: null, cor: '#7df0a6', linhas: ['PLATAFORMAS'], fonte: `800 150px ${FONTE_PLACA}, sans-serif` });
+    const pl = planoTextura(e, 0.86, 0.2, texSaida, true, { transparent: true }); pl.position.set(def.pos[0], h + 0.3, z + 0.04); pl.userData.semTraco = true; g.add(pl);
     return {
       grupo: g,
       atualizar(est, t) {
@@ -364,11 +383,11 @@ const TIPOS = {
     for (let i = 0; i < 6; i++) { const o = caixa(e, 0.14, 0.2 + rnd() * 0.15, 0.14, [ctx.cores.c1, '#ffe066', '#f5f1e4', ctx.cores.c3][i % 4]); o.position.set(-w / 2 + 0.5 + i * (w - 1) / 5, 1.92 + o.geometry.parameters.height / 2, -1.0); interior.add(o); }
     const sacola = caixa(e, 0.3, 0.22, 0.2, '#f1e9d2'); sacola.position.set(w / 4, 1.06, -0.35); interior.add(sacola);
     const luzPainel = new THREE.Mesh(new THREE.PlaneGeometry(w - 0.4, 0.3), new THREE.MeshBasicMaterial({ color: '#333' })); luzPainel.position.set(0, h - 0.25, -1.1); interior.add(luzPainel);
-    const luz = new THREE.PointLight('#ffd27a', 0, 6, 1.4); luz.position.set(0, h - 0.5, -0.5); interior.add(luz);
+    const luz = luzFalsa('#ffd27a', 0); luz.position.set(0, h - 0.5, -0.5); interior.add(luz);
     // grade (barras verticais) e letreiro
     for (let i = 0; i <= 12; i++) { const b = caixa(e, 0.03, h, 0.03, '#4a4a4a'); b.position.set(-w / 2 + i * w / 12, h / 2, 0.02); interior.add(b); }
     const barraH = caixa(e, w, 0.04, 0.04, '#4a4a4a'); barraH.position.set(0, h * 0.55, 0.02); interior.add(barraH);
-    const tex = texturaTexto({ largura: 768, altura: 160, fundo: cor, cor: '#fff8e6', linhas: def.texto || ['LANCHES'], fonte: 'bold 84px Anton, sans-serif' });
+    const tex = texturaTexto({ largura: 1536, altura: 320, fundo: cor, cor: '#fff8e6', linhas: def.texto || ['LANCHES'], fonte: `800 170px ${FONTE_PLACA}, sans-serif`, borda: { cor: escurecer(cor, 0.5), espessura: 18 } });
     const letreiro = planoTextura(e, w, h * 0.22, tex); letreiro.position.set(0, h + 0.3, 0.03); interior.add(letreiro);
     interior.position.set(def.pos[0], 0, def.pos[2]);
     g.add(interior);
@@ -450,7 +469,7 @@ const TIPOS = {
     const corpo = cilindro(e, 0.09, 0.09, 0.5, def.cor || '#b3261e'); corpo.position.set(0, 0, 0.12); g.add(corpo);
     const topo = cilindro(e, 0.03, 0.03, 0.1, '#333'); topo.position.set(0, 0.3, 0.12); g.add(topo);
     const placa = caixa(e, 0.25, 0.25, 0.01, '#fff'); placa.position.set(0, 0.55, 0.01); g.add(placa);
-    const tex = texturaTexto({ largura: 128, altura: 128, fundo: '#fff', cor: '#b3261e', linhas: ['EXT'], fonte: 'bold 48px Anton, sans-serif' });
+    const tex = texturaTexto({ largura: 256, altura: 256, fundo: '#fff', cor: '#b3261e', linhas: ['EXT'], fonte: `800 110px ${FONTE_PLACA}, sans-serif`, borda: { cor: '#b3261e', espessura: 14 } });
     const p = planoTextura(e, 0.22, 0.22, tex); p.position.set(0, 0.55, 0.02); g.add(p);
     g.position.set(def.pos[0], def.pos[1], def.pos[2]);
     return { grupo: g, atualizar() {} };
@@ -471,11 +490,11 @@ const TIPOS = {
     }
     const porta = caixa(e, 0.9, 2.1, 0.08, escurecer(cor, 0.7)); porta.position.set(compr / 2 - 1.0, 1.7, larg / 2 + 0.02); corpo.add(porta);
     const parabrisa = new THREE.Mesh(new THREE.PlaneGeometry(larg - 0.3, 1.4), new THREE.MeshBasicMaterial({ color: '#2a2f38' })); parabrisa.position.set(compr / 2 + 0.011, 2.5, 0); parabrisa.rotation.y = Math.PI / 2; corpo.add(parabrisa);
-    const texDestino = texturaTexto({ largura: 512, altura: 128, fundo: '#111', cor: '#ffb000', linhas: def.texto || ['03:00'], fonte: 'bold 90px monospace' });
+    const texDestino = texturaTexto({ largura: 1024, altura: 256, fundo: '#111', cor: '#ffb000', linhas: def.texto || ['03:00'], fonte: `800 190px ${FONTE_PLACA}, monospace`, borda: { cor: '#333', espessura: 10 } });
     const letreiro = planoTextura(e, larg - 0.5, 0.45, texDestino, true); letreiro.position.set(compr / 2 + 0.012, 3.35, 0); letreiro.rotation.y = Math.PI / 2; corpo.add(letreiro);
     const letreiroLado = planoTextura(e, 2.2, 0.5, texDestino, true); letreiroLado.position.set(-def.pos[0], 3.3, larg / 2 + 0.012); corpo.add(letreiroLado); // centrado no vão da porta quando parado
     for (const dx of [-3.2, 3.0]) for (const dz of [-1, 1]) { const roda = cilindro(e, 0.55, 0.55, 0.35, '#222', 14); roda.rotation.x = Math.PI / 2; roda.position.set(dx, 0.55, dz * (larg / 2)); corpo.add(roda); }
-    const luzInterna = new THREE.PointLight('#ffe9b0', 0, 8, 1.5); luzInterna.position.set(0, 2.6, larg / 2 + 0.8); corpo.add(luzInterna);
+    const luzInterna = luzFalsa('#ffe9b0', 0); luzInterna.position.set(0, 2.6, larg / 2 + 0.8); corpo.add(luzInterna);
     g.add(corpo); // comprimento ao longo de x, paralelo à plataforma; o lado das janelas (+z) fica virado para a porta
     g.position.set(def.pos[0], 0, def.pos[2]);
     const pos0 = def.pos.slice();
@@ -515,9 +534,9 @@ const TIPOS = {
       const x = def.pos[0] - 6 + i * 12;
       const poste = cilindro(e, 0.06, 0.06, 5, '#444'); poste.position.set(x, 2.5, def.pos[2] - 4); g.add(poste);
       const lamp = new THREE.Mesh(new THREE.SphereGeometry(0.18, 8, 8), e.luminoso('#ffcf7a')); lamp.position.set(x, 5, def.pos[2] - 4); g.add(lamp);
-      const luz = new THREE.PointLight('#ffb866', 1.2, 14, 1.3); luz.position.set(x, 4.8, def.pos[2] - 4); g.add(luz); luzes.push(luz);
+      const luz = luzFalsa('#ffb866', 1.2); luz.position.set(x, 4.8, def.pos[2] - 4); g.add(luz); luzes.push(luz);
     }
-    const texPlat = texturaTexto({ largura: 256, altura: 128, fundo: '#1f4e5f', cor: '#ffe066', linhas: ['7'], fonte: 'bold 100px Anton, sans-serif' });
+    const texPlat = texturaTexto({ largura: 512, altura: 256, fundo: '#1f4e5f', cor: '#ffe066', linhas: ['7'], fonte: `800 210px ${FONTE_PLACA}, sans-serif`, borda: { cor: '#ffe066', espessura: 14 } });
     const placa7 = planoTextura(e, 0.6, 0.3, texPlat, true); placa7.position.set(def.pos[0] + 1.1, 2.9, zParede - 2.1); g.add(placa7);
     return { grupo: g, luzes, atualizar() {}, pontoOlhar: new THREE.Vector3(def.pos[0], 1.5, def.pos[2]) };
   },
@@ -545,7 +564,7 @@ const TIPOS = {
   },
   poster(def, ctx) {
     const e = ctx.estilo; const g = new THREE.Group(); const [w, h] = def.tamanho || [0.6, 0.9];
-    const tex = texturaTexto({ largura: 256, altura: 384, fundo: def.cor || '#f5f1e4', cor: def.cor_texto || '#1f4e5f', linhas: def.texto || ['FESTA', 'JUNINA'], fonte: 'bold 44px Anton, sans-serif' });
+    const tex = texturaTexto({ largura: 512, altura: 768, fundo: def.cor || '#f5f1e4', cor: def.cor_texto || '#1f4e5f', linhas: def.texto || ['FESTA', 'JUNINA'], fonte: `800 96px ${FONTE_PLACA}, sans-serif`, borda: { cor: def.cor_texto || '#1f4e5f', espessura: 16 } });
     const p = planoTextura(e, w, h, tex); p.position.set(def.pos[0], def.pos[1], def.pos[2]); g.add(p);
     return { grupo: g, atualizar() {} };
   },
@@ -585,22 +604,6 @@ function rotacionarEmTorno(ext, interno, def) {
   interno.position.set(0, 0, 0);
   ext.position.set(def.pos[0], def.pos[1], def.pos[2]);
   return ext;
-}
-
-function texturaVidro(furos, fenda, cor) {
-  // Vidro quase invisível: fundo transparente, só um leve tom, um reflexo diagonal, os furos e a fenda.
-  const c = document.createElement('canvas'); c.width = 1024; c.height = 608;
-  const ctx = c.getContext('2d');
-  ctx.scale(2, 2);
-  ctx.clearRect(0, 0, 512, 304);
-  ctx.fillStyle = 'rgba(188,216,230,0.08)'; ctx.fillRect(0, 0, 512, 304);
-  ctx.fillStyle = 'rgba(255,255,255,0.16)'; ctx.beginPath(); ctx.moveTo(60, 0); ctx.lineTo(130, 0); ctx.lineTo(30, 304); ctx.lineTo(0, 304); ctx.fill();
-  ctx.fillStyle = 'rgba(255,255,255,0.08)'; ctx.beginPath(); ctx.moveTo(420, 0); ctx.lineTo(470, 0); ctx.lineTo(300, 304); ctx.lineTo(270, 304); ctx.fill();
-  if (furos) { ctx.fillStyle = 'rgba(20,20,20,0.22)'; const cx = 256, cy = 250; for (let i = 0; i < 7; i++) for (let j = 0; j < 7; j++) { const x = cx + (i - 3) * 6, y = cy + (j - 3) * 6; if (Math.hypot(i - 3, j - 3) <= 3.2) { ctx.beginPath(); ctx.arc(x, y, 1.0, 0, Math.PI * 2); ctx.fill(); } } }
-  if (fenda) { ctx.fillStyle = 'rgba(20,20,20,0.95)'; ctx.fillRect(176, 292, 160, 10); }
-  ctx.fillStyle = 'rgba(255,250,220,0.7)'; ctx.fillRect(400, 30, 60, 16); ctx.fillRect(420, 20, 20, 36);
-  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.minFilter = THREE.LinearFilter; tex.generateMipmaps = false;
-  return tex;
 }
 
 // Pequenos objetos de "vida" sorteados com semente a partir das frases de detalhes_vida.

@@ -6,6 +6,7 @@ _Atualizado automaticamente pela etapa `memoria` e à mão pelo dono do canal._
 - Fábrica construída do zero (motor, som, roteiro por IA, vozes, prova, capas, publicação em 5 redes, agendamento diário).
 - Canal ativo: **canal-exemplo "Guichê 3"** (original, criado para a fábrica rodar). O dono ainda **não** fez a investigação da Parte 3 nem a entrevista. Status: `A DECIDIR` se mantém este canal ou cria o seu.
 - Episódio 01 ("Uma pra das três") escrito à mão como piloto. Produzido aqui com **voz falsa** (sem chave do Gemini), portanto marcado como **não publicável** até gerar as vozes de verdade.
+- 2026-11-08 (tarde): o dono viu os quadros, reprovou o visual antigo (letras confusas, falhas de pixel, estilo diferente) e mandou 3 capturas de referência. **Motor refeito**: lente olho-de-peixe, traço limpo, bonecos e mãos no estilo da referência, legendas Baloo 2 coloridas, 60 fps. Stills e folha do ep01 conferidos com o visual novo; o MP4 inteiro ainda **não** foi re-renderizado (horas em CPU).
 
 ## O que está pronto
 - Pipeline completo roda offline com voz falsa (`node fabrica/cli.js episodio --episodio 1 --provedor-voz falso`).
@@ -15,13 +16,13 @@ _Atualizado automaticamente pela etapa `memoria` e à mão pelo dono do canal._
 1. Dono: assinar o combinado (não copiar), fazer a investigação e o cartão do canal, ou aceitar o canal-exemplo.
 2. Preencher `.env` (ANTHROPIC_API_KEY, GEMINI_API_KEY e credenciais das redes; ver `docs/CREDENCIAIS.md`).
 3. Casting de vozes (capítulo 48): ouvir 5 ou 6 vozes por personagem e fixar em `canal/canal.json`.
-4. Teste dos 3 estilos (capítulo 35/57): `node fabrica/cli.js estilos` e escolher.
+4. Teste dos 3 estilos (capítulo 35/57): `node fabrica/cli.js estilos` e escolher (C = a referência; é o padrão).
 5. Gerar o Epi. 01 com vozes reais, assistir no celular, aprovar, publicar.
 6. Ligar o agendamento diário (GitHub Actions ou agendador do computador).
 
 ## Medido / não conferido
 - Medido: nada de público ainda (nenhum vídeo publicado).
-- Não conferido: sotaque e interpretação das vozes (só o ouvido humano confere); render em GPU real (aqui foi CPU).
+- Não conferido: sotaque e interpretação das vozes (só o ouvido humano confere); render em GPU real (aqui foi CPU); o episódio inteiro em 60 fps com o visual novo (só trechos e a folha).
 
 ## Como refazer o que foi feito hoje
 `npm install && pip install -r requirements.txt && node fabrica/cli.js episodio --episodio 1 --provedor-voz falso --escala 0.5`

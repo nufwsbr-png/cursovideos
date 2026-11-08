@@ -3,14 +3,14 @@
   "previa": false,
   "medidas_sinteticas": false,
   "comandos": [
-    "video 0-111.731"
+    "stills 56.49,6.76,64.51"
   ],
   "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
   "avisos": [],
   "duracao_total_s": 111.731,
-  "fps": 30,
+  "fps": 60,
   "variacao": "cartela",
-  "segundos_por_quadro_stills": 1.0725094339622643,
+  "segundos_por_quadro_stills": 2.008,
   "legendas": [
     {
       "t": 2,
@@ -18,38 +18,38 @@
       "quem": "dalva",
       "texto": "Tá quieto hoje, hein, novato.",
       "caixa": [
-        114,
-        1153,
-        755,
-        74
+        116,
+        1159,
+        750,
+        63
       ]
     },
     {
-      "t": 5.27,
+      "t": 6,
       "id": "f02",
       "quem": "eu",
       "texto": "Tá.",
       "caixa": [
         449,
-        1153,
-        84,
-        74
+        1159,
+        85,
+        63
       ]
     },
     {
-      "t": 9.13,
+      "t": 10,
       "id": "f03",
       "quem": "dalva",
       "texto": "Isso aí é o painel com mau",
       "caixa": [
-        132,
-        1116,
-        719,
-        74
+        146,
+        1128,
+        691,
+        63
       ]
     },
     {
-      "t": 9.13,
+      "t": 10,
       "id": "f03",
       "quem": "dalva",
       "texto": "contato.",
@@ -57,251 +57,251 @@
         377,
         1190,
         229,
-        74
+        63
       ]
     },
     {
-      "t": 13.2,
+      "t": 14,
       "id": "f04",
       "quem": "eu",
       "texto": "Dona Dalva... tem plataforma",
       "caixa": [
-        107,
-        1116,
-        768,
-        74
+        104,
+        1128,
+        774,
+        63
       ]
     },
     {
-      "t": 13.2,
+      "t": 14,
       "id": "f04",
       "quem": "eu",
       "texto": "sete?",
       "caixa": [
-        412,
+        415,
         1190,
-        159,
-        74
+        153,
+        63
       ]
     },
     {
-      "t": 18.63,
+      "t": 20,
       "id": "f05",
       "quem": "dalva",
       "texto": "Tem quatro. Sempre teve",
       "caixa": [
-        156,
-        1116,
-        670,
-        74
+        159,
+        1128,
+        665,
+        63
       ]
     },
     {
-      "t": 18.63,
+      "t": 20,
       "id": "f05",
       "quem": "dalva",
       "texto": "quatro.",
       "caixa": [
-        392,
+        391,
         1190,
-        200,
-        74
+        201,
+        63
       ]
     },
     {
-      "t": 21.77,
+      "t": 22,
       "id": "f06",
       "quem": "alto_falante",
       "texto": "Partida com destino a... ...",
       "caixa": [
-        144,
-        1080,
-        696,
-        74
+        154,
+        1096,
+        675,
+        63
       ]
     },
     {
-      "t": 21.77,
+      "t": 22,
       "id": "f06",
       "quem": "alto_falante",
       "texto": "plataforma sete. Embarque",
       "caixa": [
-        129,
-        1153,
-        726,
-        74
+        127,
+        1159,
+        728,
+        63
       ]
     },
     {
-      "t": 21.77,
+      "t": 22,
       "id": "f06",
       "quem": "alto_falante",
       "texto": "imediato.",
       "caixa": [
         362,
-        1227,
+        1222,
         258,
-        74
+        63
       ]
     },
     {
-      "t": 29.07,
+      "t": 30,
       "id": "f07",
       "quem": "dalva",
       "texto": "Quem gravou isso?",
       "caixa": [
-        232,
-        1153,
-        518,
-        74
+        237,
+        1159,
+        510,
+        63
       ]
     },
     {
-      "t": 31.87,
+      "t": 32,
       "id": "f08",
       "quem": "dalva",
       "texto": "...Ah, não.",
       "caixa": [
-        359,
-        1153,
-        265,
-        74
+        361,
+        1159,
+        260,
+        63
       ]
     },
     {
-      "t": 37.47,
+      "t": 38,
       "id": "f09",
       "quem": "amaral",
       "texto": "Fecha o guichê. Apaga a luz.",
       "caixa": [
-        113,
-        1080,
-        757,
-        74
+        123,
+        1096,
+        737,
+        63
       ]
     },
     {
-      "t": 37.47,
+      "t": 38,
       "id": "f09",
       "quem": "amaral",
       "texto": "Não olha pra plataforma sete,",
       "caixa": [
         95,
-        1153,
-        794,
-        74
+        1159,
+        792,
+        63
       ]
     },
     {
-      "t": 37.47,
+      "t": 38,
       "id": "f09",
       "quem": "amaral",
       "texto": "menino.",
       "caixa": [
-        380,
-        1227,
-        223,
-        74
+        381,
+        1222,
+        221,
+        63
       ]
     },
     {
-      "t": 43.93,
+      "t": 44,
       "id": "f10",
       "quem": "eu",
       "texto": "Seu Amaral, o senhor tá vendo",
       "caixa": [
-        83,
-        1116,
-        816,
-        74
+        88,
+        1128,
+        807,
+        63
       ]
     },
     {
-      "t": 43.93,
+      "t": 44,
       "id": "f10",
       "quem": "eu",
       "texto": "o painel?",
       "caixa": [
-        364,
+        368,
         1190,
-        254,
-        74
+        248,
+        63
       ]
     },
     {
-      "t": 48.07,
+      "t": 50,
       "id": "f11",
       "quem": "amaral",
       "texto": "Eu não vejo nada. E você",
       "caixa": [
-        162,
-        1116,
-        658,
-        74
+        168,
+        1128,
+        647,
+        63
       ]
     },
     {
-      "t": 48.07,
+      "t": 50,
       "id": "f11",
       "quem": "amaral",
       "texto": "também não.",
       "caixa": [
-        313,
+        315,
         1190,
-        357,
-        74
+        352,
+        63
       ]
     },
     {
-      "t": 52.23,
+      "t": 54,
       "id": "f12",
       "quem": "dalva",
       "texto": "Faz o que ele mandou. Fecha e",
       "caixa": [
-        83,
-        1116,
-        816,
-        74
+        92,
+        1128,
+        798,
+        63
       ]
     },
     {
-      "t": 52.23,
+      "t": 54,
       "id": "f12",
       "quem": "dalva",
       "texto": "pronto.",
       "caixa": [
-        391,
+        390,
         1190,
-        201,
-        74
+        203,
+        63
       ]
     },
     {
-      "t": 62.07,
+      "t": 64,
       "id": "f13",
       "quem": "dalva",
       "texto": "Não tem motorista.",
       "caixa": [
-        234,
-        1153,
-        515,
-        74
+        232,
+        1159,
+        518,
+        63
       ]
     },
     {
-      "t": 69.27,
+      "t": 70,
       "id": "f14",
       "quem": "dalva",
       "texto": "Esse aí vem todo dia. Eu nunca",
       "caixa": [
-        80,
-        1116,
-        824,
-        74
+        88,
+        1128,
+        807,
+        63
       ]
     },
     {
-      "t": 69.27,
+      "t": 70,
       "id": "f14",
       "quem": "dalva",
       "texto": "te falei.",
@@ -309,31 +309,31 @@
         387,
         1190,
         209,
-        74
+        63
       ]
     },
     {
-      "t": 73.73,
+      "t": 74,
       "id": "f15",
       "quem": "passageiro",
       "texto": "Boa noite, moço.",
       "caixa": [
-        266,
-        1153,
-        451,
-        74
+        269,
+        1159,
+        444,
+        63
       ]
     },
     {
-      "t": 81.73,
+      "t": 82,
       "id": "f16",
       "quem": "passageiro",
       "texto": "Uma pra das três, por favor.",
       "caixa": [
-        117,
-        1153,
-        748,
-        74
+        124,
+        1159,
+        736,
+        63
       ]
     },
     {
@@ -361,23 +361,47 @@
       ]
     },
     {
-      "t": 96.33,
+      "t": 90,
+      "id": "f17",
+      "quem": "dalva",
+      "texto": "Se cê vender, ele some. Se não",
+      "caixa": [
+        91,
+        1128,
+        801,
+        63
+      ]
+    },
+    {
+      "t": 90,
+      "id": "f17",
+      "quem": "dalva",
+      "texto": "vender, ele fica.",
+      "caixa": [
+        279,
+        1190,
+        425,
+        63
+      ]
+    },
+    {
+      "t": 98,
       "id": "f18",
       "quem": "passageiro",
       "texto": "O das três não atrasa.",
       "caixa": [
-        196,
-        1153,
-        590,
-        74
+        202,
+        1159,
+        579,
+        63
       ]
     }
   ],
   "amostras": [
     {
       "t": 0,
-      "luminancia": 0.35902374122485015,
-      "uniforme": 0.4212962962962963,
+      "luminancia": 0.4481379553982339,
+      "uniforme": 0.16145833333333334,
       "clima": "rotina"
     },
     {
@@ -394,8 +418,8 @@
     },
     {
       "t": 2,
-      "luminancia": 0.3613927786855143,
-      "uniforme": 0.4010416666666667,
+      "luminancia": 0.4470297544480997,
+      "uniforme": 0.14969135802469136,
       "clima": "rotina"
     },
     {
@@ -424,8 +448,8 @@
     },
     {
       "t": 4,
-      "luminancia": 0.43624677665820344,
-      "uniforme": 0.09934413580246913,
+      "luminancia": 0.48692458545145717,
+      "uniforme": 0.19174382716049382,
       "clima": "rotina"
     },
     {
@@ -454,9 +478,15 @@
     },
     {
       "t": 6,
-      "luminancia": 0.3582930252965096,
-      "uniforme": 0.36226851851851855,
+      "luminancia": 0.4540095361292909,
+      "uniforme": 0.1579861111111111,
       "clima": "rotina"
+    },
+    {
+      "t": 6.76,
+      "luminancia": 0.4971402263374534,
+      "uniforme": 0.23051697530864199,
+      "clima": "sinal"
     },
     {
       "t": 6.8,
@@ -472,8 +502,8 @@
     },
     {
       "t": 8,
-      "luminancia": 0.4380973303982228,
-      "uniforme": 0.16454475308641975,
+      "luminancia": 0.4862265076555224,
+      "uniforme": 0.15316358024691357,
       "clima": "sinal"
     },
     {
@@ -490,8 +520,8 @@
     },
     {
       "t": 10,
-      "luminancia": 0.4194896604938306,
-      "uniforme": 0.16898148148148148,
+      "luminancia": 0.4675679806644821,
+      "uniforme": 0.22993827160493827,
       "clima": "sinal"
     },
     {
@@ -502,8 +532,8 @@
     },
     {
       "t": 12,
-      "luminancia": 0.41993397255507525,
-      "uniforme": 0.16666666666666666,
+      "luminancia": 0.46678555661461535,
+      "uniforme": 0.23032407407407407,
       "clima": "sinal"
     },
     {
@@ -526,8 +556,8 @@
     },
     {
       "t": 14,
-      "luminancia": 0.42912672173809574,
-      "uniforme": 0.1583719135802469,
+      "luminancia": 0.4820553316388193,
+      "uniforme": 0.15123456790123457,
       "clima": "sinal"
     },
     {
@@ -544,8 +574,8 @@
     },
     {
       "t": 16,
-      "luminancia": 0.44239260772211425,
-      "uniforme": 0.1572145061728395,
+      "luminancia": 0.48192908874968776,
+      "uniforme": 0.15027006172839505,
       "clima": "sinal"
     },
     {
@@ -562,8 +592,8 @@
     },
     {
       "t": 18,
-      "luminancia": 0.40614810351610037,
-      "uniforme": 0.11091820987654322,
+      "luminancia": 0.4652863887375892,
+      "uniforme": 0.21373456790123457,
       "clima": "sinal"
     },
     {
@@ -580,8 +610,8 @@
     },
     {
       "t": 20,
-      "luminancia": 0.4200667877027389,
-      "uniforme": 0.16724537037037038,
+      "luminancia": 0.4662088174776032,
+      "uniforme": 0.22935956790123457,
       "clima": "sinal"
     },
     {
@@ -592,8 +622,8 @@
     },
     {
       "t": 22,
-      "luminancia": 0.4252498865286909,
-      "uniforme": 0.08989197530864197,
+      "luminancia": 0.4792778201403952,
+      "uniforme": 0.1583719135802469,
       "clima": "escalada"
     },
     {
@@ -610,8 +640,8 @@
     },
     {
       "t": 24,
-      "luminancia": 0.4333358614742239,
-      "uniforme": 0.0941358024691358,
+      "luminancia": 0.4624665660554365,
+      "uniforme": 0.16377314814814814,
       "clima": "escalada"
     },
     {
@@ -628,8 +658,8 @@
     },
     {
       "t": 26,
-      "luminancia": 0.4321675184580056,
-      "uniforme": 0.0933641975308642,
+      "luminancia": 0.4629839029593333,
+      "uniforme": 0.16435185185185186,
       "clima": "escalada"
     },
     {
@@ -640,8 +670,8 @@
     },
     {
       "t": 28,
-      "luminancia": 0.4329648957576899,
-      "uniforme": 0.0941358024691358,
+      "luminancia": 0.4630134009622381,
+      "uniforme": 0.16801697530864199,
       "clima": "escalada"
     },
     {
@@ -664,8 +694,8 @@
     },
     {
       "t": 30,
-      "luminancia": 0.36652595542847843,
-      "uniforme": 0.15007716049382716,
+      "luminancia": 0.4058065911704268,
+      "uniforme": 0.22839506172839505,
       "clima": "escalada"
     },
     {
@@ -676,8 +706,8 @@
     },
     {
       "t": 32,
-      "luminancia": 0.3429360127693187,
-      "uniforme": 0.2197145061728395,
+      "luminancia": 0.4067866368615427,
+      "uniforme": 0.22704475308641975,
       "clima": "escalada"
     },
     {
@@ -700,8 +730,8 @@
     },
     {
       "t": 34,
-      "luminancia": 0.3572547196502241,
-      "uniforme": 0.19984567901234568,
+      "luminancia": 0.4094942538126413,
+      "uniforme": 0.21257716049382716,
       "clima": "escalada"
     },
     {
@@ -718,8 +748,8 @@
     },
     {
       "t": 36,
-      "luminancia": 0.30081980528320906,
-      "uniforme": 0.3072916666666667,
+      "luminancia": 0.3385021105664556,
+      "uniforme": 0.24479166666666666,
       "clima": "escalada"
     },
     {
@@ -736,8 +766,8 @@
     },
     {
       "t": 38,
-      "luminancia": 0.29724908012586126,
-      "uniforme": 0.41473765432098764,
+      "luminancia": 0.3663915312575733,
+      "uniforme": 0.24594907407407407,
       "clima": "escalada"
     },
     {
@@ -754,8 +784,8 @@
     },
     {
       "t": 40,
-      "luminancia": 0.29887454611472564,
-      "uniforme": 0.4131944444444444,
+      "luminancia": 0.3673180351307271,
+      "uniforme": 0.24768518518518517,
       "clima": "escalada"
     },
     {
@@ -772,8 +802,8 @@
     },
     {
       "t": 42,
-      "luminancia": 0.29697544102515916,
-      "uniforme": 0.41184413580246915,
+      "luminancia": 0.36725897028565396,
+      "uniforme": 0.2465277777777778,
       "clima": "escalada"
     },
     {
@@ -784,8 +814,8 @@
     },
     {
       "t": 44,
-      "luminancia": 0.2994462811667701,
-      "uniforme": 0.4191743827160494,
+      "luminancia": 0.37507022890947,
+      "uniforme": 0.22434413580246915,
       "clima": "escalada"
     },
     {
@@ -808,8 +838,8 @@
     },
     {
       "t": 46,
-      "luminancia": 0.3539161673928942,
-      "uniforme": 0.1720679012345679,
+      "luminancia": 0.4212388094589663,
+      "uniforme": 0.17804783950617284,
       "clima": "escalada"
     },
     {
@@ -820,8 +850,8 @@
     },
     {
       "t": 48,
-      "luminancia": 0.3494450443294713,
-      "uniforme": 0.18441358024691357,
+      "luminancia": 0.42496924095255,
+      "uniforme": 0.17862654320987653,
       "clima": "escalada"
     },
     {
@@ -838,8 +868,8 @@
     },
     {
       "t": 50,
-      "luminancia": 0.358594302227073,
-      "uniforme": 0.16203703703703703,
+      "luminancia": 0.4252922567174972,
+      "uniforme": 0.17669753086419754,
       "clima": "escalada"
     },
     {
@@ -850,8 +880,8 @@
     },
     {
       "t": 52,
-      "luminancia": 0.35016523919754045,
-      "uniforme": 0.16666666666666666,
+      "luminancia": 0.42001232298474744,
+      "uniforme": 0.17881944444444445,
       "clima": "escalada"
     },
     {
@@ -868,8 +898,8 @@
     },
     {
       "t": 54,
-      "luminancia": 0.3466705700798946,
-      "uniforme": 0.2027391975308642,
+      "luminancia": 0.40534724264706656,
+      "uniforme": 0.22839506172839505,
       "clima": "escalada"
     },
     {
@@ -880,14 +910,20 @@
     },
     {
       "t": 56,
-      "luminancia": 0.34515598372065953,
-      "uniforme": 0.2029320987654321,
+      "luminancia": 0.4052124561244328,
+      "uniforme": 0.22800925925925927,
+      "clima": "escalada"
+    },
+    {
+      "t": 56.49,
+      "luminancia": 0.41530467123578396,
+      "uniforme": 0.21875,
       "clima": "escalada"
     },
     {
       "t": 56.5,
-      "luminancia": 0.3040439754296703,
-      "uniforme": 0.25810185185185186,
+      "luminancia": 0.4031214634773722,
+      "uniforme": 0.2503858024691358,
       "clima": "escalada"
     },
     {
@@ -898,8 +934,8 @@
     },
     {
       "t": 58,
-      "luminancia": 0.28471934837205254,
-      "uniforme": 0.4216820987654321,
+      "luminancia": 0.3745082122972676,
+      "uniforme": 0.2166280864197531,
       "clima": "escalada"
     },
     {
@@ -922,8 +958,8 @@
     },
     {
       "t": 60,
-      "luminancia": 0.32110261816146957,
-      "uniforme": 0.15914351851851852,
+      "luminancia": 0.4157752776264822,
+      "uniforme": 0.19753086419753085,
       "clima": "escalada"
     },
     {
@@ -934,8 +970,8 @@
     },
     {
       "t": 62,
-      "luminancia": 0.3442903277051637,
-      "uniforme": 0.13734567901234568,
+      "luminancia": 0.4209460315298939,
+      "uniforme": 0.19984567901234568,
       "clima": "escalada"
     },
     {
@@ -964,8 +1000,14 @@
     },
     {
       "t": 64,
-      "luminancia": 0.34321614621157814,
-      "uniforme": 0.13290895061728394,
+      "luminancia": 0.4171338341200669,
+      "uniforme": 0.19791666666666666,
+      "clima": "escalada"
+    },
+    {
+      "t": 64.51,
+      "luminancia": 0.41494293981481495,
+      "uniforme": 0.19791666666666666,
       "clima": "escalada"
     },
     {
@@ -982,8 +1024,8 @@
     },
     {
       "t": 66,
-      "luminancia": 0.3449552885197362,
-      "uniforme": 0.13097993827160495,
+      "luminancia": 0.41837460511982355,
+      "uniforme": 0.19309413580246915,
       "clima": "escalada"
     },
     {
@@ -1000,8 +1042,8 @@
     },
     {
       "t": 68,
-      "luminancia": 0.35255046598886647,
-      "uniforme": 0.11207561728395062,
+      "luminancia": 0.4168241618252224,
+      "uniforme": 0.19290123456790123,
       "clima": "escalada"
     },
     {
@@ -1018,14 +1060,20 @@
     },
     {
       "t": 70,
-      "luminancia": 0.35431692840717516,
-      "uniforme": 0.1882716049382716,
+      "luminancia": 0.39975589748245993,
+      "uniforme": 0.23842592592592593,
+      "clima": "escalada"
+    },
+    {
+      "t": 70.5,
+      "luminancia": 0.39961379584242107,
+      "uniforme": 0.23823302469135801,
       "clima": "escalada"
     },
     {
       "t": 71,
-      "luminancia": 0.3549340761922149,
-      "uniforme": 0.1853780864197531,
+      "luminancia": 0.39996416197652923,
+      "uniforme": 0.23919753086419754,
       "clima": "escalada"
     },
     {
@@ -1035,9 +1083,15 @@
       "clima": "escalada"
     },
     {
+      "t": 71.5,
+      "luminancia": 0.39924998184459926,
+      "uniforme": 0.23881172839506173,
+      "clima": "escalada"
+    },
+    {
       "t": 72,
-      "luminancia": 0.3553532543573077,
-      "uniforme": 0.1863425925925926,
+      "luminancia": 0.39896339869282005,
+      "uniforme": 0.23900462962962962,
       "clima": "escalada"
     },
     {
@@ -1048,8 +1102,8 @@
     },
     {
       "t": 74,
-      "luminancia": 0.3372095444504991,
-      "uniforme": 0.16126543209876543,
+      "luminancia": 0.3955748766945113,
+      "uniforme": 0.1871141975308642,
       "clima": "climax"
     },
     {
@@ -1066,8 +1120,8 @@
     },
     {
       "t": 76,
-      "luminancia": 0.29206330564633987,
-      "uniforme": 0.2534722222222222,
+      "luminancia": 0.3082875272331046,
+      "uniforme": 0.2042824074074074,
       "clima": "climax"
     },
     {
@@ -1090,8 +1144,8 @@
     },
     {
       "t": 78,
-      "luminancia": 0.33602649025659315,
-      "uniforme": 0.1255787037037037,
+      "luminancia": 0.236606443657708,
+      "uniforme": 0.2197145061728395,
       "clima": "climax"
     },
     {
@@ -1108,8 +1162,8 @@
     },
     {
       "t": 80,
-      "luminancia": 0.3494215239953953,
-      "uniforme": 0.1440972222222222,
+      "luminancia": 0.2469226950193602,
+      "uniforme": 0.2195216049382716,
       "clima": "climax"
     },
     {
@@ -1120,8 +1174,8 @@
     },
     {
       "t": 82,
-      "luminancia": 0.2884835209392417,
-      "uniforme": 0.21064814814814814,
+      "luminancia": 0.28189006445168907,
+      "uniforme": 0.2559799382716049,
       "clima": "climax"
     },
     {
@@ -1138,8 +1192,8 @@
     },
     {
       "t": 84,
-      "luminancia": 0.2914758442265868,
-      "uniforme": 0.25308641975308643,
+      "luminancia": 0.30876751997094043,
+      "uniforme": 0.19926697530864199,
       "clima": "climax"
     },
     {
@@ -1150,8 +1204,8 @@
     },
     {
       "t": 86,
-      "luminancia": 0.3022285153413277,
-      "uniforme": 0.17978395061728394,
+      "luminancia": 0.3048266022149481,
+      "uniforme": 0.19772376543209877,
       "clima": "climax"
     },
     {
@@ -1168,8 +1222,8 @@
     },
     {
       "t": 88,
-      "luminancia": 0.29104256989833294,
-      "uniforme": 0.2336033950617284,
+      "luminancia": 0.3140166840655938,
+      "uniforme": 0.1871141975308642,
       "clima": "climax"
     },
     {
@@ -1186,8 +1240,8 @@
     },
     {
       "t": 90,
-      "luminancia": 0.2748824527959394,
-      "uniforme": 0.19868827160493827,
+      "luminancia": 0.2975502239167105,
+      "uniforme": 0.19521604938271606,
       "clima": "climax"
     },
     {
@@ -1204,8 +1258,8 @@
     },
     {
       "t": 92,
-      "luminancia": 0.27260265220286195,
-      "uniforme": 0.19251543209876543,
+      "luminancia": 0.2969138745158387,
+      "uniforme": 0.19791666666666666,
       "clima": "climax"
     },
     {
@@ -1216,8 +1270,8 @@
     },
     {
       "t": 94,
-      "luminancia": 0.2684314913156687,
-      "uniforme": 0.2025462962962963,
+      "luminancia": 0.2926714105240702,
+      "uniforme": 0.20042438271604937,
       "clima": "climax"
     },
     {
@@ -1234,8 +1288,8 @@
     },
     {
       "t": 96,
-      "luminancia": 0.22295220209997463,
-      "uniforme": 0.19077932098765432,
+      "luminancia": 0.23845149479544164,
+      "uniforme": 0.2023533950617284,
       "clima": "climax"
     },
     {
@@ -1258,14 +1312,14 @@
     },
     {
       "t": 98,
-      "luminancia": 0.29291542302106716,
-      "uniforme": 0.24807098765432098,
+      "luminancia": 0.3084385757080495,
+      "uniforme": 0.2010030864197531,
       "clima": "climax"
     },
     {
       "t": 99,
-      "luminancia": 0.2958759599673272,
-      "uniforme": 0.25212191358024694,
+      "luminancia": 0.30949697334179516,
+      "uniforme": 0.203125,
       "clima": "climax"
     },
     {
@@ -1276,8 +1330,8 @@
     },
     {
       "t": 100,
-      "luminancia": 0.29774453219559094,
-      "uniforme": 0.13638117283950618,
+      "luminancia": 0.23806881883926037,
+      "uniforme": 0.24016203703703703,
       "clima": "climax"
     },
     {
@@ -1294,8 +1348,8 @@
     },
     {
       "t": 102,
-      "luminancia": 0.33351276022754306,
-      "uniforme": 0.10667438271604938,
+      "luminancia": 0.235582753116677,
+      "uniforme": 0.2204861111111111,
       "clima": "climax"
     },
     {
@@ -1306,8 +1360,8 @@
     },
     {
       "t": 104,
-      "luminancia": 0.21652412400144674,
-      "uniforme": 0.20601851851851852,
+      "luminancia": 0.28238217592591364,
+      "uniforme": 0.22916666666666666,
       "clima": "climax"
     },
     {
@@ -1318,8 +1372,8 @@
     },
     {
       "t": 106,
-      "luminancia": 0.18006406514765985,
-      "uniforme": 0.2465277777777778,
+      "luminancia": 0.2950031560154754,
+      "uniforme": 0.22646604938271606,
       "clima": "climax"
     },
     {
@@ -1330,8 +1384,8 @@
     },
     {
       "t": 108,
-      "luminancia": 0.027897499092229768,
-      "uniforme": 0.8618827160493827,
+      "luminancia": 0.022335202584119668,
+      "uniforme": 0.8560956790123457,
       "clima": "pergunta"
     },
     {
@@ -1342,8 +1396,8 @@
     },
     {
       "t": 110,
-      "luminancia": 0.07145343288549887,
-      "uniforme": 0.8605324074074074,
+      "luminancia": 0.07205478848947026,
+      "uniforme": 0.845679012345679,
       "clima": "pergunta"
     },
     {
@@ -1359,10 +1413,10 @@
       "clima": "pergunta"
     }
   ],
-  "tempo_total_s": 2043.574,
-  "atualizado_em": "2026-11-08T17:13:20.447Z",
-  "quadros": 3352,
-  "segundos_por_quadro": 0.6092061455847255,
-  "video": "episodios/ep01_uma_pra_das_tres/video_mudo.mp4",
-  "video_parcial": false
+  "tempo_total_s": 7.556,
+  "atualizado_em": "2026-11-08T20:45:18.739Z",
+  "quadros": 120,
+  "segundos_por_quadro": 1.4423833333333334,
+  "video": "episodios/ep01_uma_pra_das_tres/video_mudo_70.0-72.0.mp4",
+  "video_parcial": true
 }

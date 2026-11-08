@@ -25,11 +25,11 @@
 Voz falsa · LUFS fora de -17..-14 · pico > -1 dBTP · fala faltando na transcrição (quando conferido) · formato errado · revisor com problema grave · duração fora de 65–130 s.
 
 ## Medições desta máquina (CPU, SwiftShader) — ver `aprendizados.md` (seção "Medido")
-- Render: 0,17 s/quadro em meia escala; 0,71 s/quadro em 1080x1920 (≈ 36 min por episódio de 100 s). Síntese de som ≈ 46 s; mixagem ≈ 20 s.
+- Render (visual antigo, 30 fps): 0,71 s/quadro em 1080x1920. **Visual novo (olho de peixe, 60 fps):** ≈ 0,85 s/quadro só de render (cor 0,25 · G-buffer 0,05 · pós 0,55) e mais com o FFmpeg disputando CPU → 100 s de vídeo = 6 000 quadros = horas em CPU, minutos em GPU. Síntese de som ≈ 46 s; mixagem ≈ 20 s.
 - Ordem de verificação que o livro pede e a fábrica segue: stills → sequências nos giros → folha → revisor → vídeo → prova → assistir no celular.
 
 ## Teste dos 3 estilos
-`node fabrica/cli.js estilos` gera `padrao_aprovado/estilos/estilo_A.png` (xilogravura), `estilo_B.png` (gibi com retícula), `estilo_C.png` (cartaz pintado) e a folha comparativa. O dono escolhe, refina em rodadas (capítulo 35) e anota os valores em `canal/canal.json → estilo` e em `estilo_visual.md`.
+`node fabrica/cli.js estilos` gera `padrao_aprovado/estilos/estilo_A.png` (traço 8 px, papel visível), `estilo_B.png` (traço 4 px, sem papel), `estilo_C.png` (a referência: 6 px) e a folha comparativa. O dono escolhe, refina em rodadas (capítulo 35) e anota os valores em `canal/canal.json → estilo` e em `estilo_visual.md`.
 
 ## Cópia de segurança
 A pasta do canal é o maior bem: git + cópia semanal fora do computador (capítulo 53).
