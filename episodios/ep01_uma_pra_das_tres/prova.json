@@ -1,0 +1,160 @@
+{
+  "arquivo": "ep01.mp4",
+  "medido_em": "2026-11-08T17:14:41.657Z",
+  "formato": {
+    "largura": 1080,
+    "altura": 1920,
+    "fps": 30,
+    "codec_video": "h264",
+    "pix_fmt": "yuv420p",
+    "codec_audio": "aac",
+    "taxa_audio": 48000,
+    "duracao_s": 111.733333,
+    "tamanho_mb": 119.17676
+  },
+  "som": {
+    "arquivo": "/home/user/cursovideos/episodios/ep01_uma_pra_das_tres/ep01.mp4",
+    "formato": "mov,mp4,m4a,3gp,3g2,mj2",
+    "duracao_s": 111.733,
+    "tamanho_mb": 119.18,
+    "video": {
+      "codec": "h264",
+      "largura": 1080,
+      "altura": 1920,
+      "fps": 30,
+      "pix_fmt": "yuv420p"
+    },
+    "audio": {
+      "codec": "aac",
+      "taxa": 48000,
+      "canais": 1
+    },
+    "lufs_integrado": -16.01,
+    "pico_verdadeiro_dbtp": -1.71,
+    "faixa_de_loudness_lra": 7.9,
+    "volume_medio_dbfs": -15.56,
+    "pico_amostra_dbfs": -1.72,
+    "ok_lufs": true,
+    "ok_pico": true,
+    "banda_de_voz": {
+      "com_fala_dbfs": -16.1,
+      "sem_fala_dbfs": -25.6,
+      "diferenca_db": 9.5,
+      "veredito": "voz se destaca",
+      "falas_possivelmente_encobertas": [
+        "f02",
+        "f08"
+      ],
+      "por_fala": [
+        {
+          "id": "f01",
+          "banda_voz_dbfs": -16.7
+        },
+        {
+          "id": "f02",
+          "banda_voz_dbfs": -20.7
+        },
+        {
+          "id": "f03",
+          "banda_voz_dbfs": -16.7
+        },
+        {
+          "id": "f04",
+          "banda_voz_dbfs": -18
+        },
+        {
+          "id": "f05",
+          "banda_voz_dbfs": -16.6
+        },
+        {
+          "id": "f06",
+          "banda_voz_dbfs": -12.1
+        },
+        {
+          "id": "f07",
+          "banda_voz_dbfs": -16.4
+        },
+        {
+          "id": "f08",
+          "banda_voz_dbfs": -19.8
+        },
+        {
+          "id": "f09",
+          "banda_voz_dbfs": -15.7
+        },
+        {
+          "id": "f10",
+          "banda_voz_dbfs": -17.6
+        },
+        {
+          "id": "f11",
+          "banda_voz_dbfs": -15.4
+        },
+        {
+          "id": "f12",
+          "banda_voz_dbfs": -16.5
+        },
+        {
+          "id": "f13",
+          "banda_voz_dbfs": -18.6
+        },
+        {
+          "id": "f14",
+          "banda_voz_dbfs": -18.2
+        },
+        {
+          "id": "f15",
+          "banda_voz_dbfs": -19.3
+        },
+        {
+          "id": "f16",
+          "banda_voz_dbfs": -18.7
+        },
+        {
+          "id": "f17",
+          "banda_voz_dbfs": -18.4
+        },
+        {
+          "id": "f18",
+          "banda_voz_dbfs": -16.6
+        }
+      ]
+    }
+  },
+  "transcricao": {
+    "conferido_por": "nao_conferido",
+    "motivo": "modelo 'small' não está baixado (LocalEntryNotFoundError)",
+    "como_resolver": "Para conferir por transcrição, no seu computador com internet rode uma vez:\n  pip install faster-whisper\n  python3 -c \"from faster_whisper import WhisperModel; WhisperModel('small')\"\nDepois a fábrica passa a transcrever sozinha (variável WHISPER_MODELO muda o tamanho do modelo).",
+    "falas_no_roteiro": 18,
+    "encontradas": [],
+    "duvidosas": [],
+    "faltando": []
+  },
+  "revisao_quadros": {
+    "graves": 0,
+    "avisos": 21
+  },
+  "lista": {
+    "Formato 1080x1920, fps e duração": true,
+    "Volume -16 LUFS e pico abaixo de -1 dB": true,
+    "Voz se destaca do fundo": true,
+    "Todas as falas no vídeo pronto (transcrição)": "não conferido",
+    "Quadros revisados (revisor automático)": true,
+    "Vozes de verdade": false,
+    "Assistido inteiro no celular, com e sem som": "só o dono confere",
+    "Ouvido com fones (sotaque, interpretação, efeitos)": "só o dono confere"
+  },
+  "bloqueios": [
+    "voz falsa: gere as vozes de verdade antes de publicar"
+  ],
+  "avisos": [
+    "falas possivelmente encobertas (vá ouvir): f02, f08",
+    "transcrição do vídeo pronto não conferida (Whisper indisponível): ouvir inteiro no celular"
+  ],
+  "nao_conferido": [
+    "sotaque",
+    "interpretação",
+    "som ouvido de verdade",
+    "movimento entre quadros"
+  ]
+}

@@ -1,0 +1,591 @@
+{
+  "plataformas": {
+    "tiktok": {
+      "ok": true,
+      "id": "7000000000000000000",
+      "url": "https://www.tiktok.com/@simulado/video/7000000000000000000",
+      "erro": null,
+      "em": "2026-11-08T17:15:18.300Z",
+      "detalhes": {
+        "avisos": [
+          "variáveis ausentes (modo simulação): TIKTOK_CLIENT_KEY, TIKTOK_CLIENT_SECRET, TIKTOK_REFRESH_TOKEN"
+        ],
+        "novo_refresh_token": "o TikTok devolveu um refresh token novo: atualize TIKTOK_REFRESH_TOKEN no .env/segredos",
+        "publish_id": "v_pub_file~simulado",
+        "post_id": "7000000000000000000",
+        "privacidade": "PUBLIC_TO_EVERYONE",
+        "is_aigc": true,
+        "pedacos": 11,
+        "status": "PUBLISH_COMPLETE",
+        "simulado": true,
+        "comentario_fixado": {
+          "postado": false,
+          "texto": "Votação aberta: VENDER a passagem ou FECHAR o guichê? A mais votada decide o começo do Epi. 02."
+        },
+        "pendencias_manuais": [
+          "TikTok: fixar o comentário da votação manualmente (a API não cria nem fixa comentários)"
+        ]
+      }
+    },
+    "instagram": {
+      "ok": true,
+      "id": "18000000000000000",
+      "url": "https://www.instagram.com/reel/SIMULADO/",
+      "erro": null,
+      "em": "2026-11-08T17:15:18.300Z",
+      "detalhes": {
+        "avisos": [
+          "variáveis ausentes (modo simulação): META_PAGE_ACCESS_TOKEN, IG_USER_ID"
+        ],
+        "hospedagem": {
+          "provedor": "supabase",
+          "url": "https://SEU-PROJETO.supabase.co/storage/v1/object/public/videos/guiche3/uma_pra_das_tres_1794158117992.mp4"
+        },
+        "container_id": "17900000000000000",
+        "comentario_fixado": {
+          "postado": true,
+          "fixado": false,
+          "id": "17800000000000000",
+          "texto": "Votação aberta: VENDER a passagem ou FECHAR o guichê? A mais votada decide o começo do Epi. 02."
+        },
+        "pendencias_manuais": [
+          "Instagram: fixar o comentário da votação no app (a API não fixa)",
+          "Instagram: conferir se o rótulo \"Feito com IA\" ficou ativo no Reel (a API não liga a etiqueta; o Instagram aplica a detecção automática)"
+        ],
+        "simulado": true
+      }
+    },
+    "facebook": {
+      "ok": true,
+      "id": "1240000000000000",
+      "url": "https://www.facebook.com/META_PAGE_ID/videos/1240000000000000",
+      "erro": null,
+      "em": "2026-11-08T17:15:18.300Z",
+      "detalhes": {
+        "avisos": [
+          "variáveis ausentes (modo simulação): META_PAGE_ACCESS_TOKEN, META_PAGE_ID",
+          "vídeo com 112 s: acima de 90 s será publicado como vídeo comum da Página, não como Reels",
+          "episódio com 112 s: publicado como vídeo comum da Página (Reels da API aceita até 90 s)"
+        ],
+        "tipo": "VIDEO",
+        "post_id": null,
+        "comentario_fixado": {
+          "postado": true,
+          "fixado": false,
+          "id": "1250000000000000_1",
+          "texto": "Votação aberta: VENDER a passagem ou FECHAR o guichê? A mais votada decide o começo do Epi. 02."
+        },
+        "pendencias_manuais": [
+          "Facebook: fixar o comentário da votação (a API não fixa)",
+          "Facebook: marcar o rótulo \"IA\" no post se a Meta pedir (a API não envia a etiqueta de IA)"
+        ],
+        "simulado": true
+      }
+    },
+    "youtube": {
+      "ok": true,
+      "id": "SIMULADO0001",
+      "url": "https://www.youtube.com/shorts/SIMULADO0001",
+      "erro": null,
+      "em": "2026-11-08T17:15:18.300Z",
+      "detalhes": {
+        "avisos": [
+          "variáveis ausentes (modo simulação): YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET, YOUTUBE_REFRESH_TOKEN"
+        ],
+        "thumbnail": true,
+        "titulo": "Uma pra das três, por favor · Epi. 01 #Shorts",
+        "privacidade": "public",
+        "containsSyntheticMedia": true,
+        "comentario_fixado": {
+          "postado": true,
+          "fixado": false,
+          "id": "Ugz_simulado",
+          "texto": "Votação aberta: VENDER a passagem ou FECHAR o guichê? A mais votada decide o começo do Epi. 02."
+        },
+        "pendencias_manuais": [
+          "YouTube: fixar o comentário da votação no YouTube Studio (a API não fixa)"
+        ],
+        "simulado": true
+      }
+    },
+    "kwai": {
+      "ok": true,
+      "id": "kwai_simulado",
+      "url": null,
+      "erro": null,
+      "em": "2026-11-08T17:15:18.300Z",
+      "detalhes": {
+        "modo": "navegador",
+        "avisos": [],
+        "simulado": true,
+        "pendencias_manuais": [
+          "Kwai: fixar o comentário da votação no app",
+          "Kwai: conferir se o vídeo apareceu no perfil"
+        ],
+        "comentario_fixado": {
+          "postado": false,
+          "fixado": false,
+          "texto": "Votação aberta: VENDER a passagem ou FECHAR o guichê? A mais votada decide o começo do Epi. 02."
+        }
+      }
+    }
+  },
+  "pendencias_manuais": [
+    "TikTok: fixar o comentário da votação manualmente (a API não cria nem fixa comentários)",
+    "Instagram: fixar o comentário da votação no app (a API não fixa)",
+    "Instagram: conferir se o rótulo \"Feito com IA\" ficou ativo no Reel (a API não liga a etiqueta; o Instagram aplica a detecção automática)",
+    "Facebook: fixar o comentário da votação (a API não fixa)",
+    "Facebook: marcar o rótulo \"IA\" no post se a Meta pedir (a API não envia a etiqueta de IA)",
+    "YouTube: fixar o comentário da votação no YouTube Studio (a API não fixa)",
+    "Kwai: fixar o comentário da votação no app",
+    "Kwai: conferir se o vídeo apareceu no perfil"
+  ],
+  "publicado_em": "2026-11-08T17:15:18.300Z",
+  "atualizado_em": "2026-11-08T17:15:18.300Z",
+  "simulado": true,
+  "requisicoes": [
+    {
+      "ordem": 1,
+      "plataforma": "tiktok",
+      "descricao": "renovar access token",
+      "metodo": "POST",
+      "url": "https://open.tiktokapis.com/v2/oauth/token/",
+      "headers": {},
+      "corpo": {
+        "client_key": "",
+        "client_secret": "****",
+        "grant_type": "refresh_token",
+        "refresh_token": "****"
+      }
+    },
+    {
+      "ordem": 2,
+      "plataforma": "tiktok",
+      "descricao": "creator_info/query (obrigatório antes de postar)",
+      "metodo": "POST",
+      "url": "https://open.tiktokapis.com/v2/post/publish/creator_info/query/",
+      "headers": {
+        "Authorization": "Bear…********",
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      "corpo": null
+    },
+    {
+      "ordem": 3,
+      "plataforma": "tiktok",
+      "descricao": "video/init (Direct Post)",
+      "metodo": "POST",
+      "url": "https://open.tiktokapis.com/v2/post/publish/video/init/",
+      "headers": {
+        "Authorization": "Bear…********",
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      "corpo": {
+        "post_info": {
+          "title": "Ele atendia o guichê da madrugada e o painel anunciou um ônibus que não existe. Epi. 01 #pov #historia #suspense #rodoviaria",
+          "privacy_level": "PUBLIC_TO_EVERYONE",
+          "disable_comment": false,
+          "disable_duet": true,
+          "disable_stitch": true,
+          "video_cover_timestamp_ms": 49500,
+          "is_aigc": true
+        },
+        "source_info": {
+          "source": "FILE_UPLOAD",
+          "video_size": 119176760,
+          "chunk_size": 10485760,
+          "total_chunk_count": 11
+        }
+      }
+    },
+    {
+      "ordem": 4,
+      "plataforma": "tiktok",
+      "descricao": "enviar pedaço 1/11",
+      "metodo": "PUT",
+      "url": "https://open-upload.tiktokapis.com/video/?upload_id=simulado",
+      "headers": {
+        "Content-Type": "video/mp4",
+        "Content-Length": "10485760",
+        "Content-Range": "bytes 0-10485759/119176760"
+      },
+      "corpo": "<binário 0 bytes>"
+    },
+    {
+      "ordem": 5,
+      "plataforma": "tiktok",
+      "descricao": "enviar pedaço 2/11",
+      "metodo": "PUT",
+      "url": "https://open-upload.tiktokapis.com/video/?upload_id=simulado",
+      "headers": {
+        "Content-Type": "video/mp4",
+        "Content-Length": "10485760",
+        "Content-Range": "bytes 10485760-20971519/119176760"
+      },
+      "corpo": "<binário 0 bytes>"
+    },
+    {
+      "ordem": 6,
+      "plataforma": "tiktok",
+      "descricao": "enviar pedaço 3/11",
+      "metodo": "PUT",
+      "url": "https://open-upload.tiktokapis.com/video/?upload_id=simulado",
+      "headers": {
+        "Content-Type": "video/mp4",
+        "Content-Length": "10485760",
+        "Content-Range": "bytes 20971520-31457279/119176760"
+      },
+      "corpo": "<binário 0 bytes>"
+    },
+    {
+      "ordem": 7,
+      "plataforma": "tiktok",
+      "descricao": "enviar pedaço 4/11",
+      "metodo": "PUT",
+      "url": "https://open-upload.tiktokapis.com/video/?upload_id=simulado",
+      "headers": {
+        "Content-Type": "video/mp4",
+        "Content-Length": "10485760",
+        "Content-Range": "bytes 31457280-41943039/119176760"
+      },
+      "corpo": "<binário 0 bytes>"
+    },
+    {
+      "ordem": 8,
+      "plataforma": "tiktok",
+      "descricao": "enviar pedaço 5/11",
+      "metodo": "PUT",
+      "url": "https://open-upload.tiktokapis.com/video/?upload_id=simulado",
+      "headers": {
+        "Content-Type": "video/mp4",
+        "Content-Length": "10485760",
+        "Content-Range": "bytes 41943040-52428799/119176760"
+      },
+      "corpo": "<binário 0 bytes>"
+    },
+    {
+      "ordem": 9,
+      "plataforma": "tiktok",
+      "descricao": "enviar pedaço 6/11",
+      "metodo": "PUT",
+      "url": "https://open-upload.tiktokapis.com/video/?upload_id=simulado",
+      "headers": {
+        "Content-Type": "video/mp4",
+        "Content-Length": "10485760",
+        "Content-Range": "bytes 52428800-62914559/119176760"
+      },
+      "corpo": "<binário 0 bytes>"
+    },
+    {
+      "ordem": 10,
+      "plataforma": "tiktok",
+      "descricao": "enviar pedaço 7/11",
+      "metodo": "PUT",
+      "url": "https://open-upload.tiktokapis.com/video/?upload_id=simulado",
+      "headers": {
+        "Content-Type": "video/mp4",
+        "Content-Length": "10485760",
+        "Content-Range": "bytes 62914560-73400319/119176760"
+      },
+      "corpo": "<binário 0 bytes>"
+    },
+    {
+      "ordem": 11,
+      "plataforma": "tiktok",
+      "descricao": "enviar pedaço 8/11",
+      "metodo": "PUT",
+      "url": "https://open-upload.tiktokapis.com/video/?upload_id=simulado",
+      "headers": {
+        "Content-Type": "video/mp4",
+        "Content-Length": "10485760",
+        "Content-Range": "bytes 73400320-83886079/119176760"
+      },
+      "corpo": "<binário 0 bytes>"
+    },
+    {
+      "ordem": 12,
+      "plataforma": "tiktok",
+      "descricao": "enviar pedaço 9/11",
+      "metodo": "PUT",
+      "url": "https://open-upload.tiktokapis.com/video/?upload_id=simulado",
+      "headers": {
+        "Content-Type": "video/mp4",
+        "Content-Length": "10485760",
+        "Content-Range": "bytes 83886080-94371839/119176760"
+      },
+      "corpo": "<binário 0 bytes>"
+    },
+    {
+      "ordem": 13,
+      "plataforma": "tiktok",
+      "descricao": "enviar pedaço 10/11",
+      "metodo": "PUT",
+      "url": "https://open-upload.tiktokapis.com/video/?upload_id=simulado",
+      "headers": {
+        "Content-Type": "video/mp4",
+        "Content-Length": "10485760",
+        "Content-Range": "bytes 94371840-104857599/119176760"
+      },
+      "corpo": "<binário 0 bytes>"
+    },
+    {
+      "ordem": 14,
+      "plataforma": "tiktok",
+      "descricao": "enviar pedaço 11/11",
+      "metodo": "PUT",
+      "url": "https://open-upload.tiktokapis.com/video/?upload_id=simulado",
+      "headers": {
+        "Content-Type": "video/mp4",
+        "Content-Length": "14319160",
+        "Content-Range": "bytes 104857600-119176759/119176760"
+      },
+      "corpo": "<binário 0 bytes>"
+    },
+    {
+      "ordem": 15,
+      "plataforma": "tiktok",
+      "descricao": "status/fetch",
+      "metodo": "POST",
+      "url": "https://open.tiktokapis.com/v2/post/publish/status/fetch/",
+      "headers": {
+        "Authorization": "Bear…********",
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      "corpo": {
+        "publish_id": "v_pub_file~simulado"
+      }
+    },
+    {
+      "ordem": 16,
+      "plataforma": "hospedagem",
+      "descricao": "garantir bucket público \"videos\"",
+      "metodo": "POST",
+      "url": "https://seu-projeto.supabase.co/storage/v1/bucket",
+      "headers": {
+        "Authorization": "****",
+        "apikey": "****"
+      },
+      "corpo": {
+        "id": "videos",
+        "name": "videos",
+        "public": true
+      }
+    },
+    {
+      "ordem": 17,
+      "plataforma": "hospedagem",
+      "descricao": "enviar guiche3/uma_pra_das_tres_1794158117992.mp4 para o Storage",
+      "metodo": "POST",
+      "url": "https://seu-projeto.supabase.co/storage/v1/object/videos/guiche3/uma_pra_das_tres_1794158117992.mp4",
+      "headers": {
+        "Authorization": "****",
+        "apikey": "****",
+        "Content-Type": "video/mp4",
+        "x-upsert": "true"
+      },
+      "corpo": "<binário 0 bytes>"
+    },
+    {
+      "ordem": 18,
+      "plataforma": "instagram",
+      "descricao": "criar container REELS",
+      "metodo": "POST",
+      "url": "https://graph.facebook.com/v21.0/IG_USER_ID/media",
+      "headers": {},
+      "corpo": {
+        "media_type": "REELS",
+        "video_url": "https://SEU-PROJETO.supabase.co/storage/v1/object/public/videos/guiche3/uma_pra_das_tres_1794158117992.mp4",
+        "caption": "Ele atendia o guichê da madrugada e o painel anunciou um ônibus que não existe. Epi. 01\n\nVotação aberta: VENDER a passagem ou FECHAR o guichê? A mais votada decide o começo do Epi. 02.\n\n#pov #historia #suspense #rodoviaria",
+        "share_to_feed": "true",
+        "thumb_offset": 49500,
+        "access_token": "****"
+      }
+    },
+    {
+      "ordem": 19,
+      "plataforma": "instagram",
+      "descricao": "status do container",
+      "metodo": "GET",
+      "url": "https://graph.facebook.com/v21.0/17900000000000000?fields=status_code%2Cstatus&access_token=****",
+      "headers": {},
+      "corpo": null
+    },
+    {
+      "ordem": 20,
+      "plataforma": "instagram",
+      "descricao": "media_publish",
+      "metodo": "POST",
+      "url": "https://graph.facebook.com/v21.0/IG_USER_ID/media_publish",
+      "headers": {},
+      "corpo": {
+        "creation_id": "17900000000000000",
+        "access_token": "****"
+      }
+    },
+    {
+      "ordem": 21,
+      "plataforma": "instagram",
+      "descricao": "permalink",
+      "metodo": "GET",
+      "url": "https://graph.facebook.com/v21.0/18000000000000000?fields=permalink&access_token=****",
+      "headers": {},
+      "corpo": null
+    },
+    {
+      "ordem": 22,
+      "plataforma": "instagram",
+      "descricao": "comentário da votação",
+      "metodo": "POST",
+      "url": "https://graph.facebook.com/v21.0/18000000000000000/comments",
+      "headers": {},
+      "corpo": {
+        "message": "Votação aberta: VENDER a passagem ou FECHAR o guichê? A mais votada decide o começo do Epi. 02.",
+        "access_token": "****"
+      }
+    },
+    {
+      "ordem": 23,
+      "plataforma": "hospedagem",
+      "descricao": "remover guiche3/uma_pra_das_tres_1794158117992.mp4",
+      "metodo": "DELETE",
+      "url": "https://seu-projeto.supabase.co/storage/v1/object/videos",
+      "headers": {
+        "Authorization": "****",
+        "apikey": "****"
+      },
+      "corpo": {
+        "prefixes": [
+          "guiche3/uma_pra_das_tres_1794158117992.mp4"
+        ]
+      }
+    },
+    {
+      "ordem": 24,
+      "plataforma": "facebook",
+      "descricao": "POST /{page}/videos (multipart source)",
+      "metodo": "POST",
+      "url": "https://graph.facebook.com/v21.0/META_PAGE_ID/videos",
+      "headers": {},
+      "corpo": {
+        "access_token": "simulado",
+        "description": "Ele atendia o guichê da madrugada e o painel anunciou um ônibus que não existe. Epi. 01\n\nVotação aberta: VENDER a passagem ou FECHAR o guichê? A mais votada decide o começo do Epi. 02.\n\n#pov #historia #suspense #rodoviaria",
+        "title": "Ele atendia o guichê da madrugada e o painel anunciou um ônibus que não existe · Epi. 01",
+        "source": "<arquivo video.mp4>"
+      }
+    },
+    {
+      "ordem": 25,
+      "plataforma": "facebook",
+      "descricao": "comentário da votação",
+      "metodo": "POST",
+      "url": "https://graph.facebook.com/v21.0/1240000000000000/comments",
+      "headers": {},
+      "corpo": {
+        "message": "Votação aberta: VENDER a passagem ou FECHAR o guichê? A mais votada decide o começo do Epi. 02.",
+        "access_token": "****"
+      }
+    },
+    {
+      "ordem": 26,
+      "plataforma": "youtube",
+      "descricao": "renovar access token (refresh_token)",
+      "metodo": "POST",
+      "url": "https://oauth2.googleapis.com/token",
+      "headers": {},
+      "corpo": {
+        "client_id": "",
+        "client_secret": "****",
+        "refresh_token": "****",
+        "grant_type": "refresh_token"
+      }
+    },
+    {
+      "ordem": 27,
+      "plataforma": "youtube",
+      "descricao": "iniciar upload resumível",
+      "metodo": "POST",
+      "url": "https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status",
+      "headers": {
+        "Authorization": "Bear…********",
+        "Content-Type": "application/json; charset=UTF-8",
+        "X-Upload-Content-Type": "video/mp4",
+        "X-Upload-Content-Length": "119176760"
+      },
+      "corpo": {
+        "snippet": {
+          "title": "Uma pra das três, por favor · Epi. 01 #Shorts",
+          "description": "Ele atendia o guichê da madrugada e o painel anunciou um ônibus que não existe. Epi. 01\n\nO que você faria? A) Vender a passagem · B) Fechar o guichê\n\nVotação aberta: VENDER a passagem ou FECHAR o guichê? A mais votada decide o começo do Epi. 02.\n\n#pov #historia #suspense #rodoviaria\n\nCanal Guichê 3 · história e personagens originais · vozes e animação feitas com IA",
+          "tags": [
+            "pov",
+            "historia",
+            "suspense",
+            "rodoviaria",
+            "shorts",
+            "brasil"
+          ],
+          "categoryId": "24",
+          "defaultLanguage": "pt-BR",
+          "defaultAudioLanguage": "pt-BR"
+        },
+        "status": {
+          "privacyStatus": "public",
+          "selfDeclaredMadeForKids": false,
+          "embeddable": true,
+          "containsSyntheticMedia": true
+        }
+      }
+    },
+    {
+      "ordem": 28,
+      "plataforma": "youtube",
+      "descricao": "enviar vídeo (PUT único)",
+      "metodo": "PUT",
+      "url": "https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&upload_id=simulado",
+      "headers": {
+        "Authorization": "Bear…********",
+        "Content-Type": "video/mp4",
+        "Content-Length": "119176760"
+      },
+      "corpo": "<binário 0 bytes>"
+    },
+    {
+      "ordem": 29,
+      "plataforma": "youtube",
+      "descricao": "thumbnail (ignora falha)",
+      "metodo": "POST",
+      "url": "https://www.googleapis.com/upload/youtube/v3/thumbnails/set?videoId=SIMULADO0001&uploadType=media",
+      "headers": {
+        "Authorization": "Bear…********",
+        "Content-Type": "image/png"
+      },
+      "corpo": "<binário 0 bytes>"
+    },
+    {
+      "ordem": 30,
+      "plataforma": "youtube",
+      "descricao": "comentário da votação (commentThreads.insert)",
+      "metodo": "POST",
+      "url": "https://www.googleapis.com/youtube/v3/commentThreads?part=snippet",
+      "headers": {
+        "Authorization": "Bear…********"
+      },
+      "corpo": {
+        "snippet": {
+          "videoId": "SIMULADO0001",
+          "topLevelComment": {
+            "snippet": {
+              "textOriginal": "Votação aberta: VENDER a passagem ou FECHAR o guichê? A mais votada decide o começo do Epi. 02."
+            }
+          }
+        }
+      }
+    },
+    {
+      "ordem": 31,
+      "plataforma": "kwai",
+      "metodo": "NAVEGADOR",
+      "url": "https://www.kwai.com/upload",
+      "descricao": "abriria o Chromium com o perfil persistente, enviaria o arquivo, preencheria a legenda e clicaria em Publicar"
+    }
+  ]
+}

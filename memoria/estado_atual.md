@@ -25,3 +25,14 @@ _Atualizado automaticamente pela etapa `memoria` e à mão pelo dono do canal._
 
 ## Como refazer o que foi feito hoje
 `npm install && pip install -r requirements.txt && node fabrica/cli.js episodio --episodio 1 --provedor-voz falso --escala 0.5`
+
+<!-- auto:inicio (gerado pela fábrica; edite acima desta linha) -->
+## Painel automático (2026-11-08 17:15 UTC)
+| Ep | Título | Etapa | Bloqueios | Publicado | Redes | Voto |
+|---|---|---|---|---|---|---|
+| 01 | Uma pra das três | capa | voz falsa: gere as vozes de verdade antes de publicar | — | — | — |
+
+**Próximo passo da fábrica:** terminar o episódio 1 (está em "capa", bloqueado por: voz falsa: gere as vozes de verdade antes de publicar).
+
+**Como outro chat continua:** leia CLAUDE.md, rode `node fabrica/cli.js status` e depois `node fabrica/cli.js diario` (ou `episodio --novo` para só produzir).
+<!-- auto:fim -->

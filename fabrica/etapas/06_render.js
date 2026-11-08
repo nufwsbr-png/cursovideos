@@ -24,6 +24,8 @@ export async function etapaRender({ canal, ep, escala = 1, semVideo = false, sem
   const t0 = Date.now();
 
   if (!semStills) {
+    // Limpa stills de rodadas anteriores (podem estar em outra escala e confundir o revisor).
+    fs.rmSync(path.join(ep.dir, "stills"), { recursive: true, force: true });
     const tempos = temposImportantes(lt);
     log.info(`stills em ${tempos.length} instantes...`);
     await executar("node", [RENDERIZAR, ...comuns, "--stills", tempos.join(",")]);

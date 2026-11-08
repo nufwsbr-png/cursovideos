@@ -1,10 +1,116 @@
 {
-  "gerado_em": "2026-11-08T16:37:42.329Z",
+  "gerado_em": "2026-11-08T16:39:16.773Z",
   "episodio": "episodios/ep01_uma_pra_das_tres",
-  "imagens_analisadas": 91,
+  "imagens_analisadas": 117,
   "legendas_conferidas": 30,
   "problemas": [],
-  "avisos": [],
+  "avisos": [
+    {
+      "tipo": "tamanho_errado",
+      "t": 2,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0002.00.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 2.5,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0002.50.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 5.9,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0005.90.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 10,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0010.00.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 13.4,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0013.40.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 24,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0024.00.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 31,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0031.00.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 38.5,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0038.50.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 51,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0051.00.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 59.5,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0059.50.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 61,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0061.00.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 62.4,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0062.40.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 63.5,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0063.50.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 67,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0067.00.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 67.4,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0067.40.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 77.5,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0077.50.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 79.5,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0079.50.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 90,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0090.00.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 95,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0095.00.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 104,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0104.00.png: 540x960"
+    },
+    {
+      "tipo": "tamanho_errado",
+      "t": 108,
+      "detalhe": "episodios/ep01_uma_pra_das_tres/stills/t_0108.00.png: 540x960"
+    }
+  ],
   "aprovado": true,
   "nao_conferido": [
     "movimento entre quadros (só a sequência mostra)",
@@ -245,10 +351,52 @@
       "clima": "escalada"
     },
     {
+      "t": 48.4,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0048.40.png",
+      "luminancia": 0.344,
+      "uniforme": 0.138,
+      "clima": "escalada"
+    },
+    {
+      "t": 50,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0050.00.png",
+      "luminancia": 0.344,
+      "uniforme": 0.136,
+      "clima": "escalada"
+    },
+    {
       "t": 51,
       "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0051.00.png",
       "luminancia": 0.454,
       "uniforme": 0.18,
+      "clima": "escalada"
+    },
+    {
+      "t": 52.5,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0052.50.png",
+      "luminancia": 0.328,
+      "uniforme": 0.13,
+      "clima": "escalada"
+    },
+    {
+      "t": 54,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0054.00.png",
+      "luminancia": 0.339,
+      "uniforme": 0.184,
+      "clima": "escalada"
+    },
+    {
+      "t": 56.5,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0056.50.png",
+      "luminancia": 0.297,
+      "uniforme": 0.248,
+      "clima": "escalada"
+    },
+    {
+      "t": 58.7,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0058.70.png",
+      "luminancia": 0.297,
+      "uniforme": 0.365,
       "clima": "escalada"
     },
     {
@@ -266,6 +414,13 @@
       "clima": "escalada"
     },
     {
+      "t": 62.3,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0062.30.png",
+      "luminancia": 0.338,
+      "uniforme": 0.102,
+      "clima": "escalada"
+    },
+    {
       "t": 62.4,
       "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0062.40.png",
       "luminancia": 0.422,
@@ -275,8 +430,8 @@
     {
       "t": 63,
       "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0063.00.png",
-      "luminancia": 0.329,
-      "uniforme": 0.089,
+      "luminancia": 0.337,
+      "uniforme": 0.099,
       "clima": "escalada"
     },
     {
@@ -284,6 +439,13 @@
       "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0063.50.png",
       "luminancia": 0.339,
       "uniforme": 0.102,
+      "clima": "escalada"
+    },
+    {
+      "t": 65.7,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0065.70.png",
+      "luminancia": 0.336,
+      "uniforme": 0.1,
       "clima": "escalada"
     },
     {
@@ -301,10 +463,38 @@
       "clima": "escalada"
     },
     {
+      "t": 69.5,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0069.50.png",
+      "luminancia": 0.339,
+      "uniforme": 0.11,
+      "clima": "escalada"
+    },
+    {
+      "t": 71.3,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0071.30.png",
+      "luminancia": 0.345,
+      "uniforme": 0.165,
+      "clima": "escalada"
+    },
+    {
       "t": 74,
       "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0074.00.png",
       "luminancia": 0.333,
       "uniforme": 0.16,
+      "clima": "climax"
+    },
+    {
+      "t": 74.6,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0074.60.png",
+      "luminancia": 0.298,
+      "uniforme": 0.198,
+      "clima": "climax"
+    },
+    {
+      "t": 76.8,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0076.80.png",
+      "luminancia": 0.273,
+      "uniforme": 0.167,
       "clima": "climax"
     },
     {
@@ -315,10 +505,52 @@
       "clima": "climax"
     },
     {
+      "t": 79,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0079.00.png",
+      "luminancia": 0.33,
+      "uniforme": 0.126,
+      "clima": "climax"
+    },
+    {
       "t": 79.5,
       "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0079.50.png",
       "luminancia": 0.338,
       "uniforme": 0.117,
+      "clima": "climax"
+    },
+    {
+      "t": 82,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0082.00.png",
+      "luminancia": 0.283,
+      "uniforme": 0.218,
+      "clima": "climax"
+    },
+    {
+      "t": 83.2,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0083.20.png",
+      "luminancia": 0.286,
+      "uniforme": 0.275,
+      "clima": "climax"
+    },
+    {
+      "t": 86,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0086.00.png",
+      "luminancia": 0.295,
+      "uniforme": 0.198,
+      "clima": "climax"
+    },
+    {
+      "t": 87.6,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0087.60.png",
+      "luminancia": 0.3,
+      "uniforme": 0.224,
+      "clima": "climax"
+    },
+    {
+      "t": 89.2,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0089.20.png",
+      "luminancia": 0.277,
+      "uniforme": 0.158,
       "clima": "climax"
     },
     {
@@ -329,10 +561,45 @@
       "clima": "climax"
     },
     {
+      "t": 91.3,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0091.30.png",
+      "luminancia": 0.268,
+      "uniforme": 0.153,
+      "clima": "climax"
+    },
+    {
+      "t": 94.4,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0094.40.png",
+      "luminancia": 0.266,
+      "uniforme": 0.144,
+      "clima": "climax"
+    },
+    {
       "t": 95,
       "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0095.00.png",
       "luminancia": 0.258,
       "uniforme": 0.2,
+      "clima": "climax"
+    },
+    {
+      "t": 96.6,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0096.60.png",
+      "luminancia": 0.267,
+      "uniforme": 0.122,
+      "clima": "climax"
+    },
+    {
+      "t": 97.5,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0097.50.png",
+      "luminancia": 0.286,
+      "uniforme": 0.271,
+      "clima": "climax"
+    },
+    {
+      "t": 99.8,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0099.80.png",
+      "luminancia": 0.271,
+      "uniforme": 0.17,
       "clima": "climax"
     },
     {
@@ -343,6 +610,13 @@
       "clima": "climax"
     },
     {
+      "t": 103,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0103.00.png",
+      "luminancia": 0.306,
+      "uniforme": 0.12,
+      "clima": "climax"
+    },
+    {
       "t": 104,
       "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0104.00.png",
       "luminancia": 0.186,
@@ -350,10 +624,24 @@
       "clima": "climax"
     },
     {
+      "t": 107,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0107.00.png",
+      "luminancia": 0.161,
+      "uniforme": 0.278,
+      "clima": "pergunta"
+    },
+    {
       "t": 108,
       "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0108.00.png",
       "luminancia": 0.026,
       "uniforme": 0.867,
+      "clima": "pergunta"
+    },
+    {
+      "t": 110.7,
+      "arquivo": "episodios/ep01_uma_pra_das_tres/stills/t_0110.70.png",
+      "luminancia": 0.064,
+      "uniforme": 0.836,
       "clima": "pergunta"
     },
     {

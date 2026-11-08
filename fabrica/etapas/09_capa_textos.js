@@ -93,8 +93,21 @@ export async function etapaCapaTextos({ canal, ep }) {
   const { largura, altura } = canal.formato;
   const cores = canal.estilo?.cores ?? { c1: "#1f4e5f", c2: "#efe3c2", c3: "#d9772b", alerta: "#ffb000" };
   const fonteB64 = fonteBase64();
-  const tempos = [r.capa?.t_quadro ?? 10, ...(r.capa?.alternativas_t ?? [])].slice(0, 3);
+  // O quadro da capa não pode ter legenda (capítulo 70). Os tempos do roteiro são nominais; as vozes deslocam
+  // a linha do tempo, então cada instante é empurrado para fora das falas reais.
+  const lt = lerJson(path.join(ep.dir, "linha_do_tempo.json"), null);
+  const semLegenda = (t) => {
+    const total = lt?.duracao_total_s ?? Infinity;
+    for (let i = 0; i < 40; i++) {
+      const dentro = (lt?.falas ?? []).find((f) => t >= f.inicio_s - 0.25 && t <= f.fim_s + 0.35);
+      if (!dentro) return Math.min(t, total - 0.5);
+      t = dentro.fim_s + 0.6;
+    }
+    return t;
+  };
+  const tempos = [r.capa?.t_quadro ?? 10, ...(r.capa?.alternativas_t ?? [])].slice(0, 3).map(semLegenda);
   while (tempos.length < 3) tempos.push(tempos[0]);
+  log.info(`quadros da capa em ${tempos.map((t) => t.toFixed(1) + "s").join(", ")} (fora das falas)`);
   const navegador = await abrirNavegador();
   const capasB64 = [];
   try {

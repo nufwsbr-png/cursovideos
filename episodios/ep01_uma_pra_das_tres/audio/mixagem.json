@@ -215,17 +215,17 @@
     "ganho_linear_db": 5.92,
     "limitador_reducao_max_db": 4.25
   },
-  "video": "/tmp/claude-0/-home-user-cursovideos/88e5d9cc-f218-5c4b-8b9e-7ff9d81df1e8/scratchpad/som/video_mudo_teste.mp4",
-  "saida": "/tmp/claude-0/-home-user-cursovideos/88e5d9cc-f218-5c4b-8b9e-7ff9d81df1e8/scratchpad/som/ep01_teste.mp4",
+  "video": "/home/user/cursovideos/episodios/ep01_uma_pra_das_tres/video_mudo.mp4",
+  "saida": "/home/user/cursovideos/episodios/ep01_uma_pra_das_tres/ep01.mp4",
   "medido": {
-    "arquivo": "/tmp/claude-0/-home-user-cursovideos/88e5d9cc-f218-5c4b-8b9e-7ff9d81df1e8/scratchpad/som/ep01_teste.mp4",
+    "arquivo": "/home/user/cursovideos/episodios/ep01_uma_pra_das_tres/ep01.mp4",
     "formato": "mov,mp4,m4a,3gp,3g2,mj2",
     "duracao_s": 111.733,
-    "tamanho_mb": 2.7,
+    "tamanho_mb": 119.18,
     "video": {
       "codec": "h264",
-      "largura": 540,
-      "altura": 960,
+      "largura": 1080,
+      "altura": 1920,
       "fps": 30.0,
       "pix_fmt": "yuv420p"
     },
