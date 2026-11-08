@@ -3,7 +3,7 @@
   "previa": false,
   "medidas_sinteticas": false,
   "comandos": [
-    "stills 56.49,6.76,64.51"
+    "video 70-72"
   ],
   "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
   "avisos": [],
@@ -313,7 +313,7 @@
       ]
     },
     {
-      "t": 74,
+      "t": 73.72,
       "id": "f15",
       "quem": "passageiro",
       "texto": "Boa noite, moço.",
@@ -1095,9 +1095,21 @@
       "clima": "escalada"
     },
     {
+      "t": 72.5,
+      "luminancia": 0.39781500544663273,
+      "uniforme": 0.23958333333333334,
+      "clima": "escalada"
+    },
+    {
       "t": 73,
-      "luminancia": 0.3543347161704286,
-      "uniforme": 0.18364197530864199,
+      "luminancia": 0.3971581245461241,
+      "uniforme": 0.23939043209876543,
+      "clima": "escalada"
+    },
+    {
+      "t": 73.5,
+      "luminancia": 0.3965833098826044,
+      "uniforme": 0.23996913580246915,
       "clima": "escalada"
     },
     {
@@ -1413,10 +1425,10 @@
       "clima": "pergunta"
     }
   ],
-  "tempo_total_s": 7.556,
-  "atualizado_em": "2026-11-08T20:45:18.739Z",
+  "tempo_total_s": 351.615,
+  "atualizado_em": "2026-11-08T21:29:04.629Z",
   "quadros": 120,
-  "segundos_por_quadro": 1.4423833333333334,
+  "segundos_por_quadro": 2.9085416666666664,
   "video": "episodios/ep01_uma_pra_das_tres/video_mudo_70.0-72.0.mp4",
   "video_parcial": true
 }
