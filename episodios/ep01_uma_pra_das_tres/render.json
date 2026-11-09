@@ -3,14 +3,14 @@
   "previa": false,
   "medidas_sinteticas": false,
   "comandos": [
-    "stills 56.49,6.76,64.51"
+    "stills 2,2.6,3.2,3.8,9.5,25,56.5,60"
   ],
   "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
   "avisos": [],
   "duracao_total_s": 111.731,
   "fps": 60,
   "variacao": "cartela",
-  "segundos_por_quadro_stills": 2.010666666666667,
+  "segundos_por_quadro_stills": 1.683125,
   "legendas": [
     {
       "t": 2,
@@ -37,7 +37,7 @@
       ]
     },
     {
-      "t": 9.12,
+      "t": 9.5,
       "id": "f03",
       "quem": "dalva",
       "texto": "Isso aí é o painel com mau",
@@ -49,7 +49,7 @@
       ]
     },
     {
-      "t": 9.12,
+      "t": 9.5,
       "id": "f03",
       "quem": "dalva",
       "texto": "contato.",
@@ -85,7 +85,7 @@
       ]
     },
     {
-      "t": 18.62,
+      "t": 20,
       "id": "f05",
       "quem": "dalva",
       "texto": "Tem quatro. Sempre teve",
@@ -97,7 +97,7 @@
       ]
     },
     {
-      "t": 18.62,
+      "t": 20,
       "id": "f05",
       "quem": "dalva",
       "texto": "quatro.",
@@ -109,7 +109,7 @@
       ]
     },
     {
-      "t": 21.77,
+      "t": 25,
       "id": "f06",
       "quem": "alto_falante",
       "texto": "Partida com destino a... ...",
@@ -121,7 +121,7 @@
       ]
     },
     {
-      "t": 21.77,
+      "t": 25,
       "id": "f06",
       "quem": "alto_falante",
       "texto": "plataforma sete. Embarque",
@@ -133,7 +133,7 @@
       ]
     },
     {
-      "t": 21.77,
+      "t": 25,
       "id": "f06",
       "quem": "alto_falante",
       "texto": "imediato.",
@@ -145,7 +145,7 @@
       ]
     },
     {
-      "t": 29.05,
+      "t": 30,
       "id": "f07",
       "quem": "dalva",
       "texto": "Quem gravou isso?",
@@ -169,7 +169,7 @@
       ]
     },
     {
-      "t": 37.45,
+      "t": 37.5,
       "id": "f09",
       "quem": "amaral",
       "texto": "Fecha o guichê. Apaga a luz.",
@@ -181,7 +181,7 @@
       ]
     },
     {
-      "t": 37.45,
+      "t": 37.5,
       "id": "f09",
       "quem": "amaral",
       "texto": "Não olha pra plataforma sete,",
@@ -193,7 +193,7 @@
       ]
     },
     {
-      "t": 37.45,
+      "t": 37.5,
       "id": "f09",
       "quem": "amaral",
       "texto": "menino.",
@@ -205,7 +205,7 @@
       ]
     },
     {
-      "t": 43.93,
+      "t": 45,
       "id": "f10",
       "quem": "eu",
       "texto": "Seu Amaral, o senhor tá vendo",
@@ -217,7 +217,7 @@
       ]
     },
     {
-      "t": 43.93,
+      "t": 45,
       "id": "f10",
       "quem": "eu",
       "texto": "o painel?",
@@ -277,7 +277,7 @@
       ]
     },
     {
-      "t": 62.05,
+      "t": 63,
       "id": "f13",
       "quem": "dalva",
       "texto": "Não tem motorista.",
@@ -289,7 +289,7 @@
       ]
     },
     {
-      "t": 69.25,
+      "t": 70,
       "id": "f14",
       "quem": "dalva",
       "texto": "Esse aí vem todo dia. Eu nunca",
@@ -301,7 +301,7 @@
       ]
     },
     {
-      "t": 69.25,
+      "t": 70,
       "id": "f14",
       "quem": "dalva",
       "texto": "te falei.",
@@ -430,8 +430,8 @@
     },
     {
       "t": 2,
-      "luminancia": 0.4470297544480997,
-      "uniforme": 0.14969135802469136,
+      "luminancia": 0.43870723190513516,
+      "uniforme": 0.15007716049382716,
       "clima": "rotina"
     },
     {
@@ -447,15 +447,33 @@
       "clima": "rotina"
     },
     {
+      "t": 2.6,
+      "luminancia": 0.4997208598099638,
+      "uniforme": 0.1861496913580247,
+      "clima": "rotina"
+    },
+    {
       "t": 3,
       "luminancia": 0.48727175850277593,
       "uniforme": 0.19155092592592593,
       "clima": "rotina"
     },
     {
+      "t": 3.2,
+      "luminancia": 0.5018865052348002,
+      "uniforme": 0.1857638888888889,
+      "clima": "rotina"
+    },
+    {
       "t": 3.5,
       "luminancia": 0.48726570972524036,
       "uniforme": 0.19174382716049382,
+      "clima": "rotina"
+    },
+    {
+      "t": 3.8,
+      "luminancia": 0.4986483001996998,
+      "uniforme": 0.1857638888888889,
       "clima": "rotina"
     },
     {
@@ -562,8 +580,8 @@
     },
     {
       "t": 9.5,
-      "luminancia": 0.4791939746731939,
-      "uniforme": 0.20794753086419754,
+      "luminancia": 0.48178598477970536,
+      "uniforme": 0.20543981481481483,
       "clima": "sinal"
     },
     {
@@ -712,8 +730,8 @@
     },
     {
       "t": 20,
-      "luminancia": 0.4662088174776032,
-      "uniforme": 0.22935956790123457,
+      "luminancia": 0.4670948847131392,
+      "uniforme": 0.2193287037037037,
       "clima": "sinal"
     },
     {
@@ -778,8 +796,8 @@
     },
     {
       "t": 25,
-      "luminancia": 0.4626173520334085,
-      "uniforme": 0.16415895061728394,
+      "luminancia": 0.4640881248487083,
+      "uniforme": 0.15856481481481483,
       "clima": "escalada"
     },
     {
@@ -856,8 +874,8 @@
     },
     {
       "t": 30,
-      "luminancia": 0.4058065911704268,
-      "uniforme": 0.22839506172839505,
+      "luminancia": 0.40994290047809684,
+      "uniforme": 0.21257716049382716,
       "clima": "escalada"
     },
     {
@@ -964,8 +982,8 @@
     },
     {
       "t": 37.5,
-      "luminancia": 0.3441745317417127,
-      "uniforme": 0.20833333333333334,
+      "luminancia": 0.35888444081336507,
+      "uniforme": 0.19502314814814814,
       "clima": "escalada"
     },
     {
@@ -1066,8 +1084,8 @@
     },
     {
       "t": 45,
-      "luminancia": 0.42368802045509185,
-      "uniforme": 0.17631172839506173,
+      "luminancia": 0.4217488683127539,
+      "uniforme": 0.18094135802469136,
       "clima": "escalada"
     },
     {
@@ -1222,8 +1240,8 @@
     },
     {
       "t": 56.5,
-      "luminancia": 0.4131641347434106,
-      "uniforme": 0.2177854938271605,
+      "luminancia": 0.41523079006294533,
+      "uniforme": 0.2048611111111111,
       "clima": "escalada"
     },
     {
@@ -1270,8 +1288,8 @@
     },
     {
       "t": 60,
-      "luminancia": 0.4157752776264822,
-      "uniforme": 0.19753086419753085,
+      "luminancia": 0.4143050358569368,
+      "uniforme": 0.20505401234567902,
       "clima": "escalada"
     },
     {
@@ -1318,8 +1336,8 @@
     },
     {
       "t": 63,
-      "luminancia": 0.41844827221011677,
-      "uniforme": 0.20081018518518517,
+      "luminancia": 0.41702725127087853,
+      "uniforme": 0.20794753086419754,
       "clima": "escalada"
     },
     {
@@ -1420,8 +1438,8 @@
     },
     {
       "t": 70,
-      "luminancia": 0.39975589748245993,
-      "uniforme": 0.23842592592592593,
+      "luminancia": 0.4014842554768898,
+      "uniforme": 0.22318672839506173,
       "clima": "escalada"
     },
     {
@@ -1888,8 +1906,8 @@
     },
     {
       "t": 104,
-      "luminancia": 0.28238217592591364,
-      "uniforme": 0.22916666666666666,
+      "luminancia": 0.28316277233114057,
+      "uniforme": 0.2334104938271605,
       "clima": "climax"
     },
     {
@@ -1989,8 +2007,8 @@
       "clima": "pergunta"
     }
   ],
-  "tempo_total_s": 7.402,
-  "atualizado_em": "2026-11-09T00:04:55.450Z",
+  "tempo_total_s": 14.958,
+  "atualizado_em": "2026-11-09T00:37:22.778Z",
   "quadros": 6704,
   "segundos_por_quadro": 1.334858890214797,
   "video": "episodios/ep01_uma_pra_das_tres/video_mudo.mp4",

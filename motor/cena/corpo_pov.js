@@ -13,8 +13,10 @@ function alinhar(mesh, a, b) {
 }
 
 export class CorpoPOV {
-  constructor(protagonista, estilo, cores, alturaOlhos = 1.48) {
+  // balcao: { y: altura do tampo, zBeira: z da beira do tampo do lado de quem senta } — o braço nunca entra nele
+  constructor(protagonista, estilo, cores, alturaOlhos = 1.48, balcao = null) {
     this.estilo = estilo; this.alturaOlhos = alturaOlhos;
+    this.balcaoY = balcao?.y ?? 1.05; this.balcaoZ = balcao?.zBeira ?? -0.1;
     const maos = protagonista.maos || {};
     this.pele = maos.pele || '#7a4a28';
     this.manga = maos.manga || '#a9c7e8';
@@ -48,16 +50,20 @@ export class CorpoPOV {
       if (lado === 'esq' && /esparadrapo/i.test(maos.detalhe || '')) {
         const esp = new THREE.Mesh(new THREE.CylinderGeometry(RD * 1.25, RD * 1.25, 0.016, 12), estilo.material('#f3efe6')); esp.rotation.x = Math.PI / 2; esp.position.set(0, 0, -comp[1] * 0.3); this.dedos[lado][1].base.add(esp);
       }
-      // antebraço (pele) + manga da camisa + punho dobrado: alinhados a cada quadro entre o pulso e um cotovelo fora do quadro
+      // braço em três trechos alinhados a cada quadro: antebraço de pele (pulso → punho da camisa), manga do punho até o
+      // cotovelo (apoiado logo além da beira do balcão) e manga do cotovelo até o ombro (atrás e abaixo da câmera).
+      // Antes era um trecho só do punho até um "ombro" na altura do quadril e a manga mergulhava dentro do tampo.
       const ante = new THREE.Mesh(new THREE.CylinderGeometry(0.027, 0.030, 1, 14), estilo.material(this.pele));
-      const mangaM = new THREE.Mesh(new THREE.CylinderGeometry(0.046, 0.056, 1, 14), estilo.material(this.manga));
-      const dobra = new THREE.Mesh(new THREE.CylinderGeometry(0.048, 0.048, 0.045, 14), estilo.material(corPunho));
-      this.grupo.add(ante); this.grupo.add(mangaM); this.grupo.add(dobra);
+      const mangaM = new THREE.Mesh(new THREE.CylinderGeometry(0.046, 0.052, 1, 14), estilo.material(this.manga));
+      const dobra = new THREE.Mesh(new THREE.CylinderGeometry(0.047, 0.047, 0.045, 14), estilo.material(corPunho));
+      const cotovelo = new THREE.Mesh(new THREE.SphereGeometry(0.054, 14, 10), estilo.material(this.manga));
+      const mangaS = new THREE.Mesh(new THREE.CylinderGeometry(0.054, 0.062, 1, 14), estilo.material(this.manga));
+      this.grupo.add(ante); this.grupo.add(mangaM); this.grupo.add(dobra); this.grupo.add(cotovelo); this.grupo.add(mangaS);
       // sombra de contato da mão no balcão (a referência tem sombras suaves embaixo das mãos)
       const sombra = new THREE.Mesh(new THREE.CircleGeometry(0.085, 20), new THREE.MeshBasicMaterial({ color: '#000', transparent: true, opacity: 0.16, depthWrite: false }));
       sombra.rotation.x = -Math.PI / 2; sombra.scale.set(1, 1.25, 1); sombra.userData.semTraco = true; this.grupo.add(sombra);
       this.grupo.add(g);
-      this.maos[lado] = { grupo: g, palma, dedos, polegar, ante, mangaM, dobra, sombra, s };
+      this.maos[lado] = { grupo: g, palma, dedos, polegar, ante, mangaM, dobra, cotovelo, mangaS, sombra, s };
     }
     // objetos
     this.objetos = {};
@@ -91,7 +97,6 @@ export class CorpoPOV {
       dir: { pos: new THREE.Vector3(0.24, 1.074, -0.42), rot: new THREE.Euler(0.02, -0.24, 0) },
     };
     this.celularNoBalcao = new THREE.Vector3(0.36, 1.072, -0.55);
-    this.balcaoY = 1.05;
   }
 
   definirTexturaCelular(tex) { this.telaCelular.material = new THREE.MeshBasicMaterial({ map: tex }); }
@@ -180,19 +185,30 @@ export class CorpoPOV {
         for (const d of this.dedos.dir) { d.base.rotation.x = -0.6; d.junta.rotation.x = -0.8; }
       }
     }
-    // antebraços: do punho até um cotovelo fora do quadro; a manga do cotovelo até o ombro; sombra sob a palma
+    // braços: pulso → punho da camisa → cotovelo → ombro. Com a mão apoiada, o cotovelo fica logo além da beira do tampo
+    // e um pouco mais alto que o pulso (a manga é mais grossa que o braço); o ombro fica atrás e abaixo da câmera, fora
+    // do quadro. Enquanto está sobre o tampo, nenhum trecho desce abaixo dele (regra anotada em memoria/aprendizados.md).
+    const apoiado = nome !== 'andar';
     for (const lado of ['esq', 'dir']) {
       const m = this.maos[lado];
       m.grupo.updateMatrix();
-      const punho = new THREE.Vector3(0, -0.003, 0.05).applyMatrix4(m.grupo.matrix);
+      const punho = new THREE.Vector3(0, 0.008, 0.05).applyMatrix4(m.grupo.matrix);
       const maoPos = m.grupo.position;
       const levantada = clamp((maoPos.y - 1.13) / 0.06, 0, 1);
-      const cot = new THREE.Vector3(maoPos.x + m.s * lerp(0.17, 0.12, levantada), maoPos.y - lerp(0.005, 0.33, levantada), maoPos.z + lerp(0.36, 0.08, levantada));
-      const omb = new THREE.Vector3(maoPos.x + m.s * lerp(0.26, 0.2, levantada), maoPos.y - lerp(0.42, 0.55, levantada), maoPos.z + lerp(0.62, 0.40, levantada));
+      const cot = new THREE.Vector3(maoPos.x + m.s * lerp(0.16, 0.12, levantada), maoPos.y + lerp(0.07, -0.30, levantada), maoPos.z + lerp(0.36, 0.10, levantada));
+      const omb = new THREE.Vector3(m.s * 0.19, this.alturaOlhos - 0.27, 0.10);
       const meio = new THREE.Vector3().lerpVectors(punho, cot, 0.3);
+      if (apoiado) {
+        const minMeio = this.balcaoY + 0.05, minBeira = this.balcaoY + 0.062;
+        if (meio.z < this.balcaoZ && meio.y < minMeio) meio.y = minMeio;
+        if (cot.z <= this.balcaoZ) cot.y = Math.max(cot.y, minBeira);
+        else if (meio.z < this.balcaoZ) { const f = (this.balcaoZ - meio.z) / (cot.z - meio.z); const yB = lerp(meio.y, cot.y, f); if (yB < minBeira) cot.y += (minBeira - yB) / f; }
+      }
       alinhar(m.ante, punho, meio);
       m.dobra.position.copy(meio); m.dobra.quaternion.copy(m.ante.quaternion); m.dobra.scale.set(1, 1, 1);
-      alinhar(m.mangaM, meio, omb);
+      alinhar(m.mangaM, meio, cot);
+      m.cotovelo.position.copy(cot);
+      alinhar(m.mangaS, cot, omb);
       const noBalcao = clamp(1 - (maoPos.y - this.balcaoY - 0.03) / 0.08, 0, 1);
       m.sombra.visible = noBalcao > 0.01; m.sombra.position.set(maoPos.x + m.s * 0.01, this.balcaoY + 0.004, maoPos.z - 0.02); m.sombra.material.opacity = 0.16 * noBalcao;
     }

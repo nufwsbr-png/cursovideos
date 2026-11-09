@@ -137,10 +137,13 @@ export class Boneco {
     // objeto na mão
     this.objeto = null;
     if (v.objeto === 'rodo') {
+      // origem do grupo = ponto onde a mão segura o cabo; o cabo sobe 0,35 m acima da mão e desce até a base, cujo
+      // comprimento é ajustado a cada quadro para a borracha encostar no chão (ajustarRodo)
       const o = new THREE.Group();
-      const cabo = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 1.35, 10), estilo.material('#b9b9b9')); o.add(cabo);
-      const base = new THREE.Mesh(geoCaixaArredondada(0.5, 0.05, 0.06, 0.015), estilo.material('#333')); base.position.y = -0.68; o.add(base);
-      const borracha = new THREE.Mesh(geoCaixaArredondada(0.5, 0.03, 0.03, 0.01), estilo.material('#222')); borracha.position.y = -0.71; o.add(borracha);
+      const cabo = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 1, 10), estilo.material('#b9b9b9')); o.add(cabo);
+      const base = new THREE.Mesh(geoCaixaArredondada(0.5, 0.05, 0.06, 0.015), estilo.material('#333')); o.add(base);
+      const borracha = new THREE.Mesh(geoCaixaArredondada(0.5, 0.03, 0.03, 0.01), estilo.material('#222')); o.add(borracha);
+      this.rodo = { cabo, base, borracha };
       this.objeto = o; this.tipoObjeto = 'rodo';
     } else if (v.objeto === 'mala') {
       const o = new THREE.Group();
@@ -149,7 +152,9 @@ export class Boneco {
       const fecho = new THREE.Mesh(geoCaixaArredondada(0.08, 0.03, 0.01, 0.004), estilo.material('#c9b26a')); fecho.position.set(0, -0.12, 0.065); o.add(fecho);
       this.objeto = o; this.tipoObjeto = 'mala';
     }
-    if (this.objeto) this.bracos[1].mao.add(this.objeto);
+    // o objeto pende do cotovelo, na posição da mão (a mão é uma esfera achatada: pendurar nela distorceria o objeto)
+    if (this.objeto) { this.objeto.position.copy(this.bracos[1].mao.position); this.bracos[1].cotovelo.add(this.objeto); }
+    this.pontaRodo = new THREE.Vector3();
     // sombra de contato (elipse escura no chão)
     const sombra = new THREE.Mesh(new THREE.CircleGeometry(largOmbro * 0.7, 20), new THREE.MeshBasicMaterial({ color: '#000', transparent: true, opacity: 0.18, depthWrite: false }));
     sombra.rotation.x = -Math.PI / 2; sombra.position.y = 0.006; sombra.scale.set(1, 0.6, 1); sombra.userData.semTraco = true; this.grupo.add(sombra);
@@ -161,6 +166,19 @@ export class Boneco {
     return alvo.setFromMatrixPosition(this.cabeca.matrixWorld).add(new THREE.Vector3(0, this.raioCab * this.oval[1], 0));
   }
 
+  // Estica ou encurta o cabo do rodo para a borracha encostar no chão, seja qual for a pose; guarda a ponta em pontaRodo.
+  ajustarRodo() {
+    if (!this.rodo) return;
+    const o = this.objeto; o.updateWorldMatrix(true, false);
+    const pegada = _v.setFromMatrixPosition(o.matrixWorld);
+    const dir = new THREE.Vector3(0, -1, 0).transformDirection(o.matrixWorld);
+    let L = 1.0; // cabo quase deitado: comprimento fixo (sem guardar estado entre quadros)
+    if (dir.y < -0.25) L = clamp((pegada.y - 0.035) / -dir.y, 0.5, 1.3);
+    this.rodo.cabo.scale.y = L + 0.35; this.rodo.cabo.position.y = (0.35 - L) / 2;
+    this.rodo.base.position.y = -L + 0.025; this.rodo.borracha.position.y = -L;
+    this.pontaRodo.copy(pegada).addScaledVector(dir, L);
+  }
+
   // estado: { visivel, pos:[x,y,z], direcao:[dx,dz]|null, andando, pose, expressao }, abertura 0..1, alvoOlhar Vector3|null
   aplicar(estado, t, abertura, alvoOlhar, voltadoPara) {
     this.grupo.visible = !!estado.visivel;
@@ -168,11 +186,13 @@ export class Boneco {
     const pos = estado.pos;
     if (!this.grupo.visible) { this.grupo.position.set(pos[0], -10, pos[2]); return; }
     this.grupo.position.set(pos[0], 0, pos[2]);
+    const pose = estado.andando ? 'andando' : (estado.pose || 'em_pe');
     let yaw;
     if (estado.andando && estado.direcao) yaw = Math.atan2(estado.direcao[0], estado.direcao[1]);
     else if (voltadoPara) yaw = Math.atan2(voltadoPara.x - pos[0], voltadoPara.z - pos[2]);
     else yaw = 0;
     if (estado.pose === 'parado_de_costas') yaw += Math.PI;
+    if (pose === 'limpando') yaw += 1.05; // quase de lado para quem olha: o rodo indo e vindo fica visível (de frente parecia um pau parado)
     this.grupo.rotation.y = yaw;
 
     // micro-movimento e respiração
@@ -181,20 +201,25 @@ export class Boneco {
     this.quadril.position.y = perna + resp;
     for (const p of this.pernas) p.rotation.set(0, 0, 0);
     for (const b of this.bracos) { b.ombro.rotation.set(0.05, 0, b.lado * 0.12); b.cotovelo.rotation.set(-0.15, 0, 0); }
-    if (this.objeto) this.objeto.rotation.set(0, 0, 0), this.objeto.position.set(0, 0, 0);
+    if (this.objeto) { this.objeto.rotation.set(0, 0, 0); this.objeto.position.copy(this.bracos[1].mao.position); }
 
-    const pose = estado.andando ? 'andando' : (estado.pose || 'em_pe');
     if (pose === 'andando') {
       const fase = t * 2 * Math.PI * 1.7;
       this.pernas[0].rotation.x = Math.sin(fase) * 0.5; this.pernas[1].rotation.x = -Math.sin(fase) * 0.5;
       this.bracos[0].ombro.rotation.x = -Math.sin(fase) * 0.3; this.bracos[1].ombro.rotation.x = Math.sin(fase) * 0.3;
       this.quadril.position.y = perna + Math.abs(Math.sin(fase)) * 0.025;
-      if (this.tipoObjeto === 'mala') { this.bracos[1].ombro.rotation.x = 0.05; this.objeto.position.y = -0.02; }
+      if (this.tipoObjeto === 'mala') { this.bracos[1].ombro.rotation.x = 0.05; this.objeto.position.y -= 0.02; }
     } else if (pose === 'limpando') {
+      // varrendo: tronco curvado, as duas mãos no cabo, balanço lateral de ida e volta; o rodo é puxado pelo chão
+      // (ajustarRodo encosta a borracha no piso) e os pés arrastam conforme a velocidade do deslocamento (estado.varrendo)
       const sw = Math.sin(t * 2.4 + this.fasePiscar);
-      this.troncoG.rotation.x = 0.22; this.troncoG.rotation.y = sw * 0.3;
-      for (const b of this.bracos) { b.ombro.rotation.x = -1.0; b.cotovelo.rotation.x = -0.4; }
-      if (this.tipoObjeto === 'rodo') { this.objeto.rotation.x = 0.9; this.objeto.position.set(0, -0.3, 0.25); }
+      this.troncoG.rotation.x = 0.34 + Math.abs(sw) * 0.05; this.troncoG.rotation.y = sw * 0.3;
+      for (const b of this.bracos) { b.ombro.rotation.x = -1.05 - sw * 0.12; b.ombro.rotation.z = b.lado * 0.08 + sw * 0.35; b.cotovelo.rotation.x = -0.45; }
+      if (this.tipoObjeto === 'rodo') this.objeto.rotation.set(0.95, 0, sw * 0.12);
+      const vel = estado.varrendo ? Math.hypot(estado.varrendo.v[0], estado.varrendo.v[1]) : 0;
+      const passo = Math.sin(t * 2 * Math.PI * 1.4 + this.fasePiscar) * clamp(vel / 0.26, 0, 1) * 0.26;
+      this.pernas[0].rotation.set(passo * 0.5, 0, passo * 0.4); this.pernas[1].rotation.set(-passo * 0.5, 0, passo * 0.4);
+      this.quadril.position.y = perna + resp - 0.015 + Math.abs(passo) * 0.04;
     } else if (pose === 'sentado') {
       this.quadril.position.y = perna * 0.55;
       for (const p of this.pernas) p.rotation.x = -Math.PI / 2 + 0.1;
@@ -205,8 +230,10 @@ export class Boneco {
     } else if (pose === 'maos_na_cabeca' || pose === 'desespero') {
       for (const b of this.bracos) { b.ombro.rotation.x = -2.6; b.ombro.rotation.z = b.lado * 0.6; b.cotovelo.rotation.x = -1.2; }
     } else {
-      if (this.tipoObjeto === 'rodo') { this.bracos[1].ombro.rotation.x = -0.35; this.objeto.rotation.x = 0.0; this.objeto.position.set(0, 0.25, 0.05); }
+      if (this.tipoObjeto === 'rodo') { this.bracos[1].ombro.rotation.x = -0.35; this.objeto.rotation.set(0.5, 0, 0); } // cabo em pé ao lado, borracha no chão
     }
+    this.ajustarRodo();
+    if (estado.olharRodo && this.rodo) alvoOlhar = this.pontaRodo; // quem limpa olha a ponta do rodo
 
     // cabeça olha para o alvo pelo caminho mais curto (limites naturais); pupilas acompanham um pouco
     this.cabeca.rotation.set(0, 0, 0);

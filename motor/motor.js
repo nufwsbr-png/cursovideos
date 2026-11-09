@@ -106,7 +106,9 @@ window.carregar = async function carregar(canalOriginal, roteiro, linhaDoTempo, 
     M.cena.add(b.grupo); M.bonecos[pe.id] = b;
   }
   // corpo em primeira pessoa e celular
-  M.corpo = new CorpoPOV(canal.protagonista || {}, M.estilo, M.cores, M.cenario.camera_inicial?.pos?.[1] || 1.48);
+  const guiche = (M.cenario.props || []).find(p => p.tipo === 'guiche');
+  const balcao = guiche ? { y: guiche.altura_balcao || 1.05, zBeira: (guiche.pos?.[2] || 0) + 0.45 } : null; // tampo: 0,8 m de fundo centrado em z+0,05 (props.js)
+  M.corpo = new CorpoPOV(canal.protagonista || {}, M.estilo, M.cores, M.cenario.camera_inicial?.pos?.[1] || 1.48, balcao);
   M.cena.add(M.corpo.grupo);
   M.telaCelular = new TelaCelular(M.estiloCfg.celular, roteiro.celular || [], M.cores);
   M.corpo.definirTexturaCelular(M.telaCelular.textura);
@@ -213,7 +215,7 @@ window.renderizarQuadro = function renderizarQuadro(t) {
       const pf = est.personagens[falante];
       if (pf && pf.visivel) alvoOlhar = new THREE.Vector3(pf.pos[0], alturaCabeca(falante), pf.pos[2]);
     }
-    if (pe.pose === 'limpando' && falante !== id) alvoOlhar = new THREE.Vector3(pe.pos[0] + 0.5, 0, pe.pos[2] + 0.8); // olha o chão que limpa
+    if (pe.pose === 'limpando' && falante !== id) { alvoOlhar = null; pe.olharRodo = true; } // olha a ponta do rodo (o chão que limpa)
     M.bonecos[id].aplicar(pe, t, aberturaBoca(id, t), alvoOlhar, posCam);
   }
   // corpo em primeira pessoa segue a posição do corpo (sentado na origem; anda junto com a câmera)

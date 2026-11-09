@@ -117,3 +117,11 @@ Variáveis de ambiente úteis: `MOTOR_GPU=1` (usa a placa de vídeo), `MOTOR_FAC
 - Cartão de notificação dura 3,2 s no topo; selo "PARTE 2" fica até o fim (ou `estilo.selo.duracao_s`).
 - A tela da pergunta aparece 0,5 s depois do início do clima `pergunta`, com as opções 0,6 s depois.
 - Portas na parede do fundo viram abertura na parede (senão a parede tapa a plataforma).
+- Braço em primeira pessoa em três trechos (pulso → punho da camisa → cotovelo → ombro): com a mão apoiada, o cotovelo
+  fica logo além da beira do tampo e um pouco mais alto que o pulso; o ombro fica atrás e abaixo da câmera. Nenhum trecho
+  desce abaixo do tampo enquanto está sobre ele (`motor/cena/corpo_pov.js`; o motor passa altura e beira do balcão).
+- Pose `limpando`: quem limpa não fica parado — desliza devagar em volta da marca (±0,45 m em 11 s, leve ida e volta em
+  profundidade, `estado.js → deslocamentoVarrer`), fica quase de lado para a câmera, com o tronco curvado e as duas
+  mãos no cabo; o rodo tem o comprimento ajustado a cada quadro para a borracha encostar no chão (`ajustarRodo`). Quando
+  a pose muda, a pessoa fica onde parou; ao voltar a limpar, retoma do mesmo ponto do trajeto (sem derivar). A marca
+  de quem limpa deve ficar em chão livre (no canal-exemplo: `dalva_limpando` entre o guichê e a primeira fileira).
