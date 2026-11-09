@@ -81,9 +81,25 @@
     {
       "em": "2026-11-09T00:41:52.126Z",
       "etapa": "capa"
+    },
+    {
+      "em": "2026-11-09T03:14:32.135Z",
+      "etapa": "render"
+    },
+    {
+      "em": "2026-11-09T03:15:29.397Z",
+      "etapa": "som"
+    },
+    {
+      "em": "2026-11-09T03:15:48.494Z",
+      "etapa": "prova"
+    },
+    {
+      "em": "2026-11-09T03:16:00.199Z",
+      "etapa": "capa"
     }
   ],
-  "atualizado_em": "2026-11-09T00:41:52.126Z",
+  "atualizado_em": "2026-11-09T03:16:00.199Z",
   "avisos_vozes": [
     "Whisper indisponível: falas não transcritas; conferir de ouvido"
   ],

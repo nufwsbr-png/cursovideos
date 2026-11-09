@@ -3,14 +3,14 @@
   "previa": false,
   "medidas_sinteticas": false,
   "comandos": [
-    "folha"
+    "stills 56.49,6.76,64.51"
   ],
   "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
   "avisos": [],
   "duracao_total_s": 111.731,
   "fps": 60,
   "variacao": "cartela",
-  "segundos_por_quadro_stills": 1.521622641509434,
+  "segundos_por_quadro_stills": 2.0909999999999997,
   "legendas": [
     {
       "t": 2,
@@ -25,7 +25,7 @@
       ]
     },
     {
-      "t": 6,
+      "t": 5.27,
       "id": "f02",
       "quem": "eu",
       "texto": "Tá.",
@@ -37,7 +37,7 @@
       ]
     },
     {
-      "t": 10,
+      "t": 9.12,
       "id": "f03",
       "quem": "dalva",
       "texto": "Isso aí é o painel com mau",
@@ -49,7 +49,7 @@
       ]
     },
     {
-      "t": 10,
+      "t": 9.12,
       "id": "f03",
       "quem": "dalva",
       "texto": "contato.",
@@ -61,7 +61,7 @@
       ]
     },
     {
-      "t": 14,
+      "t": 13.18,
       "id": "f04",
       "quem": "eu",
       "texto": "Dona Dalva... tem plataforma",
@@ -73,7 +73,7 @@
       ]
     },
     {
-      "t": 14,
+      "t": 13.18,
       "id": "f04",
       "quem": "eu",
       "texto": "sete?",
@@ -85,7 +85,7 @@
       ]
     },
     {
-      "t": 20,
+      "t": 18.62,
       "id": "f05",
       "quem": "dalva",
       "texto": "Tem quatro. Sempre teve",
@@ -97,7 +97,7 @@
       ]
     },
     {
-      "t": 20,
+      "t": 18.62,
       "id": "f05",
       "quem": "dalva",
       "texto": "quatro.",
@@ -109,7 +109,7 @@
       ]
     },
     {
-      "t": 22,
+      "t": 21.77,
       "id": "f06",
       "quem": "alto_falante",
       "texto": "Partida com destino a... ...",
@@ -121,7 +121,7 @@
       ]
     },
     {
-      "t": 22,
+      "t": 21.77,
       "id": "f06",
       "quem": "alto_falante",
       "texto": "plataforma sete. Embarque",
@@ -133,7 +133,7 @@
       ]
     },
     {
-      "t": 22,
+      "t": 21.77,
       "id": "f06",
       "quem": "alto_falante",
       "texto": "imediato.",
@@ -145,7 +145,7 @@
       ]
     },
     {
-      "t": 30,
+      "t": 29.05,
       "id": "f07",
       "quem": "dalva",
       "texto": "Quem gravou isso?",
@@ -157,7 +157,7 @@
       ]
     },
     {
-      "t": 32,
+      "t": 31.85,
       "id": "f08",
       "quem": "dalva",
       "texto": "...Ah, não.",
@@ -169,7 +169,7 @@
       ]
     },
     {
-      "t": 38,
+      "t": 37.45,
       "id": "f09",
       "quem": "amaral",
       "texto": "Fecha o guichê. Apaga a luz.",
@@ -181,7 +181,7 @@
       ]
     },
     {
-      "t": 38,
+      "t": 37.45,
       "id": "f09",
       "quem": "amaral",
       "texto": "Não olha pra plataforma sete,",
@@ -193,7 +193,7 @@
       ]
     },
     {
-      "t": 38,
+      "t": 37.45,
       "id": "f09",
       "quem": "amaral",
       "texto": "menino.",
@@ -205,7 +205,7 @@
       ]
     },
     {
-      "t": 44,
+      "t": 43.93,
       "id": "f10",
       "quem": "eu",
       "texto": "Seu Amaral, o senhor tá vendo",
@@ -217,7 +217,7 @@
       ]
     },
     {
-      "t": 44,
+      "t": 43.93,
       "id": "f10",
       "quem": "eu",
       "texto": "o painel?",
@@ -229,7 +229,7 @@
       ]
     },
     {
-      "t": 50,
+      "t": 48.07,
       "id": "f11",
       "quem": "amaral",
       "texto": "Eu não vejo nada. E você",
@@ -241,7 +241,7 @@
       ]
     },
     {
-      "t": 50,
+      "t": 48.07,
       "id": "f11",
       "quem": "amaral",
       "texto": "também não.",
@@ -253,7 +253,7 @@
       ]
     },
     {
-      "t": 54,
+      "t": 52.22,
       "id": "f12",
       "quem": "dalva",
       "texto": "Faz o que ele mandou. Fecha e",
@@ -265,7 +265,7 @@
       ]
     },
     {
-      "t": 54,
+      "t": 52.22,
       "id": "f12",
       "quem": "dalva",
       "texto": "pronto.",
@@ -277,7 +277,7 @@
       ]
     },
     {
-      "t": 64,
+      "t": 62.05,
       "id": "f13",
       "quem": "dalva",
       "texto": "Não tem motorista.",
@@ -289,7 +289,7 @@
       ]
     },
     {
-      "t": 70,
+      "t": 69.25,
       "id": "f14",
       "quem": "dalva",
       "texto": "Esse aí vem todo dia. Eu nunca",
@@ -301,7 +301,7 @@
       ]
     },
     {
-      "t": 70,
+      "t": 69.25,
       "id": "f14",
       "quem": "dalva",
       "texto": "te falei.",
@@ -313,7 +313,7 @@
       ]
     },
     {
-      "t": 74,
+      "t": 73.72,
       "id": "f15",
       "quem": "passageiro",
       "texto": "Boa noite, moço.",
@@ -325,7 +325,7 @@
       ]
     },
     {
-      "t": 82,
+      "t": 81.72,
       "id": "f16",
       "quem": "passageiro",
       "texto": "Uma pra das três, por favor.",
@@ -333,6 +333,30 @@
         124,
         1159,
         736,
+        63
+      ]
+    },
+    {
+      "t": 88.92,
+      "id": "f17",
+      "quem": "dalva",
+      "texto": "Se cê vender, ele some. Se não",
+      "caixa": [
+        91,
+        1128,
+        801,
+        63
+      ]
+    },
+    {
+      "t": 88.92,
+      "id": "f17",
+      "quem": "dalva",
+      "texto": "vender, ele fica.",
+      "caixa": [
+        279,
+        1190,
+        425,
         63
       ]
     },
@@ -361,31 +385,7 @@
       ]
     },
     {
-      "t": 90,
-      "id": "f17",
-      "quem": "dalva",
-      "texto": "Se cê vender, ele some. Se não",
-      "caixa": [
-        91,
-        1128,
-        801,
-        63
-      ]
-    },
-    {
-      "t": 90,
-      "id": "f17",
-      "quem": "dalva",
-      "texto": "vender, ele fica.",
-      "caixa": [
-        279,
-        1190,
-        425,
-        63
-      ]
-    },
-    {
-      "t": 98,
+      "t": 96.33,
       "id": "f18",
       "quem": "passageiro",
       "texto": "O das três não atrasa.",
@@ -412,20 +412,20 @@
     },
     {
       "t": 0.5,
-      "luminancia": 0.452776088568168,
-      "uniforme": 0.1576003086419753,
+      "luminancia": 0.45242549397848203,
+      "uniforme": 0.1431327160493827,
       "clima": "rotina"
     },
     {
       "t": 1,
-      "luminancia": 0.45267913489472345,
-      "uniforme": 0.16550925925925927,
+      "luminancia": 0.46376463326073736,
+      "uniforme": 0.13541666666666666,
       "clima": "rotina"
     },
     {
       "t": 1.5,
-      "luminancia": 0.45192918406562604,
-      "uniforme": 0.15779320987654322,
+      "luminancia": 0.4450080125877782,
+      "uniforme": 0.15297067901234568,
       "clima": "rotina"
     },
     {
@@ -442,8 +442,8 @@
     },
     {
       "t": 2.5,
-      "luminancia": 0.4915207705458649,
-      "uniforme": 0.19251543209876543,
+      "luminancia": 0.5027564580307327,
+      "uniforme": 0.19058641975308643,
       "clima": "rotina"
     },
     {
@@ -454,8 +454,8 @@
     },
     {
       "t": 3,
-      "luminancia": 0.48727175850277593,
-      "uniforme": 0.19155092592592593,
+      "luminancia": 0.5000369409646477,
+      "uniforme": 0.1861496913580247,
       "clima": "rotina"
     },
     {
@@ -484,20 +484,20 @@
     },
     {
       "t": 4.5,
-      "luminancia": 0.4872865702916894,
-      "uniforme": 0.19077932098765432,
+      "luminancia": 0.4987710996126763,
+      "uniforme": 0.18479938271604937,
       "clima": "rotina"
     },
     {
       "t": 5,
-      "luminancia": 0.4867218984507307,
-      "uniforme": 0.19116512345679013,
+      "luminancia": 0.4970159676833609,
+      "uniforme": 0.1840277777777778,
       "clima": "rotina"
     },
     {
       "t": 5.5,
-      "luminancia": 0.5015206525357006,
-      "uniforme": 0.20003858024691357,
+      "luminancia": 0.49740186546840714,
+      "uniforme": 0.1909722222222222,
       "clima": "rotina"
     },
     {
@@ -526,14 +526,14 @@
     },
     {
       "t": 6.5,
-      "luminancia": 0.4534117594105792,
-      "uniforme": 0.16358024691358025,
+      "luminancia": 0.4603153851973152,
+      "uniforme": 0.13695987654320987,
       "clima": "rotina"
     },
     {
       "t": 6.76,
-      "luminancia": 0.4971402263374534,
-      "uniforme": 0.23051697530864199,
+      "luminancia": 0.4943406469377936,
+      "uniforme": 0.2339891975308642,
       "clima": "sinal"
     },
     {
@@ -544,14 +544,14 @@
     },
     {
       "t": 7,
-      "luminancia": 0.49880143200797505,
-      "uniforme": 0.15895061728395063,
+      "luminancia": 0.4991620567053836,
+      "uniforme": 0.16512345679012347,
       "clima": "sinal"
     },
     {
       "t": 7.5,
-      "luminancia": 0.4870140424533866,
-      "uniforme": 0.14486882716049382,
+      "luminancia": 0.48678685396996796,
+      "uniforme": 0.15219907407407407,
       "clima": "sinal"
     },
     {
@@ -562,14 +562,14 @@
     },
     {
       "t": 8.5,
-      "luminancia": 0.4868197152626392,
-      "uniforme": 0.15258487654320987,
+      "luminancia": 0.4863221291757346,
+      "uniforme": 0.1537422839506173,
       "clima": "sinal"
     },
     {
       "t": 9,
-      "luminancia": 0.4870318778745976,
-      "uniforme": 0.15046296296296297,
+      "luminancia": 0.4858670653292078,
+      "uniforme": 0.15393518518518517,
       "clima": "sinal"
     },
     {
@@ -592,8 +592,8 @@
     },
     {
       "t": 10.5,
-      "luminancia": 0.46683034449890554,
-      "uniforme": 0.23013117283950618,
+      "luminancia": 0.4726865385197231,
+      "uniforme": 0.21875,
       "clima": "sinal"
     },
     {
@@ -604,8 +604,8 @@
     },
     {
       "t": 11.5,
-      "luminancia": 0.4671478130295272,
-      "uniforme": 0.23013117283950618,
+      "luminancia": 0.4799320072318973,
+      "uniforme": 0.2212577160493827,
       "clima": "sinal"
     },
     {
@@ -616,14 +616,14 @@
     },
     {
       "t": 12.5,
-      "luminancia": 0.4666569610868986,
-      "uniforme": 0.22955246913580246,
+      "luminancia": 0.47929787127813284,
+      "uniforme": 0.22202932098765432,
       "clima": "sinal"
     },
     {
       "t": 13,
-      "luminancia": 0.46640365680222184,
-      "uniforme": 0.22916666666666666,
+      "luminancia": 0.47864830473855513,
+      "uniforme": 0.2199074074074074,
       "clima": "sinal"
     },
     {
@@ -646,8 +646,8 @@
     },
     {
       "t": 14.5,
-      "luminancia": 0.4831956162248756,
-      "uniforme": 0.14834104938271606,
+      "luminancia": 0.482248148904614,
+      "uniforme": 0.15297067901234568,
       "clima": "sinal"
     },
     {
@@ -658,14 +658,14 @@
     },
     {
       "t": 15,
-      "luminancia": 0.4827789692265705,
-      "uniforme": 0.14699074074074073,
+      "luminancia": 0.4819927015250448,
+      "uniforme": 0.15316358024691357,
       "clima": "sinal"
     },
     {
       "t": 15.5,
-      "luminancia": 0.48341293724278883,
-      "uniforme": 0.15297067901234568,
+      "luminancia": 0.48347099597554044,
+      "uniforme": 0.15316358024691357,
       "clima": "sinal"
     },
     {
@@ -676,14 +676,14 @@
     },
     {
       "t": 16.5,
-      "luminancia": 0.4819900016642375,
-      "uniforme": 0.14911265432098766,
+      "luminancia": 0.4805838961510439,
+      "uniforme": 0.15393518518518517,
       "clima": "sinal"
     },
     {
       "t": 17,
-      "luminancia": 0.48608365180948043,
-      "uniforme": 0.15046296296296297,
+      "luminancia": 0.48484007882472974,
+      "uniforme": 0.1541280864197531,
       "clima": "sinal"
     },
     {
@@ -694,8 +694,8 @@
     },
     {
       "t": 17.5,
-      "luminancia": 0.46661644350640896,
-      "uniforme": 0.21412037037037038,
+      "luminancia": 0.4732134160917389,
+      "uniforme": 0.19483024691358025,
       "clima": "sinal"
     },
     {
@@ -706,8 +706,8 @@
     },
     {
       "t": 18.5,
-      "luminancia": 0.46529491118977967,
-      "uniforme": 0.21412037037037038,
+      "luminancia": 0.47270763813240585,
+      "uniforme": 0.19155092592592593,
       "clima": "sinal"
     },
     {
@@ -718,14 +718,14 @@
     },
     {
       "t": 19,
-      "luminancia": 0.4775194973977185,
-      "uniforme": 0.2056327160493827,
+      "luminancia": 0.48110712978091624,
+      "uniforme": 0.21604938271604937,
       "clima": "sinal"
     },
     {
       "t": 19.5,
-      "luminancia": 0.4666408753933619,
-      "uniforme": 0.22993827160493827,
+      "luminancia": 0.46680747927256816,
+      "uniforme": 0.2185570987654321,
       "clima": "sinal"
     },
     {
@@ -736,20 +736,20 @@
     },
     {
       "t": 20.5,
-      "luminancia": 0.4665735150387264,
-      "uniforme": 0.22955246913580246,
+      "luminancia": 0.467055301379806,
+      "uniforme": 0.2193287037037037,
       "clima": "sinal"
     },
     {
       "t": 21,
-      "luminancia": 0.46617730800653046,
-      "uniforme": 0.22955246913580246,
+      "luminancia": 0.46705685971919114,
+      "uniforme": 0.2195216049382716,
       "clima": "sinal"
     },
     {
       "t": 21.5,
-      "luminancia": 0.4664894123698808,
-      "uniforme": 0.22974537037037038,
+      "luminancia": 0.4668247692749889,
+      "uniforme": 0.2193287037037037,
       "clima": "sinal"
     },
     {
@@ -766,20 +766,20 @@
     },
     {
       "t": 22.5,
-      "luminancia": 0.482815082607116,
-      "uniforme": 0.11419753086419752,
+      "luminancia": 0.4852252753570553,
+      "uniforme": 0.11400462962962964,
       "clima": "escalada"
     },
     {
       "t": 23,
-      "luminancia": 0.4622840739227804,
-      "uniforme": 0.16782407407407407,
+      "luminancia": 0.46458057144154113,
+      "uniforme": 0.16763117283950618,
       "clima": "escalada"
     },
     {
       "t": 23.5,
-      "luminancia": 0.46222610974945716,
-      "uniforme": 0.16705246913580246,
+      "luminancia": 0.4643079838416872,
+      "uniforme": 0.16608796296296297,
       "clima": "escalada"
     },
     {
@@ -790,8 +790,8 @@
     },
     {
       "t": 24.5,
-      "luminancia": 0.46318098750302766,
-      "uniforme": 0.16203703703703703,
+      "luminancia": 0.46521822046720207,
+      "uniforme": 0.15895061728395063,
       "clima": "escalada"
     },
     {
@@ -808,8 +808,8 @@
     },
     {
       "t": 25.5,
-      "luminancia": 0.46267700617284196,
-      "uniforme": 0.16377314814814814,
+      "luminancia": 0.4646827667332397,
+      "uniforme": 0.1574074074074074,
       "clima": "escalada"
     },
     {
@@ -820,20 +820,20 @@
     },
     {
       "t": 26.5,
-      "luminancia": 0.46237271922658146,
-      "uniforme": 0.16628086419753085,
+      "luminancia": 0.46325779850520726,
+      "uniforme": 0.15933641975308643,
       "clima": "escalada"
     },
     {
       "t": 27,
-      "luminancia": 0.46233500816993617,
-      "uniforme": 0.1684027777777778,
+      "luminancia": 0.46316340852699284,
+      "uniforme": 0.16145833333333334,
       "clima": "escalada"
     },
     {
       "t": 27.5,
-      "luminancia": 0.46205399721617263,
-      "uniforme": 0.16647376543209877,
+      "luminancia": 0.4625051236080877,
+      "uniforme": 0.1576003086419753,
       "clima": "escalada"
     },
     {
@@ -844,14 +844,14 @@
     },
     {
       "t": 28.5,
-      "luminancia": 0.463433387799566,
-      "uniforme": 0.16589506172839505,
+      "luminancia": 0.46405266128056427,
+      "uniforme": 0.1579861111111111,
       "clima": "escalada"
     },
     {
       "t": 29,
-      "luminancia": 0.462476985748005,
-      "uniforme": 0.17573302469135801,
+      "luminancia": 0.4634548338779985,
+      "uniforme": 0.16898148148148148,
       "clima": "escalada"
     },
     {
@@ -862,8 +862,8 @@
     },
     {
       "t": 29.5,
-      "luminancia": 0.41937692522996695,
-      "uniforme": 0.2035108024691358,
+      "luminancia": 0.42034678119704305,
+      "uniforme": 0.19637345679012347,
       "clima": "escalada"
     },
     {
@@ -880,20 +880,20 @@
     },
     {
       "t": 30.5,
-      "luminancia": 0.405618488259509,
-      "uniforme": 0.22935956790123457,
+      "luminancia": 0.4166675668724291,
+      "uniforme": 0.2199074074074074,
       "clima": "escalada"
     },
     {
       "t": 31,
-      "luminancia": 0.40469525160373604,
-      "uniforme": 0.22935956790123457,
+      "luminancia": 0.4164309095860576,
+      "uniforme": 0.2201003086419753,
       "clima": "escalada"
     },
     {
       "t": 31.5,
-      "luminancia": 0.4041373895545955,
-      "uniforme": 0.23051697530864199,
+      "luminancia": 0.4153277240680243,
+      "uniforme": 0.2222222222222222,
       "clima": "escalada"
     },
     {
@@ -910,8 +910,8 @@
     },
     {
       "t": 32.5,
-      "luminancia": 0.4104236148934926,
-      "uniforme": 0.21219135802469136,
+      "luminancia": 0.4148968704611485,
+      "uniforme": 0.19656635802469136,
       "clima": "escalada"
     },
     {
@@ -922,14 +922,14 @@
     },
     {
       "t": 33,
-      "luminancia": 0.40938069323408866,
-      "uniforme": 0.21219135802469136,
+      "luminancia": 0.41366276627935317,
+      "uniforme": 0.19637345679012347,
       "clima": "escalada"
     },
     {
       "t": 33.5,
-      "luminancia": 0.40969829036553446,
-      "uniforme": 0.21257716049382716,
+      "luminancia": 0.41414422733599743,
+      "uniforme": 0.19695216049382716,
       "clima": "escalada"
     },
     {
@@ -940,20 +940,20 @@
     },
     {
       "t": 34.5,
-      "luminancia": 0.40882833756960035,
-      "uniforme": 0.21199845679012347,
+      "luminancia": 0.41311657059428897,
+      "uniforme": 0.19618055555555555,
       "clima": "escalada"
     },
     {
       "t": 35,
-      "luminancia": 0.4093051281469422,
-      "uniforme": 0.21238425925925927,
+      "luminancia": 0.41383118040426164,
+      "uniforme": 0.19695216049382716,
       "clima": "escalada"
     },
     {
       "t": 35.5,
-      "luminancia": 0.4070574248063482,
-      "uniforme": 0.21643518518518517,
+      "luminancia": 0.41086629599370883,
+      "uniforme": 0.20081018518518517,
       "clima": "escalada"
     },
     {
@@ -970,13 +970,13 @@
     },
     {
       "t": 36.5,
-      "luminancia": 0.3271325904744677,
+      "luminancia": 0.3414097033103435,
       "uniforme": 0.24633487654320987,
       "clima": "escalada"
     },
     {
       "t": 37,
-      "luminancia": 0.32805090777052204,
+      "luminancia": 0.3422936024872981,
       "uniforme": 0.24614197530864199,
       "clima": "escalada"
     },
@@ -1000,20 +1000,20 @@
     },
     {
       "t": 38.5,
-      "luminancia": 0.3670997178346732,
-      "uniforme": 0.24537037037037038,
+      "luminancia": 0.3621781091140256,
+      "uniforme": 0.24614197530864199,
       "clima": "escalada"
     },
     {
       "t": 39,
-      "luminancia": 0.3667865907165419,
-      "uniforme": 0.24556327160493827,
+      "luminancia": 0.3618578575102976,
+      "uniforme": 0.2465277777777778,
       "clima": "escalada"
     },
     {
       "t": 39.5,
-      "luminancia": 0.3666571441539662,
-      "uniforme": 0.24575617283950618,
+      "luminancia": 0.36184295721375914,
+      "uniforme": 0.24710648148148148,
       "clima": "escalada"
     },
     {
@@ -1030,14 +1030,14 @@
     },
     {
       "t": 41,
-      "luminancia": 0.36704311607359824,
-      "uniforme": 0.24575617283950618,
+      "luminancia": 0.36206432688817203,
+      "uniforme": 0.24691358024691357,
       "clima": "escalada"
     },
     {
       "t": 41.5,
-      "luminancia": 0.3666035403050196,
-      "uniforme": 0.24633487654320987,
+      "luminancia": 0.36138197848584863,
+      "uniforme": 0.24729938271604937,
       "clima": "escalada"
     },
     {
@@ -1048,20 +1048,20 @@
     },
     {
       "t": 42.5,
-      "luminancia": 0.36652416409465866,
-      "uniforme": 0.24517746913580246,
+      "luminancia": 0.3611610649661193,
+      "uniforme": 0.24614197530864199,
       "clima": "escalada"
     },
     {
       "t": 43,
-      "luminancia": 0.36718145803075175,
-      "uniforme": 0.24537037037037038,
+      "luminancia": 0.3621019774267827,
+      "uniforme": 0.24633487654320987,
       "clima": "escalada"
     },
     {
       "t": 43.5,
-      "luminancia": 0.36678089672598324,
-      "uniforme": 0.24537037037037038,
+      "luminancia": 0.3616719597252581,
+      "uniforme": 0.24672067901234568,
       "clima": "escalada"
     },
     {
@@ -1078,20 +1078,20 @@
     },
     {
       "t": 44.5,
-      "luminancia": 0.4186571653352684,
-      "uniforme": 0.17959104938271606,
+      "luminancia": 0.4181936251815528,
+      "uniforme": 0.18422067901234568,
       "clima": "escalada"
     },
     {
       "t": 45,
-      "luminancia": 0.4217488683127539,
+      "luminancia": 0.4229563551500806,
       "uniforme": 0.18094135802469136,
       "clima": "escalada"
     },
     {
       "t": 45.5,
-      "luminancia": 0.42462644108568937,
-      "uniforme": 0.17592592592592593,
+      "luminancia": 0.423851137739042,
+      "uniforme": 0.18094135802469136,
       "clima": "escalada"
     },
     {
@@ -1108,20 +1108,20 @@
     },
     {
       "t": 46.5,
-      "luminancia": 0.42185288746671207,
-      "uniforme": 0.17746913580246915,
+      "luminancia": 0.4209351284495249,
+      "uniforme": 0.18209876543209877,
       "clima": "escalada"
     },
     {
       "t": 47,
-      "luminancia": 0.42023365256596174,
-      "uniforme": 0.17804783950617284,
+      "luminancia": 0.41919690374606394,
+      "uniforme": 0.18306327160493827,
       "clima": "escalada"
     },
     {
       "t": 47.5,
-      "luminancia": 0.42011638071895147,
-      "uniforme": 0.17766203703703703,
+      "luminancia": 0.4190481602517526,
+      "uniforme": 0.18229166666666666,
       "clima": "escalada"
     },
     {
@@ -1138,20 +1138,20 @@
     },
     {
       "t": 48.5,
-      "luminancia": 0.42100776673323437,
-      "uniforme": 0.17766203703703703,
+      "luminancia": 0.4205835428770251,
+      "uniforme": 0.18325617283950618,
       "clima": "escalada"
     },
     {
       "t": 49,
-      "luminancia": 0.42478009486201523,
-      "uniforme": 0.17689043209876543,
+      "luminancia": 0.42415519471677166,
+      "uniforme": 0.18132716049382716,
       "clima": "escalada"
     },
     {
       "t": 49.5,
-      "luminancia": 0.4241671765311025,
-      "uniforme": 0.17689043209876543,
+      "luminancia": 0.4237640787642179,
+      "uniforme": 0.18152006172839505,
       "clima": "escalada"
     },
     {
@@ -1162,20 +1162,20 @@
     },
     {
       "t": 50.5,
-      "luminancia": 0.42465026930524846,
-      "uniforme": 0.17689043209876543,
+      "luminancia": 0.42420912990195614,
+      "uniforme": 0.18152006172839505,
       "clima": "escalada"
     },
     {
       "t": 51,
-      "luminancia": 0.4220973235899272,
-      "uniforme": 0.17689043209876543,
+      "luminancia": 0.42173631687242535,
+      "uniforme": 0.18267746913580246,
       "clima": "escalada"
     },
     {
       "t": 51.5,
-      "luminancia": 0.4230861027898779,
-      "uniforme": 0.17727623456790123,
+      "luminancia": 0.4225452856451188,
+      "uniforme": 0.18248456790123457,
       "clima": "escalada"
     },
     {
@@ -1192,14 +1192,14 @@
     },
     {
       "t": 53,
-      "luminancia": 0.40395504266522264,
-      "uniforme": 0.22935956790123457,
+      "luminancia": 0.41589184595134576,
+      "uniforme": 0.22145061728395063,
       "clima": "escalada"
     },
     {
       "t": 53.5,
-      "luminancia": 0.40401825980392947,
-      "uniforme": 0.22955246913580246,
+      "luminancia": 0.41581216261196113,
+      "uniforme": 0.2208719135802469,
       "clima": "escalada"
     },
     {
@@ -1210,20 +1210,20 @@
     },
     {
       "t": 54.5,
-      "luminancia": 0.4048654025962314,
-      "uniforme": 0.22878086419753085,
+      "luminancia": 0.41019830852094374,
+      "uniforme": 0.2179783950617284,
       "clima": "escalada"
     },
     {
       "t": 55,
-      "luminancia": 0.40484519486807846,
-      "uniforme": 0.22781635802469136,
+      "luminancia": 0.40821089400266797,
+      "uniforme": 0.2179783950617284,
       "clima": "escalada"
     },
     {
       "t": 55.5,
-      "luminancia": 0.40508480997337964,
-      "uniforme": 0.22800925925925927,
+      "luminancia": 0.4060095157044361,
+      "uniforme": 0.21720679012345678,
       "clima": "escalada"
     },
     {
@@ -1234,8 +1234,8 @@
     },
     {
       "t": 56.49,
-      "luminancia": 0.41530467123578396,
-      "uniforme": 0.21875,
+      "luminancia": 0.4171327455519294,
+      "uniforme": 0.2052469135802469,
       "clima": "escalada"
     },
     {
@@ -1246,14 +1246,14 @@
     },
     {
       "t": 57,
-      "luminancia": 0.3740400757988405,
-      "uniforme": 0.2152777777777778,
+      "luminancia": 0.38103156318082826,
+      "uniforme": 0.19251543209876543,
       "clima": "escalada"
     },
     {
       "t": 57.5,
-      "luminancia": 0.37498140432099075,
-      "uniforme": 0.2162422839506173,
+      "luminancia": 0.38135848311546944,
+      "uniforme": 0.19328703703703703,
       "clima": "escalada"
     },
     {
@@ -1264,7 +1264,7 @@
     },
     {
       "t": 58.5,
-      "luminancia": 0.36992828385984516,
+      "luminancia": 0.36291644955822444,
       "uniforme": 0.24266975308641975,
       "clima": "escalada"
     },
@@ -1276,14 +1276,14 @@
     },
     {
       "t": 59,
-      "luminancia": 0.41955799216291234,
-      "uniforme": 0.2013888888888889,
+      "luminancia": 0.4182940616678769,
+      "uniforme": 0.20929783950617284,
       "clima": "escalada"
     },
     {
       "t": 59.5,
-      "luminancia": 0.4165702099975789,
-      "uniforme": 0.19810956790123457,
+      "luminancia": 0.4151737117223448,
+      "uniforme": 0.20582561728395063,
       "clima": "escalada"
     },
     {
@@ -1294,20 +1294,20 @@
     },
     {
       "t": 60.5,
-      "luminancia": 0.4200989530380032,
-      "uniforme": 0.19849537037037038,
+      "luminancia": 0.4190329535826674,
+      "uniforme": 0.20640432098765432,
       "clima": "escalada"
     },
     {
       "t": 61,
-      "luminancia": 0.4197402921508091,
-      "uniforme": 0.19926697530864199,
+      "luminancia": 0.41855758290970696,
+      "uniforme": 0.20621141975308643,
       "clima": "escalada"
     },
     {
       "t": 61.5,
-      "luminancia": 0.42080317870975364,
-      "uniforme": 0.20081018518518517,
+      "luminancia": 0.4189955141007017,
+      "uniforme": 0.20698302469135801,
       "clima": "escalada"
     },
     {
@@ -1330,8 +1330,8 @@
     },
     {
       "t": 62.5,
-      "luminancia": 0.4191183551198235,
-      "uniforme": 0.20003858024691357,
+      "luminancia": 0.4174866141672716,
+      "uniforme": 0.20601851851851852,
       "clima": "escalada"
     },
     {
@@ -1342,8 +1342,8 @@
     },
     {
       "t": 63.5,
-      "luminancia": 0.41625474537036933,
-      "uniforme": 0.19772376543209877,
+      "luminancia": 0.4150548588416858,
+      "uniforme": 0.20466820987654322,
       "clima": "escalada"
     },
     {
@@ -1354,26 +1354,26 @@
     },
     {
       "t": 64.5,
-      "luminancia": 0.41496850792786255,
-      "uniforme": 0.19772376543209877,
+      "luminancia": 0.4146296190389753,
+      "uniforme": 0.2048611111111111,
       "clima": "escalada"
     },
     {
       "t": 64.51,
-      "luminancia": 0.41494293981481495,
-      "uniforme": 0.19791666666666666,
+      "luminancia": 0.41468398087630287,
+      "uniforme": 0.20505401234567902,
       "clima": "escalada"
     },
     {
       "t": 65,
-      "luminancia": 0.41555825012103587,
-      "uniforme": 0.19791666666666666,
+      "luminancia": 0.4153437106632789,
+      "uniforme": 0.20505401234567902,
       "clima": "escalada"
     },
     {
       "t": 65.5,
-      "luminancia": 0.41578065087145916,
-      "uniforme": 0.19849537037037038,
+      "luminancia": 0.4159425351004606,
+      "uniforme": 0.20505401234567902,
       "clima": "escalada"
     },
     {
@@ -1390,14 +1390,14 @@
     },
     {
       "t": 66.5,
-      "luminancia": 0.4163204445049613,
-      "uniforme": 0.19425154320987653,
+      "luminancia": 0.41686584513435,
+      "uniforme": 0.20119598765432098,
       "clima": "escalada"
     },
     {
       "t": 67,
-      "luminancia": 0.41660626512950716,
-      "uniforme": 0.19309413580246915,
+      "luminancia": 0.41704828733962723,
+      "uniforme": 0.2006172839506173,
       "clima": "escalada"
     },
     {
@@ -1408,8 +1408,8 @@
     },
     {
       "t": 67.5,
-      "luminancia": 0.41599719574558086,
-      "uniforme": 0.19328703703703703,
+      "luminancia": 0.41646959800895644,
+      "uniforme": 0.2010030864197531,
       "clima": "escalada"
     },
     {
@@ -1420,14 +1420,14 @@
     },
     {
       "t": 68.5,
-      "luminancia": 0.41602708560275814,
-      "uniforme": 0.19309413580246915,
+      "luminancia": 0.41645141233962696,
+      "uniforme": 0.20042438271604937,
       "clima": "escalada"
     },
     {
       "t": 69,
-      "luminancia": 0.416222825889614,
-      "uniforme": 0.19347993827160495,
+      "luminancia": 0.4166600747397725,
+      "uniforme": 0.20042438271604937,
       "clima": "escalada"
     },
     {
@@ -1444,14 +1444,14 @@
     },
     {
       "t": 70.5,
-      "luminancia": 0.39961379584242107,
-      "uniforme": 0.23823302469135801,
+      "luminancia": 0.40131315359477926,
+      "uniforme": 0.22318672839506173,
       "clima": "escalada"
     },
     {
       "t": 71,
-      "luminancia": 0.39996416197652923,
-      "uniforme": 0.23919753086419754,
+      "luminancia": 0.4016956578310417,
+      "uniforme": 0.22415123456790123,
       "clima": "escalada"
     },
     {
@@ -1462,8 +1462,8 @@
     },
     {
       "t": 71.5,
-      "luminancia": 0.39924998184459926,
-      "uniforme": 0.23881172839506173,
+      "luminancia": 0.40086426939603803,
+      "uniforme": 0.22453703703703703,
       "clima": "escalada"
     },
     {
@@ -1474,20 +1474,20 @@
     },
     {
       "t": 72.5,
-      "luminancia": 0.39781500544663273,
-      "uniforme": 0.23958333333333334,
+      "luminancia": 0.39916650780683477,
+      "uniforme": 0.22511574074074073,
       "clima": "escalada"
     },
     {
       "t": 73,
-      "luminancia": 0.3971581245461241,
-      "uniforme": 0.23939043209876543,
+      "luminancia": 0.39877782846163917,
+      "uniforme": 0.22453703703703703,
       "clima": "escalada"
     },
     {
       "t": 73.5,
-      "luminancia": 0.3965833098826044,
-      "uniforme": 0.23996913580246915,
+      "luminancia": 0.3982495597313076,
+      "uniforme": 0.22472993827160495,
       "clima": "escalada"
     },
     {
@@ -1498,8 +1498,8 @@
     },
     {
       "t": 74.5,
-      "luminancia": 0.33653739636284663,
-      "uniforme": 0.15181327160493827,
+      "luminancia": 0.33674166742312167,
+      "uniforme": 0.1574074074074074,
       "clima": "climax"
     },
     {
@@ -1510,13 +1510,13 @@
     },
     {
       "t": 75,
-      "luminancia": 0.3090018004115118,
+      "luminancia": 0.30935848765430957,
       "uniforme": 0.2021604938271605,
       "clima": "climax"
     },
     {
       "t": 75.5,
-      "luminancia": 0.30966981587387005,
+      "luminancia": 0.3098980157649369,
       "uniforme": 0.2025462962962963,
       "clima": "climax"
     },
@@ -1528,7 +1528,7 @@
     },
     {
       "t": 76.5,
-      "luminancia": 0.3075651189179264,
+      "luminancia": 0.30805754432944826,
       "uniforme": 0.20042438271604937,
       "clima": "climax"
     },
@@ -1540,14 +1540,14 @@
     },
     {
       "t": 77,
-      "luminancia": 0.23736389342773842,
-      "uniforme": 0.23244598765432098,
+      "luminancia": 0.233417105422413,
+      "uniforme": 0.22839506172839505,
       "clima": "climax"
     },
     {
       "t": 77.5,
-      "luminancia": 0.23558356103243633,
-      "uniforme": 0.2183641975308642,
+      "luminancia": 0.23657671492979812,
+      "uniforme": 0.2212577160493827,
       "clima": "climax"
     },
     {
@@ -1558,8 +1558,8 @@
     },
     {
       "t": 78.5,
-      "luminancia": 0.2357354098583862,
-      "uniforme": 0.2197145061728395,
+      "luminancia": 0.23634203809610146,
+      "uniforme": 0.22260802469135801,
       "clima": "climax"
     },
     {
@@ -1570,8 +1570,8 @@
     },
     {
       "t": 79.5,
-      "luminancia": 0.24045519244734676,
-      "uniforme": 0.2195216049382716,
+      "luminancia": 0.24111140235414893,
+      "uniforme": 0.22299382716049382,
       "clima": "climax"
     },
     {
@@ -1582,20 +1582,20 @@
     },
     {
       "t": 80.5,
-      "luminancia": 0.24641358327281002,
-      "uniforme": 0.2189429012345679,
+      "luminancia": 0.24650106133502248,
+      "uniforme": 0.22145061728395063,
       "clima": "climax"
     },
     {
       "t": 81,
-      "luminancia": 0.24421789745218586,
-      "uniforme": 0.2197145061728395,
+      "luminancia": 0.24507829445049123,
+      "uniforme": 0.22299382716049382,
       "clima": "climax"
     },
     {
       "t": 81.5,
-      "luminancia": 0.2446203098523312,
-      "uniforme": 0.2208719135802469,
+      "luminancia": 0.24549523647421434,
+      "uniforme": 0.22376543209876543,
       "clima": "climax"
     },
     {
@@ -1606,13 +1606,13 @@
     },
     {
       "t": 82.5,
-      "luminancia": 0.307158827311777,
-      "uniforme": 0.19984567901234568,
+      "luminancia": 0.30741349627812864,
+      "uniforme": 0.1996527777777778,
       "clima": "climax"
     },
     {
       "t": 83,
-      "luminancia": 0.30649416833090043,
+      "luminancia": 0.3067241429133255,
       "uniforme": 0.19868827160493827,
       "clima": "climax"
     },
@@ -1624,8 +1624,8 @@
     },
     {
       "t": 83.5,
-      "luminancia": 0.3083811312333463,
-      "uniforme": 0.20003858024691357,
+      "luminancia": 0.30855851337447376,
+      "uniforme": 0.19984567901234568,
       "clima": "climax"
     },
     {
@@ -1636,19 +1636,19 @@
     },
     {
       "t": 84.5,
-      "luminancia": 0.30858569126723706,
-      "uniforme": 0.19849537037037038,
+      "luminancia": 0.3089383124546002,
+      "uniforme": 0.19830246913580246,
       "clima": "climax"
     },
     {
       "t": 85,
-      "luminancia": 0.30922289472886905,
-      "uniforme": 0.19772376543209877,
+      "luminancia": 0.3092597267610639,
+      "uniforme": 0.19791666666666666,
       "clima": "climax"
     },
     {
       "t": 85.5,
-      "luminancia": 0.30762815223310436,
+      "luminancia": 0.30788496353787254,
       "uniforme": 0.20505401234567902,
       "clima": "climax"
     },
@@ -1660,20 +1660,20 @@
     },
     {
       "t": 86.5,
-      "luminancia": 0.29164260469618636,
-      "uniforme": 0.18132716049382716,
+      "luminancia": 0.29627497881867537,
+      "uniforme": 0.15991512345679013,
       "clima": "climax"
     },
     {
       "t": 87,
-      "luminancia": 0.2913888087024801,
-      "uniforme": 0.18287037037037038,
+      "luminancia": 0.2966626679375325,
+      "uniforme": 0.16377314814814814,
       "clima": "climax"
     },
     {
       "t": 87.5,
-      "luminancia": 0.2924983622306817,
-      "uniforme": 0.17727623456790123,
+      "luminancia": 0.29526149918299355,
+      "uniforme": 0.16377314814814814,
       "clima": "climax"
     },
     {
@@ -1690,13 +1690,13 @@
     },
     {
       "t": 88.5,
-      "luminancia": 0.31793105785523423,
+      "luminancia": 0.31847694943717536,
       "uniforme": 0.19598765432098766,
       "clima": "climax"
     },
     {
       "t": 89,
-      "luminancia": 0.31656689663519033,
+      "luminancia": 0.3167048217743814,
       "uniforme": 0.18441358024691357,
       "clima": "climax"
     },
@@ -1708,8 +1708,8 @@
     },
     {
       "t": 89.5,
-      "luminancia": 0.2968350361595092,
-      "uniforme": 0.19618055555555555,
+      "luminancia": 0.29854917014643684,
+      "uniforme": 0.18152006172839505,
       "clima": "climax"
     },
     {
@@ -1720,14 +1720,14 @@
     },
     {
       "t": 90.5,
-      "luminancia": 0.2976573196562408,
-      "uniforme": 0.19675925925925927,
+      "luminancia": 0.29884630688693575,
+      "uniforme": 0.18229166666666666,
       "clima": "climax"
     },
     {
       "t": 91,
-      "luminancia": 0.2980699210239486,
-      "uniforme": 0.19637345679012347,
+      "luminancia": 0.2992997730573546,
+      "uniforme": 0.18152006172839505,
       "clima": "climax"
     },
     {
@@ -1738,8 +1738,8 @@
     },
     {
       "t": 91.5,
-      "luminancia": 0.29703747957514637,
-      "uniforme": 0.19868827160493827,
+      "luminancia": 0.29821698211690373,
+      "uniforme": 0.1840277777777778,
       "clima": "climax"
     },
     {
@@ -1750,20 +1750,20 @@
     },
     {
       "t": 92.5,
-      "luminancia": 0.29726023133016993,
-      "uniforme": 0.19830246913580246,
+      "luminancia": 0.2982576562878072,
+      "uniforme": 0.18344907407407407,
       "clima": "climax"
     },
     {
       "t": 93,
-      "luminancia": 0.2967438241345755,
-      "uniforme": 0.19849537037037038,
+      "luminancia": 0.297850406227289,
+      "uniforme": 0.18364197530864199,
       "clima": "climax"
     },
     {
       "t": 93.5,
-      "luminancia": 0.29691707365043135,
-      "uniforme": 0.19714506172839505,
+      "luminancia": 0.2984237427378191,
+      "uniforme": 0.18209876543209877,
       "clima": "climax"
     },
     {
@@ -1780,20 +1780,20 @@
     },
     {
       "t": 94.5,
-      "luminancia": 0.27468423656497787,
-      "uniforme": 0.24402006172839505,
+      "luminancia": 0.2764837841926711,
+      "uniforme": 0.22588734567901234,
       "clima": "climax"
     },
     {
       "t": 95,
-      "luminancia": 0.24086430192446456,
-      "uniforme": 0.2023533950617284,
+      "luminancia": 0.25239635757079404,
+      "uniforme": 0.18248456790123457,
       "clima": "climax"
     },
     {
       "t": 95.5,
-      "luminancia": 0.24073783511860658,
-      "uniforme": 0.2023533950617284,
+      "luminancia": 0.252655785524074,
+      "uniforme": 0.18325617283950618,
       "clima": "climax"
     },
     {
@@ -1804,8 +1804,8 @@
     },
     {
       "t": 96.5,
-      "luminancia": 0.25897666575888084,
-      "uniforme": 0.2195216049382716,
+      "luminancia": 0.2680077001633835,
+      "uniforme": 0.2042824074074074,
       "clima": "climax"
     },
     {
@@ -1816,8 +1816,8 @@
     },
     {
       "t": 97,
-      "luminancia": 0.30722391370127133,
-      "uniforme": 0.20158179012345678,
+      "luminancia": 0.3074681773480874,
+      "uniforme": 0.2013888888888889,
       "clima": "climax"
     },
     {
@@ -1834,19 +1834,19 @@
     },
     {
       "t": 98.5,
-      "luminancia": 0.3097730445110034,
-      "uniforme": 0.2027391975308642,
+      "luminancia": 0.3099767126603612,
+      "uniforme": 0.2029320987654321,
       "clima": "climax"
     },
     {
       "t": 99,
-      "luminancia": 0.30949697334179516,
+      "luminancia": 0.30991662581698215,
       "uniforme": 0.203125,
       "clima": "climax"
     },
     {
       "t": 99.5,
-      "luminancia": 0.3100285153413114,
+      "luminancia": 0.31025511453036914,
       "uniforme": 0.20119598765432098,
       "clima": "climax"
     },
@@ -1864,20 +1864,20 @@
     },
     {
       "t": 100.5,
-      "luminancia": 0.23760014751270636,
-      "uniforme": 0.2195216049382716,
+      "luminancia": 0.23799986686032246,
+      "uniforme": 0.22241512345679013,
       "clima": "climax"
     },
     {
       "t": 101,
-      "luminancia": 0.23565183067053835,
-      "uniforme": 0.2212577160493827,
+      "luminancia": 0.23623164790607507,
+      "uniforme": 0.22395833333333334,
       "clima": "climax"
     },
     {
       "t": 101.5,
-      "luminancia": 0.23407285993100768,
-      "uniforme": 0.2195216049382716,
+      "luminancia": 0.23501193264342676,
+      "uniforme": 0.22202932098765432,
       "clima": "climax"
     },
     {
@@ -1888,8 +1888,8 @@
     },
     {
       "t": 102.5,
-      "luminancia": 0.23765910796417122,
-      "uniforme": 0.2185570987654321,
+      "luminancia": 0.23887745022391482,
+      "uniforme": 0.22241512345679013,
       "clima": "climax"
     },
     {
@@ -1900,8 +1900,8 @@
     },
     {
       "t": 103.5,
-      "luminancia": 0.2822012996247739,
-      "uniforme": 0.2189429012345679,
+      "luminancia": 0.2826771052711051,
+      "uniforme": 0.22145061728395063,
       "clima": "climax"
     },
     {
@@ -1912,20 +1912,20 @@
     },
     {
       "t": 104.5,
-      "luminancia": 0.2855833469498759,
-      "uniforme": 0.2490354938271605,
+      "luminancia": 0.28628646060274254,
+      "uniforme": 0.25289351851851855,
       "clima": "climax"
     },
     {
       "t": 105,
-      "luminancia": 0.2898368804466046,
-      "uniforme": 0.25617283950617287,
+      "luminancia": 0.2912701827644438,
+      "uniforme": 0.2604166666666667,
       "clima": "climax"
     },
     {
       "t": 105.5,
-      "luminancia": 0.2939733281892817,
-      "uniforme": 0.23919753086419754,
+      "luminancia": 0.2946019630537206,
+      "uniforme": 0.24228395061728394,
       "clima": "climax"
     },
     {
@@ -1936,8 +1936,8 @@
     },
     {
       "t": 106.5,
-      "luminancia": 0.3020659729786784,
-      "uniforme": 0.21257716049382716,
+      "luminancia": 0.301918871792525,
+      "uniforme": 0.21296296296296297,
       "clima": "climax"
     },
     {
@@ -1948,7 +1948,7 @@
     },
     {
       "t": 107.5,
-      "luminancia": 0.005905019970951347,
+      "luminancia": 0.005905776446381025,
       "uniforme": 0.9891975308641975,
       "clima": "pergunta"
     },
@@ -2007,10 +2007,10 @@
       "clima": "pergunta"
     }
   ],
-  "tempo_total_s": 161.066,
-  "atualizado_em": "2026-11-09T00:41:48.759Z",
+  "tempo_total_s": 7.877,
+  "atualizado_em": "2026-11-09T03:15:56.435Z",
   "quadros": 6704,
-  "segundos_por_quadro": 1.334858890214797,
+  "segundos_por_quadro": 1.366119779236277,
   "video": "episodios/ep01_uma_pra_das_tres/video_mudo.mp4",
   "video_parcial": false
 }

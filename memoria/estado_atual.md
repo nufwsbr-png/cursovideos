@@ -8,7 +8,8 @@ _Atualizado automaticamente pela etapa `memoria` e à mão pelo dono do canal._
 - Episódio 01 ("Uma pra das três") escrito à mão como piloto. Produzido aqui com **voz falsa** (sem chave do Gemini), portanto marcado como **não publicável** até gerar as vozes de verdade.
 - 2026-11-08 (tarde): o dono viu os quadros, reprovou o visual antigo (letras confusas, falhas de pixel, estilo diferente) e mandou 3 capturas de referência. **Motor refeito**: lente olho-de-peixe, traço limpo, bonecos e mãos no estilo da referência, legendas Baloo 2 coloridas, 60 fps. Stills e folha do ep01 conferidos com o visual novo.
 - 2026-11-09 00:05 UTC: **Epi. 01 re-renderizado inteiro** com o visual novo (`episodios/ep01_uma_pra_das_tres/ep01.mp4`, 1080x1920, 60 fps, 6704 quadros, 111,7 s, 105,7 MB). Render levou 153,8 min em CPU (1,33 s/quadro). Prova: só o bloqueio **voz falsa** (voz de teste); transcrição não conferida (Whisper indisponível). Capas refeitas com quadros do motor novo.
-- 2026-11-09 00:38 UTC: o dono apontou dois erros no vídeo (Dalva presa num movimento repetido em cima de uma cadeira; braços do protagonista dentro do balcão). **Corrigidos** (marca de Dalva em chão livre + varredura com deslocamento e rodo no chão; braço POV em três trechos que nunca entra no tampo) e conferidos em stills. **Re-render completo do Epi. 01 disparado de novo** (~2 h 35 min em CPU); ao terminar: conferir `ep01.mp4`, `folha_video_pronto.png`, prova e capas.
+- 2026-11-09 00:38 UTC: o dono apontou dois erros no vídeo (Dalva presa num movimento repetido em cima de uma cadeira; braços do protagonista dentro do balcão). **Corrigidos** (marca de Dalva em chão livre + varredura com deslocamento e rodo no chão; braço POV em três trechos que nunca entra no tampo) e conferidos em stills.
+- 2026-11-09 03:16 UTC: **Epi. 01 re-renderizado pela 2ª vez, com as correções** (`episodios/ep01_uma_pra_das_tres/ep01.mp4`, 1080x1920, 60 fps, 6704 quadros, 111,7 s, 108,6 MB). Render levou 156,8 min em CPU (1,37 s/quadro); do render à capa, 158 min. Prova: só o bloqueio **voz falsa**; transcrição não conferida (Whisper indisponível). Conferido em 12 quadros do MP4 final: Dalva varre no chão livre (posição muda ao longo do tempo, rodo no piso) e os antebraços ficam apoiados no tampo, sem manga abaixo do balcão. **Aguardando o dono assistir** e aprovar ou apontar o próximo ajuste.
 
 ## O que está pronto
 - Pipeline completo roda offline com voz falsa (`node fabrica/cli.js episodio --episodio 1 --provedor-voz falso`).
@@ -24,7 +25,7 @@ _Atualizado automaticamente pela etapa `memoria` e à mão pelo dono do canal._
 
 ## Medido / não conferido
 - Medido: nada de público ainda (nenhum vídeo publicado).
-- Medido: Epi. 01 inteiro a 60 fps com o visual novo — 155,3 min do render à capa em CPU (ver `aprendizados.md`); -16,01 LUFS, pico -1,71 dBTP.
+- Medido: Epi. 01 inteiro a 60 fps com o visual novo — 155,3 min (1º) e 158 min (2º, com as correções) do render à capa em CPU (ver `aprendizados.md`); -16,01 LUFS, pico -1,71 dBTP.
 - Não conferido: sotaque e interpretação das vozes (só o ouvido humano confere); render em GPU real (aqui foi CPU); o MP4 assistido inteiro no celular (só 12 quadros amostrados do arquivo final e a folha de 56 quadros).
 
 ## Como refazer o que foi feito hoje
@@ -34,7 +35,7 @@ Re-render completo do Epi. 01 com o visual novo (o que rodou em 2026-11-08/09, ~
 `node fabrica/cli.js episodio --episodio 1 --de render --ate capa`
 
 <!-- auto:inicio (gerado pela fábrica; edite acima desta linha) -->
-## Painel automático (2026-11-09 00:07 UTC)
+## Painel automático (2026-11-09 03:17 UTC)
 | Ep | Título | Etapa | Bloqueios | Publicado | Redes | Voto |
 |---|---|---|---|---|---|---|
 | 01 | Uma pra das três | capa | voz falsa: gere as vozes de verdade antes de publicar | — | — | — |
