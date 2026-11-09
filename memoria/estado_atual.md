@@ -6,7 +6,8 @@ _Atualizado automaticamente pela etapa `memoria` e à mão pelo dono do canal._
 - Fábrica construída do zero (motor, som, roteiro por IA, vozes, prova, capas, publicação em 5 redes, agendamento diário).
 - Canal ativo: **canal-exemplo "Guichê 3"** (original, criado para a fábrica rodar). O dono ainda **não** fez a investigação da Parte 3 nem a entrevista. Status: `A DECIDIR` se mantém este canal ou cria o seu.
 - Episódio 01 ("Uma pra das três") escrito à mão como piloto. Produzido aqui com **voz falsa** (sem chave do Gemini), portanto marcado como **não publicável** até gerar as vozes de verdade.
-- 2026-11-08 (tarde): o dono viu os quadros, reprovou o visual antigo (letras confusas, falhas de pixel, estilo diferente) e mandou 3 capturas de referência. **Motor refeito**: lente olho-de-peixe, traço limpo, bonecos e mãos no estilo da referência, legendas Baloo 2 coloridas, 60 fps. Stills e folha do ep01 conferidos com o visual novo; o MP4 inteiro ainda **não** foi re-renderizado (horas em CPU).
+- 2026-11-08 (tarde): o dono viu os quadros, reprovou o visual antigo (letras confusas, falhas de pixel, estilo diferente) e mandou 3 capturas de referência. **Motor refeito**: lente olho-de-peixe, traço limpo, bonecos e mãos no estilo da referência, legendas Baloo 2 coloridas, 60 fps. Stills e folha do ep01 conferidos com o visual novo.
+- 2026-11-09 00:05 UTC: **Epi. 01 re-renderizado inteiro** com o visual novo (`episodios/ep01_uma_pra_das_tres/ep01.mp4`, 1080x1920, 60 fps, 6704 quadros, 111,7 s, 105,7 MB). Render levou 153,8 min em CPU (1,33 s/quadro). Prova: só o bloqueio **voz falsa** (voz de teste); transcrição não conferida (Whisper indisponível). Capas refeitas com quadros do motor novo.
 
 ## O que está pronto
 - Pipeline completo roda offline com voz falsa (`node fabrica/cli.js episodio --episodio 1 --provedor-voz falso`).
@@ -22,13 +23,17 @@ _Atualizado automaticamente pela etapa `memoria` e à mão pelo dono do canal._
 
 ## Medido / não conferido
 - Medido: nada de público ainda (nenhum vídeo publicado).
-- Não conferido: sotaque e interpretação das vozes (só o ouvido humano confere); render em GPU real (aqui foi CPU); o episódio inteiro em 60 fps com o visual novo (só trechos e a folha).
+- Medido: Epi. 01 inteiro a 60 fps com o visual novo — 155,3 min do render à capa em CPU (ver `aprendizados.md`); -16,01 LUFS, pico -1,71 dBTP.
+- Não conferido: sotaque e interpretação das vozes (só o ouvido humano confere); render em GPU real (aqui foi CPU); o MP4 assistido inteiro no celular (só 12 quadros amostrados do arquivo final e a folha de 56 quadros).
 
 ## Como refazer o que foi feito hoje
 `npm install && pip install -r requirements.txt && node fabrica/cli.js episodio --episodio 1 --provedor-voz falso --escala 0.5`
 
+Re-render completo do Epi. 01 com o visual novo (o que rodou em 2026-11-08/09, ~2 h 35 min em CPU; minutos com GPU):
+`node fabrica/cli.js episodio --episodio 1 --de render --ate capa`
+
 <!-- auto:inicio (gerado pela fábrica; edite acima desta linha) -->
-## Painel automático (2026-11-08 17:15 UTC)
+## Painel automático (2026-11-09 00:07 UTC)
 | Ep | Título | Etapa | Bloqueios | Publicado | Redes | Voto |
 |---|---|---|---|---|---|---|
 | 01 | Uma pra das três | capa | voz falsa: gere as vozes de verdade antes de publicar | — | — | — |

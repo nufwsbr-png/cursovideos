@@ -1,27 +1,27 @@
 {
   "arquivo": "ep01.mp4",
-  "medido_em": "2026-11-08T17:14:41.657Z",
+  "medido_em": "2026-11-09T00:04:47.974Z",
   "formato": {
     "largura": 1080,
     "altura": 1920,
-    "fps": 30,
+    "fps": 60,
     "codec_video": "h264",
     "pix_fmt": "yuv420p",
     "codec_audio": "aac",
     "taxa_audio": 48000,
     "duracao_s": 111.733333,
-    "tamanho_mb": 119.17676
+    "tamanho_mb": 105.677504
   },
   "som": {
     "arquivo": "/home/user/cursovideos/episodios/ep01_uma_pra_das_tres/ep01.mp4",
     "formato": "mov,mp4,m4a,3gp,3g2,mj2",
     "duracao_s": 111.733,
-    "tamanho_mb": 119.18,
+    "tamanho_mb": 105.68,
     "video": {
       "codec": "h264",
       "largura": 1080,
       "altura": 1920,
-      "fps": 30,
+      "fps": 60,
       "pix_fmt": "yuv420p"
     },
     "audio": {
@@ -132,7 +132,7 @@
   },
   "revisao_quadros": {
     "graves": 0,
-    "avisos": 21
+    "avisos": 2
   },
   "lista": {
     "Formato 1080x1920, fps e duração": true,

@@ -221,12 +221,12 @@
     "arquivo": "/home/user/cursovideos/episodios/ep01_uma_pra_das_tres/ep01.mp4",
     "formato": "mov,mp4,m4a,3gp,3g2,mj2",
     "duracao_s": 111.733,
-    "tamanho_mb": 119.18,
+    "tamanho_mb": 105.68,
     "video": {
       "codec": "h264",
       "largura": 1080,
       "altura": 1920,
-      "fps": 30.0,
+      "fps": 60.0,
       "pix_fmt": "yuv420p"
     },
     "audio": {
