@@ -9,8 +9,11 @@ Formato: `- [DATA] [MEDIDO|HIPÓTESE|REGRA] texto — motivo/fonte`
 
 ## Medido (números com data)
 _(preenchido pela fábrica: tempos de render, LUFS, durações; e pelo dono: números do Studio)_
+- [2026-11-09] [MEDIDO] Referência (5 reels, `scripts/medir_referencia.py`): 1080x1920 a 30 fps; 0 cortes secos em 4 de 5 (1 no outro, para o preto final); muda a imagem só com giro, andar, aproximação e tela preta de 0,9–1,7 s; legenda com centro a 67–68 % da altura, contorno ≈ 5 px sem sombra, protagonista em branco; selo PARTE N ≈ 2,5 s; cartão final sobre a cena visível por 3,6–4,1 s com botão vermelho (arriscar) e azul (ficar) em 5 de 5; 51–90 palavras/min; 83–87 % da energia do som entre 20 e 80 Hz (zumbido grave contínuo, nunca silêncio). Detalhes em `estilo_visual.md` e `roteiro_regras.md`.
 
 ## Hipóteses para testar
+- [2026-11-09] [HIPÓTESE] Seguir o modelo de edição da referência (≈ 70 palavras/min, um trecho de ação sem fala, câmera que anda entre lugares, cartão final com botões) melhora retenção e comentários. Medir no primeiro episódio feito assim contra o Epi. 01.
+- [2026-11-09] [HIPÓTESE] Na referência o Epi. 2 fica com ≈ 40 % das views do Epi. 1 (7,4 mi → 3 mi; 4,5 mi → 1,8 mi). Usar como base, e não como alarme, quando lermos os nossos números.
 - [2026-11-08] [HIPÓTESE] O primeiro sinal aos 5,6 s com clique no alto-falante + painel prende melhor que um sinal só visual — testar retenção nos primeiros 7 s do Epi. 01 contra o Epi. 02.
 - [2026-11-08] [HIPÓTESE] A frase "Uma pra das três, por favor" dita no silêncio (67–70 s) é o pico de comentários — comparar comentários ÷ views com episódios sem silêncio.
 
@@ -35,3 +38,6 @@ _(a fábrica anexa aqui quando algo falha e é consertado)_
 - [2026-11-09] [MEDIDO] Render do ep01: 6704 quadros, 1.37 s/quadro, 156.8 min no total, escala 1, renderer ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver).
 - [2026-11-09] [MEDIDO] ep01: 111.7 s, 1080x1920, -16.01 LUFS, pico -1.71 dBTP, 108.6 MB.
 - [2026-11-09] [MEDIDO] 2º re-render completo do Epi. 01 (com as correções da Dalva e dos braços): 158 min do render à capa (render 156,8 min a 1,37 s/quadro; som, prova e capas ≈ 1,5 min). Tempo igual ao 1º dentro da margem: o braço em três trechos e a varredura não pesam no render. Correções conferidas em 12 quadros do MP4 final; o dono ainda não viu.
+- [2026-11-09] [REGRA] faster-whisper 1.2.1 + av 19 quebra ao abrir arquivo (`open() got an unexpected keyword argument 'metadata_errors'`). Solução: decodificar o áudio com ffmpeg (16 kHz mono f32) e passar o array. E **sem VAD** quando houver trilha por baixo: com VAD ele descartou 18 de 21 falas.
+- [2026-11-09] [REGRA] O Instagram exige login para ver os reels. No computador do dono funciona: `node scripts/referencia_navegador.js <perfil>` abre um Chromium visível com perfil próprio em `referencias/.navegador`, o dono entra à mão, o script lista os reels e exporta `referencias/cookies.txt` para o `yt-dlp`. Tudo fica em `referencias/` (no .gitignore). A sessão desta máquina, no app do VS Code, não tem o navegador embutido.
+- [2026-11-09] [REGRA] `scdet` só pega corte seco. Em vídeo de plano contínuo, medir mudança visual em janela de 0,5 s e brilho por quadro (giro, aproximação, tela preta). Em cena com céu vermelho o detector de cor do cartão final erra, então conferir na folha.

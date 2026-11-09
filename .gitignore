@@ -24,3 +24,6 @@ episodios/*/video_mudo_*.mp4
 previa_visual_novo.png
 refazer_ep01.log
 concluido.flag
+
+# Vídeos de referência baixados para estudo (nunca vão para o git) e perfil do navegador com login
+referencias/

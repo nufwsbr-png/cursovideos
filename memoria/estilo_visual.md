@@ -35,3 +35,56 @@ O padrão do canal é o C. Se o dono preferir outro, anotar aqui e no canal.json
 
 ## Padrão aprovado
 Quando o Epi. 01 for aprovado pelo dono, copiar quadros para `padrao_aprovado/quadros/` (o revisor compara contra eles).
+
+---
+
+## Modelo de edição da referência (estudo de 2026-11-09)
+
+**Fonte:** 5 reels do perfil de referência do Instagram (o mesmo das 3 capturas de estilo), baixados em `referencias/videos/`
+(fora do git) e medidos com `python -I scripts/medir_referencia.py referencias/videos/<id>.mp4` (ffmpeg 9.0.2 + faster-whisper
+small). Números brutos em `referencias/medidas/<id>.json`, folhas de 1 quadro/s em `referencias/medidas/<id>_folha.jpg`.
+**Copiamos só técnica e acabamento.** Eles têm duas séries (uma sala de aula sob céu vermelho; um supermercado em alerta). Nada
+disso (lugar, história, personagens, nomes, falas, objetos) entra no nosso canal.
+
+| Papel no estudo | Id | Views (09/11 16:39 UTC) | Duração | 1ª legenda (visual) | Mudança visual mediana | s em movimento forte | Telas pretas | Cartão final (início / duração) | Selo |
+|---|---|---|---|---|---|---|---|---|---|
+| mais visto + início de série | DfekLxVKm3- | 7,4 mi | 94,9 s | 0,0 s | 10,9 | 36,7 s (39 %) | 44,7–45,6 (troca de lugar) e 93,2–94,8 (fim) | 89,9 s / 5,0 s (3,3 s + 1,7 s preto) | — |
+| início da outra série + virada forte | Dfc_rs-Kr1W | 4,5 mi | 113,9 s | 0,0 s | 7,3 | 40,7 s (36 %) | 61,7–62,8 (salto de tempo) | 110,3 s / 3,6 s | — |
+| meio de série | DffSsVWKd1m | 2,1 mi | 103,8 s | ≈ 2,0 s | 4,8 | 23,6 s (23 %) | — | ≈ 100 s / ≈ 4 s (visto na folha) | PARTE 3, embaixo |
+| meio de série | Dfe9fCPKa75 | 2,2 mi | 123,3 s | 0,5 s | 2,9 | 10,9 s (9 %) | 61,5–63,2 (salto de tempo) | 119,7 s / 3,6 s | PARTE 03, no alto |
+| perseguição (mais curto) | Dffe38TqD-Q | 1,4 mi | 63,0 s | 1,0 s | 15,9 | 33,6 s (53 %) | — | 58,9 s / 4,1 s | PARTE 4, embaixo |
+
+"Mudança visual" = média |diferença| entre o quadro t e t-0,5 s em 54x96 cinza (0–255); "movimento forte" = mudança > 15.
+
+### MEDIDO
+- **Arquivo entregue:** 1080x1920, **30 fps**, VP9 + AAC estéreo 44,1 kHz; loudness integrado −14,1 LUFS nos 5 (normalização da plataforma), LRA 5–8 LU, pico até +2,0 dBTP.
+- **Cortes secos:** **zero** em 4 vídeos e 1 no outro (93,17 s, para a tela preta final), pelo filtro `scdet` (limiar 12, 0–100). Fora isso a câmera nunca corta: tudo é um plano contínuo em primeira pessoa.
+- **Como a imagem muda sem cortar:** giro de cabeça, andar/correr (corredor, escada, calçada), aproximação (fechar a lente num rosto, ex. 21→22 s do mais visto) e **tela preta de 0,9–1,7 s** para pular tempo ou lugar (3 de 5 vídeos, sempre entre 40 e 63 s). Picos de mudança por vídeo: 3 a 24.
+- **Lugares por episódio:** os dois episódios 1 passam por 3–4 lugares (sala → corredor → escada → subsolo; caixa → corredores → depósito), andando de um para o outro.
+- **Legenda** (medida em pixels no quadro 0 do mais visto e conferida nos outros): bloco centralizado em x = 540; **centro do bloco a 67–68 % da altura** (2 linhas entre y 1252 e 1352); largura até 84 % (x 86–995); maiúscula com ≈ 37 px de altura (fonte ≈ 52–54 px); entrelinha 58 px; **contorno quase preto de ≈ 5 px, sem sombra**; caixa alta e baixa; uma fala por vez, 1–2 linhas.
+- **Cor da legenda por quem fala:** protagonista **branco** (#fcfcfc, 3 amostras); demais em tons claros: amarelo #f4d151 (professor), laranja #fcb46c (colega), azul-claro #b4ccfc (policial), lilás (cliente, visto).
+- **Selo "PARTE N":** retângulo vermelho de 331×87 px, borda escura, texto branco em caixa alta; **visível de ≈ 0,0–0,5 s até ≈ 3,0 s** (≈ 2,5 s) e some; no alto (y 8,7 %) numa série e embaixo (y 85 %) na outra. O episódio 1 não tem selo.
+- **Cartão no alto da tela** (x 55–1023, y 96–273, 90 % da largura, cantos arredondados, borda escura grossa), aparece junto do celular na mão:
+  - mensagem: fundo creme-branco, remetente em verde negrito pequeno + texto preto negrito grande ("Pai / Cadê você?"); ficou 1,7 + 7,9 s e 3,9 s;
+  - alerta: fundo vermelho, triângulo branco com "!", rótulo em caixa alta pequeno + ordem em caixa alta grande; ficou 2,8 s e 4,0 s.
+- **Fechamento (5 de 5):** última fala termina 0,7–4 s antes do cartão; nesse intervalo a câmera **aproxima devagar** do objeto/pessoa da decisão (porta, rosto, ônibus). O cartão entra em 0,1–0,2 s **por cima da cena, que continua visível** (brilho médio cai 20–35 %), e fica **3,6–4,1 s** até o fim: título branco em caixa alta "O QUE VOCÊ FARIA?" (4/5) ou "E AGORA, O QUE EU FAÇO?" (1/5); **dois botões** arredondados com borda escura, emoji + texto de 2 linhas em caixa alta; **vermelho = sair/arriscar/agir** e **azul = ficar/esperar/se abrigar** (5 de 5); embaixo "Comenta aqui 👇" em amarelo. Sem letras A/B, sem chamada para "parte 2".
+- **Som:** nenhum trecho abaixo de −40 dB em nenhum vídeo (nunca há silêncio de verdade). **83–87 % da energia entre 20 e 80 Hz**, picos em 45–47, 68–70 e 92–94 Hz, nível quase constante do início ao fim (p10–p90 dentro de ≈ 8 dB): um **zumbido grave contínuo**, igual nos 5. A voz tem o mesmo RMS dos trechos sem fala (diferença −0,5 a +1,1 dB). Por cima: efeitos pontuais visíveis no espectrograma (bipes triplos ≈ 1,6 kHz no alerta, batidas na porta a ≈ 1 por segundo, ruído largo na corrida).
+- **Comparação com o nosso Epi. 01:** legenda a 62 % com contorno 9 px + sombra (deles 68 %, 5 px, sem sombra); protagonista em azul-claro (deles branco); selo até o fim (deles ≈ 2,5 s); cartão de notificação escuro, pequeno, 3,2 s fixos (deles grande, claro, legível, o tempo da mensagem); tela da pergunta quase preta com A/B (deles cena visível + botões com emoji); 60 fps (deles 30 fps); protagonista sentado num lugar só (deles anda por 3–4).
+
+### HIPÓTESE (não medido)
+- A fonte das legendas e cartões parece uma sem-serifa larga e pesada (estilo Verdana/DejaVu Sans Bold), menos arredondada que a nossa Baloo 2. Conferir lado a lado antes de trocar.
+- 30 fps pode ser conversão da plataforma, e não escolha do criador. Mesmo assim é o que o público vê no Instagram.
+- O zumbido grave mantém a tensão sem disputar a faixa da voz (200 Hz–4 kHz). Por isso a voz fica no mesmo RMS do fundo e continua clara.
+- Plano contínuo + andar entre lugares dá a sensação de "eu estou lá" e segura a retenção melhor que câmera parada. Testar contra o nosso Epi. 01 parado no balcão.
+- Botão vermelho = ação arriscada puxa o voto e o comentário.
+
+### Ajustes propostos no motor (AGUARDANDO O DONO; nada foi mudado ainda)
+Em ordem de custo/benefício. Os itens 1–5 só mudam valores no `canal.json` e o desenho 2D em `motor/cena/sobreposicao.js`;
+o 6 mexe na mixagem; o 7 é uma mudança grande de câmera e cenário.
+1. **Legenda:** `y_centro` 0,62 → 0,68; `espessura_contorno` 9 → 5; `sombra` false; `tamanho` 58 → 54; `largura_max` 0,78 → 0,82, centralizada em x = 0,5 (hoje centraliza na área segura, em 0,455). Protagonista em **branco** (`eu` #bfe0ff → #ffffff; a Neusa, hoje branca, passa para um tom claro próprio). Fonte: fazer um quadro de teste Baloo 2 × sem-serifa larga pesada (Nunito 900 já instalada) e o dono escolhe.
+2. **Selo PARTE N:** `duracao_s` null → 2,5 (entra em 0,3 s, sai em 0,5 s). A posição continua no alto (8 %).
+3. **Cartão do alto no padrão da referência:** dois tipos, `mensagem` (fundo creme, remetente verde, texto preto grande) e `alerta` (vermelho, triângulo, rótulo + ordem em caixa alta); 90 % da largura, y 5–14 %, borda escura grossa; **fica o tempo da mensagem** (campo `duracao_s` no evento `celular.notificacao`, padrão 4 s) em vez de 3,2 s fixos.
+4. **Tela da pergunta:** a cena continua (véu preto ≈ 0,35 em vez de apagar até o preto); entra em 0,2 s; dura 4 s; botões vermelho (arriscar) e azul (ficar) com emoji e texto em caixa alta de 2 linhas; sem A/B; "Comenta aqui 👇" em amarelo. Nos 1–4 s antes do cartão, aproximação lenta automática do alvo do último `olhar`. Risco: conferir se o Chromium do render desenha emoji (no Windows tem Segoe UI Emoji; no Linux da nuvem pode faltar a fonte).
+5. **30 fps** (`canal.json → fps` 60 → 30): é o que a referência entrega. Corta o render pela metade (hipótese: ≈ 78 min em vez de 157 min nesta CPU).
+6. **Som:** camada de zumbido grave contínuo (síntese nossa, 40–50 Hz com harmônicos, nunca some) por baixo do ambiente; o ducking da tensão fica mais leve, porque o grave não disputa a faixa da voz. Bipe triplo no alerta e batidas já existem como efeitos.
+7. **Câmera que anda entre lugares** (o maior ganho de "estar lá", também o maior trabalho): permitir 2–4 lugares por episódio ligados por trechos de caminhada/corrida em primeira pessoa e um salto por tela preta de ≈ 1 s. Exige cenários novos e o movimento `ir_para` entre marcas de lugares diferentes. Fazer depois de 1–6, num episódio-teste.
