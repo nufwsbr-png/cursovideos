@@ -1,7 +1,7 @@
 // Etapa 5 — Linha do tempo: as falas medidas mandam; a imagem se ajusta a elas (capítulo 62).
 import fs from "node:fs";
 import path from "node:path";
-import { PASTA_AUDIO } from "../config.js";
+import { PASTA_AUDIO, PASTA_MOTOR } from "../config.js";
 import { lerJson, atualizarEstado, definirBloqueios } from "../util/arquivos.js";
 import { executar, PYTHON } from "../util/exec.js";
 import { log } from "../util/log.js";
@@ -17,8 +17,12 @@ function scriptLinhaDoTempo() {
 export async function etapaTempo({ canal, ep }) {
   log.passo(`Etapa 5 — Linha do tempo do episódio ${ep.roteiro.numero}`);
   const saida = path.join(ep.dir, "linha_do_tempo.json");
-  await executar(PYTHON, [scriptLinhaDoTempo(), "--episodio", ep.dir, "--saida", saida]);
+  // 1) tempos (falas, movimentos, cartões, pergunta, ambientes): a mesma função que o motor usa
+  await executar("node", [path.join(PASTA_MOTOR, "montar_linha.js"), "--episodio", ep.dir, "--saida", saida]);
+  // 2) efeitos de som derivados das linhas resolvidas
+  await executar(PYTHON, [scriptLinhaDoTempo(), "--episodio", ep.dir, "--efeitos-de", saida]);
   const lt = lerJson(saida);
+  for (const a of lt.avisos_plano ?? []) log.aviso(`plano de câmera: ${a}`);
   const dur = lt.duracao_total_s;
   const { duracao_min_s: min, duracao_max_s: max } = canal.formato;
   definirBloqueios(ep.dir, "tempo", dur < min || dur > max ? [`duração ${dur.toFixed(1)}s fora de ${min}–${max}s: corte ou acrescente falas`] : []);

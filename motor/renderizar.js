@@ -78,8 +78,19 @@ function gravarRenderJson(pastaEp, novo) {
   return mesclado;
 }
 
+// Elementos 2D vistos (cartão, selo, pergunta, preto): guarda a caixa e o primeiro/último instante em que apareceram.
+function coletarLayout(acum, t, layout) {
+  for (const el of layout || []) {
+    const chave = el.tipo + '|' + (el.subtipo ?? '') + '|' + (el.indice ?? '');
+    const atual = acum.get(chave);
+    const tt = Number(t.toFixed(3));
+    if (!atual) acum.set(chave, { ...el, t_primeiro: tt, t_ultimo: tt, t_primeiro_opaco: el.opaco ? tt : null });
+    else { atual.t_ultimo = Math.max(atual.t_ultimo, tt); atual.t_primeiro = Math.min(atual.t_primeiro, tt); if (el.opaco && (atual.t_primeiro_opaco === null || tt < atual.t_primeiro_opaco)) atual.t_primeiro_opaco = tt; if (el.opaco) { atual.caixa = el.caixa ?? atual.caixa; atual.botoes = el.botoes ?? atual.botoes; } }
+  }
+}
+
 function coletarLegendas(acum, t, legendas) {
-  for (const l of legendas || []) { const k = l.id + '|' + l.texto; if (!acum.has(k)) acum.set(k, { t: Number(t.toFixed(2)), id: l.id, quem: l.quem, texto: l.texto, caixa: l.caixa }); }
+  for (const l of legendas || []) { const k = l.id + '|' + l.texto; if (!acum.has(k)) acum.set(k, { t: Number(t.toFixed(2)), id: l.id, quem: l.quem, texto: l.texto, caixa: l.caixa, base: l.base }); }
 }
 
 async function main() {
@@ -89,6 +100,7 @@ async function main() {
   const formato = args.formato || null;
 
   if (args['teste-estilos']) return await testeEstilos(canal, escala);
+  if (args.autoteste) return await autoteste();
 
   if (!args.episodio) { console.error('uso: node motor/renderizar.js --episodio <pasta> (--stills a,b | --folha | --video | --sequencia a,b) [--escala 0.5] [--inicio s --fim s]'); process.exit(2); }
   const pastaEp = path.resolve(RAIZ, args.episodio);
@@ -101,12 +113,14 @@ async function main() {
   const servidor = await iniciarServidor();
   const { navegador, pagina } = await abrirNavegador();
   const legendas = new Map();
+  const layout = new Map();
   const amostras = [];
   const saida = { escala, previa: !linha, medidas_sinteticas: !medidas, comandos: [] };
   try {
-    const opcoesMotor = { escala, semFxaa: process.env.MOTOR_SEM_FXAA === '1', tamanhoFace: process.env.MOTOR_FACE ? Number(process.env.MOTOR_FACE) : null, perfil: process.env.MOTOR_PERFIL === '1' };
+    const opcoesMotor = { escala, semFxaa: process.env.MOTOR_SEM_FXAA === '1', tamanhoFace: process.env.MOTOR_FACE ? Number(process.env.MOTOR_FACE) : null, perfil: process.env.MOTOR_PERFIL === '1', exigirFontes: process.env.MOTOR_EXIGIR_FONTES === '1' };
     const info = await carregarMotor(pagina, servidor.url, canal, roteiro, linha, medidas, opcoesMotor);
-    saida.gpu = info.gpu; saida.avisos = info.avisos; saida.duracao_total_s = info.duracao_total_s; saida.fps = info.fps; saida.variacao = info.variacao;
+    saida.gpu = info.gpu; saida.avisos = info.avisos; saida.duracao_total_s = info.duracao_total_s; saida.fps = info.fps; saida.variacao = info.variacao; saida.fontes = info.fontes;
+    if (!info.fontes?.ok) log('ATENÇÃO: fontes diferentes da referência:', JSON.stringify(info.fontes));
     log('GPU/WebGL:', info.gpu); log('duração:', info.duracao_total_s, 's', info.previa ? '(prévia)' : '');
     if (info.avisos?.length) log('avisos:', info.avisos.join(' | '));
     const fps = info.fps;
@@ -122,7 +136,7 @@ async function main() {
         const [q] = await pagina.evaluate(([ts, f]) => window.renderizarLote(ts, f, 0.95, true), [[t], formato || 'png']);
         const arq = path.join(pasta, nomeTempo(t) + (formato === 'jpg' ? '.jpg' : '.png'));
         salvarDataUrl(q.dados, arq);
-        coletarLegendas(legendas, t, q.legendas); amostras.push({ t, ...q.stats, clima: q.clima });
+        coletarLegendas(legendas, t, q.legendas); coletarLayout(layout, t, q.layout); amostras.push({ t, ...q.stats, clima: q.clima });
         log('still', path.relative(RAIZ, arq), 'clima', q.clima, 'legendas', q.legendas.length);
       }
       saida.segundos_por_quadro_stills = (Date.now() - ini) / 1000 / Math.max(1, tempos.length);
@@ -136,7 +150,7 @@ async function main() {
       for (let i = 0; i < tempos.length; i += 6) {
         const lote = tempos.slice(i, i + 6);
         const qs = await pagina.evaluate(([ts, f]) => window.renderizarLote(ts, f, 0.92, false), [lote, formato || 'png']);
-        qs.forEach((q, j) => { salvarDataUrl(q.dados, path.join(pasta, nomeTempo(lote[j]) + (formato === 'jpg' ? '.jpg' : '.png'))); coletarLegendas(legendas, lote[j], q.legendas); });
+        qs.forEach((q, j) => { salvarDataUrl(q.dados, path.join(pasta, nomeTempo(lote[j]) + (formato === 'jpg' ? '.jpg' : '.png'))); coletarLegendas(legendas, lote[j], q.legendas); coletarLayout(layout, lote[j], q.layout); });
       }
       log('sequência', a, '→', b, ':', tempos.length, 'quadros em', path.relative(RAIZ, pasta));
       saida.comandos.push(`sequencia ${a},${b}`);
@@ -179,7 +193,7 @@ async function main() {
         for (let j = 0; j < qs.length; j++) {
           const b = Buffer.from(qs[j].dados.split(',')[1], 'base64');
           if (!ff.stdin.write(b)) await new Promise(r => ff.stdin.once('drain', r));
-          coletarLegendas(legendas, tempos[j], qs[j].legendas);
+          coletarLegendas(legendas, tempos[j], qs[j].legendas); coletarLayout(layout, tempos[j], qs[j].layout);
           if (qs[j].stats && j === 0) amostras.push({ t: tempos[j], ...qs[j].stats, clima: qs[j].clima });
         }
         if ((i / LOTE) % 15 === 0 || i + LOTE >= total) {
@@ -200,10 +214,27 @@ async function main() {
     await servidor.fechar();
   }
   saida.legendas = [...legendas.values()];
+  if (layout.size) saida.layout2d = [...layout.values()].sort((a, b) => a.t_primeiro - b.t_primeiro);
   saida.amostras = amostras;
   saida.tempo_total_s = (Date.now() - t0) / 1000;
   gravarRenderJson(pastaEp, saida);
   log('render.json atualizado');
+}
+
+// Autoteste do ambiente de render: fontes (Verdana Bold medida e emoji colorido) e o renderer WebGL. Imprime JSON.
+async function autoteste() {
+  const servidor = await iniciarServidor();
+  const { navegador, pagina } = await abrirNavegador();
+  try {
+    await pagina.goto(servidor.url + '/motor/index.html', { waitUntil: 'load' });
+    await pagina.waitForFunction(() => typeof window.autotesteFontes === 'function', null, { timeout: 30000 });
+    const fontes = await pagina.evaluate(async () => await window.autotesteFontes());
+    const gpu = await pagina.evaluate(() => { const c = document.createElement('canvas'); const gl = c.getContext('webgl2') || c.getContext('webgl'); if (!gl) return null; const d = gl.getExtension('WEBGL_debug_renderer_info'); return d ? gl.getParameter(d.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER); });
+    console.log(JSON.stringify({ fontes, gpu }));
+  } finally {
+    await navegador.close().catch(() => {});
+    await servidor.fechar();
+  }
 }
 
 async function testeEstilos(canal, escala) {

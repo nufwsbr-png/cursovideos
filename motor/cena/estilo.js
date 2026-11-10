@@ -67,8 +67,9 @@ function prepararTextura(tex, repetir = false) {
   return tex;
 }
 
-// Fonte padrão dos letreiros do canal (arredondada e pesada, como nas placas da referência).
-export const FONTE_PLACA = '"Baloo 2"';
+// Fonte padrão dos letreiros do canal: Verdana Bold, a mesma medida na camada 2D da referência (2026-11-10).
+// O peso 800 pedido pelas placas cai no 700 (a Verdana POV só tem 400 e 700).
+export const FONTE_PLACA = '"Verdana POV", Verdana';
 
 // Textura a partir de um canvas 2D com texto. `desenharExtra(ctx, w, h)` permite detalhes. Resolução alta e mipmaps: nada de letra borrada.
 export function texturaTexto({ largura = 1024, altura = 256, fundo = '#222', cor = '#fff', linhas = [], fonte = `800 96px ${FONTE_PLACA}, sans-serif`, alinhamento = 'center', margem = 24, entrelinha = 1.12, desenharExtra = null, cantosArredondados = 0, borda = null }) {

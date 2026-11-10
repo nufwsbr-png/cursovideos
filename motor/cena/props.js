@@ -181,7 +181,9 @@ const TIPOS = {
       atualizar(est, t) {
         const s = est?.estado || 'parado';
         fone.visible = s !== 'na_mao';
-        if (s === 'tocando') { fone.position.y = def.pos[1] + 0.1 + Math.abs(Math.sin(t * 40)) * 0.006; fone.rotation.z = Math.sin(t * 40) * 0.03; }
+        // toca como o som (audio/sintetizar.py: 1 s de toque a cada 2,5 s), tremendo a 5 Hz: lento o bastante para 30 fps
+        const tau = s === 'tocando' ? ((t - (est?.inicioEstado || 0)) % 2.5 + 2.5) % 2.5 : 9;
+        if (tau < 1) { fone.position.y = def.pos[1] + 0.1 + 0.004 * (0.5 - 0.5 * Math.cos(2 * Math.PI * 5 * tau)); fone.rotation.z = Math.sin(2 * Math.PI * 5 * tau) * 0.03; }
         else { fone.position.y = def.pos[1] + 0.1; fone.rotation.z = 0; }
       },
       pontoOlhar: new THREE.Vector3(def.pos[0], def.pos[1] + 0.06, def.pos[2]),

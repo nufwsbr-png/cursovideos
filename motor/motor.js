@@ -7,7 +7,7 @@ import { Boneco } from './cena/boneco.js';
 import { CorpoPOV } from './cena/corpo_pov.js';
 import { Estado } from './cena/estado.js';
 import { Cabeca } from './cena/cabeca.js';
-import { Sobreposicao, TelaCelular } from './cena/sobreposicao.js';
+import { Sobreposicao, TelaCelular, janelasCartoes } from './cena/sobreposicao.js';
 import { Lente } from './cena/lente.js';
 import { construirLinhaDoTempo, medidasSinteticas, envelopeSintetico } from './cena/linha_previa.js';
 import { suave, lerp, misturarCor, hexParaRgb, clamp, sementeDeTexto, formatarTempo } from './cena/util.js';
@@ -44,9 +44,39 @@ function aplicarVariacao(canal, nomeVar) {
   return c;
 }
 
+// Autoteste das fontes (o mesmo que o doctor e a prova usam): a Verdana Bold do sistema tem de medir a frase da
+// referência com 909 px a 44 px (±2 %), e o emoji tem de sair colorido. Fonte trocada = vídeo diferente da referência.
+export const FRASE_TESTE = 'Delta é b ao quadrado, menos quatro';
+async function verificarFontes() {
+  const r = { verdana: { ok: false }, emoji: { ok: false } };
+  try {
+    const f = new FontFace('Verdana POV Teste', 'local("Verdana Bold"), local("Verdana-Bold")', { weight: '700' });
+    await f.load(); r.verdana.carregou = true;
+  } catch (e) { r.verdana.carregou = false; r.verdana.erro = String(e?.message || e); }
+  await document.fonts.load('700 44px "Verdana POV"').catch(() => {});
+  const c = document.createElement('canvas'); c.width = 1400; c.height = 120;
+  const cx = c.getContext('2d'); cx.font = '700 44px "Verdana POV"'; cx.textAlign = 'left';
+  const m = cx.measureText(FRASE_TESTE);
+  const largura = (m.actualBoundingBoxLeft || 0) + (m.actualBoundingBoxRight || m.width);
+  r.verdana.largura_px = Number(largura.toFixed(2)); r.verdana.alvo_px = 909;
+  r.verdana.ok = r.verdana.carregou && Math.abs(largura - 909) / 909 <= 0.02;
+  const e = document.createElement('canvas'); e.width = 96; e.height = 96;
+  const ex = e.getContext('2d');
+  ex.font = '64px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "Twemoji Mozilla", sans-serif';
+  ex.textBaseline = 'middle'; ex.textAlign = 'center'; ex.fillStyle = '#000'; ex.fillText(String.fromCodePoint(0x1F447), 48, 52);
+  const d = ex.getImageData(0, 0, 96, 96).data; let n = 0;
+  for (let i = 0; i < d.length; i += 4) { const mx = Math.max(d[i], d[i + 1], d[i + 2]), mn = Math.min(d[i], d[i + 1], d[i + 2]); if (d[i + 3] > 128 && mx - mn > 60) n++; }
+  r.emoji.pixels_coloridos = n; r.emoji.ok = n >= 150;
+  r.ok = r.verdana.ok && r.emoji.ok;
+  return r;
+}
+window.autotesteFontes = verificarFontes;
+
 window.carregar = async function carregar(canalOriginal, roteiro, linhaDoTempo, medidas, opcoes = {}) {
-  await Promise.all([document.fonts.load('48px Anton'), document.fonts.load('30px Nunito'), document.fonts.load('bold 30px Nunito'), document.fonts.load('800 48px "Baloo 2"'), document.fonts.load('700 48px "Baloo 2"')]);
+  await Promise.all([document.fonts.load('48px Anton'), document.fonts.load('30px Nunito'), document.fonts.load('bold 30px Nunito'), document.fonts.load('800 48px "Baloo 2"'), document.fonts.load('700 48px "Baloo 2"'), document.fonts.load('700 44px "Verdana POV"').catch(() => {})]);
   await document.fonts.ready;
+  const fontes = await verificarFontes();
+  if (opcoes.exigirFontes && !fontes.ok) throw new Error('fontes diferentes da referência: ' + JSON.stringify(fontes));
   const canal = aplicarVariacao(canalOriginal, opcoes.estilo);
   const fps = canal.formato?.fps || 30;
   const escala = opcoes.escala || 1;
@@ -55,7 +85,7 @@ window.carregar = async function carregar(canalOriginal, roteiro, linhaDoTempo, 
   M.estiloCfg = canal.estilo || {};
   M.cores = M.estiloCfg.cores || {};
   M.semente = M.estiloCfg.semente ?? 7;
-  M.linha = linhaDoTempo || construirLinhaDoTempo(roteiro, medidas, fps);
+  M.linha = linhaDoTempo || construirLinhaDoTempo(roteiro, medidas, canal);
   if (!linhaDoTempo) M.avisos.push('linha do tempo em modo prévia (derivada do roteiro)');
   M.medidas = medidas ? clonar(medidas) : medidasSinteticas(roteiro, M.linha);
   if (!medidas) M.avisos.push('medidas sintéticas (vozes ainda não medidas)');
@@ -116,12 +146,19 @@ window.carregar = async function carregar(canalOriginal, roteiro, linhaDoTempo, 
   M.estado = new Estado(canal, roteiro, M.linha, M.cenario);
   M.cabeca = new Cabeca(M.linha, canal, M.cenario, resolverAlvo, M.semente);
   M.sobre = new Sobreposicao(canal, M.estiloCfg, W, H, escala);
-  M.pancadas = [ ...(M.linha.efeitos || []).filter(e => e.tipo === 'pancada').map(e => e.t) ];
-  if (M.linha.pergunta && !M.pancadas.some(p => Math.abs(p - M.linha.pergunta.inicio_s) < 0.5)) M.pancadas.push(M.linha.pergunta.inicio_s);
+  // trancos de câmera só onde o roteiro pede (pancada); a pergunta final entra sem tranco, como na referência
+  M.pancadas = (M.linha.efeitos || []).filter(e => e.tipo === 'pancada').map(e => e.t);
+  if (M.linha.pergunta) M.pancadas = M.pancadas.filter(p => Math.abs(p - M.linha.pergunta.inicio_s) >= 0.5);
+  // cartões do alto: janelas calculadas uma vez (troca no lugar; terminam quando a pergunta começa)
+  const notifs = [];
+  for (const l of M.linha.linhas) for (const ev of (l.direcao?.eventos || [])) { const mm = /^celular\.notificacao=(\d+)$/.exec(ev); if (mm) notifs.push({ indice: Number(mm[1]), inicio: l.t_eventos ?? l.inicio_s }); }
+  M.cartoes = janelasCartoes(notifs, roteiro.celular || [], M.estiloCfg.cartao);
+  if (M.linha.pergunta) M.cartoes = M.cartoes.map(c => ({ ...c, fim: Math.min(c.fim, M.linha.pergunta.inicio_s) })).filter(c => c.fim > c.ini);
+  M.fontes = fontes;
   if (M.lente) M.lente.dispose();
   M.lente = new Lente(M.renderer, W, H, escala, M.estiloCfg, { perto: M.camera.near, longe: M.camera.far, semFxaa: !!opcoes.semFxaa, tamanhoFace: opcoes.tamanhoFace || null, perfil: !!opcoes.perfil });
   M.pronto = true;
-  return { gpu: M.gpu, avisos: M.avisos, duracao_total_s: M.linha.duracao_total_s, fps, previa: !!M.linha.previa, variacao: M.estiloCfg._variacao || 'cartela', linha: M.linha };
+  return { gpu: M.gpu, avisos: M.avisos, duracao_total_s: M.linha.duracao_total_s, fps, previa: !!M.linha.previa, variacao: M.estiloCfg._variacao || 'cartela', linha: M.linha, fontes };
 };
 
 // ------------------------------------------------------------------ alvos do olhar
@@ -158,7 +195,13 @@ function climaEm(t) {
   let i = 0; for (let k = 0; k < lista.length; k++) { if (lista[k].inicio_s <= t) i = k; else break; }
   const atual = lista[i], anterior = lista[i - 1] || atual;
   const cfg = M.estiloCfg.climas || {};
-  const pa = cfg[anterior.clima] || cfg.rotina || {}, pb = cfg[atual.clima] || cfg.rotina || {};
+  // um clima com "herdar" (a pergunta) mantém a luz do clima de antes: a cena continua visível sob o véu
+  if (cfg[atual.clima]?.herdar) {
+    let j = i - 1; while (j >= 0 && cfg[lista[j].clima]?.herdar) j--;
+    const base = j >= 0 ? cfg[lista[j].clima] || cfg.rotina || {} : cfg.rotina || {};
+    return { nome: atual.clima, inicio: atual.inicio_s, k: 1, luz: base.luz ?? 1, cor_luz: base.cor_luz || '#ffffff', vinheta: base.vinheta ?? 0.15, tremor: cfg[atual.clima].tremor ?? 0, lente: 0.3 };
+  }
+  const pa = cfg[anterior.clima]?.herdar ? (cfg.rotina || {}) : (cfg[anterior.clima] || cfg.rotina || {}), pb = cfg[atual.clima] || cfg.rotina || {};
   const k = suave((t - atual.inicio_s) / 1.2);
   const lente = M.estiloCfg.lente || {};
   const la = typeof lente === 'number' ? lente : (lente[anterior.clima] ?? 0.3), lb = typeof lente === 'number' ? lente : (lente[atual.clima] ?? 0.3);
@@ -230,11 +273,11 @@ window.renderizarQuadro = function renderizarQuadro(t) {
   M.dir.intensity = 1.2 * luz; M.dir.color.set(clima.cor_luz);
   M.dir2.intensity = 0.35 * luz;
 
-  // fade
-  let fade = 0;
-  if (acao === 'fade') fade = suave(tLinha / 0.8);
-  if (clima.nome === 'pergunta') fade = Math.max(fade, suave((t - clima.inicio) / 0.9));
-  if (M.linha.pergunta && t >= M.linha.pergunta.inicio_s) fade = Math.max(fade, suave((t - M.linha.pergunta.inicio_s) / 0.9));
+  // preto (mergulho/fade antigo): desenhado pela sobreposição; a pergunta final nunca escurece até o preto
+  const naPergunta = !!(M.linha.pergunta && t >= M.linha.pergunta.inicio_s);
+  let preto = 0;
+  if (acao === 'fade' && clima.nome !== 'pergunta' && !naPergunta) preto = suave(tLinha / 0.8);
+  const fade = 0;
 
   // passes: a lente faz as duas câmeras, o G-buffer, o olho de peixe, o traço e o FXAA no canvas GL
   const cl = hexParaRgb(clima.cor_luz).map(v => v / 255); const mx = Math.max(cl[0], cl[1], cl[2], 0.01);
@@ -245,11 +288,11 @@ window.renderizarQuadro = function renderizarQuadro(t) {
   const ctx = M.ctx;
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1;
   ctx.drawImage(M.canvasGL, 0, 0);
-  const falasAtivas = M.linha.falas.filter(f => t >= f.inicio_s && t <= f.fim_s + 0.15).map(f => ({ ...f, texto: f.texto || (M.roteiro.falas.find(x => x.id === f.id)?.texto || '') }));
-  const notificacao = est.celular.notificacao !== null && M.roteiro.celular?.[est.celular.notificacao] ? { ...M.roteiro.celular[est.celular.notificacao], inicio: est.celular.inicioNotificacao } : null;
-  const pergunta = M.linha.pergunta ? { ...M.linha.pergunta, ativa: t >= M.linha.pergunta.inicio_s } : null;
-  const legendas = M.sobre.desenhar(ctx, t, { falasAtivas, notificacao, selo: est.selo, pergunta, fade: clima.nome === 'pergunta' || (pergunta && pergunta.ativa) ? 0 : 0, clima: clima.nome });
-  M.ultimoQuadro = { t, clima: clima.nome, acao, linha: est.indice, legendas };
+  const some = M.estiloCfg.legenda?.some_apos_s ?? 0.15;
+  const falasAtivas = M.linha.falas.filter(f => t >= f.inicio_s && t <= f.fim_s + some).map(f => ({ ...f, texto: f.texto || (M.roteiro.falas.find(x => x.id === f.id)?.texto || '') }));
+  const pergunta = M.linha.pergunta ? { ...(M.roteiro.dilema || {}), ...M.linha.pergunta, ativa: naPergunta } : null;
+  const r2d = M.sobre.desenhar(ctx, t, { falasAtivas, cartoes: M.cartoes, selo: est.selo, pergunta, preto, clima: clima.nome });
+  M.ultimoQuadro = { t, clima: clima.nome, acao, linha: est.indice, legendas: r2d.legendas, layout: r2d.layout };
   return M.ultimoQuadro;
 };
 
@@ -261,7 +304,7 @@ window.renderizarLote = function renderizarLote(tempos, formato = 'jpg', qualida
   const saida = [];
   for (const t of tempos) {
     const info = window.renderizarQuadro(t);
-    const item = { t, dados: window.capturar(formato, qualidade), legendas: info.legendas, clima: info.clima };
+    const item = { t, dados: window.capturar(formato, qualidade), legendas: info.legendas, layout: info.layout, clima: info.clima };
     if (comStats) item.stats = window.estatisticasQuadro();
     saida.push(item);
   }

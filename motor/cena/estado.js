@@ -47,13 +47,14 @@ export class Estado {
     for (const pe of (this.canal.elenco || [])) {
       personagens[pe.id] = { visivel: false, posicao: this.marca(Object.keys(this.marcas)[0] || 'porta_plataforma'), andar: null, varrer: null, pose: 'em_pe', expressao: 'normal', inicioPose: 0 };
     }
-    const celular = { tela: null, inicioTela: 0, notificacao: null, inicioNotificacao: 0 };
+    const celular = { tela: null, inicioTela: 0, notificacao: null, inicioNotificacao: 0, notificacoes: [] };
     let selo = null;
     const ls = this.linha.linhas;
     const idx = this.indiceLinha(t);
     for (let i = 0; i <= idx; i++) {
       const l = ls[i];
-      const t0 = l.inicio_s;
+      const t0 = l.t_eventos ?? l.inicio_s; // numa transição pelo preto, os eventos valem no meio do escuro
+      if (t0 > t + 1e-6) continue;
       for (const ev of (l.direcao?.eventos || [])) this._aplicar(ev, t0, props, personagens, celular, (s) => { selo = { texto: s, inicio: t0 }; });
     }
     // posições com andar e com o deslocamento de quem limpa
@@ -106,7 +107,7 @@ export class Estado {
       else if (campo === 'andar') { const de = posicaoEm(pe, t0); pe.varrer = null; pe.varrerPausa = null; pe.andar = { de, para: this.marca(valor), inicio: t0 }; pe.posicao = pe.andar.para; }
     } else if (alvo === 'celular') {
       if (resto === 'tela') { celular.tela = valor === 'null' ? null : Number(valor); celular.inicioTela = t0; }
-      else if (resto === 'notificacao') { celular.notificacao = Number(valor); celular.inicioNotificacao = t0; }
+      else if (resto === 'notificacao') { celular.notificacao = Number(valor); celular.inicioNotificacao = t0; celular.notificacoes.push({ indice: Number(valor), inicio: t0 }); }
     } else if (alvo === 'tela') {
       if (resto === 'selo') defSelo(valor);
     }

@@ -126,8 +126,9 @@ def derivar_efeitos(roteiro: dict, linhas_resolvidas: list[dict], canal: dict | 
         return None
 
     for i, ln in enumerate(linhas_resolvidas):
-        t0 = ln["inicio_s"]
-        t1 = ln.get("fim_s", t0 + 2.0)
+        # numa transição pelo preto, os eventos (e os sons deles) valem no meio do escuro
+        t0 = ln.get("t_eventos", ln["inicio_s"])
+        t1 = ln.get("fim_s") or (t0 + 2.0)
         d = ln.get("direcao", {}) or {}
         for ev in d.get("eventos", []) or []:
             p = _parse_evento(ev)
@@ -315,11 +316,24 @@ def main() -> None:
     ap = argparse.ArgumentParser(description="Monta uma linha do tempo provisória (as falas mandam).")
     ap.add_argument("--episodio", required=True)
     ap.add_argument("--saida", default=None)
+    ap.add_argument("--efeitos-de", default=None,
+                    help="linha do tempo já montada (motor/montar_linha.js): só acrescenta os efeitos de som")
     args = ap.parse_args()
     ep = resolver_episodio(args.episodio)
     roteiro = carregar_json(ep / "roteiro.json")
     medidas = carregar_json(ep / "medidas.json") if (ep / "medidas.json").exists() else None
     canal = carregar_canal()
+    if args.efeitos_de:
+        linha = carregar_json(args.efeitos_de)
+        extras = list(linha.get("efeitos") or [])  # efeitos_extra do roteiro, já deslocados pelo montador
+        efeitos = derivar_efeitos(roteiro, linha["linhas"], canal) + extras
+        efeitos.sort(key=lambda e: e["t"])
+        linha["efeitos"] = efeitos
+        linha["efeitos_por"] = "audio/_linha_previa.py"
+        destino = args.saida or args.efeitos_de
+        salvar_json(destino, linha)
+        falar(f"Efeitos de som: {len(efeitos)} → {destino}")
+        return
     pps = float(canal.get("vozes", {}).get("palavras_por_segundo_estimadas", 2.5))
     linha = montar_linha_previa(roteiro, medidas, canal, pps)
     if args.saida:

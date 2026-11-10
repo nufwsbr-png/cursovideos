@@ -137,7 +137,7 @@ export class Cabeca {
     if (d.acao && d.acao.startsWith('andar')) { const fase = t * 2 * Math.PI * 1.8; bob = Math.abs(Math.sin(fase)) * 0.03; roll = Math.sin(fase) * 0.012; }
     // pancada
     let px = 0, py = 0;
-    for (const tp of pancadas) { const dt = t - tp; if (dt >= 0 && dt < 0.7) { const a = 0.05 * Math.exp(-dt * 7) * Math.sin(dt * 55); px += a; py += a * 0.6; } }
+    for (const tp of pancadas) { const dt = t - tp; if (dt >= 0 && dt < 0.7) { const a = 0.05 * Math.exp(-dt * 6) * Math.sin(dt * 38); px += a; py += a * 0.6; } } // ~6 Hz: legível a 30 fps
     const extra = new THREE.Quaternion().setFromEuler(new THREE.Euler(ty + py, tx + px, incl + tz + roll, 'YXZ'));
     camera.quaternion.multiply(extra);
     camera.position.y += bob;

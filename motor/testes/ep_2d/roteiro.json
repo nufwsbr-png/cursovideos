@@ -1,0 +1,34 @@
+{
+  "numero": 98,
+  "slug": "teste_2d",
+  "titulo": "Teste da camada 2D (não publicar)",
+  "cenario": "saguao",
+  "lugares": ["saguao"],
+  "parte_de": null,
+  "linhas": [
+    { "t": 0, "ato": "escalada", "fala": "f01", "som": "", "imagem": "selo + legenda de duas linhas (frase de calibração)",
+      "direcao": { "olhar": "maos", "acao": "parar", "clima": "escalada", "eventos": ["tela.selo=PARTE 3"] } },
+    { "t": 4, "ato": "escalada", "fala": "f02", "som": "", "imagem": "legenda de uma linha na cor da Dalva",
+      "direcao": { "olhar": "dalva", "acao": "parar", "clima": "escalada", "eventos": ["personagem.dalva.visivel=true", "personagem.dalva.posicao=dalva_perto", "personagem.dalva.pose=em_pe"] } },
+    { "t": 8, "ato": "autoridade", "fala": null, "som": "", "imagem": "cartão de mensagem",
+      "direcao": { "olhar": "celular", "acao": "pegar_celular", "clima": "escalada", "eventos": ["celular.notificacao=0", "celular.tela=0"] } },
+    { "t": 11, "ato": "autoridade", "fala": null, "som": "", "imagem": "cartão de alerta trocando no lugar",
+      "direcao": { "olhar": "celular", "acao": "parar", "clima": "escalada", "eventos": ["celular.notificacao=1", "celular.tela=1"] } },
+    { "t": 15, "ato": "dilema", "fala": "f03", "som": "", "imagem": "legenda lilás + aproximação",
+      "direcao": { "olhar": "painel", "acao": "aproximar:painel", "clima": "climax", "eventos": [] } },
+    { "t": 20, "ato": "pergunta", "fala": null, "som": "", "imagem": "pergunta com véu e botões",
+      "direcao": { "olhar": "painel", "acao": "parar", "clima": "pergunta", "eventos": [] } }
+  ],
+  "falas": [
+    { "id": "f01", "quem": "eu", "voz": "Iapetus", "texto": "Delta é b ao quadrado, menos quatro a c. Copiem.", "estilo": "calm", "filtro": null },
+    { "id": "f02", "quem": "dalva", "voz": "Gacrux", "texto": "Rasga isso, novato.", "estilo": "dry", "filtro": null },
+    { "id": "f03", "quem": "passageiro", "voz": "Schedar", "texto": "Uma pra das três, por favor.", "estilo": "calm", "filtro": null }
+  ],
+  "celular": [
+    { "de": "Mãe", "texto": "Filho, perdi o último ônibus.", "tipo": "mensagem", "hora": "02:52", "duracao_s": 4 },
+    { "de": "SISTEMA SERRA AZUL", "rotulo": "Sistema Serra Azul", "texto": "Passagem emitida 03:00", "tipo": "alerta", "hora": "02:53", "duracao_s": 3 }
+  ],
+  "dilema": { "pergunta": "O que você faria?", "opcao_a": "Entregar a passagem", "opcao_b": "Rasgar a passagem", "emoji_a": "🎫", "emoji_b": "✂️", "arriscada": "a" },
+  "efeitos_extra": [],
+  "silencios": []
+}

@@ -74,6 +74,10 @@ export async function etapaProva({ canal, ep }) {
   if (vozFalsa) bloqueios.push("voz falsa: gere as vozes de verdade antes de publicar");
   const graves = problemasGraves(revisao);
   if (graves.length) bloqueios.push(`revisor: ${graves.length} problema(s) grave(s) nos quadros`);
+  // fonte: a camada 2D tem de sair em Verdana Bold (medida no render); fonte trocada = vídeo fora do padrão
+  const render = lerJson(path.join(ep.dir, "render.json"), null);
+  if (render?.fontes && render.fontes.ok === false) bloqueios.push(`fontes diferentes da referência (Verdana ${render.fontes.verdana?.largura_px ?? "?"} px; alvo 909 ±2 %; emoji ${render.fontes.emoji?.ok ? "ok" : "sem cor"})`);
+  else if (!render?.fontes) avisos.push("fontes não conferidas no render (render feito antes do autoteste de fontes)");
 
   const lista = {
     "Formato 1080x1920, fps e duração": bloqueios.every((b) => !/formato|fps|duração/.test(b)),
