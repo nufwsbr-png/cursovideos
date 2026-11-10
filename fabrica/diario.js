@@ -21,7 +21,7 @@ export const corrigivelPelaIA = (causa) => CORRIGIVEL.some((re) => re.test(Strin
 
 // sintoma → o que fazer (a mesma tabela do CLAUDE.md)
 const O_QUE_FAZER = [
-  [/voz falsa|voz_real/, "coloque GEMINI_API_KEY no .env (ou nos segredos do GitHub) e rode `node fabrica/cli.js episodio --episodio N`: só as falas falsas são refeitas"],
+  [/voz falsa|voz_real/, "coloque GEMINI_API_KEY no .env (ou nos segredos do GitHub) e rode `node fabrica/cli.js episodio --episodio N`: só as falas falsas são refeitas, mais o que depende da duração delas (tempo, quadros, crítico visual e render: ≈ 2,5 h em CPU); sem ANTHROPIC_API_KEY o crítico para e pede a sessão (skill critico-visual)"],
   [/ANTHROPIC_API_KEY|crítico visual não rodou/, "coloque ANTHROPIC_API_KEY no .env/segredos, ou rode o crítico pela skill critico-visual numa sessão do Claude Code (critico --preparar / --aplicar)"],
   [/aprovação|aprovacao|APROVADO/, "assista ao episódio e rode `node fabrica/cli.js aprovar --episodio N`"],
   [/fonte|fontes/, "instale a Verdana (ttf-mscorefonts-installer no Linux) e o emoji colorido; confira com `node fabrica/cli.js doctor`"],
@@ -42,8 +42,25 @@ export function causasDe(resultado, dir) {
   const entrega = lerJson(path.join(dir, "entrega.json"), null);
   if (!entrega) return ["sem entrega.json"];
   if (entrega.publicavel) return [];
-  return Object.entries(entrega.checagens).filter(([k, c]) => !c.ok && k !== "bloqueios" && k !== "versoes").map(([k, c]) => `${k}: ${c.detalhe}`)
-    .concat(entrega.checagens.versoes && !entrega.checagens.versoes.ok ? [`versoes: ${entrega.checagens.versoes.detalhe}`] : []);
+  const causas = [];
+  for (const [k, c] of Object.entries(entrega.checagens)) {
+    if (c.ok || k === "bloqueios" || k === "versoes") continue;
+    // cada bloqueio da prova é uma causa (voz falsa e volume fora pedem ações diferentes)
+    if (k === "prova" && Array.isArray(c.bloqueios) && c.bloqueios.length) causas.push(...c.bloqueios.map((b) => `prova: ${b}`));
+    else causas.push(`${k}: ${c.detalhe}`);
+  }
+  if (entrega.checagens.versoes && !entrega.checagens.versoes.ok) causas.push(`versoes: ${entrega.checagens.versoes.detalhe}`);
+  // a mesma causa aparece em mais de uma checagem (voz falsa: em voz_real e na prova): fica uma por ação a fazer
+  // (o Epi. 01 de 2026-11-10 mandava o dono "ver o som" por causa da voz falsa)
+  const padrao = oQueFazer("");
+  const vistas = new Set();
+  return causas.filter((c) => {
+    const o = oQueFazer(c);
+    if (o === padrao) return true;
+    if (vistas.has(o)) return false;
+    vistas.add(o);
+    return true;
+  });
 }
 
 function descartar(ep, motivo) {
@@ -88,7 +105,7 @@ function escreverBloqueado(bloqueados) {
   if (!bloqueados.length) { fs.rmSync(ARQ_BLOQUEADO, { force: true }); return; }
   const partes = [`# A fábrica precisa de você\n\nAtualizado em ${new Date().toISOString().replace("T", " ").slice(0, 16)} UTC pela rotina diária. Este arquivo some sozinho quando nada estiver travado.\n`];
   for (const b of bloqueados) {
-    partes.push(`\n## Epi. ${String(b.numero).padStart(2, "0")} — ${b.titulo ?? "?"} (\`${b.pasta}\`)\n`);
+    partes.push(`\n## Epi. ${String(b.numero).padStart(2, "0")} — ${b.titulo ?? "?"} (\`${String(b.pasta).replace(/\\/g, "/")}\`)\n`);
     for (const c of b.causas) partes.push(`- **${c}**\n  → ${oQueFazer(c).replace(/episodio N/g, `episodio ${b.numero}`).replace(/--episodio N/g, `--episodio ${b.numero}`)}\n`);
     partes.push(`\nQuem resolve: ${b.precisaDono ? "**o dono**" : "a IA (na próxima rotina)"} · travado desde ${b.desde} · ${b.vezes} tentativa(s).\n`);
   }

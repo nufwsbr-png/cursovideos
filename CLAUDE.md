@@ -46,7 +46,7 @@ hoje; o dono pode trocar tudo com `node fabrica/cli.js entrevista`.
 ### Sintoma → causa → o que fazer
 | Sintoma | Causa provável | O que fazer |
 |---|---|---|
-| `publicável: não — voz_real` | voz falsa (sem `GEMINI_API_KEY`) | dono põe a chave; `episodio --episodio N` refaz só as falas falsas |
+| `publicável: não — voz_real` | voz falsa (sem `GEMINI_API_KEY`) | dono põe a chave; `episodio --episodio N` refaz só as falas falsas e o que depende da duração delas (tempo → quadros → crítico → render, ≈ 2,5 h em CPU) |
 | parou em `critico`: "crítico visual não rodou" | sem `ANTHROPIC_API_KEY` | skill `critico-visual` na sessão (`critico --preparar` / `--aplicar`) |
 | "o crítico visual não aprovou" | nota < 7 em algum critério | veja `revisoes.md`; o patch de direção roda sozinho (3 rodadas); travou 2 vezes → a rotina descarta e refaz |
 | "roteiro reprovado" | nota < 70 ou erro do linter | skill `roteiro-escrever`; corrija o maior desconto (`roteiro --validar`) |

@@ -14,7 +14,7 @@ refaz a partir da primeira etapa velha e para nos portões. `node fabrica/cli.js
 | 6 | Quadros (stills → folha → revisor) | `etapas/05b_quadros.js` | `stills/`, `folha.png`, `revisao.json` | sem problema grave |
 | 7 | Crítico visual (IA olha os quadros) | `etapas/05c_critico.js` → `fabrica/critico/` | `critico.json`, `revisoes.md` | 6 notas ≥ 7 |
 | 8 | Render (vídeo mudo, 30 fps) | `etapas/06_render.js` | `video_mudo.mp4` | — |
-| 9 | Som (zumbido, efeitos, mixagem −14 LUFS) | `etapas/07_som.js` | `epNN.mp4` | — |
+| 9 | Som (zumbido, efeitos, voz na faixa da voz + piso, −14 LUFS) | `etapas/07_som.js` | `epNN.mp4`, `audio/mixagem.json` | — |
 | 10 | Prova | `etapas/08_prova.js` | `prova.json` (com o hash do MP4) | — (bloqueios vão para a entrega) |
 | 11 | Capa e textos | `etapas/09_capa_textos.js` | `capa_1..3.png`, `capa.png`, `textos.json` | — |
 | 12 | Entrega | `etapas/09b_entrega.js` | `entrega.json` (`publicavel`, motivos, hashes) | publicável |
@@ -39,6 +39,13 @@ Mudar a direção do roteiro refaz do tempo em diante e **não** refaz as vozes.
 - O patch só mexe na direção. O que o patch não alcança (motor, mundo) o desenvolvedor corrige e anota em
   `revisoes.md`, em "Correções fora do patch".
 
+## Som (desde 2026-11-10)
+- Cada fala é igualada pela **faixa da voz** (300–3000 Hz), não pela faixa inteira, e de novo depois do filtro (antes o
+  alto-falante saía 8 dB mais quente e as vozes graves ficavam 2–4 dB mais baixas).
+- **Piso da voz:** a mixagem garante o critério que a prova mede (fala ≥ fundo sem fala + 6 dB na faixa da voz), subindo
+  a fala que faltar (até +4 dB, até 3 rodadas). O que subiu fica em `audio/mixagem.json → piso_voz`.
+- A prova transcreve (Whisper) só as falas com voz de verdade: voz falsa não é fala.
+
 ## Regras do motor
 - Quadro = função do tempo; semente fixa. O que é do episódio fica na pasta dele, o que é geral fica no motor.
 - Testar com stills e folhas antes do vídeo inteiro (capítulo 65). O revisor e o crítico rodam sozinhos, mas **o vídeo
@@ -50,14 +57,13 @@ Mudar a direção do roteiro refaz do tempo em diante e **não** refaz as vozes.
 ## Bloqueios e portões (ver `docs/CONTRATOS.md §10–14`)
 - **Bloqueia a publicação:** voz falsa; roteiro reprovado; revisor com problema grave; crítico não aprovado (ou só pela
   IA falsa); LUFS fora de −14 ±1,5; pico > −0,9 dBTP; zumbido grave ausente; silêncio abaixo de −40 dB antes do fim
-  da pergunta; fala faltando na transcrição (quando conferido); formato ou fps errado; fonte diferente da referência;
+  da pergunta; fala faltando na transcrição (só as falas com voz de verdade são transcritas); formato ou fps errado; fonte diferente da referência;
   etapa velha.
 - **Rotina diária:** saída 3 + `BLOQUEADO.md` quando precisa do dono (só no 1º dia de cada bloqueio). Travado 2 vezes
   por causa que a IA corrige → descarta e refaz uma vez.
 
 ## Medições desta máquina (CPU, SwiftShader) — ver `aprendizados.md` ("Medido")
-- Render 30 fps 1080×1920 do Epi. 01 novo (2026-11-10): ≈ 2,3–2,7 s/quadro com os testes rodando junto (2 708
-  quadros). Stills do crítico: 0,5 de escala para as folhas e 1,0 para os 6 detalhes.
+- Render 30 fps 1080×1920 do Epi. 01 novo (2026-11-10): 143,6 min no vídeo inteiro (3,18 s/quadro, com testes junto em parte do tempo); sem carga, 2,59 s/quadro sentado no balcão, 2,19 no corredor e 1,83 no guarda-volumes (o piloto antigo fazia 1,33). Stills do crítico: 0,5 de escala para as folhas e 1,0 para os 6 detalhes.
 - Ordem de verificação que o livro pede e a fábrica segue: stills → folha → revisor → crítico visual → vídeo → prova →
   entrega → assistir no celular.
 

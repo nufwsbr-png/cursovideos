@@ -78,6 +78,19 @@ class TestCamadas(unittest.TestCase):
             self.assertEqual(energia_por_banda(dr, SR)["trechos_abaixo_40db"], [])
             self.assertFalse(reg["avisos"], reg["avisos"])
 
+    def test_campos_opcionais_nulos_usam_o_padrao(self):
+        # o roteiro vindo da API manda repeticoes/intervalo_s/ganho_db/duracao_s como null (Epi. 01, 2026-11-10)
+        linha = {"duracao_total_s": 6.0, "falas": [], "climas": [{"inicio_s": 0, "clima": "rotina"}],
+                 "efeitos": [{"t": 0.2, "tipo": "impressora", "duracao_s": 2.4, "repeticoes": None, "intervalo_s": None, "ganho_db": None},
+                             {"t": 3.0, "tipo": "grave_crescente", "duracao_s": None, "repeticoes": None, "intervalo_s": None, "ganho_db": None}],
+                 "ambiente": [{"inicio_s": 0, "fim_s": 6, "tipo": "saguao_noite", "ganho_db": None}], "silencios": [], "pergunta": None}
+        with tempfile.TemporaryDirectory() as d:
+            reg = S.gerar_camadas(linha, Path(d), 7, True, {"drone": {}})
+            self.assertEqual([e["tipo"] for e in reg["efeitos"]], ["impressora", "grave_crescente"])
+            self.assertEqual(reg["efeitos"][0]["pico_dbfs"], S.NIVEL_PADRAO_DB["impressora"])
+            self.assertEqual(reg["ambiente"][0]["rms_dbfs"], -26.0)
+            self.assertFalse(reg["avisos"], reg["avisos"])
+
     def test_calibracao_da_faixa_grave(self):
         rng = np.random.default_rng(3)
         n = 10 * SR

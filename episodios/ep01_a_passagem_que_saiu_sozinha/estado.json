@@ -1,0 +1,410 @@
+{
+  "etapa": "entrega",
+  "aprovado": false,
+  "bloqueios": [
+    "voz falsa: gere as vozes de verdade antes de publicar"
+  ],
+  "avisos": [],
+  "historico": [
+    {
+      "em": "2026-11-10T16:24:34.296Z",
+      "etapa": "tempo"
+    },
+    {
+      "em": "2026-11-10T16:24:34.331Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-10T16:24:34.733Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-10T16:26:41.371Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-10T16:33:33.227Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-10T16:33:33.252Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-10T16:33:33.263Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-10T16:33:36.123Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-10T16:33:36.127Z",
+      "etapa": "tempo"
+    },
+    {
+      "em": "2026-11-10T16:33:36.149Z",
+      "etapa": "tempo"
+    },
+    {
+      "em": "2026-11-10T16:43:06.771Z",
+      "etapa": "tempo"
+    },
+    {
+      "em": "2026-11-10T16:43:06.791Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-10T16:43:07.036Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-10T16:46:28.358Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-10T16:49:01.224Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-10T16:49:01.515Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-10T19:13:10.760Z",
+      "etapa": "render"
+    },
+    {
+      "em": "2026-11-10T19:13:11.113Z",
+      "etapa": "render"
+    },
+    {
+      "em": "2026-11-10T20:33:45.903Z",
+      "etapa": "som"
+    },
+    {
+      "em": "2026-11-10T20:33:46.185Z",
+      "etapa": "som"
+    },
+    {
+      "em": "2026-11-10T20:34:08.136Z",
+      "etapa": "som"
+    },
+    {
+      "em": "2026-11-10T20:34:08.138Z",
+      "etapa": "prova"
+    },
+    {
+      "em": "2026-11-10T20:34:08.293Z",
+      "etapa": "prova"
+    },
+    {
+      "em": "2026-11-10T20:34:20.925Z",
+      "etapa": "capa"
+    },
+    {
+      "em": "2026-11-10T20:34:20.939Z",
+      "etapa": "capa"
+    },
+    {
+      "em": "2026-11-10T20:34:21.873Z",
+      "etapa": "entrega"
+    },
+    {
+      "em": "2026-11-10T20:55:51.836Z",
+      "etapa": "som"
+    },
+    {
+      "em": "2026-11-10T20:55:52.225Z",
+      "etapa": "som"
+    },
+    {
+      "em": "2026-11-10T20:56:10.783Z",
+      "etapa": "som"
+    },
+    {
+      "em": "2026-11-10T20:56:10.786Z",
+      "etapa": "prova"
+    },
+    {
+      "em": "2026-11-10T20:56:10.980Z",
+      "etapa": "prova"
+    },
+    {
+      "em": "2026-11-10T20:56:25.111Z",
+      "etapa": "capa"
+    },
+    {
+      "em": "2026-11-10T20:56:25.137Z",
+      "etapa": "capa"
+    },
+    {
+      "em": "2026-11-10T20:56:26.166Z",
+      "etapa": "entrega"
+    },
+    {
+      "em": "2026-11-10T21:07:29.331Z",
+      "etapa": "som"
+    },
+    {
+      "em": "2026-11-10T21:07:30.031Z",
+      "etapa": "som"
+    },
+    {
+      "em": "2026-11-10T21:07:48.551Z",
+      "etapa": "som"
+    },
+    {
+      "em": "2026-11-10T21:07:48.553Z",
+      "etapa": "prova"
+    },
+    {
+      "em": "2026-11-10T21:07:48.749Z",
+      "etapa": "prova"
+    },
+    {
+      "em": "2026-11-10T21:07:49.982Z",
+      "etapa": "entrega"
+    },
+    {
+      "em": "2026-11-10T21:09:09.027Z",
+      "etapa": "capa"
+    },
+    {
+      "em": "2026-11-10T21:09:09.052Z",
+      "etapa": "capa"
+    },
+    {
+      "em": "2026-11-10T21:09:10.464Z",
+      "etapa": "entrega"
+    },
+    {
+      "em": "2026-11-10T21:13:45.617Z",
+      "etapa": "entrega"
+    },
+    {
+      "em": "2026-11-10T21:13:56.984Z",
+      "etapa": "entrega"
+    },
+    {
+      "em": "2026-11-10T21:13:57.007Z",
+      "etapa": "entrega"
+    },
+    {
+      "em": "2026-11-10T21:15:14.706Z",
+      "etapa": "entrega"
+    },
+    {
+      "em": "2026-11-10T21:15:14.725Z",
+      "etapa": "entrega"
+    },
+    {
+      "em": "2026-11-10T21:15:45.982Z",
+      "etapa": "entrega"
+    },
+    {
+      "em": "2026-11-10T21:15:46.002Z",
+      "etapa": "entrega"
+    }
+  ],
+  "bloqueios_por_etapa": {
+    "vozes": [
+      "voz falsa: gere as vozes de verdade antes de publicar"
+    ],
+    "tempo": [],
+    "quadros": [],
+    "critico": [],
+    "roteiro": [],
+    "prova": [
+      "voz falsa: gere as vozes de verdade antes de publicar"
+    ]
+  },
+  "atualizado_em": "2026-11-10T21:15:46.002Z",
+  "avisos_vozes": [],
+  "duracao_s": 90.256,
+  "versoes": {
+    "roteiro": {
+      "entrada": {
+        "hash": "sha256:df0ead35cf0a6fbb442667c68e6007448153d53b24079db9deb9c9c12de5951a",
+        "partes": {
+          "roteiro": "sha256:c25736e18e8da9a7252ee3454cfb58b17cf5742946fff291a9bf28da5970d041",
+          "regras": "sha256:f67c5ec50bf3ce9b5e2e30b3b2ba5789ee3f1491778fd8b3b94147e12dbc2a81",
+          "canal_roteiro": "sha256:b5eae75572ebf19dc10dea9ed06801037891e2184cf36db272bc784b4fce2932",
+          "mundo": "sha256:9fbad3091e40cf8d2dfe56f2a8d1b2dbd4ea7a8cf205a41de3bf55bf84f98208",
+          "codigo": "sha256:f6d68244e3247a1bbc37e8b71a8faa483d8259af4fa76f9f9a124207107635f9"
+        }
+      },
+      "saidas": {
+        "validacao.json": "sha256:6e9373eae8d71e1640b2285bd0866cebfa1477c43cf59d8e244f73b9f9d99db7"
+      },
+      "em": "2026-11-10T16:33:33.262Z"
+    },
+    "vozes": {
+      "entrada": {
+        "hash": "sha256:dc71e5ed64cf30a8e1552cfee864afa2e506ec4592e1069ad020b6cdfae72673",
+        "partes": {
+          "falas": "sha256:8de8c8dee24588516feafe52c8eda59d74e4b29e3117ec0685e0dad4a7fbbaf7",
+          "provedor": "sha256:c014fd0eba928b291532eef9c568a99b8ab85dc793e126ed3d8dfe7a52eb9dc8"
+        }
+      },
+      "saidas": {
+        "audio/falas": "sha256:85d7396439ad9c85bca013b18055278b3e22d775a0f87341da178de2bc45508c"
+      },
+      "em": "2026-11-10T16:14:30.959Z",
+      "adotada_em": "2026-11-10T16:14:30.931Z"
+    },
+    "conferir": {
+      "entrada": {
+        "hash": "sha256:7e5af29462d6cbdbd95cd216a4ce7dbf223051473ff273e5d9a381b8755d9de5",
+        "partes": {
+          "falas_wav": "sha256:4e20545f1c91522f435d5b436baf0e005d523290509eead3419ffd2d2b2e1455",
+          "codigo": "sha256:75894b219e66f6d18c9a06c55695036a76c8c1b9a09116c5ac5cd0f3458d189d"
+        }
+      },
+      "saidas": {
+        "medidas.json": "sha256:8c6d3b71666a129adb9ae4e17b075edb2da9b4b960c3e820c75e648874fa13c1"
+      },
+      "em": "2026-11-10T16:14:30.979Z",
+      "adotada_em": "2026-11-10T16:14:30.960Z"
+    },
+    "tempo": {
+      "entrada": {
+        "hash": "sha256:61aea94b7f0b8bba53eb38a790ee3431317e0164f1d2378f53d95c80ccae4eac",
+        "partes": {
+          "roteiro": "sha256:c25736e18e8da9a7252ee3454cfb58b17cf5742946fff291a9bf28da5970d041",
+          "medidas": "sha256:8c6d3b71666a129adb9ae4e17b075edb2da9b4b960c3e820c75e648874fa13c1",
+          "canal": "sha256:9affdd69c0efdc20e4fb6f0e9a49d08707dc3bcb3271050a834393f5aba173b4",
+          "codigo": "sha256:c773a41257906ffc488b2a9d476899a7459a175c16f9ff3aca04d64930ce031e"
+        }
+      },
+      "saidas": {
+        "linha_do_tempo.json": "sha256:9259f8948fcd03d06cde907b151c7772a3c63995fe52fcec104091b7b7134451"
+      },
+      "em": "2026-11-10T16:33:36.148Z"
+    },
+    "quadros": {
+      "entrada": {
+        "hash": "sha256:a36d2a2f71b688edb1e4844a50f24df43879c20412cb3c4fdaed6edd24104e14",
+        "partes": {
+          "roteiro": "sha256:c25736e18e8da9a7252ee3454cfb58b17cf5742946fff291a9bf28da5970d041",
+          "linha": "sha256:9259f8948fcd03d06cde907b151c7772a3c63995fe52fcec104091b7b7134451",
+          "medidas": "sha256:8c6d3b71666a129adb9ae4e17b075edb2da9b4b960c3e820c75e648874fa13c1",
+          "canal": "sha256:9affdd69c0efdc20e4fb6f0e9a49d08707dc3bcb3271050a834393f5aba173b4",
+          "motor": "sha256:ddb7be2110d00c16d65e33f2080ff9ef451570fbd1c35a350642b8d7bd51824e",
+          "escala": "sha256:6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+          "codigo": "sha256:4eadf581b3e1ae70819ea26e3bdcdc91d5543f315899368213337cc3408c5dad"
+        }
+      },
+      "saidas": {
+        "revisao.json": "sha256:7623574e0334853c2356efb16afea7670da65a9c698169c891de02c65f1fc142",
+        "folha.png": "sha256:1ed73f792309f060b31c482258c7482a9f765a58d3499ed14f1411ac5d2eaea6"
+      },
+      "em": "2026-11-10T16:43:07.028Z"
+    },
+    "critico": {
+      "entrada": {
+        "hash": "sha256:44cb99d903fd2698f44c4420c688f49166d498da46b36c4d08acfe42811bfe1b",
+        "partes": {
+          "roteiro": "sha256:c25736e18e8da9a7252ee3454cfb58b17cf5742946fff291a9bf28da5970d041",
+          "linha": "sha256:9259f8948fcd03d06cde907b151c7772a3c63995fe52fcec104091b7b7134451",
+          "medidas": "sha256:8c6d3b71666a129adb9ae4e17b075edb2da9b4b960c3e820c75e648874fa13c1",
+          "canal": "sha256:9affdd69c0efdc20e4fb6f0e9a49d08707dc3bcb3271050a834393f5aba173b4",
+          "motor": "sha256:ddb7be2110d00c16d65e33f2080ff9ef451570fbd1c35a350642b8d7bd51824e",
+          "rubrica": "sha256:d606b91f6d2b88ed84bec59020d2b7145ae5ecc8f14b8876b0dd864a0225cad4",
+          "codigo": "sha256:f36947539b53e2a04293273b0d7f827ad4a3cd6c1f3bca2bb54519b0138f8b11",
+          "limites": "sha256:90bbcd3b066fbce13353f47b08c2563de4fd31cb71d9c39fef7cfe945bada1e1"
+        }
+      },
+      "saidas": {
+        "critico.json": "sha256:cd2adea0ff9f47ab0279009e096e0783a44eac6b13d3b65bb9e1e9573e4f40f2"
+      },
+      "em": "2026-11-10T16:49:01.511Z"
+    },
+    "render": {
+      "entrada": {
+        "hash": "sha256:32dc1647631d06690a15d43155fe3ef4d47c184ec48347bca5cd01f87e2dfb3a",
+        "partes": {
+          "roteiro": "sha256:c25736e18e8da9a7252ee3454cfb58b17cf5742946fff291a9bf28da5970d041",
+          "linha": "sha256:9259f8948fcd03d06cde907b151c7772a3c63995fe52fcec104091b7b7134451",
+          "medidas": "sha256:8c6d3b71666a129adb9ae4e17b075edb2da9b4b960c3e820c75e648874fa13c1",
+          "canal": "sha256:9affdd69c0efdc20e4fb6f0e9a49d08707dc3bcb3271050a834393f5aba173b4",
+          "motor": "sha256:ddb7be2110d00c16d65e33f2080ff9ef451570fbd1c35a350642b8d7bd51824e",
+          "escala": "sha256:6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+        }
+      },
+      "saidas": {
+        "video_mudo.mp4": "sha256:47c4530c88acdd97f732e382ff59185512aa3c79cb3c4a24234a0f02b4900578"
+      },
+      "em": "2026-11-10T19:13:11.110Z"
+    },
+    "som": {
+      "entrada": {
+        "hash": "sha256:135fb7460180f6028726fb15f0f0ea4b0985fe1714a0cd010aed96693325e9fb",
+        "partes": {
+          "linha": "sha256:9259f8948fcd03d06cde907b151c7772a3c63995fe52fcec104091b7b7134451",
+          "falas": "sha256:4e20545f1c91522f435d5b436baf0e005d523290509eead3419ffd2d2b2e1455",
+          "video": "sha256:47c4530c88acdd97f732e382ff59185512aa3c79cb3c4a24234a0f02b4900578",
+          "audio": "sha256:cb8ef374fee488c214d42d361e1f4c5f739f5870349119c0655c88c7754e5020",
+          "codigo": "sha256:9c4956666faa84342aec69f0a9632976d49f79f1501de4ed31a827b1a315af3f"
+        }
+      },
+      "saidas": {
+        "ep01.mp4": "sha256:128d5b4c351877c2b59faedbfe402aa2e4548ec810ef28662df00322945a5108",
+        "mix.wav": "sha256:7cd347b11518cabd42434aabb1475eb2be726c88db9a4e9f00e65f5ff8330a2c"
+      },
+      "em": "2026-11-10T21:07:30.030Z"
+    },
+    "prova": {
+      "entrada": {
+        "hash": "sha256:6d87aae140be14cef3013f3944813c2c08f0d01a4f281b5fa4167e39921d05a9",
+        "partes": {
+          "mp4": "sha256:128d5b4c351877c2b59faedbfe402aa2e4548ec810ef28662df00322945a5108",
+          "revisao": "sha256:7623574e0334853c2356efb16afea7670da65a9c698169c891de02c65f1fc142",
+          "origem": "sha256:6be6fe0c6dc53282dbac83c55aba8f188d1b04f736d9108eb9d8c65324cac76c",
+          "fontes": "sha256:3698b9047cf9bd731ca28b48c6ba02658c804942ce9848743299e779ee446403",
+          "formato": "sha256:3503fce526b97435a8d76791318adcb10ac67be5ef28005d15cf7667c09efced",
+          "audio": "sha256:cb8ef374fee488c214d42d361e1f4c5f739f5870349119c0655c88c7754e5020",
+          "codigo": "sha256:660fc17377e1b3307d7bd435c15880fdd7c0245ae04d7448e9596764255dc0db"
+        }
+      },
+      "saidas": {
+        "prova.json": "sha256:a659aa81ca8d486f68b91d411d18a4f5a68138a85c0c9659918fdcf38cdd62a7"
+      },
+      "em": "2026-11-10T21:07:48.747Z"
+    },
+    "capa": {
+      "entrada": {
+        "hash": "sha256:baa9b8c5f1a771bd4ce634e70282c6237d6de2611d952d54c0470aec31dd82da",
+        "partes": {
+          "roteiro": "sha256:c25736e18e8da9a7252ee3454cfb58b17cf5742946fff291a9bf28da5970d041",
+          "linha": "sha256:9259f8948fcd03d06cde907b151c7772a3c63995fe52fcec104091b7b7134451",
+          "canal": "sha256:3067123650248b763ce2135f22873c582277e8c4f554971b47681aaed903a906",
+          "motor": "sha256:ddb7be2110d00c16d65e33f2080ff9ef451570fbd1c35a350642b8d7bd51824e",
+          "codigo": "sha256:e7fa02fcc8fc2dae9962efae0ad15dcf5d06a758ddcc05af2422c7fa50d96947"
+        }
+      },
+      "saidas": {
+        "capa.png": "sha256:62e8897f715eda54f21f79476bfb3be8b8abf4a874355b8ebbb3cade87640994",
+        "textos.json": "sha256:e2ee7798fe67f1e6adbed6a819c9bf563b86784c02d31807e320af782e5d1890"
+      },
+      "em": "2026-11-10T21:09:09.048Z"
+    }
+  },
+  "avisos_prova": [
+    "transcrição não conferida: todas as falas têm voz falsa; confere sozinha quando houver voz de verdade"
+  ],
+  "publicavel": false,
+  "travado": {
+    "assinatura": "sha256:b3a27761eccc760d9005b1ac7314ceee46d8dc9462a5f64a5655eb1fd28e504e",
+    "vezes": 2,
+    "desde": "2026-11-10",
+    "ultima": "2026-11-10T21:15:46.000Z",
+    "causas": [
+      "voz_real: 19 fala(s) com voz falsa"
+    ]
+  },
+  "aviso_dono": {
+    "assinatura": "sha256:b3a27761eccc760d9005b1ac7314ceee46d8dc9462a5f64a5655eb1fd28e504e",
+    "em": "2026-11-10T21:15:14.725Z"
+  }
+}

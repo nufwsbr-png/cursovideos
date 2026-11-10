@@ -1434,19 +1434,25 @@
           "id": "gv_mala_1",
           "tipo": "mala",
           "pos": [
-            -0.6,
-            0,
-            3.3
+            1.49,
+            0.9,
+            3.2
           ],
           "tamanho": [
-            0.42,
-            0.3,
+            0.34,
+            0.26,
             0.16
           ],
           "cor": "#6b4a2b",
           "etiqueta": [
             "Nº 07"
-          ]
+          ],
+          "rot": [
+            0,
+            -1.5707963267948966,
+            0
+          ],
+          "nota": "dentro do armário 7 (bíblia: a mala aparece no armário 7); a etiqueta fica de frente para o nó gv_armarios"
         }
       ],
       "detalhes_vida": []
@@ -1521,7 +1527,7 @@
       "cor": "#1a1a1a",
       "tela": "#e9eef2",
       "trincado": true,
-      "app_mensagens_nome": "Zap da Família (inventado)",
+      "app_mensagens_nome": "Recado",
       "cor_app": "#2f7d5a"
     },
     "climas": {

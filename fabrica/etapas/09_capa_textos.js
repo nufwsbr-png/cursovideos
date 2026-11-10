@@ -40,20 +40,51 @@ async function extrairQuadro(video, t, destino) {
   await executar("ffmpeg", ["-y", "-v", "error", "-ss", String(t), "-i", video, "-frames:v", "1", "-q:v", "2", destino]);
 }
 
-// A fonte da capa é a mesma das legendas (Baloo 2, peso 800): uma identidade só. Cai para Anton se a Baloo não estiver instalada.
-function fonteBase64() {
+// A fonte da capa é a mesma das legendas e de toda a camada 2D: Verdana Bold (medida na referência), uma identidade só.
+// É fonte do sistema, pedida por local() como no motor (motor/index.html), nunca copiada para o repositório.
+// Sem ela na máquina, a capa cai para a Baloo 2 embutida (ou Anton) e avisa; quem confere a fonte é o autoteste do motor.
+const FONTE_CAPA = { nome: "Verdana Bold", familia: "Verdana POV", peso: 700, css: `@font-face{font-family:"Verdana POV";font-weight:700;src:local("Verdana Bold"),local("Verdana-Bold");font-display:block}` };
+
+function fonteReserva() {
   const base = path.join(RAIZ, "node_modules", "@fontsource");
+  const embutir = (familia, peso, latin, ext) => ({
+    nome: `${familia} (reserva)`, familia, peso,
+    css: `@font-face{font-family:"${familia}";font-weight:${peso};src:url(data:font/woff2;base64,${fs.readFileSync(latin).toString("base64")}) format("woff2");}`
+      + (ext && fs.existsSync(ext) ? `@font-face{font-family:"${familia}";font-weight:${peso};src:url(data:font/woff2;base64,${fs.readFileSync(ext).toString("base64")}) format("woff2");unicode-range:U+0100-024F,U+1E00-1EFF;}` : ""),
+  });
   const baloo = path.join(base, "baloo-2", "files", "baloo-2-latin-800-normal.woff2");
-  const balooExt = path.join(base, "baloo-2", "files", "baloo-2-latin-ext-800-normal.woff2");
-  if (fs.existsSync(baloo)) return { familia: "Baloo 2", peso: 800, latin: fs.readFileSync(baloo).toString("base64"), ext: fs.existsSync(balooExt) ? fs.readFileSync(balooExt).toString("base64") : null };
+  if (fs.existsSync(baloo)) return embutir("Baloo 2", 800, baloo, path.join(base, "baloo-2", "files", "baloo-2-latin-ext-800-normal.woff2"));
   const anton = path.join(base, "anton", "files", "anton-latin-400-normal.woff2");
-  return fs.existsSync(anton) ? { familia: "Anton", peso: 400, latin: fs.readFileSync(anton).toString("base64"), ext: null } : null;
+  return fs.existsSync(anton) ? embutir("Anton", 400, anton, null) : null;
 }
 
-function htmlCapa({ quadroBase64, gancho, numero, cores, variante, nomeCanal, fonteB64, largura, altura }) {
+async function verdanaNaMaquina(pagina) {
+  await pagina.setContent(`<!doctype html><html><head><style>${FONTE_CAPA.css}</style></head><body>Aã</body></html>`);
+  return pagina.evaluate(async () => {
+    try { const f = await document.fonts.load('700 100px "Verdana POV"'); return f.length > 0 && f.every((x) => x.status === "loaded"); } catch { return false; }
+  });
+}
+
+// Roda dentro da página (não usa nada de fora): diminui o gancho até caber na largura (nenhuma palavra estoura a caixa)
+// e acima do próximo texto e da área segura (até 1680 px); devolve as caixas para o capa.json.
+function ajustarTextoDaCapa() {
+  const g = document.querySelector(".gancho");
+  const caixa = (el) => { const r = el.getBoundingClientRect(); return [Math.round(r.left), Math.round(r.top), Math.round(r.right), Math.round(r.bottom)]; };
+  const topo = g.getBoundingClientRect().top;
+  const abaixo = [...document.querySelectorAll(".epi,.canal")].map((e) => e.getBoundingClientRect().top).filter((t) => t > topo);
+  const limite = Math.min(1680, ...abaixo.map((t) => t - 20));
+  let px = parseFloat(getComputedStyle(g).fontSize);
+  const cabe = () => g.scrollWidth <= g.clientWidth + 1 && g.getBoundingClientRect().bottom <= limite;
+  for (let i = 0; i < 40 && !cabe() && px > 64; i++) { px = Math.floor(px * 0.96); g.style.fontSize = `${px}px`; }
+  const caixas = { gancho: caixa(g), epi: caixa(document.querySelector(".epi")), canal: caixa(document.querySelector(".canal")) };
+  const naAreaSegura = Object.values(caixas).every(([, t, , b]) => t >= 240 && b <= 1680);
+  return { gancho_px: px, cabe: cabe(), area_segura: naAreaSegura, limite_gancho_px: Math.round(limite), caixas };
+}
+
+function htmlCapa({ quadroBase64, gancho, numero, cores, variante, nomeCanal, fonte: fonteCapa, largura, altura }) {
   const ep = String(numero).padStart(2, "0");
-  const fonte = fonteB64 ? `@font-face{font-family:"${fonteB64.familia}";font-weight:${fonteB64.peso};src:url(data:font/woff2;base64,${fonteB64.latin}) format("woff2");}` + (fonteB64.ext ? `@font-face{font-family:"${fonteB64.familia}";font-weight:${fonteB64.peso};src:url(data:font/woff2;base64,${fonteB64.ext}) format("woff2");unicode-range:U+0100-024F,U+1E00-1EFF;}` : "") + `.gancho,.epi,.canal{font-weight:${fonteB64.peso}}` : "";
-  const familia = fonteB64 ? `"${fonteB64.familia}"` : "Impact, 'Arial Black', sans-serif";
+  const fonte = fonteCapa ? `${fonteCapa.css}.gancho,.epi,.canal{font-weight:${fonteCapa.peso}}` : "";
+  const familia = fonteCapa ? `"${fonteCapa.familia}"` : "Impact, 'Arial Black', sans-serif";
   const ganchoLinhas = gancho.toUpperCase();
   const posicoes = {
     1: `.gancho{top:300px}.epi{top:1380px}`,
@@ -117,35 +148,48 @@ export async function etapaCapaTextos({ canal, ep }) {
   const video = [path.join(ep.dir, nomeMp4(r.numero)), path.join(ep.dir, "video_mudo.mp4")].find((p) => fs.existsSync(p));
   const { largura, altura } = canal.formato;
   const cores = canal.estilo?.cores ?? { c1: "#1f4e5f", c2: "#efe3c2", c3: "#d9772b", alerta: "#ffb000" };
-  const fonteB64 = fonteBase64();
-  // O quadro da capa não pode ter legenda (capítulo 70). Os tempos do roteiro são nominais; as vozes deslocam
-  // a linha do tempo, então cada instante é empurrado para fora das falas reais.
+  // O quadro da capa não pode ter legenda (capítulo 70) nem cair num mergulho no preto. Os tempos do roteiro são
+  // nominais; as vozes deslocam a linha do tempo, então cada instante sai das falas reais e das telas pretas
+  // (para a frente; se passar da pergunta final, para trás). Ep01 (2026-11-10): a alternativa de 52 s caía no preto.
   const lt = lerJson(path.join(ep.dir, "linha_do_tempo.json"), null);
-  const semLegenda = (t) => {
-    const total = lt?.duracao_total_s ?? Infinity;
-    for (let i = 0; i < 40; i++) {
-      const dentro = (lt?.falas ?? []).find((f) => t >= f.inicio_s - 0.25 && t <= f.fim_s + 0.35);
-      if (!dentro) return Math.min(t, total - 0.5);
-      t = dentro.fim_s + 0.6;
-    }
-    return t;
+  const total = lt?.duracao_total_s ?? Infinity;
+  const fimUtil = Math.min(total - 0.5, (lt?.pergunta?.inicio_s ?? total) - 0.3);
+  const evitar = [
+    ...(lt?.falas ?? []).map((f) => [f.inicio_s - 0.25, f.fim_s + 0.35]),
+    ...(lt?.linhas ?? []).filter((l) => l.transicao?.tipo === "preto").map((l) => [l.inicio_s - 0.1, l.inicio_s + Number(l.transicao.total_s ?? 1.5) + 0.2]),
+  ];
+  const trecho = (t) => evitar.find(([a, b]) => t >= a && t <= b);
+  const livre = (t0) => {
+    let t = t0;
+    for (let i = 0; i < 40 && trecho(t); i++) t = trecho(t)[1] + 0.25;
+    if (!trecho(t) && t <= fimUtil) return t;
+    t = t0;
+    for (let i = 0; i < 40 && trecho(t); i++) t = trecho(t)[0] - 0.25;
+    return !trecho(t) && t >= 0.5 ? t : Math.min(t0, fimUtil);
   };
-  const tempos = [r.capa?.t_quadro ?? 10, ...(r.capa?.alternativas_t ?? [])].slice(0, 3).map(semLegenda);
+  const tempos = [r.capa?.t_quadro ?? 10, ...(r.capa?.alternativas_t ?? [])].slice(0, 3).map(livre);
   while (tempos.length < 3) tempos.push(tempos[0]);
-  log.info(`quadros da capa em ${tempos.map((t) => t.toFixed(1) + "s").join(", ")} (fora das falas)`);
+  log.info(`quadros da capa em ${tempos.map((t) => t.toFixed(1) + "s").join(", ")} (fora das falas e das telas pretas)`);
   const quadrosMotor = await quadrosDoMotor(ep, tempos);
   if (!quadrosMotor && !video) throw new Error("Não há motor nem vídeo para tirar o quadro da capa (rode render antes).");
   log.info(quadrosMotor ? "quadros renderizados pelo motor (PNG)" : "quadros extraídos do vídeo pronto");
   const navegador = await abrirNavegador();
   const capasB64 = [];
+  const medidasCapa = [];
+  let fonte = null;
   try {
     const pagina = await navegador.newPage({ viewport: { width: largura, height: altura }, deviceScaleFactor: 1 });
+    fonte = (await verdanaNaMaquina(pagina)) ? FONTE_CAPA : fonteReserva();
+    if (fonte !== FONTE_CAPA) log.aviso(`Verdana Bold não está nesta máquina: capa com ${fonte?.nome ?? "a fonte do navegador"} (instale a Verdana; veja \`doctor\`).`);
     for (let i = 0; i < 3; i++) {
       const quadro = path.join(ep.dir, `quadro_capa_${i + 1}.png`);
       if (!quadrosMotor) await extrairQuadro(video, tempos[i], quadro);
-      const html = htmlCapa({ quadroBase64: fs.readFileSync(quadro).toString("base64"), gancho: r.capa?.frase_gancho ?? r.titulo, numero: r.numero, cores, variante: i + 1, nomeCanal: canal.nome_exibicao, fonteB64, largura, altura });
+      const html = htmlCapa({ quadroBase64: fs.readFileSync(quadro).toString("base64"), gancho: r.capa?.frase_gancho ?? r.titulo, numero: r.numero, cores, variante: i + 1, nomeCanal: canal.nome_exibicao, fonte, largura, altura });
       await pagina.setContent(html, { waitUntil: "load" });
       await pagina.evaluate(() => document.fonts.ready);
+      const medida = await pagina.evaluate(ajustarTextoDaCapa);
+      medidasCapa.push({ variante: i + 1, ...medida });
+      if (!medida.cabe || !medida.area_segura) log.aviso(`capa ${i + 1}: o texto não coube na área segura (gancho em ${medida.gancho_px} px; caixas ${JSON.stringify(medida.caixas)})`);
       const destino = path.join(ep.dir, `capa_${i + 1}.png`);
       await pagina.screenshot({ path: destino, type: "png" });
       capasB64.push(fs.readFileSync(destino).toString("base64"));
@@ -159,6 +203,8 @@ export async function etapaCapaTextos({ canal, ep }) {
   }
   const escolhida = Math.min(Math.max(Number(canal.publicacao?.capa_padrao ?? 1), 1), 3);
   fs.copyFileSync(path.join(ep.dir, `capa_${escolhida}.png`), path.join(ep.dir, "capa.png"));
+  gravarJson(path.join(ep.dir, "capa.json"), { fonte: fonte?.nome ?? null, escolhida, variantes: medidasCapa });
+  log.info(`fonte da capa: ${fonte?.nome ?? "a do navegador"} · gancho em ${medidasCapa.map((m) => `${m.gancho_px} px`).join(", ")}`);
   const textos = montarTextos({ canal, roteiro: r });
   gravarJson(path.join(ep.dir, "textos.json"), textos);
   atualizarEstado(ep.dir, { etapa: "capa" });

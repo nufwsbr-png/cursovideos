@@ -1,0 +1,1196 @@
+{
+  "escala": 1,
+  "previa": false,
+  "medidas_sinteticas": false,
+  "comandos": [
+    "video 0-90.256"
+  ],
+  "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "avisos": [],
+  "duracao_total_s": 90.256,
+  "fps": 30,
+  "variacao": "cartela",
+  "fontes": {
+    "verdana": {
+      "ok": true,
+      "carregou": true,
+      "largura_px": 913.28,
+      "alvo_px": 909
+    },
+    "emoji": {
+      "ok": true,
+      "pixels_coloridos": 2180
+    },
+    "ok": true
+  },
+  "segundos_por_quadro_stills": 3.9017959183673465,
+  "legendas": [
+    {
+      "t": 0,
+      "id": "f01",
+      "quem": "dalva",
+      "texto": "Novato, a impressora ligou sozinha",
+      "caixa": [
+        103,
+        1247,
+        875,
+        53
+      ],
+      "base": 1286
+    },
+    {
+      "t": 0,
+      "id": "f01",
+      "quem": "dalva",
+      "texto": "de novo.",
+      "caixa": [
+        430,
+        1305,
+        217,
+        45
+      ],
+      "base": 1344
+    },
+    {
+      "t": 4.4,
+      "id": "f02",
+      "quem": "eu",
+      "texto": "Eu nem encostei.",
+      "caixa": [
+        327,
+        1305,
+        426,
+        45
+      ],
+      "base": 1344
+    },
+    {
+      "t": 9.9,
+      "id": "f03",
+      "quem": "dalva",
+      "texto": "Sistema velho. Rasga e pronto.",
+      "caixa": [
+        152,
+        1305,
+        774,
+        53
+      ],
+      "base": 1344
+    },
+    {
+      "t": 13.27,
+      "id": "f04",
+      "quem": "eu",
+      "texto": "Tá escrito plataforma sete.",
+      "caixa": [
+        203,
+        1303,
+        672,
+        55
+      ],
+      "base": 1344
+    },
+    {
+      "t": 16.27,
+      "id": "f05",
+      "quem": "dalva",
+      "texto": "Só tem quatro. Sempre teve.",
+      "caixa": [
+        182,
+        1303,
+        715,
+        55
+      ],
+      "base": 1344
+    },
+    {
+      "t": 19.27,
+      "id": "f06",
+      "quem": "alto_falante",
+      "texto": "Embarque imediato. Plataforma sete.",
+      "caixa": [
+        78,
+        1305,
+        925,
+        53
+      ],
+      "base": 1344
+    },
+    {
+      "t": 22.9,
+      "id": "f07",
+      "quem": "dalva",
+      "texto": "Ninguém gravou isso, novato.",
+      "caixa": [
+        169,
+        1303,
+        742,
+        55
+      ],
+      "base": 1344
+    },
+    {
+      "t": 27.83,
+      "id": "f08",
+      "quem": "amaral",
+      "texto": "A passagem saiu?",
+      "caixa": [
+        314,
+        1305,
+        450,
+        53
+      ],
+      "base": 1344
+    },
+    {
+      "t": 29.9,
+      "id": "f09",
+      "quem": "eu",
+      "texto": "Saiu sozinha.",
+      "caixa": [
+        372,
+        1305,
+        334,
+        45
+      ],
+      "base": 1344
+    },
+    {
+      "t": 31.7,
+      "id": "f10",
+      "quem": "amaral",
+      "texto": "Leva pro guarda-volumes. Armário",
+      "caixa": [
+        108,
+        1245,
+        866,
+        55
+      ],
+      "base": 1286
+    },
+    {
+      "t": 31.7,
+      "id": "f10",
+      "quem": "amaral",
+      "texto": "sete.",
+      "caixa": [
+        476,
+        1308,
+        127,
+        42
+      ],
+      "base": 1344
+    },
+    {
+      "t": 35.57,
+      "id": "f11",
+      "quem": "amaral",
+      "texto": "E não lê a etiqueta, menino.",
+      "caixa": [
+        193,
+        1303,
+        695,
+        55
+      ],
+      "base": 1344
+    },
+    {
+      "t": 49.37,
+      "id": "f12",
+      "quem": "eu",
+      "texto": "Neusa... é a minha mãe.",
+      "caixa": [
+        241,
+        1303,
+        599,
+        47
+      ],
+      "base": 1344
+    },
+    {
+      "t": 62.67,
+      "id": "f13",
+      "quem": "passageiro",
+      "texto": "Boa noite, moço.",
+      "caixa": [
+        331,
+        1305,
+        418,
+        53
+      ],
+      "base": 1344
+    },
+    {
+      "t": 64.87,
+      "id": "f14",
+      "quem": "passageiro",
+      "texto": "Vim buscar a passagem dela.",
+      "caixa": [
+        176,
+        1305,
+        726,
+        53
+      ],
+      "base": 1344
+    },
+    {
+      "t": 67.73,
+      "id": "f15",
+      "quem": "dalva",
+      "texto": "Não entrega, novato.",
+      "caixa": [
+        278,
+        1304,
+        524,
+        54
+      ],
+      "base": 1344
+    },
+    {
+      "t": 70.27,
+      "id": "f16",
+      "quem": "dalva",
+      "texto": "Da última vez que ela ligou sozinha...",
+      "caixa": [
+        77,
+        1303,
+        926,
+        55
+      ],
+      "base": 1344
+    },
+    {
+      "t": 74.47,
+      "id": "f17",
+      "quem": "dalva",
+      "texto": "...alguém não voltou.",
+      "caixa": [
+        277,
+        1303,
+        526,
+        55
+      ],
+      "base": 1344
+    },
+    {
+      "t": 76.93,
+      "id": "f18",
+      "quem": "passageiro",
+      "texto": "Se não entregar, ela fica na estrada.",
+      "caixa": [
+        87,
+        1304,
+        903,
+        54
+      ],
+      "base": 1344
+    },
+    {
+      "t": 80.77,
+      "id": "f19",
+      "quem": "passageiro",
+      "texto": "O das três não atrasa.",
+      "caixa": [
+        264,
+        1303,
+        550,
+        47
+      ],
+      "base": 1344
+    }
+  ],
+  "layout2d": [
+    {
+      "tipo": "cartao",
+      "subtipo": "alerta",
+      "indice": 0,
+      "caixa": [
+        55,
+        80,
+        968,
+        178
+      ],
+      "opaco": false,
+      "t_primeiro": 6.7,
+      "t_ultimo": 10.167,
+      "t_primeiro_opaco": 6.867
+    },
+    {
+      "tipo": "preto",
+      "t_primeiro": 52.967,
+      "t_ultimo": 53.767,
+      "t_primeiro_opaco": null
+    },
+    {
+      "tipo": "cartao",
+      "subtipo": "mensagem",
+      "indice": 1,
+      "caixa": [
+        55,
+        80,
+        968,
+        240
+      ],
+      "opaco": false,
+      "t_primeiro": 54.967,
+      "t_ultimo": 58.933,
+      "t_primeiro_opaco": 55.133
+    },
+    {
+      "tipo": "cartao",
+      "subtipo": "mensagem",
+      "indice": 2,
+      "caixa": [
+        55,
+        80,
+        968,
+        240
+      ],
+      "opaco": false,
+      "t_primeiro": 58.967,
+      "t_ultimo": 62.433,
+      "t_primeiro_opaco": 59.133
+    },
+    {
+      "tipo": "pergunta",
+      "titulo": [
+        "O QUE VOCÊ",
+        "FARIA?"
+      ],
+      "botoes": [
+        {
+          "caixa": [
+            95,
+            831,
+            889,
+            180
+          ],
+          "cor": "#b1241d",
+          "arriscada": true,
+          "linhas": [
+            "ENTREGAR",
+            "A PASSAGEM"
+          ]
+        },
+        {
+          "caixa": [
+            95,
+            1080,
+            889,
+            180
+          ],
+          "cor": "#2d5a72",
+          "arriscada": false,
+          "linhas": [
+            "RASGAR",
+            "A PASSAGEM"
+          ]
+        }
+      ],
+      "opaco": false,
+      "t_primeiro": 86.267,
+      "t_ultimo": 90.233,
+      "t_primeiro_opaco": 86.433
+    }
+  ],
+  "amostras": [
+    {
+      "t": 0,
+      "luminancia": 0.48473309050471186,
+      "uniforme": 0.18036265432098766,
+      "clima": "rotina"
+    },
+    {
+      "t": 0.3,
+      "luminancia": 0.48441113910069394,
+      "uniforme": 0.18016975308641975,
+      "clima": "rotina"
+    },
+    {
+      "t": 1,
+      "luminancia": 0.49132716957152356,
+      "uniforme": 0.18036265432098766,
+      "clima": "rotina"
+    },
+    {
+      "t": 2,
+      "luminancia": 0.4997776143790742,
+      "uniforme": 0.18306327160493827,
+      "clima": "rotina"
+    },
+    {
+      "t": 3,
+      "luminancia": 0.4993505809731195,
+      "uniforme": 0.18518518518518517,
+      "clima": "rotina"
+    },
+    {
+      "t": 4,
+      "luminancia": 0.4972569671386967,
+      "uniforme": 0.18229166666666666,
+      "clima": "rotina"
+    },
+    {
+      "t": 4.7,
+      "luminancia": 0.5073054481360361,
+      "uniforme": 0.18325617283950618,
+      "clima": "rotina"
+    },
+    {
+      "t": 5,
+      "luminancia": 0.4940825231481413,
+      "uniforme": 0.15991512345679013,
+      "clima": "rotina"
+    },
+    {
+      "t": 5.2,
+      "luminancia": 0.494060577039451,
+      "uniforme": 0.15991512345679013,
+      "clima": "rotina"
+    },
+    {
+      "t": 6,
+      "luminancia": 0.4942734719196253,
+      "uniforme": 0.16010802469135801,
+      "clima": "rotina"
+    },
+    {
+      "t": 6.7,
+      "luminancia": 0.46598167816509284,
+      "uniforme": 0.2173996913580247,
+      "clima": "sinal"
+    },
+    {
+      "t": 7,
+      "luminancia": 0.45368316615227183,
+      "uniforme": 0.19810956790123457,
+      "clima": "sinal"
+    },
+    {
+      "t": 8,
+      "luminancia": 0.44262125695959686,
+      "uniforme": 0.21354166666666666,
+      "clima": "sinal"
+    },
+    {
+      "t": 9,
+      "luminancia": 0.44253209573955316,
+      "uniforme": 0.21450617283950618,
+      "clima": "sinal"
+    },
+    {
+      "t": 10,
+      "luminancia": 0.4437820836359466,
+      "uniforme": 0.21026234567901234,
+      "clima": "sinal"
+    },
+    {
+      "t": 10.2,
+      "luminancia": 0.4641255650871576,
+      "uniforme": 0.24594907407407407,
+      "clima": "sinal"
+    },
+    {
+      "t": 11,
+      "luminancia": 0.4635727426773142,
+      "uniforme": 0.21875,
+      "clima": "sinal"
+    },
+    {
+      "t": 11.4,
+      "luminancia": 0.466818162975063,
+      "uniforme": 0.2189429012345679,
+      "clima": "sinal"
+    },
+    {
+      "t": 12,
+      "luminancia": 0.47311694731904474,
+      "uniforme": 0.22280092592592593,
+      "clima": "sinal"
+    },
+    {
+      "t": 13,
+      "luminancia": 0.4765738342713569,
+      "uniforme": 0.22588734567901234,
+      "clima": "sinal"
+    },
+    {
+      "t": 13.6,
+      "luminancia": 0.4864444066206623,
+      "uniforme": 0.1861496913580247,
+      "clima": "sinal"
+    },
+    {
+      "t": 14,
+      "luminancia": 0.4896244530682549,
+      "uniforme": 0.15297067901234568,
+      "clima": "sinal"
+    },
+    {
+      "t": 14.6,
+      "luminancia": 0.4899282672173714,
+      "uniforme": 0.15316358024691357,
+      "clima": "sinal"
+    },
+    {
+      "t": 15,
+      "luminancia": 0.4908415774025562,
+      "uniforme": 0.15297067901234568,
+      "clima": "sinal"
+    },
+    {
+      "t": 16,
+      "luminancia": 0.48886115423020104,
+      "uniforme": 0.15354938271604937,
+      "clima": "sinal"
+    },
+    {
+      "t": 16.6,
+      "luminancia": 0.4814273238925102,
+      "uniforme": 0.19888117283950618,
+      "clima": "sinal"
+    },
+    {
+      "t": 17,
+      "luminancia": 0.46447122216170084,
+      "uniforme": 0.2222222222222222,
+      "clima": "sinal"
+    },
+    {
+      "t": 17.6,
+      "luminancia": 0.4646972267610715,
+      "uniforme": 0.2222222222222222,
+      "clima": "sinal"
+    },
+    {
+      "t": 18,
+      "luminancia": 0.46468894259864074,
+      "uniforme": 0.22241512345679013,
+      "clima": "sinal"
+    },
+    {
+      "t": 19,
+      "luminancia": 0.4644751361655735,
+      "uniforme": 0.22164351851851852,
+      "clima": "sinal"
+    },
+    {
+      "t": 19.5,
+      "luminancia": 0.4803185147361239,
+      "uniforme": 0.13908179012345678,
+      "clima": "escalada"
+    },
+    {
+      "t": 20,
+      "luminancia": 0.4886844075284417,
+      "uniforme": 0.10127314814814815,
+      "clima": "escalada"
+    },
+    {
+      "t": 20.9,
+      "luminancia": 0.4692826048474978,
+      "uniforme": 0.16493055555555555,
+      "clima": "escalada"
+    },
+    {
+      "t": 21,
+      "luminancia": 0.46906772270637076,
+      "uniforme": 0.16473765432098766,
+      "clima": "escalada"
+    },
+    {
+      "t": 22,
+      "luminancia": 0.4684785758593585,
+      "uniforme": 0.16782407407407407,
+      "clima": "escalada"
+    },
+    {
+      "t": 23,
+      "luminancia": 0.4658807666122014,
+      "uniforme": 0.16300154320987653,
+      "clima": "escalada"
+    },
+    {
+      "t": 23.2,
+      "luminancia": 0.4282186917513816,
+      "uniforme": 0.1722608024691358,
+      "clima": "escalada"
+    },
+    {
+      "t": 24,
+      "luminancia": 0.403697118585096,
+      "uniforme": 0.22241512345679013,
+      "clima": "escalada"
+    },
+    {
+      "t": 24.2,
+      "luminancia": 0.4038449331275801,
+      "uniforme": 0.22241512345679013,
+      "clima": "escalada"
+    },
+    {
+      "t": 25,
+      "luminancia": 0.403392572924239,
+      "uniforme": 0.22164351851851852,
+      "clima": "escalada"
+    },
+    {
+      "t": 26,
+      "luminancia": 0.4124323113350346,
+      "uniforme": 0.24459876543209877,
+      "clima": "escalada"
+    },
+    {
+      "t": 26.1,
+      "luminancia": 0.41757554995764323,
+      "uniforme": 0.2486496913580247,
+      "clima": "escalada"
+    },
+    {
+      "t": 27,
+      "luminancia": 0.39671777112079964,
+      "uniforme": 0.19232253086419754,
+      "clima": "escalada"
+    },
+    {
+      "t": 28,
+      "luminancia": 0.40388996610990613,
+      "uniforme": 0.19270833333333334,
+      "clima": "escalada"
+    },
+    {
+      "t": 28.1,
+      "luminancia": 0.39860601776205057,
+      "uniforme": 0.20601851851851852,
+      "clima": "escalada"
+    },
+    {
+      "t": 28.7,
+      "luminancia": 0.38781650326798944,
+      "uniforme": 0.267554012345679,
+      "clima": "escalada"
+    },
+    {
+      "t": 29,
+      "luminancia": 0.38852238335150474,
+      "uniforme": 0.26697530864197533,
+      "clima": "escalada"
+    },
+    {
+      "t": 30,
+      "luminancia": 0.4042424102820232,
+      "uniforme": 0.22318672839506173,
+      "clima": "escalada"
+    },
+    {
+      "t": 30.2,
+      "luminancia": 0.3958516672718587,
+      "uniforme": 0.23823302469135801,
+      "clima": "escalada"
+    },
+    {
+      "t": 30.6,
+      "luminancia": 0.38777904184823625,
+      "uniforme": 0.2671682098765432,
+      "clima": "escalada"
+    },
+    {
+      "t": 31,
+      "luminancia": 0.3883365377632694,
+      "uniforme": 0.267554012345679,
+      "clima": "escalada"
+    },
+    {
+      "t": 32,
+      "luminancia": 0.40982390008473274,
+      "uniforme": 0.23842592592592593,
+      "clima": "escalada"
+    },
+    {
+      "t": 33,
+      "luminancia": 0.4190009168482188,
+      "uniforme": 0.18287037037037038,
+      "clima": "escalada"
+    },
+    {
+      "t": 33.4,
+      "luminancia": 0.42403567311183243,
+      "uniforme": 0.18152006172839505,
+      "clima": "escalada"
+    },
+    {
+      "t": 34,
+      "luminancia": 0.4229897013434961,
+      "uniforme": 0.18229166666666666,
+      "clima": "escalada"
+    },
+    {
+      "t": 35,
+      "luminancia": 0.4244402233115424,
+      "uniforme": 0.18094135802469136,
+      "clima": "escalada"
+    },
+    {
+      "t": 35.8,
+      "luminancia": 0.42259080579762287,
+      "uniforme": 0.1701388888888889,
+      "clima": "escalada"
+    },
+    {
+      "t": 36,
+      "luminancia": 0.42706697606511207,
+      "uniforme": 0.18152006172839505,
+      "clima": "escalada"
+    },
+    {
+      "t": 37,
+      "luminancia": 0.42522934292543724,
+      "uniforme": 0.18171296296296297,
+      "clima": "escalada"
+    },
+    {
+      "t": 37.1,
+      "luminancia": 0.42752978546356235,
+      "uniforme": 0.18171296296296297,
+      "clima": "escalada"
+    },
+    {
+      "t": 38,
+      "luminancia": 0.4249877231602476,
+      "uniforme": 0.18248456790123457,
+      "clima": "escalada"
+    },
+    {
+      "t": 39,
+      "luminancia": 0.4233593780258939,
+      "uniforme": 0.16435185185185186,
+      "clima": "escalada"
+    },
+    {
+      "t": 39.2,
+      "luminancia": 0.42015685064148794,
+      "uniforme": 0.19425154320987653,
+      "clima": "escalada"
+    },
+    {
+      "t": 40,
+      "luminancia": 0.4103877110566556,
+      "uniforme": 0.2177854938271605,
+      "clima": "escalada"
+    },
+    {
+      "t": 40.6,
+      "luminancia": 0.4167717683369623,
+      "uniforme": 0.2532793209876543,
+      "clima": "escalada"
+    },
+    {
+      "t": 41,
+      "luminancia": 0.34549452160492544,
+      "uniforme": 0.24170524691358025,
+      "clima": "escalada"
+    },
+    {
+      "t": 42,
+      "luminancia": 0.44456993237108205,
+      "uniforme": 0.22145061728395063,
+      "clima": "escalada"
+    },
+    {
+      "t": 43,
+      "luminancia": 0.4382888124848564,
+      "uniforme": 0.21334876543209877,
+      "clima": "escalada"
+    },
+    {
+      "t": 44,
+      "luminancia": 0.4005060374303829,
+      "uniforme": 0.26003086419753085,
+      "clima": "escalada"
+    },
+    {
+      "t": 45,
+      "luminancia": 0.37620390795205444,
+      "uniforme": 0.2152777777777778,
+      "clima": "escalada"
+    },
+    {
+      "t": 46,
+      "luminancia": 0.4022164276204169,
+      "uniforme": 0.2517361111111111,
+      "clima": "escalada"
+    },
+    {
+      "t": 47,
+      "luminancia": 0.3872412611958127,
+      "uniforme": 0.2525077160493827,
+      "clima": "escalada"
+    },
+    {
+      "t": 48,
+      "luminancia": 0.3446601155894185,
+      "uniforme": 0.19714506172839505,
+      "clima": "escalada"
+    },
+    {
+      "t": 49,
+      "luminancia": 0.3386240362502752,
+      "uniforme": 0.1869212962962963,
+      "clima": "escalada"
+    },
+    {
+      "t": 49.6,
+      "luminancia": 0.31478951071168426,
+      "uniforme": 0.3699845679012346,
+      "clima": "climax"
+    },
+    {
+      "t": 50,
+      "luminancia": 0.2778199633865884,
+      "uniforme": 0.19984567901234568,
+      "clima": "climax"
+    },
+    {
+      "t": 50.8,
+      "luminancia": 0.22884241406439576,
+      "uniforme": 0.17611882716049382,
+      "clima": "climax"
+    },
+    {
+      "t": 51,
+      "luminancia": 0.22676638525781218,
+      "uniforme": 0.17766203703703703,
+      "clima": "climax"
+    },
+    {
+      "t": 52,
+      "luminancia": 0.21822315344348212,
+      "uniforme": 0.16917438271604937,
+      "clima": "climax"
+    },
+    {
+      "t": 53,
+      "luminancia": 0,
+      "uniforme": 1,
+      "clima": "climax"
+    },
+    {
+      "t": 54,
+      "luminancia": 0.1991470058702526,
+      "uniforme": 0.2035108024691358,
+      "clima": "climax"
+    },
+    {
+      "t": 55,
+      "luminancia": 0.2939845610929366,
+      "uniforme": 0.26253858024691357,
+      "clima": "climax"
+    },
+    {
+      "t": 56,
+      "luminancia": 0.3449433301561151,
+      "uniforme": 0.21469907407407407,
+      "clima": "climax"
+    },
+    {
+      "t": 57,
+      "luminancia": 0.3438084785765946,
+      "uniforme": 0.21643518518518517,
+      "clima": "climax"
+    },
+    {
+      "t": 58,
+      "luminancia": 0.34377349007502095,
+      "uniforme": 0.21566358024691357,
+      "clima": "climax"
+    },
+    {
+      "t": 59,
+      "luminancia": 0.2899052113592302,
+      "uniforme": 0.21450617283950618,
+      "clima": "climax"
+    },
+    {
+      "t": 60,
+      "luminancia": 0.3450727948741008,
+      "uniforme": 0.2162422839506173,
+      "clima": "climax"
+    },
+    {
+      "t": 61,
+      "luminancia": 0.34488057068504246,
+      "uniforme": 0.21489197530864199,
+      "clima": "climax"
+    },
+    {
+      "t": 62,
+      "luminancia": 0.34588344680462624,
+      "uniforme": 0.21489197530864199,
+      "clima": "climax"
+    },
+    {
+      "t": 63,
+      "luminancia": 0.299430255234788,
+      "uniforme": 0.2534722222222222,
+      "clima": "climax"
+    },
+    {
+      "t": 63.6,
+      "luminancia": 0.30973487351729645,
+      "uniforme": 0.2040895061728395,
+      "clima": "climax"
+    },
+    {
+      "t": 64,
+      "luminancia": 0.3118794125211695,
+      "uniforme": 0.20543981481481483,
+      "clima": "climax"
+    },
+    {
+      "t": 65,
+      "luminancia": 0.31326515976759894,
+      "uniforme": 0.2052469135802469,
+      "clima": "climax"
+    },
+    {
+      "t": 65.1,
+      "luminancia": 0.31254227562937603,
+      "uniforme": 0.2017746913580247,
+      "clima": "climax"
+    },
+    {
+      "t": 66,
+      "luminancia": 0.31224422506655836,
+      "uniforme": 0.20621141975308643,
+      "clima": "climax"
+    },
+    {
+      "t": 66.1,
+      "luminancia": 0.3132648019547209,
+      "uniforme": 0.20640432098765432,
+      "clima": "climax"
+    },
+    {
+      "t": 67,
+      "luminancia": 0.3104947016460783,
+      "uniforme": 0.20736882716049382,
+      "clima": "climax"
+    },
+    {
+      "t": 68,
+      "luminancia": 0.31010942265793884,
+      "uniforme": 0.2027391975308642,
+      "clima": "climax"
+    },
+    {
+      "t": 68.8,
+      "luminancia": 0.2945297794117477,
+      "uniforme": 0.18113425925925927,
+      "clima": "climax"
+    },
+    {
+      "t": 69,
+      "luminancia": 0.29765342985958215,
+      "uniforme": 0.18132716049382716,
+      "clima": "climax"
+    },
+    {
+      "t": 70,
+      "luminancia": 0.2962482941478897,
+      "uniforme": 0.18094135802469136,
+      "clima": "climax"
+    },
+    {
+      "t": 70.6,
+      "luminancia": 0.2962080156136361,
+      "uniforme": 0.17901234567901234,
+      "clima": "climax"
+    },
+    {
+      "t": 71,
+      "luminancia": 0.2955246255446451,
+      "uniforme": 0.18016975308641975,
+      "clima": "climax"
+    },
+    {
+      "t": 72,
+      "luminancia": 0.2948792551742751,
+      "uniforme": 0.18016975308641975,
+      "clima": "climax"
+    },
+    {
+      "t": 72.2,
+      "luminancia": 0.2956118895243114,
+      "uniforme": 0.17978395061728394,
+      "clima": "climax"
+    },
+    {
+      "t": 73,
+      "luminancia": 0.29478553921566936,
+      "uniforme": 0.18016975308641975,
+      "clima": "climax"
+    },
+    {
+      "t": 74,
+      "luminancia": 0.29669004705275526,
+      "uniforme": 0.17843364197530864,
+      "clima": "climax"
+    },
+    {
+      "t": 74.7,
+      "luminancia": 0.2951936319898155,
+      "uniforme": 0.18364197530864199,
+      "clima": "climax"
+    },
+    {
+      "t": 75,
+      "luminancia": 0.2956358365105135,
+      "uniforme": 0.17978395061728394,
+      "clima": "climax"
+    },
+    {
+      "t": 75.5,
+      "luminancia": 0.2961476140764781,
+      "uniforme": 0.17997685185185186,
+      "clima": "climax"
+    },
+    {
+      "t": 76,
+      "luminancia": 0.29403217743885995,
+      "uniforme": 0.18152006172839505,
+      "clima": "climax"
+    },
+    {
+      "t": 77,
+      "luminancia": 0.29862305434517894,
+      "uniforme": 0.17804783950617284,
+      "clima": "climax"
+    },
+    {
+      "t": 77.2,
+      "luminancia": 0.30855036689056975,
+      "uniforme": 0.2042824074074074,
+      "clima": "climax"
+    },
+    {
+      "t": 78,
+      "luminancia": 0.3133898125453766,
+      "uniforme": 0.2029320987654321,
+      "clima": "climax"
+    },
+    {
+      "t": 78.7,
+      "luminancia": 0.31262660675380044,
+      "uniforme": 0.20717592592592593,
+      "clima": "climax"
+    },
+    {
+      "t": 79,
+      "luminancia": 0.31432519744007575,
+      "uniforme": 0.2029320987654321,
+      "clima": "climax"
+    },
+    {
+      "t": 80,
+      "luminancia": 0.3140533572379449,
+      "uniforme": 0.2040895061728395,
+      "clima": "climax"
+    },
+    {
+      "t": 81,
+      "luminancia": 0.3094960633018519,
+      "uniforme": 0.2029320987654321,
+      "clima": "climax"
+    },
+    {
+      "t": 81.1,
+      "luminancia": 0.31267717940570156,
+      "uniforme": 0.20543981481481483,
+      "clima": "climax"
+    },
+    {
+      "t": 81.9,
+      "luminancia": 0.310108891612188,
+      "uniforme": 0.2052469135802469,
+      "clima": "climax"
+    },
+    {
+      "t": 82,
+      "luminancia": 0.3098662710300051,
+      "uniforme": 0.20543981481481483,
+      "clima": "climax"
+    },
+    {
+      "t": 83,
+      "luminancia": 0.30966022452189523,
+      "uniforme": 0.2052469135802469,
+      "clima": "climax"
+    },
+    {
+      "t": 83.9,
+      "luminancia": 0.28897360052043536,
+      "uniforme": 0.2201003086419753,
+      "clima": "climax"
+    },
+    {
+      "t": 84,
+      "luminancia": 0.2890871535342385,
+      "uniforme": 0.22704475308641975,
+      "clima": "climax"
+    },
+    {
+      "t": 85,
+      "luminancia": 0.27469982979301777,
+      "uniforme": 0.25578703703703703,
+      "clima": "climax"
+    },
+    {
+      "t": 86,
+      "luminancia": 0.26141894744007627,
+      "uniforme": 0.279320987654321,
+      "clima": "climax"
+    },
+    {
+      "t": 86.6,
+      "luminancia": 0.2094258918845364,
+      "uniforme": 0.23977623456790123,
+      "clima": "pergunta"
+    },
+    {
+      "t": 87,
+      "luminancia": 0.2093396098099781,
+      "uniforme": 0.24035493827160495,
+      "clima": "pergunta"
+    },
+    {
+      "t": 88,
+      "luminancia": 0.2094362185306269,
+      "uniforme": 0.24016203703703703,
+      "clima": "pergunta"
+    },
+    {
+      "t": 89,
+      "luminancia": 0.20949826237594277,
+      "uniforme": 0.24016203703703703,
+      "clima": "pergunta"
+    },
+    {
+      "t": 89.3,
+      "luminancia": 0.2094912778383006,
+      "uniforme": 0.24016203703703703,
+      "clima": "pergunta"
+    },
+    {
+      "t": 90,
+      "luminancia": 0.20947531015493084,
+      "uniforme": 0.23977623456790123,
+      "clima": "pergunta"
+    }
+  ],
+  "tempo_total_s": 8612.823,
+  "atualizado_em": "2026-11-10T19:13:10.549Z",
+  "quadros": 2708,
+  "segundos_por_quadro": 3.1788002215657314,
+  "video": "episodios\\ep01_a_passagem_que_saiu_sozinha\\video_mudo.mp4",
+  "video_parcial": false
+}

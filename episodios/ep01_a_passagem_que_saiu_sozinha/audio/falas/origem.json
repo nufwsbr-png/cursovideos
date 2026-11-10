@@ -1,0 +1,192 @@
+{
+  "f01": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Gacrux",
+    "gerado_em": "2026-11-10T15:46:47+00:00",
+    "duracao_s": 4.038,
+    "texto": "Novato, a impressora ligou sozinha de novo.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, woman in her mid-fifties, hoarse, fast, teasing, dry humor, from the countryside of Brazil, dry, teasing, not looking up from the mop",
+    "hash_conteudo": "sha256:7b843f6dbcee91c0434f261a2ca380b324c62bdd09a461637c0770fa32a08827"
+  },
+  "f02": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Iapetus",
+    "gerado_em": "2026-11-10T15:46:47+00:00",
+    "duracao_s": 1.632,
+    "texto": "Eu nem encostei.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, young man in his early twenties, nervous, speaks little, short sentences, slightly shaky, defensive, quick",
+    "hash_conteudo": "sha256:6a1fabf17c07b3788bf5257fb315eaa0112c8afe77c16d7b2bb2518e4c1202ac"
+  },
+  "f03": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Gacrux",
+    "gerado_em": "2026-11-10T15:46:47+00:00",
+    "duracao_s": 3.024,
+    "texto": "Sistema velho. Rasga e pronto.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, woman in her mid-fifties, hoarse, fast, teasing, dry humor, from the countryside of Brazil, bored, dismissive",
+    "hash_conteudo": "sha256:def18af7cb113faa4eecb1a7f2e4034743335c41807b9f4ebb5cd1d1933e64ba"
+  },
+  "f04": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Iapetus",
+    "gerado_em": "2026-11-10T15:46:47+00:00",
+    "duracao_s": 2.651,
+    "texto": "Tá escrito plataforma sete.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, young man in his early twenties, nervous, speaks little, short sentences, slightly shaky, unsure, low",
+    "hash_conteudo": "sha256:7668e05a7162b6c8e8d411166f9e23c0d95534c140281472f8bf21db8a486260"
+  },
+  "f05": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Gacrux",
+    "gerado_em": "2026-11-10T15:46:47+00:00",
+    "duracao_s": 2.631,
+    "texto": "Só tem quatro. Sempre teve.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, woman in her mid-fifties, hoarse, fast, teasing, dry humor, from the countryside of Brazil, firm, a bit too fast",
+    "hash_conteudo": "sha256:5011f8f76889e69af05eebcf25a03b36db9ea9771daf37ee0b985593f0dfa5b1"
+  },
+  "f06": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Erinome",
+    "gerado_em": "2026-11-10T15:46:47+00:00",
+    "duracao_s": 3.299,
+    "texto": "Embarque imediato. Plataforma sete.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, female announcer voice, flat, cold, no emotion, slow and clear, like an old recorded public address system, cold, flat announcement",
+    "hash_conteudo": "sha256:20976fc4cb8f91795b30693b1f30a398cb6fd40840354beea66e471aaed0b39e"
+  },
+  "f07": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Gacrux",
+    "gerado_em": "2026-11-10T15:46:47+00:00",
+    "duracao_s": 2.589,
+    "texto": "Ninguém gravou isso, novato.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, woman in her mid-fifties, hoarse, fast, teasing, dry humor, from the countryside of Brazil, the joke is gone, quiet",
+    "hash_conteudo": "sha256:894bc56b5e65de613f94bf5ff57fab9621f2c3bc2f3bc3ea5e0eea9719df0979"
+  },
+  "f08": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Algenib",
+    "gerado_em": "2026-11-10T15:46:47+00:00",
+    "duracao_s": 1.685,
+    "texto": "A passagem saiu?",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, man in his sixties, deep gravelly voice, tired, firm, never raises his voice, tired, already knows the answer",
+    "hash_conteudo": "sha256:e469bcf8a915e9315eed5ce70838282c6189d00db728ac8b26ba678836fae19e"
+  },
+  "f09": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Iapetus",
+    "gerado_em": "2026-11-10T15:46:47+00:00",
+    "duracao_s": 1.459,
+    "texto": "Saiu sozinha.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, young man in his early twenties, nervous, speaks little, short sentences, slightly shaky, barely a whisper",
+    "hash_conteudo": "sha256:a442b2026e21883667f516dd33ad0b0c7ac0abb1668e0ab112c8d856c823a528"
+  },
+  "f10": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Algenib",
+    "gerado_em": "2026-11-10T15:46:47+00:00",
+    "duracao_s": 3.514,
+    "texto": "Leva pro guarda-volumes. Armário sete.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, man in his sixties, deep gravelly voice, tired, firm, never raises his voice, slow, firm, an order",
+    "hash_conteudo": "sha256:50f743d601f73110d0d853aaa1f15f3e28d8d90d2c5b236c9eac64162570d9fa"
+  },
+  "f11": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Algenib",
+    "gerado_em": "2026-11-10T15:46:47+00:00",
+    "duracao_s": 3.056,
+    "texto": "E não lê a etiqueta, menino.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, man in his sixties, deep gravelly voice, tired, firm, never raises his voice, very calm, heavy, a warning",
+    "hash_conteudo": "sha256:0abb2ba820c9fa4374ac54e5c27830ab726153255fe6365b86640ee49b55f95e"
+  },
+  "f12": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Iapetus",
+    "gerado_em": "2026-11-10T15:46:47+00:00",
+    "duracao_s": 2.966,
+    "texto": "Neusa... é a minha mãe.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, young man in his early twenties, nervous, speaks little, short sentences, slightly shaky, whisper, breaking",
+    "hash_conteudo": "sha256:0a0b227140f9a438ef085b48cf14708fff385d88f0d9f7feb0f056dc45e68c02"
+  },
+  "f13": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Schedar",
+    "gerado_em": "2026-11-10T15:46:47+00:00",
+    "duracao_s": 1.837,
+    "texto": "Boa noite, moço.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, elderly man, polite and strangely calm, soft voice, slow, unhurried, almost smiling, polite, soft, no hurry",
+    "hash_conteudo": "sha256:8eb57071156acc91ff9e863c71a00df03a214022dba31e32d40bd5d83c598433"
+  },
+  "f14": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Schedar",
+    "gerado_em": "2026-11-10T15:46:48+00:00",
+    "duracao_s": 2.533,
+    "texto": "Vim buscar a passagem dela.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, elderly man, polite and strangely calm, soft voice, slow, unhurried, almost smiling, polite, patient",
+    "hash_conteudo": "sha256:1fcce835d461f798606bf97feab2a1cdc55bd970173445fac90ec2b0ea558a39"
+  },
+  "f15": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Gacrux",
+    "gerado_em": "2026-11-10T15:46:48+00:00",
+    "duracao_s": 2.171,
+    "texto": "Não entrega, novato.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, woman in her mid-fifties, hoarse, fast, teasing, dry humor, from the countryside of Brazil, whisper, urgent",
+    "hash_conteudo": "sha256:5604fd6d6209de30ccb95540a05e3b0ad3b73c7ddebe22a081407277da4018d9"
+  },
+  "f16": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Gacrux",
+    "gerado_em": "2026-11-10T15:46:48+00:00",
+    "duracao_s": 3.837,
+    "texto": "Da última vez que ela ligou sozinha...",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, woman in her mid-fifties, hoarse, fast, teasing, dry humor, from the countryside of Brazil, slow whisper, remembering",
+    "hash_conteudo": "sha256:46fbdc4cd1322b4b21a3218cfa8198ce0d3e45cc096c70946509f5c3c1c7e778"
+  },
+  "f17": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Gacrux",
+    "gerado_em": "2026-11-10T15:46:48+00:00",
+    "duracao_s": 2.134,
+    "texto": "...alguém não voltou.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, woman in her mid-fifties, hoarse, fast, teasing, dry humor, from the countryside of Brazil, almost no voice",
+    "hash_conteudo": "sha256:0a9e81f16544659d4e8716892b541a0c6acd7202fa21748caae743154471c323"
+  },
+  "f18": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Schedar",
+    "gerado_em": "2026-11-10T15:46:48+00:00",
+    "duracao_s": 3.482,
+    "texto": "Se não entregar, ela fica na estrada.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, elderly man, polite and strangely calm, soft voice, slow, unhurried, almost smiling, kind, calm, matter-of-fact",
+    "hash_conteudo": "sha256:32d2c7324e1a0a68fb4adce7cd15966579a6f2abf2697b618c7c03f196303f33"
+  },
+  "f19": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Schedar",
+    "gerado_em": "2026-11-10T15:46:48+00:00",
+    "duracao_s": 2.387,
+    "texto": "O das três não atrasa.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, elderly man, polite and strangely calm, soft voice, slow, unhurried, almost smiling, gentle, final",
+    "hash_conteudo": "sha256:e9712b504a483721a19ea22eb8122cc3b19745f42b37b45b2abace29743cdaba"
+  }
+}

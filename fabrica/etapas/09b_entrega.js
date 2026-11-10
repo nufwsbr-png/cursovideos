@@ -48,7 +48,7 @@ export function montarEntrega({ canal, ep, opcoes = {} }) {
   const prova = lerJson(path.join(dir, "prova.json"), null);
   const hashMp4 = hashArquivo(path.join(dir, mp4));
   const provaDoMesmo = prova?.arquivo_hash ? prova.arquivo_hash === hashMp4 : false;
-  checagens.prova = { ok: Boolean(prova) && !(prova.bloqueios ?? []).length && provaDoMesmo, bloqueios: prova?.bloqueios ?? [], detalhe: !prova ? "prova não rodou" : !provaDoMesmo ? "a prova é de outro arquivo (o MP4 mudou depois da prova)" : (prova.bloqueios ?? []).length ? `${prova.bloqueios.length} bloqueio(s)` : "sem bloqueios" };
+  checagens.prova = { ok: Boolean(prova) && !(prova.bloqueios ?? []).length && provaDoMesmo, bloqueios: prova?.bloqueios ?? [], detalhe: !prova ? "prova não rodou" : !provaDoMesmo ? "a prova é de outro arquivo (o MP4 mudou depois da prova)" : (prova.bloqueios ?? []).length ? prova.bloqueios.join("; ") : "sem bloqueios" };
 
   const render = lerJson(path.join(dir, "render.json"), null);
   checagens.fontes = { ok: render?.fontes?.ok === true, detalhe: !render?.fontes ? "fontes não conferidas no render" : render.fontes.ok ? "Verdana Bold e emoji conferidos" : "fonte diferente da referência" };

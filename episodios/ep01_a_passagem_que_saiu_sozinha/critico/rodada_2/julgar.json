@@ -1,0 +1,17 @@
+{
+  "notas": {
+    "gancho": { "nota": 7, "evidencia": ["Q01", "Q02", "Q03", "Q04", "D1"], "comentario": "Lugar e pessoa reconhecíveis no primeiro quadro, legenda já em 0 s; continua parado nos 2 primeiros segundos e a impressora só aparece em Q05." },
+    "legibilidade": { "nota": 8, "evidencia": ["D1", "D2", "D4", "D5", "D6", "Q21"], "comentario": "Legendas e cartões inteiros e nítidos; o cabeçalho do celular agora cabe (D2); a passagem e a etiqueta se leem (D5, Q21/Q22)." },
+    "clareza_acao": { "nota": 8, "evidencia": ["Q21", "Q22", "Q19", "Q20", "Q34"], "comentario": "A revelação mostra a mala no armário aberto com 'NEUSA F. 03:00' enquanto ele diz que é a mãe; caminhada e retorno claros. Ressalva: o fone quase não aparece no telefonema (Q13–Q16)." },
+    "continuidade": { "nota": 8, "evidencia": ["Q20", "Q21", "Q22", "Q23", "Q24"], "comentario": "A mala agora está no armário que abre; a volta ao guichê acontece dentro do preto; personagens e objetos mantêm lugar entre quadros vizinhos." },
+    "acabamento": { "nota": 7, "evidencia": ["D4", "D6", "D5", "Q34", "Q21"], "comentario": "Sem texto de bastidor na tela do celular e emojis no tamanho certo; ressalvas: a manga do protagonista ainda grande embaixo (D5, Q34) e Q21 um pouco escuro." },
+    "dilema_final": { "nota": 8, "evidencia": ["D5", "Q34", "Q35", "D6"], "comentario": "O último quadro antes do cartão mostra a passagem '03:00 PLAT 7' inteira; o cartão tem as duas opções claras, vermelho na arriscada, emojis coloridos no tamanho certo e a passagem visível atrás do véu." }
+  },
+  "defeitos": [
+    { "quadro": "Q01", "criterio": "gancho", "gravidade": 1, "descricao": "Os 2 primeiros segundos são quase o mesmo quadro e o estranho (a impressora imprimindo sozinha) só é dito, não mostrado.", "correcao": "Num próximo episódio, abrir já olhando o objeto estranho enquanto alguém fala (linha 0 com olhar no objeto)." },
+    { "quadro": "D5", "criterio": "acabamento", "gravidade": 1, "descricao": "A manga do protagonista ocupa o terço de baixo nos quadros sentados de lado.", "correcao": "Fora do patch (motor): baixar um pouco os antebraços na pose apoiada quando a câmera vira de lado." },
+    { "quadro": "Q13", "criterio": "clareza_acao", "gravidade": 1, "descricao": "No telefonema o fone quase não aparece; quem fala se entende pela cor da legenda e pelo filtro de voz.", "correcao": "Fora do patch (motor): mostrar o fone um pouco mais à frente na pose segurar:telefone." }
+  ],
+  "patch": { "mudancas": [] },
+  "veredito": "Passa: a etiqueta e a passagem agora se leem só pela imagem; ficam ressalvas pequenas de acabamento."
+}

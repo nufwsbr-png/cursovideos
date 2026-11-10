@@ -1,0 +1,22 @@
+{
+  "notas": {
+    "gancho": { "nota": 7, "evidencia": ["Q01", "Q02", "Q03", "Q04", "D1"], "comentario": "Lugar reconhecível no primeiro quadro, mãos no balcão e legenda já em 0 s; mas os 2 primeiros segundos são quatro quadros quase iguais e a impressora que a fala cita só aparece em Q05." },
+    "legibilidade": { "nota": 8, "evidencia": ["D1", "D2", "D4", "Q15", "Q30", "D6"], "comentario": "Legendas Verdana com contorno, na cor de quem fala, sempre inteiras e dentro da área segura; cartões e pergunta muito legíveis. Pequenos: cabeçalho do celular cortado (D2) e a passagem parcialmente coberta no fim (D5)." },
+    "clareza_acao": { "nota": 5, "evidencia": ["Q21", "Q13", "Q15", "Q08"], "comentario": "A maior parte se entende só pela imagem (impressora, alerta, caminhada pelo corredor), mas a cena-chave falha: em Q21 a fala diz que leu o nome da mãe e a imagem não mostra etiqueta nenhuma; no telefonema (Q13–Q16) o fone quase não aparece." },
+    "continuidade": { "nota": 8, "evidencia": ["Q22", "Q23", "Q24", "Q18", "Q19", "Q20"], "comentario": "A volta ao guichê acontece dentro do mergulho no preto; o caminho cabine → corredor → guarda-volumes é contínuo, com a porta aberta antes da câmera passar. Ressalva: o armário 7 abre num canto e a mala está no chão do outro lado." },
+    "acabamento": { "nota": 6, "evidencia": ["D4", "D5", "Q21", "D6"], "comentario": "Estilo do canal em todos os quadros, mas aparece texto de bastidor na tela do celular ('(inventado)'), o braço do protagonista fica enorme e duro sobre o balcão no fim, Q21 é escuro e confuso e os emojis dos botões estão pequenos." },
+    "dilema_final": { "nota": 7, "evidencia": ["Q34", "D5", "Q35", "D6"], "comentario": "O fim vai para a impressora e o cartão tem as duas opções claras, vermelho na arriscada, emojis coloridos e chamada visível com a cena atrás do véu; mas o braço cobre a passagem justo no quadro da decisão." }
+  },
+  "defeitos": [
+    { "quadro": "Q21", "criterio": "clareza_acao", "gravidade": 3, "descricao": "A revelação não mostra a etiqueta: a câmera olha o chão, o braço tapa a mala e o quadro está escuro; o nome que a legenda menciona não aparece.", "correcao": "Linha 15: aproximar:gv_mala_1 em vez de avancar (a lente fecha sem o corpo avançar e sem o braço na frente). Fora do patch: a mala tem de estar dentro do armário 7, na altura dos olhos, como diz a bíblia." },
+    { "quadro": "D5", "criterio": "dilema_final", "gravidade": 2, "descricao": "No avanço final o corpo inclina sobre o balcão e o braço cobre a passagem ('PLAT 7' cortado) e domina o quadro.", "correcao": "Linha 26: aproximar:impressora em vez de avancar (sem inclinar o corpo)." },
+    { "quadro": "D4", "criterio": "acabamento", "gravidade": 2, "descricao": "A tela do celular mostra 'Zap da Família (inventado)': palavra de bastidor visível no vídeo.", "correcao": "Fora do patch (motor): trocar o nome do app na tela do celular por um nome de app que exista só no canal." }
+  ],
+  "patch": {
+    "mudancas": [
+      { "alvo": "linha", "indice": 15, "campo": "acao", "valor": "aproximar:gv_mala_1", "motivo": "Q21: o avanço do corpo põe o braço na frente da mala; a lente que fecha mostra a etiqueta." },
+      { "alvo": "linha", "indice": 26, "campo": "acao", "valor": "aproximar:impressora", "motivo": "D5: sem inclinar sobre o balcão, o braço sai da frente da passagem." }
+    ]
+  },
+  "veredito": "Bem acabado e legível, mas a cena da etiqueta não mostra o nome e o braço cobre a passagem no fim: não passa ainda."
+}

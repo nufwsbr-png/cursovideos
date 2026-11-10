@@ -1,0 +1,91 @@
+{
+  "episodio": 1,
+  "titulo": "A passagem que saiu sozinha",
+  "publicavel": false,
+  "motivos": [
+    "voz_real: 19 fala(s) com voz falsa",
+    "prova: voz falsa: gere as vozes de verdade antes de publicar",
+    "bloqueios: voz falsa: gere as vozes de verdade antes de publicar"
+  ],
+  "checagens": {
+    "voz_real": {
+      "ok": false,
+      "detalhe": "19 fala(s) com voz falsa"
+    },
+    "linter": {
+      "ok": true,
+      "nota": 100,
+      "minimo": 70,
+      "detalhe": "nota 100"
+    },
+    "revisor": {
+      "ok": true,
+      "graves": 0,
+      "detalhe": "sem problemas graves"
+    },
+    "critico": {
+      "ok": true,
+      "exigido": true,
+      "fonte": "sessao_claude_code",
+      "notas": {
+        "gancho": 7,
+        "legibilidade": 8,
+        "clareza_acao": 8,
+        "continuidade": 8,
+        "acabamento": 7,
+        "dilema_final": 8
+      },
+      "detalhe": "aprovado (sessao_claude_code)"
+    },
+    "prova": {
+      "ok": false,
+      "bloqueios": [
+        "voz falsa: gere as vozes de verdade antes de publicar"
+      ],
+      "detalhe": "voz falsa: gere as vozes de verdade antes de publicar"
+    },
+    "fontes": {
+      "ok": true,
+      "detalhe": "Verdana Bold e emoji conferidos"
+    },
+    "bloqueios": {
+      "ok": false,
+      "lista": [
+        "voz falsa: gere as vozes de verdade antes de publicar"
+      ],
+      "detalhe": "voz falsa: gere as vozes de verdade antes de publicar"
+    },
+    "aprovacao": {
+      "ok": true,
+      "exigida": false,
+      "detalhe": "o canal não exige"
+    },
+    "versoes": {
+      "ok": true,
+      "invalidas": [],
+      "detalhe": "todas as etapas em dia"
+    },
+    "arquivos": {
+      "ok": true,
+      "detalhe": "vídeo, capa e textos presentes"
+    }
+  },
+  "arquivos": {
+    "video": {
+      "caminho": "ep01.mp4",
+      "hash": "sha256:128d5b4c351877c2b59faedbfe402aa2e4548ec810ef28662df00322945a5108",
+      "bytes": 78881335
+    },
+    "capa": {
+      "caminho": "capa.png",
+      "hash": "sha256:62e8897f715eda54f21f79476bfb3be8b8abf4a874355b8ebbb3cade87640994",
+      "bytes": 1040294
+    },
+    "textos": {
+      "caminho": "textos.json",
+      "hash": "sha256:e2ee7798fe67f1e6adbed6a819c9bf563b86784c02d31807e320af782e5d1890",
+      "bytes": 5118
+    }
+  },
+  "gerado_em": "2026-11-10T21:15:45.980Z"
+}

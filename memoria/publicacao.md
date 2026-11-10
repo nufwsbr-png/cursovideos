@@ -9,6 +9,15 @@ Assisti inteiro no celular · falas ouvidas · texto sem erro · capa com área 
 ## Plataformas (mesmo arquivo vertical, sem marca-d'água, texto adaptado)
 TikTok (API de publicação, `is_aigc` ligado) · Instagram Reels (precisa de URL pública: hospedagem) · Facebook Reels · YouTube Shorts (`containsSyntheticMedia`) · Kwai (sem API: navegador com a própria sessão ou fila manual). Detalhes e credenciais: `docs/CREDENCIAIS.md`.
 
+## Quando conta como publicado (desde 2026-11-10)
+- A fábrica só publica com `entrega.json` **publicável** e com o MP4, a capa e os textos idênticos aos da entrega
+  (hash). `--forcar` é decisão humana e fica registrada em `estado.json` e em `aprendizados.md`.
+- "Publicado" = todas as `canal.json → publicacao.plataformas_obrigatorias` (TikTok, YouTube, Instagram, Facebook).
+  Faltou alguma → `publicacao_parcial`: a próxima rotina tenta só as que faltam.
+- Kwai em fila manual fica **`pendente_manual`** (pacote pronto em `fila_manual/kwai/`): não conta como publicado e
+  não é refeito a cada dia; alguém posta pelo app e fixa o comentário.
+- Planilha: uma linha por episódio e plataforma, na primeira leitura com 44 h ou mais; a data é a da publicação.
+
 ## Ritmo
 Um episódio por dia (`publicacao.um_por_dia`), sempre com o próximo adiantado. Não publicar versões quase iguais (regra de vídeos em massa). O voto do público decide a continuação (contar 100–200 comentários; usar a opção mais votada; nunca confirmar teorias).
 

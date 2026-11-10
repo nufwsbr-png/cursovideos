@@ -21,7 +21,7 @@ Convenções gerais
   "protagonista": { "id": "eu", "como_chamam": "...", "pistas": {...}, "maos": { "pele": "#hex", "manga": "#hex", "detalhe": "..." }, "objetos": ["carimbo", "caneta", "celular"], "voz": {...} },
   "elenco": [ { "id": "dalva", "nome": "Dalva", "papel": "colega", "visivel": true, "visual": { "pele": "#", "cabelo": "#", "cabelo_estilo": "coque", "roupa_cima": "#", "roupa_baixo": "#", "acessorio": "colete", "altura": 1.58, "proporcao": "baixa_forte", "objeto": "rodo" }, "voz": { "nome": "Gacrux", "estilo_base": "..." , "filtro": null }, "cor_legenda": "#hex" } ],
   "cenarios": [ { "id": "saguao", "nome": "...", "camera_inicial": { "pos": [x,y,z], "olhar": "painel" }, "marcas": { "nome": [x,y,z] }, "props": [ { "id": "painel", "tipo": "painel", "pos": [..], "rot": [..], "tamanho": [..], "cor": "#", "texto": ["linha1", "linha2"], "estado": "normal" } ] } ],
-  "estilo": { "semente": 7, "traco": { "espessura_px": 6, "espessura_min_px": 2.2, "cor": "#1a1410", "limiar_distancia": 0.035, "limiar_normal": 0.22 }, "lente": { "fov_vertical": 115, "anamorfico": 1.2, "aproximar_fov": 65, "inclinacao_base_graus": 10, "tamanho_face": 1536 }, "antialias": "nenhum|fxaa", "cores": { "c1": "#", "c2": "#", "c3": "#", "alerta": "#", "alerta_forte": "#" }, "sombra": { "degraus": 3, "intensidade": 0.3 }, "textura": "papel|nenhuma", "intensidade_textura": 0.06, "bonecos": { "cabeca": 1.0, "corpo": 1.0, "nariz": true }, "legenda": { "fonte": "Baloo 2", "peso": 800, "tamanho": 58, "contorno": "#1a1410", "espessura_contorno": 9, "sombra": true, "y_centro": 0.62, "largura_max": 0.78, "cores_por_personagem": { "eu": "#bfe0ff", "dalva": "#ffb36b" } }, "selo": { "cor": "#c0392b", "cor_texto": "#fff", "tamanho": 56, "y": 0.08, "duracao_s": null }, "climas": { "rotina": {...}, "sinal": {...}, "escalada": {...}, "climax": {...}, "pergunta": {...} } },
+  "estilo": { "semente": 7, "traco": { "espessura_px": 6, "espessura_min_px": 2.2, "cor": "#1a1410", "limiar_distancia": 0.035, "limiar_normal": 0.22 }, "lente": { "fov_vertical": 115, "anamorfico": 1.2, "aproximar_fov": 65, "inclinacao_base_graus": 10, "tamanho_face": 1536 }, "antialias": "nenhum|fxaa", "cores": { "c1": "#", "c2": "#", "c3": "#", "alerta": "#", "alerta_forte": "#" }, "sombra": { "degraus": 3, "intensidade": 0.3 }, "textura": "papel|nenhuma", "intensidade_textura": 0.06, "bonecos": { "cabeca": 1.0, "corpo": 1.0, "nariz": true }, "legenda": { "fonte": "Verdana POV", "peso": 700, "tamanho": 44, "contorno": "#141210", "espessura_contorno": 10, "sombra": false, "base_y": 0.70, "entrelinha_px": 58, "largura_max": 0.86, "x_centro": 0.5, "cores_por_personagem": { "eu": "#ffffff", "dalva": "#fcb46c" } }, "selo": { "cor": "#b1241e", "cor_texto": "#ffffff", "tamanho": 58, "altura_px": 88, "raio_px": 14, "borda_px": 5, "posicao": "alto|baixo", "inicio_s": 0.3, "fim_s": 3 }, "climas": { "rotina": {...}, "sinal": {...}, "escalada": {...}, "climax": {...}, "pergunta": {...} } },
   "vozes": { "provedor": "gemini", "modelo": "gemini-2.5-flash-preview-tts", "prefixo_estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent" },
   "plataformas": { "tiktok": {...}, "instagram": {...}, "facebook": {...}, "youtube": {...}, "kwai": {...} },
   "publicacao": { "fuso": "America/Sao_Paulo", "hora_local": "18:30", "hashtags_base": ["pov", "historia", "suspense"], "exigir_aprovacao_humana": false, "etiqueta_ia": true }
@@ -138,8 +138,15 @@ Saídas: na pasta do episódio (`stills/`, `sequencia/`, `folha.png`, `video_mud
 python3 audio/sintetizar.py --episodio <dir>         # cria audio/camadas/{ambiente,efeitos,tensao}.wav a partir da linha do tempo
 python3 audio/mixar.py --episodio <dir> --video video_mudo.mp4 --saida ep01.mp4   # falas (com filtro) + camadas + zumbido grave, loudnorm -14 LUFS, pico -1 dB
 python3 audio/medir.py --arquivo ep01.mp4 --linha-do-tempo linha_do_tempo.json    # imprime JSON: duração, lufs, pico, banda de voz com/sem fala
-python3 audio/transcrever.py --arquivo ep01.mp4 --roteiro roteiro.json           # imprime JSON: falas encontradas/faltando (ou "nao_conferido")
+python3 audio/transcrever.py --arquivo ep01.mp4 --roteiro roteiro.json [--so f01,f02]   # JSON: falas encontradas/faltando (ou "nao_conferido")
 ```
+Voz na mixagem (desde 2026-11-10): cada fala é igualada pela **faixa da voz** (300–3000 Hz, só onde há voz; alvo
+−22 dBFS, sussurro −24, grito −20) e de novo depois do filtro. O **piso da voz** usa o mesmo critério da prova
+(`medir.banda_de_voz`): toda fala fica ao menos 6 dB acima do fundo sem fala na faixa da voz; a que fica abaixo sobe o
+que falta (até +4 dB por fala, até 3 rodadas). `audio/mixagem.json` registra `voz` (nivelamento e alvo), `piso_voz`
+(`criterio_db`, `ajustes_db` por fala, `ainda_abaixo`, `por_fala` com `margem_db`), o zumbido (ganho, fração 20–80 Hz) e
+o loudnorm. A transcrição só confere as falas com voz de verdade (`--so`): voz falsa não é fala, então com todas falsas
+ela fica "não conferida" e não roda. O áudio vai para o Whisper já decodificado (16 kHz mono), sem depender do PyAV.
 `prova.json` (etapa 08) junta tudo: formato, duração, LUFS, pico, bandas (20–80 Hz, trechos abaixo de −40 dB), falas
 conferidas, fontes, revisão de quadros, lista do revisor e `arquivo_hash` (o hash do MP4 medido: a entrega confere que
 a prova é do mesmo arquivo).
@@ -147,6 +154,9 @@ a prova é do mesmo arquivo).
 ## 8. Capa e textos (etapa 09)
 
 - `capa_1.png`, `capa_2.png`, `capa_3.png` (1080x1920; texto só entre 240 e 1680 px de altura). `capa.png` = escolhida.
+  A fonte é a da camada 2D (Verdana Bold, por `local()`; sem ela, Baloo 2 embutida e um aviso). O gancho diminui até
+  caber na largura e acima do próximo texto. Os quadros fogem das falas e dos mergulhos no preto.
+- `capa.json`: `{ "fonte": "Verdana Bold", "escolhida": 1, "variantes": [ { "variante": 1, "gancho_px": 150, "cabe": true, "area_segura": true, "caixas": { "gancho": [x0,y0,x1,y1], "epi": [...], "canal": [...] } } ] }`.
 - `textos.json`: `{ "titulo": "...", "descricao": "...", "hashtags": [...], "comentario_fixado": "...", "por_plataforma": { "tiktok": { "titulo": "..." }, "youtube": { "titulo": "...", "descricao": "...", "tags": [...] }, "instagram": { "legenda": "..." }, "facebook": { "descricao": "..." }, "kwai": { "legenda": "..." } } }`
 
 ## 9. Publicação (etapa 10 — `fabrica/publicar/`)
@@ -223,5 +233,8 @@ Cada checagem: `{ "ok", "detalhe", ... }`. A publicação refaz a conferência e
   `"<vozes.prefixo_estilo>, <voz.estilo_base do personagem>, <falas[].estilo>"`.
 - `roteiro.celular[]` é indexado por posição: `celular.tela=0` mostra a primeira mensagem.
 - `roteiro.efeitos_extra[]` e `roteiro.silencios[]` são opcionais; a etapa 05 copia para a linha do tempo com o mesmo deslocamento das linhas.
+- O esquema da IA exige todos os campos e manda os opcionais como `null` (ex.: `repeticoes`, `intervalo_s`, `ganho_db`):
+  **`null` = use o padrão** em todo código que lê o roteiro ou a linha do tempo (no Epi. 01, um `ganho_db: null` derrubou
+  o som depois de 143 min de render; desde 2026-11-10 o `sintetizar.py` tira os nulos antes de usar).
 - Quando `linha_do_tempo.json`/`medidas.json` ainda não existem, o motor pode trabalhar em modo prévia: usa os `t` nominais do roteiro,
   estima a duração de cada fala por `palavras / 2,5` e um envelope sintético. Isso serve para olhar quadros antes de gastar voz.

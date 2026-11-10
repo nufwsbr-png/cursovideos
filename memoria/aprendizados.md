@@ -6,6 +6,10 @@ Formato: `- [DATA] [MEDIDO|HIPÓTESE|REGRA] texto — motivo/fonte`
 - [2026-11-08] [REGRA] Nunca copiar o canal do livro (Teco Sobrevive) nem o exemplo "Posto 24h": lugar, papel, crise, regra e visual são nossos — combinado da página 9.
 - [2026-11-08] [REGRA] Voz falsa bloqueia publicação — só serve para testar a fábrica.
 - [2026-11-08] [REGRA] Toda anotação separa medido de hipótese (capítulo 55).
+- [2026-11-10] [REGRA] Dono aprovou "deixar o máximo parecido" com a referência: copiar toda a técnica e o acabamento medidos (Verdana Bold, legenda ancorada embaixo, cartões, selo, pergunta com véu e botões, câmera que anda sem corte seco, zumbido grave contínuo, −14 LUFS) e mudar só histórias e roteiros — porque o estudo de 2026-11-09 mostrou que o modelo de edição é a parte que funciona e a identidade continua nossa.
+- [2026-11-10] [REGRA] Dono pediu voltar a 30 fps (a referência é 30 fps; 60 fps dobrava o tempo de render sem ganho visível).
+- [2026-11-10] [REGRA] Dono escolheu "criar lugares novos já" (mundo com cabine, saguão, corredor de serviço e guarda-volumes, câmera que anda entre eles) e "história nova para o Epi. 01" (o piloto antigo foi arquivado sem publicar) — para o Epi. 01 já ter o trecho de ação sem fala andando por outro lugar que a referência usa.
+- [2026-11-10] [REGRA] Dono pediu automação completa "com crítico visual por IA", no modelo de fábrica autônoma que colou: constituição, skills, portões, crítico com rubrica, manifesto publicável e invalidação por versão. Do texto colado usamos só as ideias gerais (a licença dele proíbe usar os arquivos). Implementado em F5/F6 (`docs/ARQUITETURA.md`).
 
 ## Medido (números com data)
 _(preenchido pela fábrica: tempos de render, LUFS, durações; e pelo dono: números do Studio)_
@@ -41,3 +45,37 @@ _(a fábrica anexa aqui quando algo falha e é consertado)_
 - [2026-11-09] [REGRA] faster-whisper 1.2.1 + av 19 quebra ao abrir arquivo (`open() got an unexpected keyword argument 'metadata_errors'`). Solução: decodificar o áudio com ffmpeg (16 kHz mono f32) e passar o array. E **sem VAD** quando houver trilha por baixo: com VAD ele descartou 18 de 21 falas.
 - [2026-11-09] [REGRA] O Instagram exige login para ver os reels. No computador do dono funciona: `node scripts/referencia_navegador.js <perfil>` abre um Chromium visível com perfil próprio em `referencias/.navegador`, o dono entra à mão, o script lista os reels e exporta `referencias/cookies.txt` para o `yt-dlp`. Tudo fica em `referencias/` (no .gitignore). A sessão desta máquina, no app do VS Code, não tem o navegador embutido.
 - [2026-11-09] [REGRA] `scdet` só pega corte seco. Em vídeo de plano contínuo, medir mudança visual em janela de 0,5 s e brilho por quadro (giro, aproximação, tela preta). Em cena com céu vermelho o detector de cor do cartão final erra, então conferir na folha.
+- [2026-11-10] [MEDIDO] Crítico visual na sessão, Epi. 01: rodada 1 reprovou (clareza_acao 5, acabamento 6) — a revelação da etiqueta não mostrava a etiqueta (a mala estava no chão, longe do armário 7, contra a bíblia; o avanço do corpo punha o braço na frente), o braço cobria a passagem no fim e a tela do celular mostrava "(inventado)". Patch de direção (avancar → aproximar nas linhas 15 e 26) + correções fora do patch (mala dentro do armário 7, nome do app "Recado", emoji de 85 px de tinta, cabeçalho do celular que cabe). Rodada 2 aprovou: 7/8/8/8/7/8. Nenhum desses defeitos o revisor automático pegou.
+- [2026-11-10] [REGRA] A revelação de um texto pequeno (etiqueta, nome) pede `aproximar:` (a lente fecha) e o objeto na altura dos olhos; `avancar:` move o corpo e, de pé ou sentado no balcão, põe o braço na frente do alvo. Motivo: rodada 1 do crítico do Epi. 01.
+- [2026-11-10] [REGRA] Objeto da bíblia tem de estar onde a bíblia diz (a mala "aparece no armário 7"): o crítico visual reprova quando a encenação contradiz o que a fala afirma.
+- [2026-11-10] [REGRA] Nada de texto de bastidor na tela (ex.: "(inventado)" no nome do app): o que é inventado se marca na memória, não no quadro.
+- [2026-11-10] [MEDIDO] Orquestrador no Epi. 01: depois do patch do crítico, revalidou o roteiro, pulou vozes e conferência e refez só tempo e quadros (`versoes --explicar` mostra "mudou: canal, roteiro"). Hash de código guardado por execução: as etapas não recalculam o hash do motor a cada pergunta.
+- [2026-11-10] [REGRA] No Bash desta máquina, barra invertida dentro de heredoc às vezes some no caminho (um `\\n` virou quebra de linha num script Python). Para editar código com barra invertida, escrever o script com a ferramenta de arquivo, não por heredoc.
+- [2026-11-10] [MEDIDO] Render do ep01: 2708 quadros, 3.18 s/quadro, 143.6 min no total, escala 1, renderer ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver).
+- [2026-11-10] [MEDIDO] ep01: 90.3 s, 1080x1920, -14.01 LUFS, pico -1.76 dBTP, 78.9 MB (3 provas no dia; esta é a da mixagem final).
+- [2026-11-10] [MEDIDO] Epi. 01 final contra a referência, medido com os mesmos scripts (`scripts/medir_referencia.py`, `scripts/medir_balanco.py`, prova, `render.json`):
+  - **imagem:** 1080x1920 a 30 fps, 90,3 s; 0 cortes secos (scdet 12); um mergulho no preto de 52,9 a 53,9 s (a referência usa 0,9–1,7 s); 24,1 s de movimento forte (27 %; referência 9–53 %); mudança visual mediana 2,2 (referência 2,9–15,9: sentado, o nosso fica mais parado); balanço andando 2,93 Hz ±8,2 px em 1920 (referência 2,9 Hz, ±3–9 px);
+  - **camada 2D:** base da última linha da legenda em 1344 e da de cima em 1286 (passo 58); Verdana Bold com 913 px contra 909 na frase-teste; cartões no tempo do roteiro ±1 quadro (alerta 6,70–10,17 s; mensagens 54,97–58,93 e 58,97–62,43 s, trocando no lugar); pergunta de 86,27 a 90,23 s (4,0 s, entra em 0,17 s);
+  - **som:** −14,01 LUFS; pico −1,76 dBTP; LRA 2,1 (referência 5–8); 20–80 Hz com 0,854 da energia (referência 0,83–0,87); picos 45/68/92 Hz; nenhum trecho abaixo de −40 dB; fala − sem fala −0,6 dB (referência −0,5 a +1,1);
+  - **fala:** 87 palavras em 90,3 s = 58 palavras/min (referência 51–90; meta do canal 60–90).
+- [2026-11-10] [HIPÓTESE] As vozes falsas falam devagar (≈ 1,7 palavra/s; a referência fala a 1,9–2,7): somam 50,9 s, contra 34,4 s estimados. Com as vozes do Gemini, o Epi. 01 deve cair para ≈ 83 s e ≈ 63 palavras/min. Conferir depois das vozes reais.
+- [2026-11-10] [MEDIDO] Som antes da correção: 9 das 19 falas ficavam a menos de 6 dB do fundo na faixa da voz (3,1–4,7 dB). Causas, medidas reproduzindo a mixagem fora do repositório:
+  - as falas eram igualadas pela faixa inteira, e as vozes graves deixam 2–4 dB fora de 300–3000 Hz;
+  - o alto-falante saía 8 dB mais quente, porque o nível não era conferido depois do filtro, e o limitador segurava 5,6–6,7 dB aos 19–21 s;
+  - no clímax o zumbido sobe +4 dB e passa do teto, e o limitador abaixa tudo 1,5–2 dB.
+
+  Tentativas descartadas: baixar a crista do zumbido (fases, batimento) ganhou ≤ 0,5 dB; limitar só o leito resolveu a voz, mas derrubou 20–80 Hz para 0,80 e o loudness para −14,9.
+- [2026-11-10] [REGRA] A voz é igualada pela faixa da voz (300–3000 Hz, a mesma da prova) e de novo depois do filtro. A mixagem garante o critério que a prova mede (fala ≥ fundo + 6 dB na faixa da voz), subindo a fala que faltar (até +4 dB, até 3 rodadas).
+  - Motivo: medir de um jeito e garantir de outro deixava a prova avisando sem a mixagem corrigir. O plano da F3 já pedia esse piso, e ele tinha ficado de fora.
+  - Resultado: 19 de 19 falas com margem ≥ 6,2 dB, 20–80 Hz em 0,854, −14,01 LUFS.
+- [2026-11-10] [REGRA] No roteiro e na linha do tempo, `null` num campo opcional quer dizer "use o padrão" (o esquema da API exige o campo e manda null). Motivo: um `ganho_db: null` num efeito derrubou o som depois de 143 min de render.
+- [2026-11-10] [MEDIDO] Transcrição:
+  - faster-whisper 1.2.1 com PyAV 19 falhava (`open() got an unexpected keyword argument 'metadata_errors'`);
+  - passando o áudio já decodificado (16 kHz mono), funciona: 63 s de um vídeo da referência em 42 s, 58 palavras;
+  - voz falsa não é fala: a prova não transcreve falas com voz falsa (antes, todas sairiam "faltando" e bloqueariam por um motivo falso).
+- [2026-11-10] [MEDIDO] Capa em Verdana Bold, a mesma das legendas: o gancho "A PASSAGEM SAIU SOZINHA" coube em 150, 147 e 120 px (diminui sozinho até caber). A alternativa de 52 s caía na tela preta; agora os quadros fogem dos mergulhos (54,6 s).
+- [2026-11-10] [MEDIDO] Render por quadro do Epi. 01 novo (CPU SwiftShader, 4 núcleos): média de 3,18 s/quadro no vídeo inteiro (143,6 min, com testes rodando junto em parte do tempo); amostras de 1 s sem carga: sentado no balcão 2,59, corredor 2,19, guarda-volumes 1,83 s/quadro. O piloto antigo, também sentado no balcão, fazia 1,33–1,37. O custo subiu na cena de sempre, não nos lugares novos.
+- [2026-11-10] [HIPÓTESE] O que pesa no balcão é o saguão: mais objetos visíveis desde a F2 (correção do pivô, módulos vizinhos) e a camada 2D nova. Medir com o motor (tempo por passada) antes de otimizar; o caminho rápido continua sendo GPU (`MOTOR_GPU=1`), ainda não medido.
+- [2026-11-10] [MEDIDO] Rotina diária simulada (`diario --simular --ia falsa`): saída 3 e `BLOQUEADO.md` no 1º dia do bloqueio; saída 0 ("já avisado antes") ao repetir.
+  - O aviso mandava o dono "ver o som" por causa da voz falsa repetida na prova.
+  - Agora cada bloqueio da prova é uma causa, e causas com a mesma ação aparecem uma vez.

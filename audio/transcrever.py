@@ -23,7 +23,9 @@ import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _comum import carregar_json, normalizar_texto  # noqa: E402
+import numpy as np  # noqa: E402
+
+from _comum import carregar_json, ler_wav, normalizar_texto  # noqa: E402
 
 COMO_INSTALAR = ("Para conferir por transcrição, no seu computador com internet rode uma vez:\n"
                  "  pip install faster-whisper\n"
@@ -55,7 +57,12 @@ def extrair_wav_16k(arquivo: str) -> str:
 
 
 def transcrever(modelo, wav: str) -> list[dict]:
-    segmentos, _ = modelo.transcribe(wav, language="pt", beam_size=5, word_timestamps=True, vad_filter=False)
+    # o áudio vai já decodificado (16 kHz mono, extraído pelo ffmpeg): não depende do PyAV, que muda a API entre versões
+    # (faster-whisper 1.2.1 com PyAV 19 falhava: "open() got an unexpected keyword argument 'metadata_errors'", 2026-11-10)
+    x, taxa = ler_wav(wav)
+    if taxa != 16000:
+        raise ValueError(f"o Whisper espera 16 kHz e veio {taxa} Hz")
+    segmentos, _ = modelo.transcribe(np.asarray(x, dtype=np.float32), language="pt", beam_size=5, word_timestamps=True, vad_filter=False)
     tokens = []
     for s in segmentos:
         palavras = getattr(s, "words", None) or []
@@ -107,9 +114,13 @@ def main() -> None:
     ap = argparse.ArgumentParser(description="Prova por transcrição que as falas do roteiro estão no vídeo pronto.")
     ap.add_argument("--arquivo", required=True)
     ap.add_argument("--roteiro", required=True)
+    ap.add_argument("--so", default=None, help="confere só estas falas (ids separados por vírgula), ex.: as que têm voz de verdade")
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args()
     roteiro = carregar_json(args.roteiro)
+    if args.so:
+        ids = {i.strip() for i in args.so.split(",") if i.strip()}
+        roteiro = {**roteiro, "falas": [f for f in roteiro.get("falas", []) if f.get("id") in ids]}
     modelo, motivo = carregar_modelo()
     if not modelo:
         saida = {"conferido_por": "nao_conferido", "motivo": motivo, "como_resolver": COMO_INSTALAR,

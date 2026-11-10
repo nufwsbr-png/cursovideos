@@ -64,6 +64,15 @@ test("rotina: o que a IA corrige e o que precisa do dono", () => {
   fs.writeFileSync(path.join(dir, "entrega.json"), JSON.stringify({ publicavel: false, checagens: { voz_real: { ok: false, detalhe: "19 fala(s) com voz falsa" }, bloqueios: { ok: false, detalhe: "x" }, prova: { ok: true } } }));
   assert.deepEqual(causasDe({ parou_em: null }, dir), ["voz_real: 19 fala(s) com voz falsa"]);
   assert.deepEqual(causasDe({ parou_em: "render", motivo: "o crítico visual não aprovou: x" }, dir), ["o crítico visual não aprovou: x"]);
+  // Epi. 01 (2026-11-10): a voz falsa aparece em voz_real e na prova; é uma causa só, com uma ação só
+  const prova = (bloqueios) => ({ ok: false, bloqueios, detalhe: bloqueios.join("; ") });
+  fs.writeFileSync(path.join(dir, "entrega.json"), JSON.stringify({ publicavel: false, checagens: { voz_real: { ok: false, detalhe: "19 fala(s) com voz falsa" }, prova: prova(["voz falsa: gere as vozes de verdade antes de publicar"]) } }));
+  assert.deepEqual(causasDe({ parou_em: null }, dir), ["voz_real: 19 fala(s) com voz falsa"]);
+  // um problema de som de verdade não some junto
+  fs.writeFileSync(path.join(dir, "entrega.json"), JSON.stringify({ publicavel: false, checagens: { voz_real: { ok: false, detalhe: "19 fala(s) com voz falsa" }, prova: prova(["voz falsa: gere as vozes de verdade antes de publicar", "volume -11.2 LUFS fora de -14 ±1"]) } }));
+  const causas = causasDe({ parou_em: null }, dir);
+  assert.deepEqual(causas, ["voz_real: 19 fala(s) com voz falsa", "prova: volume -11.2 LUFS fora de -14 ±1"]);
+  assert.match(oQueFazer(causas[1]), /prova\.json/);
   fs.rmSync(dir, { recursive: true, force: true });
 });
 

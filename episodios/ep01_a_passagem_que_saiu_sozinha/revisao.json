@@ -1,0 +1,366 @@
+{
+  "gerado_em": "2026-11-10T16:43:06.636Z",
+  "episodio": "episodios\\ep01_a_passagem_que_saiu_sozinha",
+  "imagens_analisadas": 49,
+  "legendas_conferidas": 21,
+  "problemas": [],
+  "avisos": [
+    {
+      "tipo": "regressao_padrao",
+      "t": 0,
+      "detalhe": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0000.00.png: diferença média de 19.6 % em relação ao padrão aprovado"
+    }
+  ],
+  "aprovado": true,
+  "nao_conferido": [
+    "movimento entre quadros (só a sequência mostra)",
+    "som",
+    "sotaque e interpretação das vozes",
+    "se a história prende"
+  ],
+  "amostras": [
+    {
+      "t": 0,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0000.00.png",
+      "luminancia": 0.484,
+      "uniforme": 0.185,
+      "clima": "rotina"
+    },
+    {
+      "t": 0.3,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0000.30.png",
+      "luminancia": 0.483,
+      "uniforme": 0.186,
+      "clima": "rotina"
+    },
+    {
+      "t": 2,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0002.00.png",
+      "luminancia": 0.496,
+      "uniforme": 0.196,
+      "clima": "rotina"
+    },
+    {
+      "t": 4.7,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0004.70.png",
+      "luminancia": 0.5,
+      "uniforme": 0.196,
+      "clima": "rotina"
+    },
+    {
+      "t": 5.2,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0005.20.png",
+      "luminancia": 0.49,
+      "uniforme": 0.177,
+      "clima": "rotina"
+    },
+    {
+      "t": 6.7,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0006.70.png",
+      "luminancia": 0.463,
+      "uniforme": 0.221,
+      "clima": "sinal"
+    },
+    {
+      "t": 10.2,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0010.20.png",
+      "luminancia": 0.461,
+      "uniforme": 0.221,
+      "clima": "sinal"
+    },
+    {
+      "t": 11.4,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0011.40.png",
+      "luminancia": 0.465,
+      "uniforme": 0.203,
+      "clima": "sinal"
+    },
+    {
+      "t": 13.6,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0013.60.png",
+      "luminancia": 0.481,
+      "uniforme": 0.173,
+      "clima": "sinal"
+    },
+    {
+      "t": 14.6,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0014.60.png",
+      "luminancia": 0.487,
+      "uniforme": 0.142,
+      "clima": "sinal"
+    },
+    {
+      "t": 16.6,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0016.60.png",
+      "luminancia": 0.478,
+      "uniforme": 0.185,
+      "clima": "sinal"
+    },
+    {
+      "t": 17.6,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0017.60.png",
+      "luminancia": 0.461,
+      "uniforme": 0.204,
+      "clima": "sinal"
+    },
+    {
+      "t": 19.5,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0019.50.png",
+      "luminancia": 0.474,
+      "uniforme": 0.188,
+      "clima": "escalada"
+    },
+    {
+      "t": 20.9,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0020.90.png",
+      "luminancia": 0.464,
+      "uniforme": 0.195,
+      "clima": "escalada"
+    },
+    {
+      "t": 23.2,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0023.20.png",
+      "luminancia": 0.424,
+      "uniforme": 0.207,
+      "clima": "escalada"
+    },
+    {
+      "t": 24.2,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0024.20.png",
+      "luminancia": 0.401,
+      "uniforme": 0.204,
+      "clima": "escalada"
+    },
+    {
+      "t": 26.1,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0026.10.png",
+      "luminancia": 0.414,
+      "uniforme": 0.232,
+      "clima": "escalada"
+    },
+    {
+      "t": 28.1,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0028.10.png",
+      "luminancia": 0.394,
+      "uniforme": 0.189,
+      "clima": "escalada"
+    },
+    {
+      "t": 28.7,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0028.70.png",
+      "luminancia": 0.385,
+      "uniforme": 0.254,
+      "clima": "escalada"
+    },
+    {
+      "t": 30.2,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0030.20.png",
+      "luminancia": 0.392,
+      "uniforme": 0.222,
+      "clima": "escalada"
+    },
+    {
+      "t": 30.6,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0030.60.png",
+      "luminancia": 0.384,
+      "uniforme": 0.255,
+      "clima": "escalada"
+    },
+    {
+      "t": 32,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0032.00.png",
+      "luminancia": 0.408,
+      "uniforme": 0.226,
+      "clima": "escalada"
+    },
+    {
+      "t": 33.4,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0033.40.png",
+      "luminancia": 0.422,
+      "uniforme": 0.186,
+      "clima": "escalada"
+    },
+    {
+      "t": 35.8,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0035.80.png",
+      "luminancia": 0.421,
+      "uniforme": 0.184,
+      "clima": "escalada"
+    },
+    {
+      "t": 37.1,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0037.10.png",
+      "luminancia": 0.424,
+      "uniforme": 0.187,
+      "clima": "escalada"
+    },
+    {
+      "t": 39.2,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0039.20.png",
+      "luminancia": 0.417,
+      "uniforme": 0.181,
+      "clima": "escalada"
+    },
+    {
+      "t": 40.6,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0040.60.png",
+      "luminancia": 0.415,
+      "uniforme": 0.249,
+      "clima": "escalada"
+    },
+    {
+      "t": 49.6,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0049.60.png",
+      "luminancia": 0.313,
+      "uniforme": 0.297,
+      "clima": "climax"
+    },
+    {
+      "t": 50.8,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0050.80.png",
+      "luminancia": 0.226,
+      "uniforme": 0.184,
+      "clima": "climax"
+    },
+    {
+      "t": 53,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0053.00.png",
+      "luminancia": 0,
+      "uniforme": 1,
+      "clima": "climax"
+    },
+    {
+      "t": 55,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0055.00.png",
+      "luminancia": 0.291,
+      "uniforme": 0.246,
+      "clima": "climax"
+    },
+    {
+      "t": 59,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0059.00.png",
+      "luminancia": 0.288,
+      "uniforme": 0.195,
+      "clima": "climax"
+    },
+    {
+      "t": 63,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0063.00.png",
+      "luminancia": 0.294,
+      "uniforme": 0.231,
+      "clima": "climax"
+    },
+    {
+      "t": 63.6,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0063.60.png",
+      "luminancia": 0.308,
+      "uniforme": 0.235,
+      "clima": "climax"
+    },
+    {
+      "t": 65.1,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0065.10.png",
+      "luminancia": 0.309,
+      "uniforme": 0.241,
+      "clima": "climax"
+    },
+    {
+      "t": 66.1,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0066.10.png",
+      "luminancia": 0.309,
+      "uniforme": 0.238,
+      "clima": "climax"
+    },
+    {
+      "t": 68,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0068.00.png",
+      "luminancia": 0.305,
+      "uniforme": 0.224,
+      "clima": "climax"
+    },
+    {
+      "t": 68.8,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0068.80.png",
+      "luminancia": 0.293,
+      "uniforme": 0.181,
+      "clima": "climax"
+    },
+    {
+      "t": 70.6,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0070.60.png",
+      "luminancia": 0.294,
+      "uniforme": 0.179,
+      "clima": "climax"
+    },
+    {
+      "t": 72.2,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0072.20.png",
+      "luminancia": 0.294,
+      "uniforme": 0.179,
+      "clima": "climax"
+    },
+    {
+      "t": 74.7,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0074.70.png",
+      "luminancia": 0.293,
+      "uniforme": 0.18,
+      "clima": "climax"
+    },
+    {
+      "t": 75.5,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0075.50.png",
+      "luminancia": 0.294,
+      "uniforme": 0.176,
+      "clima": "climax"
+    },
+    {
+      "t": 77.2,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0077.20.png",
+      "luminancia": 0.304,
+      "uniforme": 0.213,
+      "clima": "climax"
+    },
+    {
+      "t": 78.7,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0078.70.png",
+      "luminancia": 0.309,
+      "uniforme": 0.236,
+      "clima": "climax"
+    },
+    {
+      "t": 81.1,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0081.10.png",
+      "luminancia": 0.309,
+      "uniforme": 0.238,
+      "clima": "climax"
+    },
+    {
+      "t": 81.9,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0081.90.png",
+      "luminancia": 0.309,
+      "uniforme": 0.236,
+      "clima": "climax"
+    },
+    {
+      "t": 83.9,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0083.90.png",
+      "luminancia": 0.286,
+      "uniforme": 0.197,
+      "clima": "climax"
+    },
+    {
+      "t": 86.6,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0086.60.png",
+      "luminancia": 0.21,
+      "uniforme": 0.216,
+      "clima": "pergunta"
+    },
+    {
+      "t": 89.3,
+      "arquivo": "episodios\\ep01_a_passagem_que_saiu_sozinha\\stills\\t_0089.30.png",
+      "luminancia": 0.21,
+      "uniforme": 0.217,
+      "clima": "pergunta"
+    }
+  ]
+}

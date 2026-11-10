@@ -4,9 +4,14 @@
 Mixagem: a voz manda (capítulo 64).
 
 1. Coloca cada fala em `linha_do_tempo.falas[].inicio_s`, com o filtro dela (telefone, rádio, alto-falante).
-2. Iguala as vozes: cada fala vai para um RMS alvo (-20 dBFS; sussurro -23; grito -18) com pico limitado.
+2. Iguala as vozes pela faixa da voz (300–3000 Hz, a mesma da prova), não pela faixa inteira: alvo -22 dBFS
+   (sussurro -24; grito -20), de novo depois do filtro (telefone, rádio e alto-falante não saem mais quentes);
+   pico limitado.
 3. Abaixa ambiente (-7 dB) e tensão (-4 dB) enquanto alguém fala (ataque 150 ms, soltura 400 ms).
-4. Soma os efeitos, limita, normaliza em duas passagens (loudnorm I=-16 LUFS, TP=-1 dB, LRA=11).
+4. Soma os efeitos e o zumbido grave (calibrado para 84 % da energia em 20–80 Hz) e leva ao alvo do canal
+   (`canal.json → audio.lufs_alvo`, -14 LUFS) com limitador de picos e loudnorm linear.
+4b. Piso da voz: toda fala fica >= fundo sem fala + 6 dB na faixa da voz (o critério da prova,
+   `medir.banda_de_voz`). A que fica abaixo sobe o que falta (até +4 dB) e a mixagem é refeita (até 3 rodadas).
 5. Muxa com o vídeo mudo (vídeo copiado, áudio AAC 192 kb/s) com a duração exata do vídeo.
 6. Mede o resultado e grava `audio/mixagem.json`.
 
@@ -31,11 +36,14 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _comum import (carregar_canal, carregar_json, db_para_ganho, dbfs, duracao_arquivo, envelope_rms,  # noqa: E402
                     escrever_raw_f32, expandir_blocos, falar, ler_wav, pico, reamostrar, resolver_episodio, rms,
-                    salvar_json, suavizar_ataque_soltura)
+                    salvar_json, suavizar_ataque_soltura, filtrar_banda)
 from filtros import aplicar_filtro  # noqa: E402
+from medir import CRITERIO_VOZ_DB, banda_de_voz  # noqa: E402
 
 SR = 48000
-ALVO_VOZ_DBFS = -20.0
+ALVO_VOZ_DBFS = -22.0           # RMS da fala na faixa da voz, só onde há voz (até 2026-11-10: -20 na faixa inteira)
+BANDA_VOZ_HZ = (300.0, 3000.0)  # a mesma faixa da prova (medir.banda_de_voz)
+PISO_VOZ_SUBIDA_MAX_DB = 4.0    # o piso da voz sobe uma fala no máximo isto
 DUCK_AMBIENTE_DB = -7.0
 DUCK_TENSAO_DB = -4.0
 
@@ -49,30 +57,53 @@ def alvo_da_fala(estilo: str) -> float:
     return ALVO_VOZ_DBFS
 
 
-def preparar_fala(ep: Path, fala_tl: dict, fala_rot: dict, medida: dict | None, semente: int) -> tuple[np.ndarray, float, dict]:
+def nivel_banda_voz(x: np.ndarray) -> float:
+    """RMS (linear) da fala na faixa da voz, só nos blocos de 50 ms com voz (até 25 dB abaixo do mais forte)."""
+    b = filtrar_banda(np.asarray(x, dtype=np.float32), SR, *BANDA_VOZ_HZ)
+    env = envelope_rms(b, SR, 0.05)
+    if env.size == 0 or float(env.max()) <= 1e-9:
+        return 0.0
+    ativo = env >= float(env.max()) * db_para_ganho(-25.0)
+    return float(np.sqrt(np.mean(env[ativo] ** 2)))
+
+
+def nivelar_fala(x: np.ndarray, alvo_dbfs: float) -> np.ndarray:
+    """Leva a fala ao alvo pela faixa da voz (o que importa para entender), não pela faixa inteira: uma voz grave
+    (muita energia abaixo de 300 Hz) e uma aguda ficam igualmente audíveis. Medido no Epi. 01 (2026-11-10): pela faixa
+    inteira, as vozes graves ficavam 2–4 dB mais baixas na faixa da voz."""
+    nivel = nivel_banda_voz(x)
+    return np.asarray(x, dtype=np.float32) if nivel <= 0 else (x * (db_para_ganho(alvo_dbfs) / nivel)).astype(np.float32)
+
+
+def preparar_fala(ep: Path, fala_tl: dict, fala_rot: dict, medida: dict | None, semente: int,
+                  ganho_extra_db: float = 0.0) -> tuple[np.ndarray, float, dict]:
     caminho = ep / "audio" / "falas" / f"{fala_tl['id']}.wav"
     x, taxa = ler_wav(caminho)
     x = reamostrar(x, taxa, SR)
-    # máscara da parte com voz (das medidas) para igualar pelo que importa
-    mascara = None
+    alvo = alvo_da_fala(fala_rot.get("estilo", "")) + float(ganho_extra_db)
+    # mede só a parte com voz (das medidas), quando houver
     if medida and medida.get("fim_voz_s"):
-        a, b = int(float(medida["inicio_voz_s"]) * SR), int(float(medida["fim_voz_s"]) * SR)
-        if b > a:
-            mascara = np.zeros(x.size, dtype=bool)
-            mascara[a:min(b, x.size)] = True
-    alvo = alvo_da_fala(fala_rot.get("estilo", ""))
-    base = x[mascara] if (mascara is not None and np.any(mascara)) else x
-    r = rms(base)
-    ganho = db_para_ganho(alvo) / max(r, 1e-6)
-    x = (x * ganho).astype(np.float32)
-    y, antecipacao = aplicar_filtro(x, SR, fala_tl.get("filtro") or fala_rot.get("filtro"), semente + int(fala_tl["id"].lstrip("f") or 0))
-    # depois do filtro, confere o nível de novo e limita o pico em -3 dBFS
+        a, b = int(float(medida["inicio_voz_s"]) * SR), min(int(float(medida["fim_voz_s"]) * SR), x.size)
+        nivel = nivel_banda_voz(x[a:b]) if b > a else nivel_banda_voz(x)
+    else:
+        nivel = nivel_banda_voz(x)
+    if nivel > 0:
+        x = (x * (db_para_ganho(alvo) / nivel)).astype(np.float32)
+    filtro = fala_tl.get("filtro") or fala_rot.get("filtro")
+    y, antecipacao = aplicar_filtro(x, SR, filtro, semente + int(fala_tl["id"].lstrip("f") or 0))
+    # o filtro muda o nível (o alto-falante saía 8 dB mais quente): iguala de novo na faixa da voz
+    if filtro and filtro != "null":
+        y = nivelar_fala(y, alvo)
+    # limita o pico em -3 dBFS
     p = pico(y)
     teto = db_para_ganho(-3.0)
     if p > teto:
         y = np.tanh(y / p * 1.5) / math.tanh(1.5) * teto
-    info = {"id": fala_tl["id"], "quem": fala_tl.get("quem"), "filtro": fala_tl.get("filtro"), "alvo_rms_dbfs": alvo,
-            "rms_final_dbfs": round(dbfs(rms(y)), 1), "pico_final_dbfs": round(dbfs(pico(y)), 1), "duracao_s": round(y.size / SR, 3)}
+    info = {"id": fala_tl["id"], "quem": fala_tl.get("quem"), "filtro": fala_tl.get("filtro"), "alvo_banda_dbfs": round(alvo, 1),
+            "banda_final_dbfs": round(dbfs(nivel_banda_voz(y)), 1), "rms_final_dbfs": round(dbfs(rms(y)), 1),
+            "pico_final_dbfs": round(dbfs(pico(y)), 1), "duracao_s": round(y.size / SR, 3)}
+    if ganho_extra_db:
+        info["piso_voz_db"] = round(float(ganho_extra_db), 1)
     return y.astype(np.float32), antecipacao, info
 
 
@@ -219,58 +250,93 @@ def mixar(ep: Path, linha: dict, video: Path | None, saida: Path | None, so_audi
         from sintetizar import gerar_camadas
         gerar_camadas(linha, pasta_cam, semente, silencioso, aud)
 
-    voz = np.zeros(n, dtype=np.float32)
-    relatorio_falas = []
-    for f in linha["falas"]:
-        fr = falas_rot.get(f["id"])
-        if not fr:
-            falar(f"  fala {f['id']} está na linha do tempo mas não no roteiro; pulei", silencioso)
-            continue
-        caminho = ep / "audio" / "falas" / f"{f['id']}.wav"
-        if not caminho.exists():
-            relatorio_falas.append({"id": f["id"], "erro": "arquivo de voz não existe"})
-            falar(f"  FALTA a voz {f['id']} ({caminho.name})", silencioso)
-            continue
-        y, antecipacao, info = preparar_fala(ep, f, fr, medidas.get(f["id"]), semente)
-        colocar(voz, y, float(f["inicio_s"]) - antecipacao)
-        info["inicio_s"] = float(f["inicio_s"])
-        relatorio_falas.append(info)
-
     ambiente = ler_camada(pasta_cam / "ambiente.wav", n)
     efeitos = ler_camada(pasta_cam / "efeitos.wav", n)
     tensao = ler_camada(pasta_cam / "tensao.wav", n)
     drone = ler_camada(pasta_cam / "drone.wav", n)
-    g_amb = ganho_ducking(voz, duck_amb)
-    g_ten = ganho_ducking(voz, duck_ten)
-    outros = voz + ambiente * g_amb + efeitos + tensao * g_ten
-    # o zumbido grave não abaixa com a fala (está fora da faixa da voz) e é calibrado para a assinatura da referência
     cfg_drone = aud.get("drone", {})
     alvo_banda = float(cfg_drone.get("fracao_20_80_alvo", 0.84))
-    g_drone = ganho_do_drone(outros, drone, alvo_banda) if np.any(drone) else 0.0
-    mistura = outros + drone * g_drone
-    et, eb = energias_banda(mistura)
-    fracao = eb / max(et, 1e-30)
-    p = pico(mistura)
-    if p > 0.98:
-        mistura = mistura * (0.98 / p)
-
     tmpdir = Path(tempfile.mkdtemp(prefix="mix_"))
     raw = tmpdir / "mistura.f32"
-    # ganho linear até o alvo de loudness, depois o limitador segura só os picos que sobram
-    # (até 3 rodadas: o limitador tira um pouco de loudness, então mede de novo e corrige)
-    ganho_total_db, reducao_db, pre = 0.0, 0.0, {}
-    for rodada in range(3):
-        escrever_raw_f32(raw, mistura)
-        pre = medir_loudness_ffmpeg_raw(raw)
-        if pre.get("input_i") is None:
+
+    def montar_voz(ganhos: dict) -> tuple[np.ndarray, list]:
+        voz = np.zeros(n, dtype=np.float32)
+        relatorio = []
+        for f in linha["falas"]:
+            fr = falas_rot.get(f["id"])
+            if not fr:
+                falar(f"  fala {f['id']} está na linha do tempo mas não no roteiro; pulei", silencioso)
+                continue
+            caminho = ep / "audio" / "falas" / f"{f['id']}.wav"
+            if not caminho.exists():
+                relatorio.append({"id": f["id"], "erro": "arquivo de voz não existe"})
+                falar(f"  FALTA a voz {f['id']} ({caminho.name})", silencioso)
+                continue
+            y, antecipacao, info = preparar_fala(ep, f, fr, medidas.get(f["id"]), semente, float(ganhos.get(f["id"], 0.0)))
+            colocar(voz, y, float(f["inicio_s"]) - antecipacao)
+            info["inicio_s"] = float(f["inicio_s"])
+            relatorio.append(info)
+        return voz, relatorio
+
+    def mixar_uma_vez(voz: np.ndarray) -> dict:
+        g_amb = ganho_ducking(voz, duck_amb)
+        g_ten = ganho_ducking(voz, duck_ten)
+        outros = voz + ambiente * g_amb + efeitos + tensao * g_ten
+        # o zumbido grave não abaixa com a fala (está fora da faixa da voz) e é calibrado para a assinatura da referência
+        g_drone = ganho_do_drone(outros, drone, alvo_banda) if np.any(drone) else 0.0
+        mistura = outros + drone * g_drone
+        et, eb = energias_banda(mistura)
+        fracao = eb / max(et, 1e-30)
+        p = pico(mistura)
+        if p > 0.98:
+            mistura = mistura * (0.98 / p)
+        # ganho linear até o alvo de loudness, depois o limitador segura só os picos que sobram
+        # (até 3 rodadas: o limitador tira um pouco de loudness, então mede de novo e corrige)
+        ganho_total_db, reducao_db, pre = 0.0, 0.0, {}
+        for rodada in range(3):
+            escrever_raw_f32(raw, mistura)
+            pre = medir_loudness_ffmpeg_raw(raw)
+            if pre.get("input_i") is None:
+                break
+            ganho_db = alvo_lufs - pre["input_i"]
+            if abs(ganho_db) < 0.25:
+                break
+            mistura = (mistura * db_para_ganho(ganho_db)).astype(np.float32)
+            mistura, red = limitar_picos(mistura)
+            ganho_total_db += ganho_db
+            reducao_db = max(reducao_db, red)
+        return {"mistura": mistura, "g_drone": g_drone, "fracao": fracao, "ganho_total_db": ganho_total_db,
+                "reducao_db": reducao_db, "pre": pre}
+
+    voz, relatorio_falas = montar_voz({})
+    m = mixar_uma_vez(voz)
+    # piso da voz, com o mesmo critério da prova: a fala a menos de 6 dB do fundo (faixa da voz) sobe o que falta.
+    # O limitador e a calibração do zumbido comem parte da subida (medido no Epi. 01: 60–70 % fica), então são até
+    # 3 rodadas, somando, com teto de +4 dB por fala.
+    ajustes: dict = {}
+    piso = banda_de_voz(m["mistura"], SR, linha.get("falas"))
+    for rodada_piso in range(3):
+        margens = {pf["id"]: pf.get("margem_db") for pf in piso.get("por_fala", [])}
+        novos = {}
+        for i in piso.get("falas_possivelmente_encobertas", []):
+            if margens.get(i) is None:
+                continue
+            alvo = round(min(PISO_VOZ_SUBIDA_MAX_DB, ajustes.get(i, 0.0) + CRITERIO_VOZ_DB - margens[i] + 0.5), 1)
+            if alvo > ajustes.get(i, 0.0) + 0.05:
+                novos[i] = alvo
+        if not novos:
             break
-        ganho_db = alvo_lufs - pre["input_i"]
-        if abs(ganho_db) < 0.25:
-            break
-        mistura = (mistura * db_para_ganho(ganho_db)).astype(np.float32)
-        mistura, red = limitar_picos(mistura)
-        ganho_total_db += ganho_db
-        reducao_db = max(reducao_db, red)
+        ajustes.update(novos)
+        falar(f"piso da voz (rodada {rodada_piso + 1}): {len(novos)} fala(s) a menos de {CRITERIO_VOZ_DB:g} dB do fundo na faixa da voz"
+              " → subindo " + ", ".join(f"{i} {g:+.1f} dB" for i, g in novos.items()), silencioso)
+        voz, relatorio_falas = montar_voz(ajustes)
+        m = mixar_uma_vez(voz)
+        piso = banda_de_voz(m["mistura"], SR, linha.get("falas"))
+    ainda_abaixo = piso.get("falas_possivelmente_encobertas", [])
+    if ainda_abaixo:
+        falar(f"piso da voz: ainda abaixo depois de subir (vá ouvir): {', '.join(ainda_abaixo)}", silencioso)
+    mistura, g_drone, fracao = m["mistura"], m["g_drone"], m["fracao"]
+    ganho_total_db, reducao_db, pre = m["ganho_total_db"], m["reducao_db"], m["pre"]
     falar(f"pré-mixagem: ganho linear {ganho_total_db:+.2f} dB, limitador segurou até {reducao_db} dB, agora {pre.get('input_i')} LUFS / pico {pre.get('input_tp')} dBTP", silencioso)
     escrever_raw_f32(raw, mistura)
     ganho_db = ganho_total_db
@@ -286,6 +352,9 @@ def mixar(ep: Path, linha: dict, video: Path | None, saida: Path | None, so_audi
     falar(f"zumbido grave: ganho {20 * math.log10(max(g_drone, 1e-9)):+.1f} dB → 20–80 Hz com {fracao:.3f} da energia (alvo {alvo_banda})", silencioso)
     resultado = {"duracao_total_s": total, "falas": relatorio_falas, "ducking_db": {"ambiente": duck_amb, "tensao": duck_ten},
                  "drone": {"ganho_db": round(20 * math.log10(max(g_drone, 1e-9)), 2), "fracao_20_80": round(fracao, 3), "alvo": alvo_banda}, "alvo_lufs": alvo_lufs,
+                 "voz": {"nivelamento": "faixa da voz 300–3000 Hz", "alvo_banda_dbfs": ALVO_VOZ_DBFS},
+                 "piso_voz": {"criterio_db": CRITERIO_VOZ_DB, "ajustes_db": ajustes, "ainda_abaixo": ainda_abaixo,
+                              "por_fala": piso.get("por_fala")},
                  "mix_wav": str(mix_wav), "loudnorm": medidas_loud, "video": None, "saida": None}
     if video and video.exists() and saida:
         muxar(video, mix_wav, saida, silencioso)

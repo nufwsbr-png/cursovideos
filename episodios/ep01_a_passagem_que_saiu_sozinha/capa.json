@@ -1,0 +1,87 @@
+{
+  "fonte": "Verdana Bold",
+  "escolhida": 1,
+  "variantes": [
+    {
+      "variante": 1,
+      "gancho_px": 150,
+      "cabe": true,
+      "area_segura": true,
+      "limite_gancho_px": 1360,
+      "caixas": {
+        "gancho": [
+          70,
+          300,
+          1010,
+          900
+        ],
+        "epi": [
+          0,
+          1380,
+          1080,
+          1581
+        ],
+        "canal": [
+          0,
+          1560,
+          1080,
+          1628
+        ]
+      }
+    },
+    {
+      "variante": 2,
+      "gancho_px": 147,
+      "cabe": true,
+      "area_segura": true,
+      "limite_gancho_px": 1540,
+      "caixas": {
+        "gancho": [
+          70,
+          760,
+          1010,
+          1319
+        ],
+        "epi": [
+          0,
+          300,
+          1080,
+          501
+        ],
+        "canal": [
+          0,
+          1560,
+          1080,
+          1628
+        ]
+      }
+    },
+    {
+      "variante": 3,
+      "gancho_px": 120,
+      "cabe": true,
+      "area_segura": true,
+      "limite_gancho_px": 1540,
+      "caixas": {
+        "gancho": [
+          70,
+          1180,
+          1010,
+          1540
+        ],
+        "epi": [
+          80,
+          300,
+          438,
+          501
+        ],
+        "canal": [
+          0,
+          1560,
+          1080,
+          1628
+        ]
+      }
+    }
+  ]
+}

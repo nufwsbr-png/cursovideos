@@ -71,21 +71,30 @@ export async function etapaProva({ canal, ep }) {
     avisos.push(`não consegui medir o som: ${e.message.split("\n")[0]}`);
   }
 
+  // voz falsa não é fala (audio/voz_falsa.py): só as falas com voz de verdade vão para o Whisper
+  const falsas = ep.roteiro.falas.filter((x) => origem[x.id]?.provedor === "falso").map((x) => x.id);
+  const reais = ep.roteiro.falas.map((x) => x.id).filter((id) => !falsas.includes(id));
   let transcricao = null;
-  try {
-    transcricao = await executarJson(PYTHON, [path.join(PASTA_AUDIO, "transcrever.py"), "--arquivo", arquivo, "--roteiro", path.join(ep.dir, "roteiro.json"), "--json"]);
-    if (transcricao.conferido_por && transcricao.conferido_por !== "nao_conferido") {
-      const faltando = transcricao.faltando ?? [];
-      if (faltando.length) bloqueios.push(`falas não encontradas no vídeo pronto: ${faltando.map((x) => x.id ?? x).join(", ")}`);
-    } else avisos.push("transcrição do vídeo pronto não conferida (Whisper indisponível): ouvir inteiro no celular");
-  } catch (e) {
-    avisos.push(`transcrição falhou: ${e.message.split("\n")[0]}`);
+  if (!reais.length) {
+    transcricao = { conferido_por: "nao_conferido", motivo: "todas as falas têm voz falsa (não é fala: não há o que transcrever)" };
+    avisos.push("transcrição não conferida: todas as falas têm voz falsa; confere sozinha quando houver voz de verdade");
+  } else {
+    try {
+      transcricao = await executarJson(PYTHON, [path.join(PASTA_AUDIO, "transcrever.py"), "--arquivo", arquivo, "--roteiro", path.join(ep.dir, "roteiro.json"), "--json", ...(falsas.length ? ["--so", reais.join(",")] : [])]);
+      if (falsas.length) transcricao.sem_conferir_voz_falsa = falsas;
+      if (transcricao.conferido_por && transcricao.conferido_por !== "nao_conferido") {
+        const faltando = transcricao.faltando ?? [];
+        if (faltando.length) bloqueios.push(`falas não encontradas no vídeo pronto: ${faltando.map((x) => x.id ?? x).join(", ")}`);
+      } else avisos.push("transcrição do vídeo pronto não conferida (Whisper indisponível): ouvir inteiro no celular");
+    } catch (e) {
+      avisos.push(`transcrição falhou: ${e.message.split("\n")[0]}`);
+    }
   }
 
   const folha = path.join(ep.dir, "folha_video_pronto.png");
   try { await folhaDoVideoPronto(arquivo, folha); } catch (e) { avisos.push(`folha do vídeo pronto falhou: ${e.message.split("\n")[0]}`); }
 
-  const vozFalsa = ep.roteiro.falas.some((x) => origem[x.id]?.provedor === "falso");
+  const vozFalsa = falsas.length > 0;
   if (vozFalsa) bloqueios.push("voz falsa: gere as vozes de verdade antes de publicar");
   const graves = problemasGraves(revisao);
   if (graves.length) bloqueios.push(`revisor: ${graves.length} problema(s) grave(s) nos quadros`);

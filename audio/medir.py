@@ -70,36 +70,46 @@ def medir_arquivo(arquivo, linha: dict | None = None) -> dict:
     saida["bandas"] = energia_por_banda(x, SR, (linha or {}).get("falas"), None)
     saida["bandas"]["fim_considerado_s"] = fim_perg.get("fim_s")
 
-    banda = filtrar_banda(x, SR, 300, 3000)
-    env = envelope_rms(banda, SR, PASSO)
-    env_db = 20 * np.log10(np.maximum(env, 1e-9))
-    tempos = (np.arange(env.size) + 0.5) * PASSO
-    if linha and linha.get("falas"):
-        com = np.zeros(env.size, dtype=bool)
-        perto = np.zeros(env.size, dtype=bool)
-        por_fala = []
-        for f in linha["falas"]:
-            a, b = float(f["inicio_s"]), float(f["fim_s"])
-            sel = (tempos >= a + 0.1) & (tempos <= b - 0.1)
-            com |= sel
-            perto |= (tempos >= a - 0.3) & (tempos <= b + 0.5)
-            if np.any(sel):
-                nivel = 10 * math.log10(float(np.mean(env[sel] ** 2)) + 1e-18)
-                por_fala.append({"id": f["id"], "banda_voz_dbfs": round(nivel, 1)})
-        sem = ~perto
-        nivel_com = 10 * math.log10(float(np.mean(env[com] ** 2)) + 1e-18) if np.any(com) else None
-        nivel_sem = 10 * math.log10(float(np.mean(env[sem] ** 2)) + 1e-18) if np.any(sem) else None
-        dif = (nivel_com - nivel_sem) if (nivel_com is not None and nivel_sem is not None) else None
-        encobertas = [pf["id"] for pf in por_fala if nivel_sem is not None and pf["banda_voz_dbfs"] < nivel_sem + 6]
-        saida["banda_de_voz"] = {"com_fala_dbfs": None if nivel_com is None else round(nivel_com, 1),
-                                 "sem_fala_dbfs": None if nivel_sem is None else round(nivel_sem, 1),
-                                 "diferenca_db": None if dif is None else round(dif, 1),
-                                 "veredito": ("voz se destaca" if (dif is not None and dif >= 6) else "voz pode estar encoberta: vá ouvir"),
-                                 "falas_possivelmente_encobertas": encobertas, "por_fala": por_fala}
-    else:
-        saida["banda_de_voz"] = {"nivel_medio_dbfs": round(10 * math.log10(float(np.mean(env ** 2)) + 1e-18), 1),
-                                 "veredito": "sem linha do tempo: não dá para separar com e sem fala"}
+    saida["banda_de_voz"] = banda_de_voz(x, SR, (linha or {}).get("falas"))
     return saida
+
+
+CRITERIO_VOZ_DB = 6.0  # a fala precisa ficar pelo menos 6 dB acima do fundo sem fala, na faixa da voz
+
+
+def banda_de_voz(x: np.ndarray, taxa: int, falas: list | None, criterio_db: float = CRITERIO_VOZ_DB) -> dict:
+    """Voz × fundo na faixa da voz (300–3000 Hz). Com as falas da linha do tempo: o nível de cada fala (de início + 0,1 s
+    a fim − 0,1 s), o nível sem fala (fora de início − 0,3 s … fim + 0,5 s de todas) e as falas a menos de `criterio_db`
+    do fundo. A mixagem usa esta mesma função no piso da voz (audio/mixar.py): o que ela garante é o que a prova mede."""
+    banda = filtrar_banda(x, taxa, 300, 3000)
+    env = envelope_rms(banda, taxa, PASSO)
+    tempos = (np.arange(env.size) + 0.5) * PASSO
+    if not falas:
+        return {"nivel_medio_dbfs": round(10 * math.log10(float(np.mean(env ** 2)) + 1e-18), 1),
+                "veredito": "sem linha do tempo: não dá para separar com e sem fala"}
+    com = np.zeros(env.size, dtype=bool)
+    perto = np.zeros(env.size, dtype=bool)
+    niveis = []
+    for f in falas:
+        a, b = float(f["inicio_s"]), float(f["fim_s"])
+        sel = (tempos >= a + 0.1) & (tempos <= b - 0.1)
+        com |= sel
+        perto |= (tempos >= a - 0.3) & (tempos <= b + 0.5)
+        if np.any(sel):
+            niveis.append((f["id"], 10 * math.log10(float(np.mean(env[sel] ** 2)) + 1e-18)))
+    sem = ~perto
+    nivel_com = 10 * math.log10(float(np.mean(env[com] ** 2)) + 1e-18) if np.any(com) else None
+    nivel_sem = 10 * math.log10(float(np.mean(env[sem] ** 2)) + 1e-18) if np.any(sem) else None
+    dif = (nivel_com - nivel_sem) if (nivel_com is not None and nivel_sem is not None) else None
+    por_fala = [{"id": i, "banda_voz_dbfs": round(nv, 1), **({} if nivel_sem is None else {"margem_db": round(nv - nivel_sem, 1)})}
+                for i, nv in niveis]
+    encobertas = [i for i, nv in niveis if nivel_sem is not None and nv < nivel_sem + criterio_db]
+    return {"com_fala_dbfs": None if nivel_com is None else round(nivel_com, 1),
+            "sem_fala_dbfs": None if nivel_sem is None else round(nivel_sem, 1),
+            "diferenca_db": None if dif is None else round(dif, 1),
+            "criterio_db": criterio_db,
+            "veredito": ("voz se destaca" if (dif is not None and dif >= criterio_db) else "voz pode estar encoberta: vá ouvir"),
+            "falas_possivelmente_encobertas": encobertas, "por_fala": por_fala}
 
 
 def imprimir(m: dict) -> None:

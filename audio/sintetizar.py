@@ -613,8 +613,12 @@ def gerar_camadas(linha: dict, pasta_saida: Path, semente: int = 7, silencioso: 
     efeitos = np.zeros(n, dtype=np.float32)
     tensao = np.zeros(n, dtype=np.float32)
     registro = {"semente": semente, "duracao_total_s": total, "taxa": SR, "ambiente": [], "efeitos": [], "avisos": []}
+    # o esquema do roteiro (saída estruturada da API) manda os campos opcionais como null: null = "use o padrão"
+    sem_nulos = lambda d: {k: v for k, v in d.items() if v is not None}  # noqa: E731
+    lista_efeitos = [sem_nulos(e) for e in (linha.get("efeitos") or [])]
+    lista_ambiente = [sem_nulos(a) for a in (linha.get("ambiente") or [])]
 
-    for amb in linha.get("ambiente", []) or [{"inicio_s": 0, "fim_s": total, "tipo": "saguao_noite", "ganho_db": -26}]:
+    for amb in lista_ambiente or [{"inicio_s": 0, "fim_s": total, "tipo": "saguao_noite", "ganho_db": -26}]:
         tipo = amb.get("tipo", "saguao_noite")
         fn = AMBIENTES.get(tipo)
         if not fn:
@@ -628,7 +632,7 @@ def gerar_camadas(linha: dict, pasta_saida: Path, semente: int = 7, silencioso: 
         _colocar(ambiente, y, a)
         registro["ambiente"].append({"tipo": tipo, "inicio_s": a, "fim_s": b, "rms_dbfs": float(amb.get("ganho_db", -26))})
 
-    for i, e in enumerate(sorted(linha.get("efeitos", []) or [], key=lambda e: float(e["t"]))):
+    for i, e in enumerate(sorted(lista_efeitos, key=lambda e: float(e["t"]))):
         tipo = e.get("tipo")
         fn = EFEITOS.get(tipo)
         if not fn:
@@ -650,7 +654,7 @@ def gerar_camadas(linha: dict, pasta_saida: Path, semente: int = 7, silencioso: 
             _colocar(destino, y, float(e["t"]) + k_rep * intervalo + jitter)
         registro["efeitos"].append({"t": float(e["t"]), "tipo": tipo, "pico_dbfs": round(nivel, 1), "camada": "tensao" if tipo in CAMADA_TENSAO else "efeitos", "duracao_s": round(y.size / SR, 2)})
 
-    tensao += _drone_dos_climas(rng, n, linha.get("climas", []), linha.get("efeitos", []), total)
+    tensao += _drone_dos_climas(rng, n, linha.get("climas", []), lista_efeitos, total)
     drone = camada_drone(n, linha.get("climas", []), (cfg_audio or {}).get("drone"))
 
     portao = _portao_silencios(n, linha.get("silencios", []))

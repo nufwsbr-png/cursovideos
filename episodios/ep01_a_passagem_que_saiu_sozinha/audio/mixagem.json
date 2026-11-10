@@ -1,0 +1,524 @@
+{
+  "duracao_total_s": 90.256,
+  "falas": [
+    {
+      "id": "f01",
+      "quem": "dalva",
+      "filtro": null,
+      "alvo_banda_dbfs": -22.0,
+      "banda_final_dbfs": -22.0,
+      "rms_final_dbfs": -20.8,
+      "pico_final_dbfs": -8.5,
+      "duracao_s": 4.038,
+      "inicio_s": 0.0
+    },
+    {
+      "id": "f02",
+      "quem": "eu",
+      "filtro": null,
+      "alvo_banda_dbfs": -22.0,
+      "banda_final_dbfs": -22.0,
+      "rms_final_dbfs": -20.9,
+      "pico_final_dbfs": -7.9,
+      "duracao_s": 1.632,
+      "inicio_s": 4.388
+    },
+    {
+      "id": "f03",
+      "quem": "dalva",
+      "filtro": null,
+      "alvo_banda_dbfs": -22.0,
+      "banda_final_dbfs": -22.0,
+      "rms_final_dbfs": -21.2,
+      "pico_final_dbfs": -7.4,
+      "duracao_s": 3.024,
+      "inicio_s": 9.888
+    },
+    {
+      "id": "f04",
+      "quem": "eu",
+      "filtro": null,
+      "alvo_banda_dbfs": -22.0,
+      "banda_final_dbfs": -22.0,
+      "rms_final_dbfs": -20.0,
+      "pico_final_dbfs": -6.5,
+      "duracao_s": 2.651,
+      "inicio_s": 13.262
+    },
+    {
+      "id": "f05",
+      "quem": "dalva",
+      "filtro": null,
+      "alvo_banda_dbfs": -22.0,
+      "banda_final_dbfs": -22.0,
+      "rms_final_dbfs": -21.7,
+      "pico_final_dbfs": -8.7,
+      "duracao_s": 2.631,
+      "inicio_s": 16.263
+    },
+    {
+      "id": "f06",
+      "quem": "alto_falante",
+      "filtro": "alto_falante",
+      "alvo_banda_dbfs": -22.0,
+      "banda_final_dbfs": -22.0,
+      "rms_final_dbfs": -22.1,
+      "pico_final_dbfs": -7.9,
+      "duracao_s": 4.369,
+      "inicio_s": 19.244
+    },
+    {
+      "id": "f07",
+      "quem": "dalva",
+      "filtro": null,
+      "alvo_banda_dbfs": -22.0,
+      "banda_final_dbfs": -22.0,
+      "rms_final_dbfs": -21.1,
+      "pico_final_dbfs": -8.6,
+      "duracao_s": 2.589,
+      "inicio_s": 22.893
+    },
+    {
+      "id": "f08",
+      "quem": "amaral",
+      "filtro": "telefone",
+      "alvo_banda_dbfs": -22.0,
+      "banda_final_dbfs": -22.0,
+      "rms_final_dbfs": -23.8,
+      "pico_final_dbfs": -8.2,
+      "duracao_s": 1.685,
+      "inicio_s": 27.832
+    },
+    {
+      "id": "f09",
+      "quem": "eu",
+      "filtro": null,
+      "alvo_banda_dbfs": -21.1,
+      "banda_final_dbfs": -19.0,
+      "rms_final_dbfs": -18.7,
+      "pico_final_dbfs": -3.0,
+      "duracao_s": 1.459,
+      "piso_voz_db": 2.9,
+      "inicio_s": 29.867
+    },
+    {
+      "id": "f10",
+      "quem": "amaral",
+      "filtro": "telefone",
+      "alvo_banda_dbfs": -22.0,
+      "banda_final_dbfs": -22.0,
+      "rms_final_dbfs": -23.2,
+      "pico_final_dbfs": -8.4,
+      "duracao_s": 3.514,
+      "inicio_s": 31.676
+    },
+    {
+      "id": "f11",
+      "quem": "amaral",
+      "filtro": "telefone",
+      "alvo_banda_dbfs": -22.0,
+      "banda_final_dbfs": -22.0,
+      "rms_final_dbfs": -23.2,
+      "pico_final_dbfs": -8.7,
+      "duracao_s": 3.056,
+      "inicio_s": 35.54
+    },
+    {
+      "id": "f12",
+      "quem": "eu",
+      "filtro": null,
+      "alvo_banda_dbfs": -20.6,
+      "banda_final_dbfs": -20.6,
+      "rms_final_dbfs": -20.6,
+      "pico_final_dbfs": -4.1,
+      "duracao_s": 2.966,
+      "piso_voz_db": 3.4,
+      "inicio_s": 49.346
+    },
+    {
+      "id": "f13",
+      "quem": "passageiro",
+      "filtro": null,
+      "alvo_banda_dbfs": -18.2,
+      "banda_final_dbfs": -16.9,
+      "rms_final_dbfs": -14.4,
+      "pico_final_dbfs": -3.0,
+      "duracao_s": 1.837,
+      "piso_voz_db": 3.8,
+      "inicio_s": 62.662
+    },
+    {
+      "id": "f14",
+      "quem": "passageiro",
+      "filtro": null,
+      "alvo_banda_dbfs": -21.0,
+      "banda_final_dbfs": -21.0,
+      "rms_final_dbfs": -18.1,
+      "pico_final_dbfs": -4.1,
+      "duracao_s": 2.533,
+      "piso_voz_db": 1.0,
+      "inicio_s": 64.849
+    },
+    {
+      "id": "f15",
+      "quem": "dalva",
+      "filtro": null,
+      "alvo_banda_dbfs": -20.5,
+      "banda_final_dbfs": -20.5,
+      "rms_final_dbfs": -20.6,
+      "pico_final_dbfs": -4.5,
+      "duracao_s": 2.171,
+      "piso_voz_db": 3.5,
+      "inicio_s": 67.732
+    },
+    {
+      "id": "f16",
+      "quem": "dalva",
+      "filtro": null,
+      "alvo_banda_dbfs": -21.4,
+      "banda_final_dbfs": -21.4,
+      "rms_final_dbfs": -20.7,
+      "pico_final_dbfs": -4.0,
+      "duracao_s": 3.837,
+      "piso_voz_db": 2.6,
+      "inicio_s": 70.253
+    },
+    {
+      "id": "f17",
+      "quem": "dalva",
+      "filtro": null,
+      "alvo_banda_dbfs": -19.2,
+      "banda_final_dbfs": -19.2,
+      "rms_final_dbfs": -20.4,
+      "pico_final_dbfs": -5.6,
+      "duracao_s": 2.134,
+      "piso_voz_db": 2.8,
+      "inicio_s": 74.44
+    },
+    {
+      "id": "f18",
+      "quem": "passageiro",
+      "filtro": null,
+      "alvo_banda_dbfs": -21.2,
+      "banda_final_dbfs": -21.2,
+      "rms_final_dbfs": -18.2,
+      "pico_final_dbfs": -4.5,
+      "duracao_s": 3.482,
+      "piso_voz_db": 0.8,
+      "inicio_s": 76.924
+    },
+    {
+      "id": "f19",
+      "quem": "passageiro",
+      "filtro": null,
+      "alvo_banda_dbfs": -21.0,
+      "banda_final_dbfs": -21.0,
+      "rms_final_dbfs": -18.2,
+      "pico_final_dbfs": -4.4,
+      "duracao_s": 2.387,
+      "piso_voz_db": 1.0,
+      "inicio_s": 80.756
+    }
+  ],
+  "ducking_db": {
+    "ambiente": -7.0,
+    "tensao": -3.0
+  },
+  "drone": {
+    "ganho_db": 11.14,
+    "fracao_20_80": 0.84,
+    "alvo": 0.84
+  },
+  "alvo_lufs": -14.0,
+  "voz": {
+    "nivelamento": "faixa da voz 300–3000 Hz",
+    "alvo_banda_dbfs": -22.0
+  },
+  "piso_voz": {
+    "criterio_db": 6.0,
+    "ajustes_db": {
+      "f09": 2.9,
+      "f12": 3.4,
+      "f13": 3.8,
+      "f14": 1.0,
+      "f15": 3.5,
+      "f16": 2.6,
+      "f17": 2.8,
+      "f18": 0.8,
+      "f19": 1.0
+    },
+    "ainda_abaixo": [],
+    "por_fala": [
+      {
+        "id": "f01",
+        "banda_voz_dbfs": -20.3,
+        "margem_db": 7.4
+      },
+      {
+        "id": "f02",
+        "banda_voz_dbfs": -20.2,
+        "margem_db": 7.5
+      },
+      {
+        "id": "f03",
+        "banda_voz_dbfs": -20.3,
+        "margem_db": 7.4
+      },
+      {
+        "id": "f04",
+        "banda_voz_dbfs": -20.5,
+        "margem_db": 7.2
+      },
+      {
+        "id": "f05",
+        "banda_voz_dbfs": -20.7,
+        "margem_db": 7.0
+      },
+      {
+        "id": "f06",
+        "banda_voz_dbfs": -20.2,
+        "margem_db": 7.6
+      },
+      {
+        "id": "f07",
+        "banda_voz_dbfs": -21.2,
+        "margem_db": 6.5
+      },
+      {
+        "id": "f08",
+        "banda_voz_dbfs": -20.8,
+        "margem_db": 7.0
+      },
+      {
+        "id": "f09",
+        "banda_voz_dbfs": -20.6,
+        "margem_db": 7.1
+      },
+      {
+        "id": "f10",
+        "banda_voz_dbfs": -20.8,
+        "margem_db": 6.9
+      },
+      {
+        "id": "f11",
+        "banda_voz_dbfs": -20.7,
+        "margem_db": 7.0
+      },
+      {
+        "id": "f12",
+        "banda_voz_dbfs": -21.5,
+        "margem_db": 6.2
+      },
+      {
+        "id": "f13",
+        "banda_voz_dbfs": -20.6,
+        "margem_db": 7.1
+      },
+      {
+        "id": "f14",
+        "banda_voz_dbfs": -21.4,
+        "margem_db": 6.3
+      },
+      {
+        "id": "f15",
+        "banda_voz_dbfs": -21.5,
+        "margem_db": 6.2
+      },
+      {
+        "id": "f16",
+        "banda_voz_dbfs": -21.4,
+        "margem_db": 6.3
+      },
+      {
+        "id": "f17",
+        "banda_voz_dbfs": -21.5,
+        "margem_db": 6.2
+      },
+      {
+        "id": "f18",
+        "banda_voz_dbfs": -21.3,
+        "margem_db": 6.4
+      },
+      {
+        "id": "f19",
+        "banda_voz_dbfs": -21.4,
+        "margem_db": 6.3
+      }
+    ]
+  },
+  "mix_wav": "C:\\Users\\PC\\Desktop\\cursovideos\\episodios\\ep01_a_passagem_que_saiu_sozinha\\mix.wav",
+  "loudnorm": {
+    "passagem_1": {
+      "input_i": "-14.16",
+      "input_tp": "-1.91",
+      "input_lra": "2.00",
+      "input_thresh": "-24.16",
+      "output_i": "-13.62",
+      "output_tp": "-1.00",
+      "output_lra": "1.60",
+      "output_thresh": "-23.62",
+      "normalization_type": "dynamic",
+      "target_offset": "-0.38"
+    },
+    "passagem_2": {
+      "input_i": "-14.08",
+      "input_tp": "-2.00",
+      "input_lra": "1.90",
+      "input_thresh": "-24.08",
+      "output_i": "-13.92",
+      "output_tp": "-1.84",
+      "output_lra": "1.90",
+      "output_thresh": "-23.92",
+      "normalization_type": "linear",
+      "target_offset": "-0.08"
+    },
+    "ganho_linear_db": 5.99,
+    "limitador_reducao_max_db": 6.72
+  },
+  "video": "C:\\Users\\PC\\Desktop\\cursovideos\\episodios\\ep01_a_passagem_que_saiu_sozinha\\video_mudo.mp4",
+  "saida": "C:\\Users\\PC\\Desktop\\cursovideos\\episodios\\ep01_a_passagem_que_saiu_sozinha\\ep01.mp4",
+  "medido": {
+    "arquivo": "C:\\Users\\PC\\Desktop\\cursovideos\\episodios\\ep01_a_passagem_que_saiu_sozinha\\ep01.mp4",
+    "formato": "mov,mp4,m4a,3gp,3g2,mj2",
+    "duracao_s": 90.267,
+    "tamanho_mb": 78.88,
+    "video": {
+      "codec": "h264",
+      "largura": 1080,
+      "altura": 1920,
+      "fps": 30.0,
+      "pix_fmt": "yuvj420p"
+    },
+    "audio": {
+      "codec": "aac",
+      "taxa": 48000,
+      "canais": 1
+    },
+    "lufs_integrado": -14.01,
+    "pico_verdadeiro_dbtp": -1.76,
+    "faixa_de_loudness_lra": 2.1,
+    "volume_medio_dbfs": -10.21,
+    "pico_amostra_dbfs": -1.76,
+    "alvo_lufs": -14.0,
+    "ok_lufs": true,
+    "ok_pico": true,
+    "bandas": {
+      "fracao_20_80": 0.854,
+      "picos_graves_hz": [
+        45,
+        68,
+        92
+      ],
+      "nivel_1s_p10_db": -12.3,
+      "nivel_1s_p90_db": -8.7,
+      "trechos_abaixo_40db": [],
+      "rms_fala_menos_sem_fala_db": -0.6,
+      "fim_considerado_s": 90.256
+    },
+    "banda_de_voz": {
+      "com_fala_dbfs": -20.7,
+      "sem_fala_dbfs": -27.6,
+      "diferenca_db": 6.9,
+      "criterio_db": 6.0,
+      "veredito": "voz se destaca",
+      "falas_possivelmente_encobertas": [],
+      "por_fala": [
+        {
+          "id": "f01",
+          "banda_voz_dbfs": -20.2,
+          "margem_db": 7.4
+        },
+        {
+          "id": "f02",
+          "banda_voz_dbfs": -20.0,
+          "margem_db": 7.5
+        },
+        {
+          "id": "f03",
+          "banda_voz_dbfs": -20.2,
+          "margem_db": 7.4
+        },
+        {
+          "id": "f04",
+          "banda_voz_dbfs": -20.4,
+          "margem_db": 7.2
+        },
+        {
+          "id": "f05",
+          "banda_voz_dbfs": -20.6,
+          "margem_db": 7.0
+        },
+        {
+          "id": "f06",
+          "banda_voz_dbfs": -20.0,
+          "margem_db": 7.6
+        },
+        {
+          "id": "f07",
+          "banda_voz_dbfs": -21.1,
+          "margem_db": 6.5
+        },
+        {
+          "id": "f08",
+          "banda_voz_dbfs": -20.6,
+          "margem_db": 7.0
+        },
+        {
+          "id": "f09",
+          "banda_voz_dbfs": -20.5,
+          "margem_db": 7.1
+        },
+        {
+          "id": "f10",
+          "banda_voz_dbfs": -20.7,
+          "margem_db": 6.9
+        },
+        {
+          "id": "f11",
+          "banda_voz_dbfs": -20.6,
+          "margem_db": 7.0
+        },
+        {
+          "id": "f12",
+          "banda_voz_dbfs": -21.4,
+          "margem_db": 6.2
+        },
+        {
+          "id": "f13",
+          "banda_voz_dbfs": -20.5,
+          "margem_db": 7.1
+        },
+        {
+          "id": "f14",
+          "banda_voz_dbfs": -21.2,
+          "margem_db": 6.3
+        },
+        {
+          "id": "f15",
+          "banda_voz_dbfs": -21.4,
+          "margem_db": 6.2
+        },
+        {
+          "id": "f16",
+          "banda_voz_dbfs": -21.3,
+          "margem_db": 6.3
+        },
+        {
+          "id": "f17",
+          "banda_voz_dbfs": -21.3,
+          "margem_db": 6.2
+        },
+        {
+          "id": "f18",
+          "banda_voz_dbfs": -21.2,
+          "margem_db": 6.4
+        },
+        {
+          "id": "f19",
+          "banda_voz_dbfs": -21.3,
+          "margem_db": 6.3
+        }
+      ]
+    }
+  }
+}

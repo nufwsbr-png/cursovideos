@@ -1,0 +1,419 @@
+{
+  "n": 2,
+  "quadros": [
+    {
+      "id": "Q01",
+      "t": 0,
+      "motivo": "gancho (0 s)",
+      "prioridade": 0,
+      "linha": 0,
+      "arquivo": "critico/rodada_2/quadros/t_0000.00.jpg"
+    },
+    {
+      "id": "Q02",
+      "t": 0.5,
+      "motivo": "gancho (0,5 s)",
+      "prioridade": 0,
+      "linha": 0,
+      "arquivo": "critico/rodada_2/quadros/t_0000.50.jpg"
+    },
+    {
+      "id": "Q03",
+      "t": 1.5,
+      "motivo": "gancho (1,5 s)",
+      "prioridade": 0,
+      "linha": 0,
+      "arquivo": "critico/rodada_2/quadros/t_0001.50.jpg"
+    },
+    {
+      "id": "Q04",
+      "t": 2.02,
+      "motivo": "linha 0 (rotina) · fala f01",
+      "prioridade": 1,
+      "linha": 0,
+      "arquivo": "critico/rodada_2/quadros/t_0002.02.jpg"
+    },
+    {
+      "id": "Q05",
+      "t": 5.2,
+      "motivo": "linha 1 (rotina) · fala f02",
+      "prioridade": 1,
+      "linha": 1,
+      "arquivo": "critico/rodada_2/quadros/t_0005.20.jpg"
+    },
+    {
+      "id": "Q06",
+      "t": 7.29,
+      "motivo": "cartão alerta 0 + linha 2 (sinal)",
+      "prioridade": 0,
+      "linha": 2,
+      "arquivo": "critico/rodada_2/quadros/t_0007.29.jpg"
+    },
+    {
+      "id": "Q07",
+      "t": 11.4,
+      "motivo": "linha 3 (negacao) · fala f03",
+      "prioridade": 1,
+      "linha": 3,
+      "arquivo": "critico/rodada_2/quadros/t_0011.40.jpg"
+    },
+    {
+      "id": "Q08",
+      "t": 14.59,
+      "motivo": "linha 4 (negacao) · fala f04",
+      "prioridade": 1,
+      "linha": 4,
+      "arquivo": "critico/rodada_2/quadros/t_0014.59.jpg"
+    },
+    {
+      "id": "Q09",
+      "t": 17.58,
+      "motivo": "linha 5 (negacao) · fala f05",
+      "prioridade": 1,
+      "linha": 5,
+      "arquivo": "critico/rodada_2/quadros/t_0017.58.jpg"
+    },
+    {
+      "id": "Q10",
+      "t": 20.89,
+      "motivo": "linha 6 (escalada) · fala f06",
+      "prioridade": 1,
+      "linha": 6,
+      "arquivo": "critico/rodada_2/quadros/t_0020.89.jpg"
+    },
+    {
+      "id": "Q11",
+      "t": 24.19,
+      "motivo": "linha 7 (escalada) · fala f07",
+      "prioridade": 1,
+      "linha": 7,
+      "arquivo": "critico/rodada_2/quadros/t_0024.19.jpg"
+    },
+    {
+      "id": "Q12",
+      "t": 26.63,
+      "motivo": "linha 8 (escalada)",
+      "prioridade": 1,
+      "linha": 8,
+      "arquivo": "critico/rodada_2/quadros/t_0026.63.jpg"
+    },
+    {
+      "id": "Q13",
+      "t": 28.67,
+      "motivo": "linha 9 (autoridade) · fala f08",
+      "prioridade": 1,
+      "linha": 9,
+      "arquivo": "critico/rodada_2/quadros/t_0028.67.jpg"
+    },
+    {
+      "id": "Q14",
+      "t": 30.6,
+      "motivo": "linha 10 (autoridade) · fala f09",
+      "prioridade": 1,
+      "linha": 10,
+      "arquivo": "critico/rodada_2/quadros/t_0030.60.jpg"
+    },
+    {
+      "id": "Q15",
+      "t": 33.43,
+      "motivo": "linha 11 (autoridade) · fala f10",
+      "prioridade": 1,
+      "linha": 11,
+      "arquivo": "critico/rodada_2/quadros/t_0033.43.jpg"
+    },
+    {
+      "id": "Q16",
+      "t": 37.07,
+      "motivo": "linha 12 (autoridade) · fala f11",
+      "prioridade": 1,
+      "linha": 12,
+      "arquivo": "critico/rodada_2/quadros/t_0037.07.jpg"
+    },
+    {
+      "id": "Q17",
+      "t": 39.65,
+      "motivo": "linha 13 (desobediencia)",
+      "prioridade": 1,
+      "linha": 13,
+      "arquivo": "critico/rodada_2/quadros/t_0039.65.jpg"
+    },
+    {
+      "id": "Q18",
+      "t": 41.15,
+      "motivo": "linha 14 (desobediencia)",
+      "prioridade": 1,
+      "linha": 14,
+      "arquivo": "critico/rodada_2/quadros/t_0041.15.jpg"
+    },
+    {
+      "id": "Q19",
+      "t": 42.95,
+      "motivo": "andar (1/3) linha 14",
+      "prioridade": 2,
+      "linha": 14,
+      "arquivo": "critico/rodada_2/quadros/t_0042.95.jpg"
+    },
+    {
+      "id": "Q20",
+      "t": 45.54,
+      "motivo": "andar (2/3) linha 14",
+      "prioridade": 2,
+      "linha": 14,
+      "arquivo": "critico/rodada_2/quadros/t_0045.54.jpg"
+    },
+    {
+      "id": "Q21",
+      "t": 50.83,
+      "motivo": "linha 15 (desobediencia) · fala f12",
+      "prioridade": 1,
+      "linha": 15,
+      "arquivo": "critico/rodada_2/quadros/t_0050.83.jpg"
+    },
+    {
+      "id": "Q22",
+      "t": 52.81,
+      "motivo": "entrando no preto linha 16",
+      "prioridade": 2,
+      "linha": 16,
+      "arquivo": "critico/rodada_2/quadros/t_0052.81.jpg"
+    },
+    {
+      "id": "Q23",
+      "t": 53.46,
+      "motivo": "linha 16 (dilema)",
+      "prioridade": 1,
+      "linha": 16,
+      "arquivo": "critico/rodada_2/quadros/t_0053.46.jpg"
+    },
+    {
+      "id": "Q24",
+      "t": 54.36,
+      "motivo": "saindo do preto linha 16",
+      "prioridade": 1,
+      "linha": 16,
+      "arquivo": "critico/rodada_2/quadros/t_0054.36.jpg"
+    },
+    {
+      "id": "Q25",
+      "t": 55.56,
+      "motivo": "cartão mensagem 1 + linha 17 (dilema)",
+      "prioridade": 0,
+      "linha": 17,
+      "arquivo": "critico/rodada_2/quadros/t_0055.56.jpg"
+    },
+    {
+      "id": "Q26",
+      "t": 59.56,
+      "motivo": "cartão mensagem 2 + linha 18 (dilema)",
+      "prioridade": 0,
+      "linha": 18,
+      "arquivo": "critico/rodada_2/quadros/t_0059.56.jpg"
+    },
+    {
+      "id": "Q27",
+      "t": 63.58,
+      "motivo": "linha 19 (dilema) · fala f13",
+      "prioridade": 1,
+      "linha": 19,
+      "arquivo": "critico/rodada_2/quadros/t_0063.58.jpg"
+    },
+    {
+      "id": "Q28",
+      "t": 66.12,
+      "motivo": "linha 20 (dilema) · fala f14",
+      "prioridade": 1,
+      "linha": 20,
+      "arquivo": "critico/rodada_2/quadros/t_0066.12.jpg"
+    },
+    {
+      "id": "Q29",
+      "t": 68.82,
+      "motivo": "linha 21 (dilema) · fala f15",
+      "prioridade": 1,
+      "linha": 21,
+      "arquivo": "critico/rodada_2/quadros/t_0068.82.jpg"
+    },
+    {
+      "id": "Q30",
+      "t": 72.17,
+      "motivo": "linha 22 (dilema) · fala f16",
+      "prioridade": 1,
+      "linha": 22,
+      "arquivo": "critico/rodada_2/quadros/t_0072.17.jpg"
+    },
+    {
+      "id": "Q31",
+      "t": 75.51,
+      "motivo": "linha 23 (dilema) · fala f17",
+      "prioridade": 1,
+      "linha": 23,
+      "arquivo": "critico/rodada_2/quadros/t_0075.51.jpg"
+    },
+    {
+      "id": "Q32",
+      "t": 78.67,
+      "motivo": "linha 24 (dilema) · fala f18",
+      "prioridade": 1,
+      "linha": 24,
+      "arquivo": "critico/rodada_2/quadros/t_0078.67.jpg"
+    },
+    {
+      "id": "Q33",
+      "t": 81.95,
+      "motivo": "linha 25 (dilema) · fala f19",
+      "prioridade": 1,
+      "linha": 25,
+      "arquivo": "critico/rodada_2/quadros/t_0081.95.jpg"
+    },
+    {
+      "id": "Q34",
+      "t": 84.36,
+      "motivo": "linha 26 (dilema)",
+      "prioridade": 1,
+      "linha": 26,
+      "arquivo": "critico/rodada_2/quadros/t_0084.36.jpg"
+    },
+    {
+      "id": "Q35",
+      "t": 86.76,
+      "motivo": "pergunta (entrando)",
+      "prioridade": 0,
+      "linha": 27,
+      "arquivo": "critico/rodada_2/quadros/t_0086.76.jpg"
+    },
+    {
+      "id": "Q36",
+      "t": 87.06,
+      "motivo": "linha 27 (pergunta)",
+      "prioridade": 1,
+      "linha": 27,
+      "arquivo": "critico/rodada_2/quadros/t_0087.06.jpg"
+    },
+    {
+      "id": "Q37",
+      "t": 88.76,
+      "motivo": "pergunta",
+      "prioridade": 0,
+      "linha": 27,
+      "arquivo": "critico/rodada_2/quadros/t_0088.76.jpg"
+    },
+    {
+      "id": "Q38",
+      "t": 90.11,
+      "motivo": "pergunta (último quadro)",
+      "prioridade": 1,
+      "linha": 27,
+      "arquivo": "critico/rodada_2/quadros/t_0090.11.jpg"
+    }
+  ],
+  "detalhes": [
+    {
+      "id": "D1",
+      "t": 2.02,
+      "motivo": "primeira legenda (f01)",
+      "linha": 0,
+      "arquivo": "critico/rodada_2/detalhes/t_0002.02.jpg"
+    },
+    {
+      "id": "D2",
+      "t": 7.29,
+      "motivo": "cartão de alerta",
+      "linha": 2,
+      "arquivo": "critico/rodada_2/detalhes/t_0007.29.jpg"
+    },
+    {
+      "id": "D3",
+      "t": 44.28,
+      "motivo": "caminhada (linha 14)",
+      "linha": 14,
+      "arquivo": "critico/rodada_2/detalhes/t_0044.28.jpg"
+    },
+    {
+      "id": "D4",
+      "t": 55.56,
+      "motivo": "cartão de mensagem",
+      "linha": 17,
+      "arquivo": "critico/rodada_2/detalhes/t_0055.56.jpg"
+    },
+    {
+      "id": "D5",
+      "t": 85.86,
+      "motivo": "quadro antes da pergunta",
+      "linha": 26,
+      "arquivo": "critico/rodada_2/detalhes/t_0085.86.jpg"
+    },
+    {
+      "id": "D6",
+      "t": 88.76,
+      "motivo": "pergunta",
+      "linha": 27,
+      "arquivo": "critico/rodada_2/detalhes/t_0088.76.jpg"
+    }
+  ],
+  "folhas": [
+    {
+      "titulo": "FOLHA 1 · Q01–Q12",
+      "quadros": [
+        "Q01",
+        "Q02",
+        "Q03",
+        "Q04",
+        "Q05",
+        "Q06",
+        "Q07",
+        "Q08",
+        "Q09",
+        "Q10",
+        "Q11",
+        "Q12"
+      ],
+      "arquivo": "critico/rodada_2/folha_1.jpg"
+    },
+    {
+      "titulo": "FOLHA 2 · Q13–Q24",
+      "quadros": [
+        "Q13",
+        "Q14",
+        "Q15",
+        "Q16",
+        "Q17",
+        "Q18",
+        "Q19",
+        "Q20",
+        "Q21",
+        "Q22",
+        "Q23",
+        "Q24"
+      ],
+      "arquivo": "critico/rodada_2/folha_2.jpg"
+    },
+    {
+      "titulo": "FOLHA 3 · Q25–Q36",
+      "quadros": [
+        "Q25",
+        "Q26",
+        "Q27",
+        "Q28",
+        "Q29",
+        "Q30",
+        "Q31",
+        "Q32",
+        "Q33",
+        "Q34",
+        "Q35",
+        "Q36"
+      ],
+      "arquivo": "critico/rodada_2/folha_3.jpg"
+    },
+    {
+      "titulo": "FOLHA 4 · Q37–Q38",
+      "quadros": [
+        "Q37",
+        "Q38"
+      ],
+      "arquivo": "critico/rodada_2/folha_4.jpg"
+    }
+  ],
+  "hash_quadros": "sha256:6838f30213b5c11124a3f1ba161c91d8ed60888d57200768960ea82def266b1a",
+  "hash_roteiro": "sha256:c25736e18e8da9a7252ee3454cfb58b17cf5742946fff291a9bf28da5970d041"
+}

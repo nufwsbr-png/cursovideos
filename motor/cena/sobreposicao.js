@@ -238,13 +238,16 @@ export class Sobreposicao {
   desenharEmoji(ctx, emoji, x, yCentro, largura) {
     ctx.save();
     ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+    // a largura medida na referência é a da tinta (o desenho), não o avanço da fonte, que tem margens dos dois lados
+    const tinta = (m) => { const t = (m.actualBoundingBoxLeft ?? 0) + (m.actualBoundingBoxRight ?? 0); return t > 0 ? t : (m.width || 0); };
     let tam = largura;
     ctx.font = `${Math.round(tam)}px ${FONTES_EMOJI}`;
-    const w = ctx.measureText(emoji).width || tam;
+    const w = tinta(ctx.measureText(emoji)) || tam;
     tam = tam * largura / w;
     ctx.font = `${Math.round(tam)}px ${FONTES_EMOJI}`;
+    const m = ctx.measureText(emoji);
     ctx.globalAlpha = ctx.globalAlpha; ctx.fillStyle = '#ffffff';
-    ctx.fillText(emoji, x, yCentro);
+    ctx.fillText(emoji, x + (m.actualBoundingBoxLeft ?? 0), yCentro); // a tinta começa em x
     ctx.restore();
   }
 
@@ -290,7 +293,11 @@ export class TelaCelular {
     c.strokeStyle = '#111'; c.lineWidth = 4; c.strokeRect(W - 100, 24, 66, 34); c.fillStyle = '#c0392b'; c.fillRect(W - 96, 28, 11, 26); c.fillStyle = '#111'; c.fillRect(W - 32, 33, 6, 16);
     const alerta = msg?.tipo === 'alerta';
     c.fillStyle = alerta ? '#b61b13' : (this.cfg.cor_app || '#2f7d5a'); c.fillRect(0, 76, W, 138);
-    c.fillStyle = '#fff'; c.textAlign = 'left'; c.font = F(700, 46); c.fillText(alerta ? (msg?.rotulo || 'ALERTA') : (msg?.de || 'Mãe'), 130, 138);
+    // nome no topo da conversa: diminui a fonte até caber (ex.: "Sistema Serra Azul" cortava na borda)
+    const nomeTopo = alerta ? (msg?.rotulo || 'ALERTA') : (msg?.de || 'Mãe');
+    let tamTopo = 46; c.font = F(700, tamTopo);
+    while (tamTopo > 28 && c.measureText(nomeTopo).width > W - 130 - 24) { tamTopo -= 2; c.font = F(700, tamTopo); }
+    c.fillStyle = '#fff'; c.textAlign = 'left'; c.fillText(nomeTopo, 130, 138);
     c.font = F(400, 26); c.fillStyle = alerta ? '#f6d9d6' : '#d8f0e3'; c.fillText(alerta ? 'aviso do sistema' : (this.cfg.app_mensagens_nome || 'mensagens'), 130, 186);
     if (alerta) {
       c.fillStyle = '#fff'; c.beginPath(); c.moveTo(72, 106); c.lineTo(110, 176); c.lineTo(34, 176); c.closePath(); c.fill();

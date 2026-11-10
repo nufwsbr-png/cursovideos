@@ -17,8 +17,10 @@ personagens, o lugar, a história, os nomes e os objetos continuam nossos (regra
 | Bonecos | cabeça ≈ 1/4 da altura, olhos brancos grandes quase colados com pupila preta que segue o olhar, sobrancelha fina, nariz pequeno, orelhas, corpo em cápsulas, cós e punhos desenhados; cabelos: coque, curto, curto_penteado, cacheado, careca; óculos opcionais |
 | Mãos do protagonista | palma arredondada, 4 dedos em cápsulas (duas falanges) + polegar, esparadrapo no indicador esquerdo; manga #a9c7e8 com punho #bdd5ee; apoiadas no balcão nos cantos de baixo, antebraço deitado em diagonal |
 | Olhos do protagonista | 1,48 m sentado (43 cm acima do balcão) — é isso que faz as mãos aparecerem de cima como na referência |
-| Fonte e cores da legenda | Baloo 2 peso 800, 58 px, caixa alta e baixa, contorno #1a1410 9 px + sombra; cor = cor da roupa de quem fala (eu azul-claro, Dalva laranja-claro, Amaral cinza-azulado, alto-falante cinza, passageiro lilás) |
-| Selo "PARTE N" | retângulo vermelho arredondado com borda escura e texto branco, centralizado a 8 % do topo; fica até o fim |
+| Fonte e cores da legenda | **Verdana Bold** (medida na referência: 909 px contra 910 px na frase-teste), 44 px, caixa alta e baixa, contorno #141210 com `lineWidth` 10 (≈ 5 px visíveis), sem sombra, ancorada embaixo (última base em y 1344); cor de quem fala: eu #ffffff, Dalva #fcb46c, Amaral #b4ccfc, alto-falante #f4d151, passageiro #d9c7ff, Neusa #ffd1dc. Toda a camada 2D (cartões, selo, pergunta, tela do celular) é Verdana. (Até 2026-11-09 era Baloo 2 — trocada pela medição.) |
+| Selo "PARTE N" | retângulo vermelho #b1241e arredondado com borda escura e texto branco 58 px, centro a 8,7 % do topo; visível de 0,3 a 3,0 s (só em continuação) |
+| Emoji dos botões da pergunta | 85 px de **tinta** (o desenho), não de avanço da fonte — com o avanço o desenho saía com ≈ 62 px (crítico visual, 2026-11-10) |
+| Tela do celular | app de mensagens inventado "Recado" (nunca texto de bastidor como "(inventado)" na tela); o nome no topo diminui até caber |
 | O que nunca pode aparecer | sangue, arma, rosto do protagonista, logotipo/marca/brasão/farda reais |
 
 ## Como o motor faz isso (resumo; detalhes em `motor/README.md`)
@@ -72,7 +74,7 @@ disso (lugar, história, personagens, nomes, falas, objetos) entra no nosso cana
 - **Comparação com o nosso Epi. 01 (antes da mudança):** legenda centralizada a 62 % com sombra (deles ancorada embaixo, sem sombra); protagonista em azul-claro (deles branco); selo até o fim (deles ≈ 2,5 s); cartão de notificação escuro, pequeno, 3,2 s fixos (deles grande, claro, o tempo da mensagem); tela da pergunta quase preta com A/B (deles cena visível + botões com emoji); 60 fps (deles 30 fps); protagonista sentado num lugar só (deles anda por 3–4). Correção (2026-11-10): o nosso contorno de `lineWidth` 9 **já aparece com ≈ 4,5 px**, porque o traço do canvas é centrado na borda e o preenchimento cobre a metade de dentro; a nota antiga "9 px contra 5 px" estava errada.
 - **Fonte (medido em 2026-11-10):** toda a camada 2D é **Verdana Bold**. A 44 px ela reproduz a legenda do quadro 0 do mais visto: maiúscula 32 px, minúscula 24 px, linha de 909 px contra 910 px, larguras de D/e/l/t/a com diferença de no máximo 1 px. Nenhuma outra candidata chegou perto (Baloo 2 −4 %, Tahoma −11 %, Segoe UI −12 %, Nunito 900 −13 %, Arial −16 %). Cartões, selo e botões também batem com Verdana Bold dentro de ±5 % (selo 58 px, título 82 px, botão 62 px, remetente 38 px).
 - **Ancoragem da legenda (medido):** a última linha fica sempre em y 1310–1344 (base ≈ 1344 = 0,70 H); com duas linhas, a de cima ocupa 1252–1296 (passo de 58 px). Frase de uma linha usa a posição de baixo.
-- **Balanço da câmera andando (medido):** ≈ 2,9 Hz em três trechos (corrida no mercado, caminhada no corredor, corrida na calçada), com amplitude de ±3 a ±9 px em 1920. Nosso motor hoje balança a 3,6 Hz.
+- **Balanço da câmera andando (medido):** ≈ 2,9 Hz em três trechos (corrida no mercado, caminhada no corredor, corrida na calçada), com amplitude de ±3 a ±9 px em 1920. Nosso motor balançava a 3,6 Hz; desde a F2, 2,93 Hz ±8,2 px (Epi. 01 final).
 
 ### HIPÓTESE (não medido)
 - 30 fps pode ser conversão da plataforma, e não escolha do criador. Mesmo assim é o que o público vê no Instagram.
@@ -81,7 +83,7 @@ disso (lugar, história, personagens, nomes, falas, objetos) entra no nosso cana
 - Botão vermelho = ação arriscada puxa o voto e o comentário.
 - O balanço de 2,9 Hz igual em andar e correr indica uma oscilação programada fixa, não passos reais.
 
-### Aprovado pelo dono em 2026-11-10: deixar o máximo parecido (em implementação)
+### Aprovado pelo dono em 2026-11-10: deixar o máximo parecido (implementado em 2026-11-10, F1–F3; a medição do Epi. 01 final está em `aprendizados.md`)
 O dono mandou seguir a referência em tudo o que é técnica e acabamento (só a história é nossa), voltar a 30 fps, criar
 lugares novos já e escrever uma história nova para o Epi. 01. Plano em `C:/Users/PC/.claude/plans/` (resumo em
 `memoria/estado_atual.md`). Especificação 2D a implementar (1080×1920, tudo em Verdana Bold):
@@ -95,3 +97,22 @@ lugares novos já e escrever uma história nova para o Epi. 01. Plano em `C:/Use
 | Pergunta | véu 0,32 sobre a cena; entra em 0,15 s e dura 4,0 s; título 82 px (bases 632/732); botões 889×180 em (95, 831) e (95, 1080), borda 8, raio 24, vermelho #b1241d (opção arriscada) e azul #2d5a72; emoji de 85 px em x 140; texto 62 px em caixa alta em x 250 (passo 70); "Comenta aqui 👇" 50 px #f9d44f com base em 1348 |
 | Câmera | sem corte seco; levantar/sentar 0,9 s (olhos 1,48 ↔ 1,62 m); andar 1,3 m/s; correr 3,0 m/s; balanço 2,9 Hz; avançar (dolly) até 1,2 m antes do cartão; mergulho no preto 0,3 + 0,8 + 0,4 s para saltos de tempo/lugar |
 | Som | zumbido grave contínuo 46/69/92 Hz (20–80 Hz ≈ 84 % da energia), nunca silêncio; −14 LUFS; bipe triplo 1,6 kHz no alerta; passos no ritmo do balanço |
+
+### Epi. 01 final × referência (MEDIDO em 2026-11-10, com os mesmos scripts)
+| Item | Referência | Epi. 01 ("A passagem que saiu sozinha") | |
+|---|---|---|---|
+| Formato | 1080x1920, 30 fps | 1080x1920, 30 fps, 90,3 s | igual |
+| Cortes secos | 0 (4 de 5) | 0 | igual |
+| Tela preta para pular tempo/lugar | 0,9–1,7 s | 1,0 s (52,9–53,9) | igual |
+| Movimento forte | 9–53 % do vídeo | 27 % | dentro |
+| Mudança visual mediana | 2,9–15,9 | 2,2 | **mais parado** sentado (HIPÓTESE: falta a cabeça "respirar" no balcão) |
+| Balanço andando | 2,9 Hz, ±3–9 px | 2,93 Hz, ±8,2 px | igual |
+| Legenda | Verdana Bold 44 px, última base 1344, passo 58 | 913 px na frase-teste (alvo 909), bases 1344/1286 | igual |
+| Cartões | no tempo da mensagem | ±1 quadro do roteiro, trocam no lugar | igual |
+| Pergunta final | 3,6–4,1 s sobre a cena | 4,0 s, entra em 0,17 s | igual |
+| Loudness | −14,1 LUFS, LRA 5–8 | −14,0 LUFS, LRA 2,1 | LRA menor (mais constante) |
+| Zumbido 20–80 Hz | 83–87 %, picos 45–47/68–70/92–94 | 85,4 %, picos 45/68/92 | igual |
+| Silêncio abaixo de −40 dB | nunca | nunca | igual |
+| Palavras por minuto | 51–90 | 58 (vozes falsas, lentas) | dentro; HIPÓTESE ≈ 63 com as vozes reais |
+
+Não conferido: o vídeo assistido no celular, as vozes reais e o olho do dono (só ele diz se "ficou igual").

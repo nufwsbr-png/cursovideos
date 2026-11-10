@@ -2,4 +2,4 @@
 
 | Ep | Título | Frase memorável | Dilema | Cenário | Pasta |
 |---|---|---|---|---|---|
-| 01 | Uma pra das três | Uma pra das três, por favor. | Vender a passagem × Fechar o guichê | saguao | `episodios/ep01_uma_pra_das_tres` |
+| 01 | A passagem que saiu sozinha | E não lê a etiqueta, menino. | Entregar a passagem × Rasgar a passagem | saguao | `episodios\ep01_a_passagem_que_saiu_sozinha` |
