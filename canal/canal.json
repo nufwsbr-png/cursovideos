@@ -53,7 +53,11 @@
       "filtro": null,
       "status": "A CONFIRMAR no casting (capítulo 48)"
     },
-    "cor_legenda": "#ffffff"
+    "cor_legenda": "#ffffff",
+    "corpo": {
+      "olhos_sentado": 1.48,
+      "olhos_em_pe": 1.62
+    }
   },
   "elenco": [
     {
@@ -176,12 +180,14 @@
       "nome": "Guichê 3 e saguão da rodoviária de Boa Vista do Sul, madrugada",
       "descricao": "Câmera sentada dentro do guichê (olhos a 1,48 m, 43 cm acima do balcão), olhando para o saguão através do vidro com furinhos. Balcão com carimbo, bloco de passagens, telefone fixo e bilhete amarelo colado no vidro. Saguão: bancos de plástico azul-petróleo, painel de partidas em LED âmbar sobre a porta da plataforma, lanchonete fechada com grade à esquerda, mural de avisos à direita, relógio redondo, ventilador de teto, alto-falante.",
       "camera_inicial": {
+        "no": "cab_assento",
+        "postura": "sentado",
+        "olhar": "maos",
         "pos": [
           0,
           1.48,
           0
-        ],
-        "olhar": "maos"
+        ]
       },
       "marcas": {
         "guiche_frente": [
@@ -256,7 +262,21 @@
           "cor_rejunte": "#7a756a",
           "cor_faixa": "#2a7fb0",
           "altura_faixa": 1.1,
-          "cor_rodape": "#6b6358"
+          "cor_rodape": "#6b6358",
+          "aberturas": [
+            {
+              "parede": "sul",
+              "centro": 0,
+              "largura": 2.54,
+              "altura": 3
+            },
+            {
+              "parede": "sul",
+              "centro": 4.4,
+              "largura": 1.2,
+              "altura": 2.25
+            }
+          ]
         },
         {
           "id": "guiche",
@@ -271,7 +291,21 @@
           "cor_balcao": "#8c5a2e",
           "cor_vidro": "#bcd8e6",
           "furos": true,
-          "fenda": true
+          "fenda": true,
+          "porta_fundos": {
+            "x": 0.6,
+            "largura": 1.1,
+            "altura": 2.2
+          },
+          "piso_cabine": true,
+          "banqueta": {
+            "altura": 0.74,
+            "pos": [
+              0,
+              0,
+              0.12
+            ]
+          }
         },
         {
           "id": "bilhete",
@@ -603,6 +637,71 @@
           "cor_chao": "#3b3a36",
           "cor_ceu": "#0b1420",
           "postes": 2
+        },
+        {
+          "id": "porta_guiche",
+          "tipo": "porta",
+          "pos": [
+            0.6,
+            0,
+            1.25
+          ],
+          "tamanho": [
+            0.8,
+            2.05
+          ],
+          "folhas": 1,
+          "dobradica": "leste",
+          "abre_para": "+z",
+          "angulo_max_graus": 165,
+          "tempo_abrir_s": 0.6,
+          "cor": "#8c5a2e",
+          "vidro": false,
+          "estado": "fechada"
+        },
+        {
+          "id": "porta_func",
+          "tipo": "porta",
+          "pos": [
+            4.4,
+            0,
+            0.01
+          ],
+          "tamanho": [
+            0.9,
+            2.1
+          ],
+          "folhas": 1,
+          "dobradica": "oeste",
+          "abre_para": "+z",
+          "angulo_max_graus": 100,
+          "tempo_abrir_s": 0.6,
+          "cor": "#5f6f78",
+          "vidro": false,
+          "estado": "fechada"
+        },
+        {
+          "id": "placa_funcionarios",
+          "tipo": "placa",
+          "pos": [
+            4.4,
+            2.42,
+            -0.03
+          ],
+          "rot": [
+            0,
+            3.141592653589793,
+            0
+          ],
+          "tamanho": [
+            0.95,
+            0.22
+          ],
+          "cor": "#f1e9d6",
+          "cor_texto": "#b3261e",
+          "texto": [
+            "SÓ FUNCIONÁRIOS"
+          ]
         }
       ],
       "detalhes_vida": [
@@ -614,7 +713,729 @@
         "guarda-chuva esquecido no banco",
         "sacola de pão na lanchonete",
         "pôster rasgado de festa junina no mural"
-      ]
+      ],
+      "mundo": "rodoviaria",
+      "origem": [
+        0,
+        0,
+        0
+      ],
+      "rot_y_graus": 0,
+      "ambiente": {
+        "tipo": "saguao_noite",
+        "ganho_db": -26
+      },
+      "piso": [
+        [
+          -5.75,
+          -12.75,
+          5.75,
+          -1.15
+        ],
+        [
+          1.6,
+          -1.15,
+          5.75,
+          -0.25
+        ],
+        [
+          -5.75,
+          -1.15,
+          -1.6,
+          -0.25
+        ],
+        [
+          -1,
+          0,
+          1,
+          1
+        ],
+        [
+          0.35,
+          0.95,
+          0.85,
+          1.6
+        ],
+        [
+          3.95,
+          -0.3,
+          4.85,
+          0.3
+        ],
+        [
+          -0.7,
+          -13.2,
+          0.7,
+          -12.6
+        ],
+        [
+          -5.8,
+          -15,
+          5.8,
+          -13.15,
+          0.25
+        ]
+      ],
+      "caminho": {
+        "nos": {
+          "cab_assento": [
+            0,
+            0,
+            0
+          ],
+          "cab_centro": [
+            0.25,
+            0,
+            0.5
+          ],
+          "cab_porta_dentro": [
+            0.6,
+            0,
+            0.92
+          ],
+          "sg_frente_guiche": [
+            0,
+            0,
+            -1.6
+          ],
+          "sg_corredor_central": [
+            0.05,
+            0,
+            -5.5
+          ],
+          "sg_porta_func": [
+            4.4,
+            0,
+            -0.75
+          ],
+          "sg_lateral_dir": [
+            4.6,
+            0,
+            -4
+          ],
+          "sg_centro_dir": [
+            3.4,
+            0,
+            -8
+          ],
+          "sg_frente_porta": [
+            0,
+            0,
+            -11
+          ],
+          "pl_calcada": [
+            0,
+            0.25,
+            -13.9
+          ]
+        },
+        "assentos": {
+          "cab_assento": {
+            "yaw_graus": 0
+          }
+        },
+        "arestas": [
+          [
+            "cab_assento",
+            "cab_centro"
+          ],
+          [
+            "cab_centro",
+            "cab_porta_dentro"
+          ],
+          [
+            "sg_frente_guiche",
+            "sg_porta_func"
+          ],
+          [
+            "sg_frente_guiche",
+            "sg_corredor_central"
+          ],
+          [
+            "sg_corredor_central",
+            "sg_frente_porta"
+          ],
+          [
+            "sg_porta_func",
+            "sg_lateral_dir"
+          ],
+          [
+            "sg_lateral_dir",
+            "sg_centro_dir"
+          ],
+          [
+            "sg_centro_dir",
+            "sg_frente_porta"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "corredor_servico",
+      "mundo": "rodoviaria",
+      "origem": [
+        0,
+        0,
+        1.32
+      ],
+      "rot_y_graus": 0,
+      "nome": "Corredor de serviço atrás do guichê (só funcionários)",
+      "descricao": "Corredor estreito e comprido atrás da cabine: luz fluorescente, escala de plantão no mural, extintor, bebedouro, caixas no fundo. Liga a porta de fundos da cabine, a porta SÓ FUNCIONÁRIOS do saguão e, no fundo, a porta do guarda-volumes.",
+      "ambiente": {
+        "tipo": "corredor_servico",
+        "ganho_db": -30
+      },
+      "camera_inicial": {
+        "no": "cs_meio",
+        "postura": "em_pe",
+        "olhar": "cs_frente_gv"
+      },
+      "piso": [
+        [
+          -4.95,
+          0.25,
+          5.35,
+          1.35
+        ],
+        [
+          3.95,
+          -1.3,
+          4.85,
+          0.25
+        ]
+      ],
+      "caminho": {
+        "nos": {
+          "cs_porta_cabine": [
+            0.6,
+            0,
+            0.55
+          ],
+          "cs_meio": [
+            -1.2,
+            0,
+            0.8
+          ],
+          "cs_frente_gv": [
+            -3,
+            0,
+            0.9
+          ],
+          "cs_juncao_ramal": [
+            4.4,
+            0,
+            0.8
+          ],
+          "cs_ramal_meio": [
+            4.4,
+            0,
+            -0.6
+          ]
+        },
+        "arestas": [
+          [
+            "cs_porta_cabine",
+            "cs_meio"
+          ],
+          [
+            "cs_meio",
+            "cs_frente_gv"
+          ],
+          [
+            "cs_porta_cabine",
+            "cs_juncao_ramal"
+          ],
+          [
+            "cs_juncao_ramal",
+            "cs_ramal_meio"
+          ]
+        ]
+      },
+      "marcas": {
+        "cs_fundo_oeste": [
+          -4.4,
+          0,
+          0.8
+        ],
+        "cs_perto_cabine": [
+          1.4,
+          0,
+          0.8
+        ]
+      },
+      "props": [
+        {
+          "id": "cs_sala",
+          "tipo": "sala",
+          "tamanho": [
+            10.8,
+            2.7,
+            1.6
+          ],
+          "centro": [
+            0.2,
+            0,
+            0.8
+          ],
+          "cor_piso": "#bdb8ad",
+          "piso_padrao": "ladrilho",
+          "cor_rejunte": "#8a857a",
+          "cor_parede": "#e6dfcc",
+          "cor_faixa": "#7d8b94",
+          "altura_faixa": 1,
+          "cor_rodape": "#5e574d",
+          "rabiscos": 18,
+          "aberturas": [
+            {
+              "parede": "norte",
+              "centro": 0.6,
+              "largura": 1.1,
+              "altura": 2.2
+            },
+            {
+              "parede": "norte",
+              "centro": 4.4,
+              "largura": 1.3,
+              "altura": 2.4
+            },
+            {
+              "parede": "sul",
+              "centro": -3,
+              "largura": 1.2,
+              "altura": 2.25
+            }
+          ]
+        },
+        {
+          "id": "cs_ramal",
+          "tipo": "sala",
+          "tamanho": [
+            1.3,
+            2.7,
+            1.3
+          ],
+          "centro": [
+            4.4,
+            0,
+            -0.65
+          ],
+          "cor_piso": "#bdb8ad",
+          "cor_parede": "#e6dfcc",
+          "cor_faixa": "#7d8b94",
+          "altura_faixa": 1,
+          "rabiscos": 6,
+          "paredes": {
+            "sul": false
+          },
+          "aberturas": [
+            {
+              "parede": "norte",
+              "centro": 4.4,
+              "largura": 1.2,
+              "altura": 2.25
+            }
+          ]
+        },
+        {
+          "id": "cs_luz_1",
+          "tipo": "lampada",
+          "pos": [
+            -2.8,
+            2.68,
+            0.8
+          ]
+        },
+        {
+          "id": "cs_luz_2",
+          "tipo": "lampada",
+          "pos": [
+            1.6,
+            2.68,
+            0.8
+          ]
+        },
+        {
+          "id": "cs_luz_3",
+          "tipo": "lampada",
+          "pos": [
+            4.4,
+            2.68,
+            -0.5
+          ]
+        },
+        {
+          "id": "cs_placa_gv",
+          "tipo": "placa",
+          "pos": [
+            -3,
+            2.42,
+            1.57
+          ],
+          "rot": [
+            0,
+            3.141592653589793,
+            0
+          ],
+          "tamanho": [
+            1.1,
+            0.22
+          ],
+          "cor": "#1f5f8a",
+          "cor_texto": "#ffffff",
+          "texto": [
+            "GUARDA-VOLUMES"
+          ]
+        },
+        {
+          "id": "cs_escala",
+          "tipo": "mural",
+          "pos": [
+            -1.6,
+            1.55,
+            0.03
+          ],
+          "tamanho": [
+            1.2,
+            0.9
+          ],
+          "papeis": 4
+        },
+        {
+          "id": "cs_extintor",
+          "tipo": "extintor",
+          "pos": [
+            5.55,
+            1,
+            0.8
+          ],
+          "rot": [
+            0,
+            -1.5707963267948966,
+            0
+          ]
+        },
+        {
+          "id": "cs_bebedouro",
+          "tipo": "bebedouro",
+          "pos": [
+            -4.85,
+            0,
+            0.3
+          ]
+        },
+        {
+          "id": "cs_caixas",
+          "tipo": "caixa",
+          "pos": [
+            -4.75,
+            0,
+            1.2
+          ],
+          "tamanho": [
+            0.6,
+            0.55,
+            0.5
+          ],
+          "cor": "#b98a52"
+        },
+        {
+          "id": "cs_lixeira",
+          "tipo": "lixeira",
+          "pos": [
+            2.6,
+            0,
+            1.35
+          ],
+          "cor": "#5f6f78"
+        }
+      ],
+      "detalhes_vida": []
+    },
+    {
+      "id": "guarda_volumes",
+      "mundo": "rodoviaria",
+      "origem": [
+        -3,
+        0,
+        2.92
+      ],
+      "rot_y_graus": 0,
+      "nome": "Guarda-volumes da rodoviária",
+      "descricao": "Sala pequena no fim do corredor de serviço: estantes de metal com malas esquecidas e etiquetas de papel, um balcão com o livro de registro, armários numerados de 1 a 16 na parede.",
+      "ambiente": {
+        "tipo": "guarda_volumes",
+        "ganho_db": -32
+      },
+      "camera_inicial": {
+        "no": "gv_entrada",
+        "postura": "em_pe",
+        "olhar": "gv_estante_1"
+      },
+      "piso": [
+        [
+          -1.35,
+          0.25,
+          1.35,
+          3.75
+        ],
+        [
+          -0.3,
+          -0.35,
+          0.3,
+          0.35
+        ]
+      ],
+      "caminho": {
+        "nos": {
+          "gv_entrada": [
+            0,
+            0,
+            0.6
+          ],
+          "gv_centro": [
+            -0.3,
+            0,
+            2.2
+          ],
+          "gv_mesa": [
+            1.1,
+            0,
+            1.85
+          ],
+          "gv_estantes": [
+            0,
+            0,
+            3.35
+          ],
+          "gv_armarios": [
+            0.95,
+            0,
+            3
+          ]
+        },
+        "arestas": [
+          [
+            "gv_entrada",
+            "gv_centro"
+          ],
+          [
+            "gv_centro",
+            "gv_mesa"
+          ],
+          [
+            "gv_centro",
+            "gv_estantes"
+          ],
+          [
+            "gv_centro",
+            "gv_armarios"
+          ]
+        ]
+      },
+      "marcas": {
+        "gv_atras_balcao": [
+          1.1,
+          0,
+          1.75
+        ],
+        "gv_canto": [
+          -1.2,
+          0,
+          3.4
+        ]
+      },
+      "props": [
+        {
+          "id": "gv_sala",
+          "tipo": "sala",
+          "tamanho": [
+            4,
+            2.8,
+            4.4
+          ],
+          "centro": [
+            0,
+            0,
+            2.2
+          ],
+          "cor_piso": "#aaa497",
+          "cor_parede": "#ddd5c0",
+          "cor_faixa": "#1f5f8a",
+          "altura_faixa": 1,
+          "rabiscos": 10,
+          "aberturas": [
+            {
+              "parede": "norte",
+              "centro": 0,
+              "largura": 1.2,
+              "altura": 2.25
+            }
+          ]
+        },
+        {
+          "id": "porta_gv",
+          "tipo": "porta",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "tamanho": [
+            0.9,
+            2.1
+          ],
+          "folhas": 1,
+          "dobradica": "oeste",
+          "abre_para": "+z",
+          "angulo_max_graus": 100,
+          "tempo_abrir_s": 0.6,
+          "cor": "#7c8a90",
+          "vidro": false,
+          "estado": "fechada"
+        },
+        {
+          "id": "gv_luz",
+          "tipo": "lampada",
+          "pos": [
+            0,
+            2.78,
+            2.2
+          ]
+        },
+        {
+          "id": "gv_balcao",
+          "tipo": "caixa",
+          "pos": [
+            1.1,
+            0,
+            1
+          ],
+          "tamanho": [
+            1.4,
+            1,
+            0.55
+          ],
+          "cor": "#8c5a2e"
+        },
+        {
+          "id": "gv_livro",
+          "tipo": "caixa",
+          "pos": [
+            0.9,
+            1,
+            1
+          ],
+          "tamanho": [
+            0.32,
+            0.05,
+            0.24
+          ],
+          "cor": "#2f3a40"
+        },
+        {
+          "id": "gv_cadeira",
+          "tipo": "cadeira",
+          "pos": [
+            1.2,
+            0,
+            1.75
+          ]
+        },
+        {
+          "id": "gv_estante_1",
+          "tipo": "prateleira",
+          "pos": [
+            -0.95,
+            0,
+            4.15
+          ],
+          "tamanho": [
+            1.7,
+            1.9,
+            0.45
+          ],
+          "conteudo": "malas",
+          "cor": "#5f6a70"
+        },
+        {
+          "id": "gv_estante_2",
+          "tipo": "prateleira",
+          "pos": [
+            0.95,
+            0,
+            4.15
+          ],
+          "tamanho": [
+            1.7,
+            1.9,
+            0.45
+          ],
+          "conteudo": "malas",
+          "cor": "#5f6a70"
+        },
+        {
+          "id": "gv_estante_3",
+          "tipo": "prateleira",
+          "pos": [
+            -1.75,
+            0,
+            2.4
+          ],
+          "rot": [
+            0,
+            1.5707963267948966,
+            0
+          ],
+          "tamanho": [
+            1.8,
+            1.9,
+            0.45
+          ],
+          "conteudo": "caixas",
+          "cor": "#5f6a70"
+        },
+        {
+          "id": "gv_armarios",
+          "tipo": "armario_volumes",
+          "pos": [
+            1.77,
+            0,
+            3
+          ],
+          "rot": [
+            0,
+            -1.5707963267948966,
+            0
+          ],
+          "tamanho": [
+            1.6,
+            1.8,
+            0.45
+          ],
+          "colunas": 4,
+          "linhas": 4,
+          "estado": "fechado"
+        },
+        {
+          "id": "gv_mala_1",
+          "tipo": "mala",
+          "pos": [
+            -0.6,
+            0,
+            3.3
+          ],
+          "tamanho": [
+            0.42,
+            0.3,
+            0.16
+          ],
+          "cor": "#6b4a2b",
+          "etiqueta": [
+            "Nº 07"
+          ]
+        }
+      ],
+      "detalhes_vida": []
     }
   ],
   "estilo": {
@@ -809,6 +1630,50 @@
       "chamada_contorno": 8,
       "respiro_min_s": 1,
       "aproximar_auto": true
+    },
+    "camera": {
+      "andar": {
+        "v": 1.3,
+        "aceleracao_s": 0.35,
+        "olhar_adiante_m": 1.2
+      },
+      "correr": {
+        "v": 3,
+        "aceleracao_s": 0.5,
+        "olhar_adiante_m": 2.2
+      },
+      "balanco": {
+        "frequencia_hz": 2.9,
+        "andar": {
+          "translacao_m": 0.01,
+          "pitch_rad": 0.0015,
+          "roll_rad": 0.006
+        },
+        "correr": {
+          "translacao_m": 0.011,
+          "pitch_rad": 0.0015,
+          "roll_rad": 0.008
+        }
+      },
+      "levantar_s": 0.9,
+      "avancar": {
+        "fracao": 0.3,
+        "max_m": 1.2,
+        "min_dist_m": 0.7,
+        "fov": 100,
+        "inclinar_sentado_m": 0.2
+      },
+      "porta": {
+        "aberta_antes_m": 0.85,
+        "abrir_min_m": 1.6
+      }
+    },
+    "transicao": {
+      "preto": {
+        "saida_s": 0.3,
+        "segurar_s": 0.8,
+        "entrada_s": 0.4
+      }
     }
   },
   "vozes": {
@@ -824,7 +1689,7 @@
     "falas_max": 22,
     "sinal_ate_s": 7,
     "mudanca_a_cada_s": 10,
-    "lugares_max": 2,
+    "lugares_max": 4,
     "temas_proibidos": [
       "tragédia real",
       "ataque em escola",
@@ -891,5 +1756,54 @@
     "provedor": "supabase",
     "bucket": "videos",
     "pasta": "guiche3"
-  }
+  },
+  "mundos": [
+    {
+      "id": "rodoviaria",
+      "nome": "Rodoviária de Boa Vista do Sul (madrugada)",
+      "modulos": [
+        "saguao",
+        "corredor_servico",
+        "guarda_volumes"
+      ],
+      "passagens": [
+        {
+          "id": "p_guiche",
+          "porta": "porta_guiche",
+          "liga": [
+            "cab_porta_dentro",
+            "cs_porta_cabine"
+          ],
+          "auto": true
+        },
+        {
+          "id": "p_func",
+          "porta": "porta_func",
+          "liga": [
+            "sg_porta_func",
+            "cs_ramal_meio"
+          ],
+          "auto": true
+        },
+        {
+          "id": "p_gv",
+          "porta": "porta_gv",
+          "liga": [
+            "cs_frente_gv",
+            "gv_entrada"
+          ],
+          "auto": true
+        },
+        {
+          "id": "p_plataforma",
+          "porta": "porta",
+          "liga": [
+            "sg_frente_porta",
+            "pl_calcada"
+          ],
+          "auto": false
+        }
+      ]
+    }
+  ]
 }

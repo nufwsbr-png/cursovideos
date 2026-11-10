@@ -15,7 +15,10 @@ function alinhar(mesh, a, b) {
 export class CorpoPOV {
   // balcao: { y: altura do tampo, zBeira: z da beira do tampo do lado de quem senta } — o braço nunca entra nele
   constructor(protagonista, estilo, cores, alturaOlhos = 1.48, balcao = null) {
-    this.estilo = estilo; this.alturaOlhos = alturaOlhos;
+    this.estilo = estilo; this.alturaOlhos = alturaOlhos; this.olhosSentado = alturaOlhos;
+    // objetos do balcão (carimbo, bloco, caneta, celular, fone) ficam numa âncora presa ao assento do guichê:
+    // quando o protagonista levanta e anda, eles ficam no balcão; só o que está na mão segue o corpo.
+    this.ancora = new THREE.Group(); this.ancora.name = 'balcao_objetos';
     this.balcaoY = balcao?.y ?? 1.05; this.balcaoZ = balcao?.zBeira ?? -0.1;
     const maos = protagonista.maos || {};
     this.pele = maos.pele || '#7a4a28';
@@ -90,7 +93,9 @@ export class CorpoPOV {
     const corpoCel = new THREE.Mesh(geoCaixaArredondada(0.076, 0.156, 0.008, 0.008), estilo.material('#1a1a1a')); celular.add(corpoCel);
     this.telaCelular = new THREE.Mesh(new THREE.PlaneGeometry(0.068, 0.146), new THREE.MeshBasicMaterial({ color: '#e9eef2' })); this.telaCelular.position.z = 0.0045; this.telaCelular.userData.semTraco = true; celular.add(this.telaCelular);
     this.objetos.celular = celular;
-    for (const k in this.objetos) { this.objetos[k].visible = false; this.grupo.add(this.objetos[k]); }
+    this.celularMao = celular.clone(true); this.celularMao.visible = false; this.grupo.add(this.celularMao);
+    this.telaCelularMao = this.celularMao.children.find((ch) => ch.geometry?.type === 'PlaneGeometry') || null;
+    for (const k in this.objetos) { this.objetos[k].visible = false; this.ancora.add(this.objetos[k]); }
     // posições de descanso (sentado ao balcão; balcão a 1,05 m): mãos nos cantos de baixo, dedos apontando para a frente e um pouco para dentro
     this.repouso = {
       esq: { pos: new THREE.Vector3(-0.23, 1.072, -0.43), rot: new THREE.Euler(0.02, 0.26, 0) },
@@ -99,11 +104,69 @@ export class CorpoPOV {
     this.celularNoBalcao = new THREE.Vector3(0.36, 1.072, -0.55);
   }
 
-  definirTexturaCelular(tex) { this.telaCelular.material = new THREE.MeshBasicMaterial({ map: tex }); }
+  definirTexturaCelular(tex) {
+    this.telaCelular.material = new THREE.MeshBasicMaterial({ map: tex });
+    if (this.telaCelularMao) this.telaCelularMao.material = this.telaCelular.material;
+  }
+
+  /**
+   * Corpo no instante t. `corpo` vem do plano de câmera: postura (sentado | levantando | sentando | em_pe), vel (0..1),
+   * olhos (altura), tipo (andar | correr), celular (na mão), bob. Sentado (ou levantando/sentando) usa as poses do balcão;
+   * em pé, as mãos ficam baixas e balançam no ritmo do passo (2,9 Hz, braços em oposição).
+   */
+  aplicar(acao, tLinha, t, tremor, acaoAnterior, corpo = null) {
+    const c = corpo || { postura: 'sentado', vel: 0, olhos: this.olhosSentado, celular: false };
+    this.alturaOlhos = c.olhos ?? this.olhosSentado;
+    const noBalcao = c.postura === 'sentado' || c.postura === 'levantando' || c.postura === 'sentando';
+    if (this.celularMao) this.celularMao.visible = false;
+    if (noBalcao) this.aplicarBalcao(acao, tLinha, t, tremor, acaoAnterior, c);
+    else this.aplicarEmPe(acao, tLinha, t, tremor, c);
+    this.resolverBracos(noBalcao && !String(acao).startsWith('andar'), noBalcao);
+  }
+
+  objetosNoBalcao() {
+    const o = this.objetos;
+    o.bloco_passagens.visible = true; o.bloco_passagens.position.set(-0.05, 1.065, -0.52); o.bloco_passagens.rotation.set(0, 0.12, 0);
+    o.caneta.visible = true; o.caneta.position.set(0.12, 1.056, -0.56); o.caneta.rotation.set(Math.PI / 2, 0, 0.25);
+    o.carimbo.visible = true; o.carimbo.position.set(0.2, 1.068, -0.44); o.carimbo.rotation.set(0, 0, 0);
+    o.celular.visible = true; o.celular.position.copy(this.celularNoBalcao); o.celular.rotation.set(-Math.PI / 2 + 0.05, 0.3, 0);
+    o.fone.visible = false; o.pano.visible = false;
+  }
+
+  aplicarEmPe(acao, tLinha, t, tremor, c) {
+    const [nome] = String(acao || 'parar').split(':');
+    const esq = this.maos.esq.grupo, dir = this.maos.dir.grupo;
+    const olhos = this.alturaOlhos;
+    this.objetosNoBalcao();
+    const correr = c.tipo === 'correr';
+    const vel = clamp(c.vel || 0, 0, 1);
+    const fi = Math.PI * 2.9 * t; // o braço completa um ciclo a cada dois passos
+    const amp = (correr ? 0.16 : 0.10) * vel;
+    const yMao = olhos - (correr ? 0.62 : 0.80 + (1 - vel) * 0.08) + (c.bob || 0) * 0.6 + Math.sin(t * 1.6) * 0.003; // parado em pé: mãos mais baixas
+    esq.position.set(-0.24, yMao, -0.30 + Math.sin(fi) * amp); esq.rotation.set(0.6, 0.3, 0.5);
+    dir.position.set(0.24, yMao, -0.30 - Math.sin(fi) * amp); dir.rotation.set(0.6, -0.3, -0.5);
+    for (const lado of ['esq', 'dir']) for (const d of this.dedos[lado]) { d.base.rotation.x = -0.6; d.junta.rotation.x = -0.7; }
+    const tremorAmp = tremor * 0.004;
+    if (tremorAmp > 0) { dir.position.x += Math.sin(t * 37) * tremorAmp; esq.position.y += Math.sin(t * 31 + 2) * tremorAmp * 0.6; }
+    // celular na mão (do bolso até a frente do peito)
+    const naMao = c.celular || nome === 'pegar_celular' || nome === 'guardar_celular';
+    if (naMao && this.celularMao) {
+      const kk = nome === 'pegar_celular' && !c.celular ? suave(tLinha / 0.7) : nome === 'guardar_celular' ? 1 - suave(tLinha / 0.7) : 1;
+      if (kk > 0.001) {
+        this.objetos.celular.visible = false; // o do balcão some: está na mão
+        const bolso = new THREE.Vector3(0.22, olhos - 0.85, -0.05), frente = new THREE.Vector3(0.06, olhos - 0.32, -0.24);
+        const C = bolso.lerp(frente, kk);
+        this.celularMao.visible = true; this.celularMao.position.copy(C); this.celularMao.rotation.set(lerp(-1.2, -0.3, kk), 0.03, 0);
+        dir.position.copy(C).add(new THREE.Vector3(0.0, -0.13, 0.03)); dir.rotation.set(lerp(0.3, 1.3, kk), 0.03, 0);
+        for (const d of this.dedos.dir) { d.base.rotation.x = -0.6; d.junta.rotation.x = -0.8; }
+      }
+    }
+  }
 
   // acao: string da direção; tLinha: segundos desde o começo da linha; tremor 0..1
-  aplicar(acao, tLinha, t, tremor, acaoAnterior) {
+  aplicarBalcao(acao, tLinha, t, tremor, acaoAnterior, c = {}) {
     const [nome, arg] = String(acao || 'parar').split(':');
+    const levantando = c.postura === 'levantando' || c.postura === 'sentando';
     const esq = this.maos.esq.grupo, dir = this.maos.dir.grupo;
     const r = this.repouso;
     const respira = Math.sin(t * 1.6) * 0.0025;
@@ -121,6 +184,7 @@ export class CorpoPOV {
     const carimbo = this.objetos.carimbo; carimbo.visible = true;
     const celular = this.objetos.celular; celular.visible = true; celular.position.copy(this.celularNoBalcao); celular.rotation.set(-Math.PI / 2 + 0.05, 0.3, 0);
     const colocarCarimboNaMaoDireita = () => { carimbo.position.copy(dir.position).add(new THREE.Vector3(0.0, 0.04, -0.03)); carimbo.rotation.set(0, 0, 0); for (const d of this.dedos.dir) { d.base.rotation.x = -0.9; d.junta.rotation.x = -1.1; } };
+    if (levantando) { this.objetosNoBalcao(); return; } // levantando/sentando: mãos apoiadas, nada na mão
     colocarCarimboNaMaoDireita();
 
     const k = suave(tLinha / 0.7);
@@ -177,7 +241,7 @@ export class CorpoPOV {
         dir.position.lerpVectors(alvo, r.dir.pos, k); dir.rotation.set(-0.6 * (1 - k), -0.9 * (1 - k), 0.8 * (1 - k));
         carimbo.position.set(0.2, 1.068, -0.44); carimbo.rotation.set(0, 0, 0);
       }
-      if (acaoAnterior && acaoAnterior.startsWith('pegar_celular')) {
+      if (c.celular || (acaoAnterior && acaoAnterior.startsWith('pegar_celular') && c.celular === undefined)) {
         const C = new THREE.Vector3(0.06, this.alturaOlhos - 0.22, -0.22);
         celular.position.copy(C); celular.rotation.set(-0.3, 0.03, 0);
         dir.position.copy(C).add(new THREE.Vector3(0, -0.13, 0.03)); dir.rotation.set(1.3, 0.03, 0);
@@ -185,10 +249,12 @@ export class CorpoPOV {
         for (const d of this.dedos.dir) { d.base.rotation.x = -0.6; d.junta.rotation.x = -0.8; }
       }
     }
-    // braços: pulso → punho da camisa → cotovelo → ombro. Com a mão apoiada, o cotovelo fica logo além da beira do tampo
-    // e um pouco mais alto que o pulso (a manga é mais grossa que o braço); o ombro fica atrás e abaixo da câmera, fora
-    // do quadro. Enquanto está sobre o tampo, nenhum trecho desce abaixo dele (regra anotada em memoria/aprendizados.md).
-    const apoiado = nome !== 'andar';
+  }
+
+  // braços: pulso → punho da camisa → cotovelo → ombro. Com a mão apoiada, o cotovelo fica logo além da beira do tampo
+  // e um pouco mais alto que o pulso (a manga é mais grossa que o braço); o ombro fica atrás e abaixo da câmera, fora
+  // do quadro. Enquanto está sobre o tampo, nenhum trecho desce abaixo dele (regra anotada em memoria/aprendizados.md).
+  resolverBracos(apoiado, noBalcao = true) {
     for (const lado of ['esq', 'dir']) {
       const m = this.maos[lado];
       m.grupo.updateMatrix();
@@ -209,8 +275,8 @@ export class CorpoPOV {
       alinhar(m.mangaM, meio, cot);
       m.cotovelo.position.copy(cot);
       alinhar(m.mangaS, cot, omb);
-      const noBalcao = clamp(1 - (maoPos.y - this.balcaoY - 0.03) / 0.08, 0, 1);
-      m.sombra.visible = noBalcao > 0.01; m.sombra.position.set(maoPos.x + m.s * 0.01, this.balcaoY + 0.004, maoPos.z - 0.02); m.sombra.material.opacity = 0.16 * noBalcao;
+      const apoio = noBalcao ? clamp(1 - (maoPos.y - this.balcaoY - 0.03) / 0.08, 0, 1) : 0;
+      m.sombra.visible = apoio > 0.01; m.sombra.position.set(maoPos.x + m.s * 0.01, this.balcaoY + 0.004, maoPos.z - 0.02); m.sombra.material.opacity = 0.16 * apoio;
     }
   }
 }

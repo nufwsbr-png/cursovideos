@@ -10,6 +10,8 @@ import { Cabeca } from './cena/cabeca.js';
 import { Sobreposicao, TelaCelular, janelasCartoes } from './cena/sobreposicao.js';
 import { Lente } from './cena/lente.js';
 import { construirLinhaDoTempo, medidasSinteticas, envelopeSintetico } from './cena/linha_previa.js';
+import { visiveis, moduloDoPonto } from './cena/mundo.js';
+import { planejar, planejarDuracoes, aberturaPortas } from './cena/plano_camera.js';
 import { suave, lerp, misturarCor, hexParaRgb, clamp, sementeDeTexto, formatarTempo } from './cena/util.js';
 
 const M = { pronto: false };
@@ -85,7 +87,7 @@ window.carregar = async function carregar(canalOriginal, roteiro, linhaDoTempo, 
   M.estiloCfg = canal.estilo || {};
   M.cores = M.estiloCfg.cores || {};
   M.semente = M.estiloCfg.semente ?? 7;
-  M.linha = linhaDoTempo || construirLinhaDoTempo(roteiro, medidas, canal);
+  M.linha = linhaDoTempo || construirLinhaDoTempo(roteiro, medidas, canal, planejarDuracoes(roteiro, canal));
   if (!linhaDoTempo) M.avisos.push('linha do tempo em modo prévia (derivada do roteiro)');
   M.medidas = medidas ? clonar(medidas) : medidasSinteticas(roteiro, M.linha);
   if (!medidas) M.avisos.push('medidas sintéticas (vozes ainda não medidas)');
@@ -95,6 +97,10 @@ window.carregar = async function carregar(canalOriginal, roteiro, linhaDoTempo, 
     }
   }
   M.cenario = (canal.cenarios || []).find(c => c.id === roteiro.cenario) || canal.cenarios[0];
+  // o mundo: os lugares (módulos) conectados e o plano do corpo/câmera
+  M.plano = planejar(roteiro, canal);
+  M.mundo = M.plano.mundo;
+  for (const a of M.plano.avisos) M.avisos.push('plano de câmera: ' + a);
 
   // canvases
   M.canvasGL = document.getElementById('gl'); M.canvasFinal = document.getElementById('final');
@@ -115,14 +121,29 @@ window.carregar = async function carregar(canalOriginal, roteiro, linhaDoTempo, 
   M.cena.background = new THREE.Color(M.estiloCfg.traco?.cor || '#101820');
   M.camera = new THREE.PerspectiveCamera(115, W / H, 0.05, 80); // a 'cabeça': posição, orientação e abertura vertical do olho de peixe
   M.estilo = new Estilo(M.estiloCfg);
-  const ctxProps = { estilo: M.estilo, cores: M.cores, semente: M.semente, avisos: M.avisos, canal, cenario: M.cenario };
-  M.props = {}; M.luzesProps = [];
-  for (const def of (M.cenario.props || [])) {
-    const r = criarProp(def, ctxProps);
-    M.cena.add(r.grupo); M.props[def.id] = r;
-    if (r.luzes) M.luzesProps.push(...r.luzes);
+  M.props = {}; M.luzesProps = []; M.modulos = {};
+  // portas das passagens ficam num grupo que nunca some (porta fechada nunca deixa buraco na parede)
+  const portasPassagem = new Set(M.mundo.passagens.map(ps => ps.porta).filter(Boolean));
+  M.grupoPortas = new THREE.Group(); M.grupoPortas.name = 'portas_passagens'; M.cena.add(M.grupoPortas);
+  for (const mod of M.mundo.modulos) {
+    const g = new THREE.Group(); g.name = 'modulo:' + mod.id;
+    g.position.set(...mod.origem); g.rotation.y = mod.rotY;
+    M.cena.add(g); M.modulos[mod.id] = g;
+    const ctxProps = { estilo: M.estilo, cores: M.cores, semente: M.semente, avisos: M.avisos, canal, cenario: mod.def };
+    for (const def of (mod.def.props || [])) {
+      const r = criarProp(def, ctxProps);
+      if (portasPassagem.has(def.id)) { const gp = new THREE.Group(); gp.position.set(...mod.origem); gp.rotation.y = mod.rotY; gp.add(r.grupo); M.grupoPortas.add(gp); }
+      else g.add(r.grupo);
+      M.props[def.id] = r; r.modulo = mod.id;
+      if (r.luzes) M.luzesProps.push(...r.luzes);
+    }
+    g.add(criarDetalhesVida(mod.def.detalhes_vida, mod.def, ctxProps));
   }
-  M.cena.add(criarDetalhesVida(M.cenario.detalhes_vida, M.cenario, ctxProps));
+  // pontos de olhar dos props no referencial do mundo
+  M.cena.updateMatrixWorld(true);
+  for (const id in M.props) { const r = M.props[id]; const mod = M.modulos[r.modulo]; if (r.pontoOlhar && mod) r.pontoOlharMundo = r.pontoOlhar.clone().applyMatrix4(mod.matrixWorld); }
+  // visão do mundo para o estado (marcas e props com posição de mundo)
+  M.cenarioMundo = { id: M.cenario.id, camera_inicial: M.cenario.camera_inicial, marcas: Object.fromEntries(Object.values(M.mundo.marcas).map(m => [m.id, m.pos])), props: Object.values(M.mundo.props).map(p => ({ ...p.def, pos: p.pos })) };
   // luzes gerais
   // luz chapada e clara (como na referência): céu/chão + uma direcional que dá o degrau de sombra + um preenchimento frio
   M.hemi = new THREE.HemisphereLight('#ffffff', '#b8b0a4', 1.0); M.cena.add(M.hemi);
@@ -136,15 +157,17 @@ window.carregar = async function carregar(canalOriginal, roteiro, linhaDoTempo, 
     M.cena.add(b.grupo); M.bonecos[pe.id] = b;
   }
   // corpo em primeira pessoa e celular
-  const guiche = (M.cenario.props || []).find(p => p.tipo === 'guiche');
-  const balcao = guiche ? { y: guiche.altura_balcao || 1.05, zBeira: (guiche.pos?.[2] || 0) + 0.45 } : null; // tampo: 0,8 m de fundo centrado em z+0,05 (props.js)
-  M.corpo = new CorpoPOV(canal.protagonista || {}, M.estilo, M.cores, M.cenario.camera_inicial?.pos?.[1] || 1.48, balcao);
+  const guiche = Object.values(M.mundo.props).find(p => p.def.tipo === 'guiche');
+  const balcao = guiche ? { y: guiche.def.altura_balcao || 1.05, zBeira: (guiche.pos?.[2] || 0) + 0.45 } : null; // tampo: 0,8 m de fundo centrado em z+0,05 (props.js)
+  M.corpo = new CorpoPOV(canal.protagonista || {}, M.estilo, M.cores, M.plano.olhos.sentado, balcao);
   M.cena.add(M.corpo.grupo);
+  (M.modulos[guiche?.modulo] || M.cena).add(M.corpo.ancora); // objetos do balcão ficam no lugar do guichê
   M.telaCelular = new TelaCelular(M.estiloCfg.celular, roteiro.celular || [], M.cores);
   M.corpo.definirTexturaCelular(M.telaCelular.textura);
   // estado, cabeça, sobreposição
-  M.estado = new Estado(canal, roteiro, M.linha, M.cenario);
-  M.cabeca = new Cabeca(M.linha, canal, M.cenario, resolverAlvo, M.semente);
+  M.estado = new Estado(canal, roteiro, M.linha, M.cenarioMundo);
+  M.cabeca = new Cabeca(M.linha, canal, M.plano, resolverAlvo, M.semente);
+  M.cabeca.olharInicial = M.cenario.camera_inicial?.olhar || 'frente';
   M.sobre = new Sobreposicao(canal, M.estiloCfg, W, H, escala);
   // trancos de câmera só onde o roteiro pede (pancada); a pergunta final entra sem tranco, como na referência
   M.pancadas = (M.linha.efeitos || []).filter(e => e.tipo === 'pancada').map(e => e.t);
@@ -167,24 +190,29 @@ function alturaCabeca(id) {
   if (!b) return 1.5;
   const m = b.medidas; return m.perna + m.tronco + 0.06 + m.raioCab * b.oval[1];
 }
-function resolverAlvo(nome, t, posCamera) {
+function resolverAlvo(nome, t, posCamera, corpo = null) {
   if (!nome) return null;
   const pc = posCamera || new THREE.Vector3(0, 1.25, 0);
+  // alvos relativos ao corpo giram com ele (yaw 0 = de frente para −z, sentado no guichê)
+  const yaw = corpo?.yaw ?? 0, fx = -Math.sin(yaw), fz = -Math.cos(yaw), rx = Math.cos(yaw), rz = -Math.sin(yaw);
+  const emPe = corpo && corpo.postura !== 'sentado';
+  const naFrente = (dist, y, lado = 0) => new THREE.Vector3(pc.x + fx * dist + rx * lado, y, pc.z + fz * dist + rz * lado);
   switch (nome) {
-    case 'maos': return new THREE.Vector3(pc.x, 1.04, pc.z - 0.8);
-    case 'celular': return new THREE.Vector3(pc.x + 0.06, pc.y - 0.2, pc.z - 0.22);
-    case 'frente': return new THREE.Vector3(pc.x, pc.y - 0.05, pc.z - 6);
-    case 'chao': return new THREE.Vector3(pc.x, 0, pc.z - 1.5);
-    case 'teto': return new THREE.Vector3(pc.x, 4, pc.z - 2);
+    case 'maos': return emPe ? naFrente(0.55, pc.y - 0.85) : naFrente(0.8, 1.04);
+    case 'celular': return naFrente(0.22, pc.y - 0.2, 0.06);
+    case 'frente': return naFrente(6, pc.y - 0.05);
+    case 'chao': return naFrente(1.5, 0);
+    case 'teto': return naFrente(2, 4);
   }
-  if (M.props[nome]) return M.props[nome].pontoOlhar.clone();
+  if (M.props[nome]) return (M.props[nome].pontoOlharMundo || M.props[nome].pontoOlhar).clone();
+  if (M.mundo?.nos[nome]) { const n = M.mundo.nos[nome].pos; return new THREE.Vector3(n[0], 1.2 + (n[1] || 0), n[2]); }
   if (M.bonecos[nome]) {
     const pe = M.estado.em(t).personagens[nome];
     if (pe && pe.visivel) return new THREE.Vector3(pe.pos[0], alturaCabeca(nome) - 0.05, pe.pos[2]);
     return null;
   }
-  const marca = M.cenario.marcas?.[nome];
-  if (marca) return new THREE.Vector3(marca[0], 1.2, marca[2]);
+  const marca = M.mundo?.marcas[nome]?.pos || M.cenario.marcas?.[nome];
+  if (marca) return new THREE.Vector3(marca[0], 1.2 + (marca[1] || 0), marca[2]);
   if (nome.includes(':')) return resolverAlvo(nome.split(':')[1], t, posCamera);
   return null;
 }
@@ -245,9 +273,16 @@ window.renderizarQuadro = function renderizarQuadro(t) {
   M.cabeca.limparCache();
   const infoCam = M.cabeca.aplicar(M.camera, t, clima, M.pancadas);
   const posCam = M.camera.position.clone();
+  const corpo = infoCam.corpo;
 
-  // props
-  for (const id in M.props) { try { M.props[id].atualizar(est.props[id], t, { luz: clima.luz, clima: clima.nome }); } catch (e) { M.avisos.push('prop ' + id + ': ' + e.message); } }
+  // props (as portas das passagens abrem sozinhas quando a câmera chega perto)
+  const aberturas = aberturaPortas(M.plano, M.linha, t);
+  for (const id in aberturas) if (est.props[id]) est.props[id].abertura_auto = aberturas[id]; else est.props[id] = { estado: 'fechada', inicioEstado: 0, abertura_auto: aberturas[id] };
+  const sentado = ['sentado', 'levantando', 'sentando'].includes(corpo.postura);
+  for (const id in M.props) { try { M.props[id].atualizar(est.props[id], t, { luz: clima.luz, clima: clima.nome, sentado }); } catch (e) { M.avisos.push('prop ' + id + ': ' + e.message); } }
+  // só desenha o lugar onde a câmera está e os vizinhos com passagem aberta (economiza render em CPU)
+  const vis = visiveis(M.mundo, [corpo.pos[0], 0, corpo.pos[2]], (id) => M.props[id]?.abertura ?? 0);
+  for (const id in M.modulos) M.modulos[id].visible = vis.has(id);
   // bonecos
   const falante = quemFala(t);
   for (const id in M.bonecos) {
@@ -260,12 +295,13 @@ window.renderizarQuadro = function renderizarQuadro(t) {
     }
     if (pe.pose === 'limpando' && falante !== id) { alvoOlhar = null; pe.olharRodo = true; } // olha a ponta do rodo (o chão que limpa)
     M.bonecos[id].aplicar(pe, t, aberturaBoca(id, t), alvoOlhar, posCam);
+    if (pe.visivel && M.mundo.modulos.length > 1 && !vis.has(moduloDoPonto(M.mundo, pe.pos))) M.bonecos[id].grupo.visible = false;
   }
   // corpo em primeira pessoa segue a posição do corpo (sentado na origem; anda junto com a câmera)
-  const base = M.cabeca.posBase;
-  M.corpo.grupo.position.set(posCam.x - base.x, 0, posCam.z - base.z);
+  M.corpo.grupo.position.set(corpo.pos[0], corpo.piso || 0, corpo.pos[2]);
+  M.corpo.grupo.rotation.set(0, corpo.yaw || 0, 0);
   const tremorAcao = acao.startsWith('tremor:') ? parseFloat(acao.split(':')[1]) || 0 : 0;
-  M.corpo.aplicar(acao, tLinha, t, clima.tremor * 0.5 + tremorAcao, acaoAnterior);
+  M.corpo.aplicar(acao, tLinha, t, clima.tremor * 0.5 + tremorAcao, acaoAnterior, corpo);
   M.telaCelular.desenhar(est.celular.tela, t);
   // luzes gerais seguem o clima
   const luz = clima.luz;
@@ -277,6 +313,7 @@ window.renderizarQuadro = function renderizarQuadro(t) {
   const naPergunta = !!(M.linha.pergunta && t >= M.linha.pergunta.inicio_s);
   let preto = 0;
   if (acao === 'fade' && clima.nome !== 'pergunta' && !naPergunta) preto = suave(tLinha / 0.8);
+  if (!naPergunta && corpo.preto > 0) preto = Math.max(preto, corpo.preto); // transição pelo preto
   const fade = 0;
 
   // passes: a lente faz as duas câmeras, o G-buffer, o olho de peixe, o traço e o FXAA no canvas GL
@@ -292,7 +329,7 @@ window.renderizarQuadro = function renderizarQuadro(t) {
   const falasAtivas = M.linha.falas.filter(f => t >= f.inicio_s && t <= f.fim_s + some).map(f => ({ ...f, texto: f.texto || (M.roteiro.falas.find(x => x.id === f.id)?.texto || '') }));
   const pergunta = M.linha.pergunta ? { ...(M.roteiro.dilema || {}), ...M.linha.pergunta, ativa: naPergunta } : null;
   const r2d = M.sobre.desenhar(ctx, t, { falasAtivas, cartoes: M.cartoes, selo: est.selo, pergunta, preto, clima: clima.nome });
-  M.ultimoQuadro = { t, clima: clima.nome, acao, linha: est.indice, legendas: r2d.legendas, layout: r2d.layout };
+  M.ultimoQuadro = { t, clima: clima.nome, acao, linha: est.indice, legendas: r2d.legendas, layout: r2d.layout, camera: { pos: [posCam.x, posCam.y, posCam.z].map(v => Number(v.toFixed(3))), modulo: corpo.modulo, postura: corpo.postura, vel: Number((corpo.vel || 0).toFixed(3)), visiveis: [...vis] } };
   return M.ultimoQuadro;
 };
 

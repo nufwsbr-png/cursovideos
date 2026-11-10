@@ -1,0 +1,46 @@
+{
+  "numero": 97,
+  "slug": "teste_mundo",
+  "titulo": "Teste do mundo e da câmera que anda (não publicar)",
+  "cenario": "saguao",
+  "lugares": ["saguao", "corredor_servico", "guarda_volumes"],
+  "parte_de": null,
+  "linhas": [
+    { "t": 0, "ato": "escalada", "fala": "f01", "som": "", "imagem": "sentado no guichê, Dalva no vidro, selo",
+      "direcao": { "olhar": "dalva", "acao": "parar", "clima": "escalada", "eventos": ["tela.selo=PARTE 2", "personagem.dalva.visivel=true", "personagem.dalva.posicao=dalva_perto", "personagem.dalva.pose=em_pe"] } },
+    { "t": 3, "ato": "escalada", "fala": null, "som": "", "imagem": "levanta",
+      "direcao": { "olhar": "frente", "acao": "levantar", "clima": "escalada", "eventos": [] } },
+    { "t": 4.5, "ato": "escalada", "fala": null, "som": "", "imagem": "anda pela porta da cabine e pelo corredor até o guarda-volumes",
+      "direcao": { "olhar": "caminho", "acao": "andar:gv_centro", "clima": "escalada", "eventos": [] } },
+    { "t": 6, "ato": "autoridade", "fala": "f02", "som": "", "imagem": "avança até a mala",
+      "direcao": { "olhar": "gv_mala_1", "acao": "avancar:gv_mala_1", "clima": "escalada", "eventos": [] } },
+    { "t": 9, "ato": "autoridade", "fala": null, "som": "", "imagem": "pega o celular: mensagem",
+      "direcao": { "olhar": "celular", "acao": "pegar_celular", "clima": "escalada", "eventos": ["celular.notificacao=0", "celular.tela=0"] } },
+    { "t": 12, "ato": "autoridade", "fala": null, "som": "", "imagem": "alerta troca no lugar",
+      "direcao": { "olhar": "celular", "acao": "parar", "clima": "climax", "eventos": ["celular.notificacao=1", "celular.tela=1"] } },
+    { "t": 15, "ato": "desobediencia", "fala": null, "som": "", "imagem": "guarda o celular",
+      "direcao": { "olhar": "gv_armarios", "acao": "guardar_celular", "clima": "climax", "eventos": [] } },
+    { "t": 16, "ato": "desobediencia", "fala": null, "som": "", "imagem": "preto: dois minutos depois, no saguão",
+      "direcao": { "olhar": "painel", "acao": "transicao:preto", "clima": "climax", "eventos": ["camera.ir=sg_frente_guiche", "camera.postura=em_pe"] } },
+    { "t": 18, "ato": "desobediencia", "fala": null, "som": "", "imagem": "corre até a porta da plataforma",
+      "direcao": { "olhar": "caminho", "acao": "correr:sg_frente_porta", "clima": "climax", "eventos": [] } },
+    { "t": 20, "ato": "dilema", "fala": "f03", "som": "", "imagem": "o alto-falante chama",
+      "direcao": { "olhar": "porta", "acao": "parar", "clima": "climax", "eventos": [] } },
+    { "t": 23, "ato": "dilema", "fala": null, "som": "", "imagem": "avança devagar até a porta",
+      "direcao": { "olhar": "porta", "acao": "avancar:porta", "clima": "climax", "eventos": [] } },
+    { "t": 26, "ato": "pergunta", "fala": null, "som": "", "imagem": "pergunta",
+      "direcao": { "olhar": "porta", "acao": "parar", "clima": "pergunta", "eventos": [] } }
+  ],
+  "falas": [
+    { "id": "f01", "quem": "dalva", "voz": "Gacrux", "texto": "Delta é b ao quadrado, menos quatro a c. Copiem.", "estilo": "dry", "filtro": null },
+    { "id": "f02", "quem": "eu", "voz": "Iapetus", "texto": "Número sete.", "estilo": "whisper", "filtro": null },
+    { "id": "f03", "quem": "alto_falante", "voz": "Erinome", "texto": "Embarque imediato.", "estilo": "cold", "filtro": "alto_falante" }
+  ],
+  "celular": [
+    { "de": "Mãe", "texto": "Filho, perdi o último ônibus.", "tipo": "mensagem", "hora": "02:52", "duracao_s": 5 },
+    { "de": "SISTEMA SERRA AZUL", "rotulo": "Sistema Serra Azul", "texto": "Passagem emitida 03:00", "tipo": "alerta", "hora": "02:53", "duracao_s": 3 }
+  ],
+  "dilema": { "pergunta": "O que você faria?", "opcao_a": "Abrir a porta", "opcao_b": "Voltar pro guichê", "emoji_a": "🚪", "emoji_b": "🎫", "arriscada": "a" },
+  "efeitos_extra": [],
+  "silencios": []
+}

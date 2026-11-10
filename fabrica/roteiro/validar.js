@@ -1,8 +1,11 @@
 // Validação do roteiro contra o contrato, o canal e as regras do livro. Devolve erros (bloqueiam) e avisos.
+import { montarMundo } from "../../motor/cena/mundo.js";
+import { planejar } from "../../motor/cena/plano_camera.js";
+
 const ATOS = ["rotina", "sinal", "negacao", "escalada", "autoridade", "desobediencia", "dilema", "pergunta"];
 const CLIMAS = ["rotina", "sinal", "escalada", "climax", "pergunta"];
-const ACAO_RE = /^(trabalhar|parar|pegar_celular|guardar_celular|fade|voltar|andar:[\w]+|segurar:[\w]+|aproximar:[\w]+|tremor:(0(\.\d+)?|1(\.0+)?))$/;
-const EVENTO_RE = /^(prop\.[\w]+\.(estado|texto)=.+|personagem\.[\w]+\.(visivel|posicao|pose|expressao|andar)=.+|celular\.(tela|notificacao)=\d+|tela\.selo=.+)$/;
+const ACAO_RE = /^(trabalhar|parar|pegar_celular|guardar_celular|fade|voltar|levantar|sentar|transicao:preto(:\d+(\.\d+)?)?|(andar|correr|avancar|aproximar):[\w]+|segurar:[\w]+|tremor:(0(\.\d+)?|1(\.0+)?))$/;
+const EVENTO_RE = /^(prop\.[\w]+\.(estado|texto)=.+|personagem\.[\w]+\.(visivel|posicao|pose|expressao|andar)=.+|celular\.(tela|notificacao)=(\d+|null)|tela\.selo=.+|camera\.ir=[\w]+|camera\.postura=(sentado|em_pe))$/;
 const LUGAR_COMUM = ["algo está errado", "algo esta errado", "precisamos sair daqui", "isso não é normal", "isso nao e normal", "você não vai acreditar", "voce nao vai acreditar", "alguma coisa está errada"];
 const PALAVRAS_PROIBIDAS = ["sangue", "pistola", "revólver", "revolver", "espingarda", "faca no", "esfaque", "suicíd", "suicid", "se matar", "automutil", "estupr", "pedofil"];
 
@@ -14,11 +17,14 @@ export function validarRoteiro(roteiro, canal) {
   const cfg = canal.roteiro ?? {};
   const cenario = (canal.cenarios ?? []).find((c) => c.id === roteiro.cenario);
   if (!cenario) erros.push(`cenario "${roteiro.cenario}" não existe em canal.cenarios (${(canal.cenarios ?? []).map((c) => c.id).join(", ")})`);
-  const props = new Set((cenario?.props ?? []).map((p) => p.id));
-  const marcas = new Set(Object.keys(cenario?.marcas ?? {}));
+  // o mundo do cenário inicial: props, marcas e nós de todos os lugares conectados a ele
+  const mundo = cenario ? montarMundo(canal, cenario.id) : { props: {}, marcas: {}, nos: {}, modulos: [] };
+  const props = new Set(Object.keys(mundo.props));
+  const marcas = new Set(Object.keys(mundo.marcas));
+  const nos = new Set(Object.keys(mundo.nos));
   const personagens = new Map((canal.elenco ?? []).map((p) => [p.id, p]));
   personagens.set("eu", { id: "eu", voz: canal.protagonista?.voz, visivel: true });
-  const alvosOlhar = new Set([...props, ...marcas, ...personagens.keys(), "maos", "celular", "frente", "chao", "teto"]);
+  const alvosOlhar = new Set([...props, ...marcas, ...nos, ...personagens.keys(), "maos", "celular", "frente", "chao", "teto", "caminho"]);
 
   const linhas = roteiro.linhas ?? [];
   if (!linhas.length) erros.push("roteiro sem linhas");
@@ -48,18 +54,29 @@ export function validarRoteiro(roteiro, canal) {
     if (salto > passo + 2) avisos.push(`entre ${linhas[i - 1].t}s e ${linhas[i].t}s passam ${salto.toFixed(1)}s sem nada mudar (o livro pede algo a cada ${passo}s)`);
   }
 
-  // Direção
+  // Direção (o plano de câmera confere caminhos: alvo inexistente ou sem rota é erro; o resto é aviso)
+  let planoCam = null;
+  if (cenario) {
+    try {
+      planoCam = planejar(roteiro, canal);
+      for (const a of planoCam.avisos) (/não existe|sem caminho|sem posição/.test(a) ? erros : avisos).push(`câmera: ${a}`);
+    } catch (e) { avisos.push(`plano de câmera não rodou: ${e.message}`); }
+  }
   for (const [i, l] of linhas.entries()) {
     const d = l.direcao ?? {};
     if (!alvosOlhar.has(d.olhar)) erros.push(`linha ${i} (t=${l.t}): olhar "${d.olhar}" não existe (props, marcas, personagens, maos, celular, frente, chao, teto)`);
     if (!ACAO_RE.test(d.acao ?? "")) erros.push(`linha ${i} (t=${l.t}): acao "${d.acao}" fora do vocabulário`);
     else {
-      const alvo = /^(andar|aproximar):(\w+)$/.exec(d.acao)?.[2];
+      const alvo = /^(andar|correr|avancar|aproximar):(\w+)$/.exec(d.acao)?.[2];
       if (alvo && !alvosOlhar.has(alvo)) erros.push(`linha ${i}: alvo "${alvo}" da ação ${d.acao} não existe`);
+      if (/^(trabalhar|segurar:(telefone|bloco_passagens))$/.test(d.acao) && planoCam?.linhas?.[i] && planoCam.linhas[i].ini.postura !== "sentado") erros.push(`linha ${i}: "${d.acao}" só dá para fazer sentado no guichê`);
     }
     if (!CLIMAS.includes(d.clima)) erros.push(`linha ${i}: clima "${d.clima}" inválido`);
     for (const ev of d.eventos ?? []) {
       if (!EVENTO_RE.test(ev)) { erros.push(`linha ${i} (t=${l.t}): evento "${ev}" fora do vocabulário`); continue; }
+      if (/^camera\./.test(ev) && !String(d.acao ?? "").startsWith("transicao:")) erros.push(`linha ${i}: "${ev}" só vale numa linha com transicao:preto (a câmera só muda de lugar no escuro)`);
+      const ci = /^camera\.ir=(\w+)$/.exec(ev);
+      if (ci && !nos.has(ci[1]) && !marcas.has(ci[1])) erros.push(`linha ${i}: camera.ir=${ci[1]} — nó ou marca inexistente`);
       const m = /^prop\.(\w+)\./.exec(ev);
       if (m && !props.has(m[1])) erros.push(`linha ${i}: prop "${m[1]}" não existe no cenário ${roteiro.cenario}`);
       const p = /^personagem\.(\w+)\.(\w+)=(.+)$/.exec(ev);
@@ -69,6 +86,7 @@ export function validarRoteiro(roteiro, canal) {
         if ((p[2] === "posicao" || p[2] === "andar") && !marcas.has(p[3])) erros.push(`linha ${i}: marca "${p[3]}" não existe no cenário`);
       }
       const c = /^celular\.(tela|notificacao)=(\d+)$/.exec(ev);
+      if (/=null$/.test(ev) && /^celular\.notificacao/.test(ev)) erros.push(`linha ${i}: celular.notificacao precisa de um índice`);
       if (c && !(roteiro.celular ?? [])[Number(c[2])]) erros.push(`linha ${i}: celular[${c[2]}] não existe`);
     }
   }
@@ -113,7 +131,9 @@ export function validarRoteiro(roteiro, canal) {
   const segundosFala = palavrasTotal / pps;
   if (segundosFala > fim * 0.75) erros.push(`${palavrasTotal} palavras (~${segundosFala.toFixed(0)}s de fala) em ${fim.toFixed(0)}s: falta silêncio e tensão; corte falas`);
   const lugares = new Set(roteiro.lugares ?? []);
-  if (lugares.size > (cfg.lugares_max ?? 2)) erros.push(`${lugares.size} lugares; máximo ${cfg.lugares_max ?? 2}`);
+  if (lugares.size > (cfg.lugares_max ?? 4)) erros.push(`${lugares.size} lugares; máximo ${cfg.lugares_max ?? 4}`);
+  const modulos = new Set((mundo.modulos ?? []).map((m) => m.id));
+  for (const lg of lugares) if (modulos.size && !modulos.has(lg)) erros.push(`lugar "${lg}" não faz parte do mundo do cenário ${roteiro.cenario} (${[...modulos].join(", ")})`);
 
   // Dilema e textos
   const d = roteiro.dilema ?? {};
