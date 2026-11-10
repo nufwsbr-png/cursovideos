@@ -346,7 +346,7 @@ def main() -> None:
     ep = resolver_episodio(args.episodio)
     roteiro = carregar_json(ep / "roteiro.json")
     medidas = carregar_json(ep / "medidas.json") if (ep / "medidas.json").exists() else None
-    canal = carregar_canal()
+    canal = carregar_canal(ep)
     if args.efeitos_de:
         linha = carregar_json(args.efeitos_de)
         extras = list(linha.get("efeitos") or [])  # efeitos_extra do roteiro, já deslocados pelo montador

@@ -1,7 +1,7 @@
 // Leitura e gravação de arquivos e pastas de episódio.
 import fs from "node:fs";
 import path from "node:path";
-import { RAIZ, PASTA_EPISODIOS } from "../config.js";
+import { RAIZ, PASTA_EPISODIOS, lerCanal, infoSeries } from "../config.js";
 
 export const existe = (p) => fs.existsSync(p);
 
@@ -38,48 +38,78 @@ export function slug(texto) {
     .toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 40);
 }
 
-export function nomePastaEpisodio(numero, slugTitulo) {
-  return `ep${String(numero).padStart(2, "0")}_${slugTitulo}`;
+export function nomePastaEpisodio(numero, slugTitulo, prefixo = "") {
+  return `${prefixo ? `${prefixo}-` : ""}ep${String(numero).padStart(2, "0")}_${slugTitulo}`;
 }
 
-/** Lista as pastas de episódio em ordem numérica, com o roteiro e o estado lidos. */
-export function listarEpisodios() {
+// Pastas de episódio: "epNN_slug" (série padrão) ou "<prefixo>-epNN_slug" (outra série, ex.: "72h-ep01_...").
+const RE_PASTA = /^(?:([a-z0-9]+)-)?ep(\d+)_/i;
+function seriesDoCanal() {
+  try { return infoSeries(lerCanal()); } catch { return infoSeries(null); }
+}
+
+/**
+ * Lista as pastas de episódio com roteiro e estado lidos: { nome, dir, numero, serie, ref, roteiro, estado, publicacao }.
+ * `ref` é como pedir o episódio na linha de comando ("1" na série padrão, "72h-1" nas outras). Ordem: a das séries no
+ * canal, depois o número. `serie` filtra.
+ */
+export function listarEpisodios({ serie } = {}) {
   if (!fs.existsSync(PASTA_EPISODIOS)) return [];
+  const info = seriesDoCanal();
+  const ordem = (id) => { const i = info.lista.findIndex((s) => s.id === id); return i < 0 ? info.lista.length : i; };
   return fs.readdirSync(PASTA_EPISODIOS)
-    .filter((n) => /^ep\d+_/.test(n) && fs.statSync(path.join(PASTA_EPISODIOS, n)).isDirectory())
+    .filter((n) => RE_PASTA.test(n) && fs.statSync(path.join(PASTA_EPISODIOS, n)).isDirectory())
     .map((n) => {
+      const [, prefixo = "", num] = RE_PASTA.exec(n);
       const dir = path.join(PASTA_EPISODIOS, n);
       const roteiro = lerJson(path.join(dir, "roteiro.json"), null);
       const estado = lerJson(path.join(dir, "estado.json"), { etapa: roteiro ? "roteiro" : "vazio", aprovado: false, bloqueios: [] });
       const publicacao = lerJson(path.join(dir, "publicacao.json"), null);
-      const numero = roteiro?.numero ?? parseInt(n.slice(2), 10);
-      return { nome: n, dir, numero, roteiro, estado, publicacao };
+      const numero = roteiro?.numero ?? parseInt(num, 10);
+      const serie = roteiro?.serie ?? (prefixo ? info.lista.find((s) => s.prefixo_pasta === prefixo.toLowerCase())?.id : null) ?? info.padrao;
+      const pref = info.lista.find((s) => s.id === serie)?.prefixo_pasta ?? prefixo.toLowerCase();
+      return { nome: n, dir, numero, serie, ref: pref ? `${pref}-${numero}` : String(numero), roteiro, estado, publicacao };
     })
-    .sort((a, b) => a.numero - b.numero);
+    .filter((e) => !serie || e.serie === serie)
+    .sort((a, b) => ordem(a.serie) - ordem(b.serie) || a.numero - b.numero);
 }
 
-/** Resolve "3", "ep03_x", um caminho ou undefined (= último episódio) para a pasta do episódio. */
-export function resolverEpisodio(ref) {
+/**
+ * Resolve uma referência: "3" ou "ep03" (série padrão, ou a de `opcoes.serie`), "72h-1" / "72h-ep01" (prefixo da série),
+ * "72horas:1" (id da série), "ep03_x" (nome da pasta), um caminho, ou undefined (= último episódio).
+ */
+export function resolverEpisodio(ref, { serie } = {}) {
   const lista = listarEpisodios();
+  const info = seriesDoCanal();
   if (ref === undefined || ref === null || ref === "" || ref === "ultimo") {
-    if (!lista.length) throw new Error("Não há episódios em episodios/.");
-    return lista[lista.length - 1];
+    const daSerie = serie ? lista.filter((e) => e.serie === serie) : lista;
+    if (!daSerie.length) throw new Error(`Não há episódios em episodios/${serie ? ` da série ${serie}` : ""}.`);
+    return daSerie[daSerie.length - 1];
   }
-  if (fs.existsSync(ref) && fs.statSync(ref).isDirectory()) {
-    const abs = path.resolve(ref);
-    return lista.find((e) => path.resolve(e.dir) === abs) ?? { nome: path.basename(abs), dir: abs, numero: 0, roteiro: lerJson(path.join(abs, "roteiro.json"), null), estado: lerJson(path.join(abs, "estado.json"), { etapa: "?", aprovado: false, bloqueios: [] }), publicacao: null };
+  if (fs.existsSync(String(ref)) && fs.statSync(String(ref)).isDirectory()) {
+    const abs = path.resolve(String(ref));
+    const roteiro = lerJson(path.join(abs, "roteiro.json"), null);
+    return lista.find((e) => path.resolve(e.dir) === abs) ?? { nome: path.basename(abs), dir: abs, numero: roteiro?.numero ?? 0, serie: roteiro?.serie ?? info.padrao, ref: abs, roteiro, estado: lerJson(path.join(abs, "estado.json"), { etapa: "?", aprovado: false, bloqueios: [] }), publicacao: null };
   }
-  const n = parseInt(String(ref).replace(/^ep/, ""), 10);
-  const porNumero = lista.find((e) => e.numero === n);
-  if (porNumero) return porNumero;
-  const porNome = lista.find((e) => e.nome === ref || e.nome.endsWith(ref));
+  const s = String(ref);
+  let alvo = serie ?? info.padrao, n = null, m;
+  const porPrefixo = (p) => info.lista.find((x) => x.prefixo_pasta && x.prefixo_pasta === p.toLowerCase());
+  if ((m = /^([a-z0-9]+)-(?:ep)?(\d+)$/i.exec(s)) && porPrefixo(m[1])) { alvo = porPrefixo(m[1]).id; n = Number(m[2]); }
+  else if ((m = /^([a-z0-9_]+):(?:ep)?(\d+)$/i.exec(s))) { alvo = m[1]; n = Number(m[2]); }
+  else if ((m = /^(?:ep)?(\d+)$/i.exec(s))) n = Number(m[1]);
+  if (n !== null) {
+    const e = lista.find((x) => x.serie === alvo && x.numero === n);
+    if (e) return e;
+  }
+  const porNome = lista.find((e) => e.nome === s || e.nome.endsWith(s));
   if (porNome) return porNome;
-  throw new Error(`Episódio não encontrado: ${ref}`);
+  throw new Error(`Episódio não encontrado: ${ref}${n !== null ? ` (série ${alvo})` : ""}`);
 }
 
-export function proximoNumero() {
-  const lista = listarEpisodios();
-  return lista.length ? lista[lista.length - 1].numero + 1 : 1;
+/** Próximo número da série (padrão: a série ativa do canal). */
+export function proximoNumero(serie) {
+  const lista = listarEpisodios({ serie: serie ?? seriesDoCanal().ativa });
+  return lista.length ? Math.max(...lista.map((e) => e.numero)) + 1 : 1;
 }
 
 export function atualizarEstado(dir, mudancas) {

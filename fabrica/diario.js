@@ -5,7 +5,7 @@
 // Código de saída: 0 ok · 1 erro · 3 precisa do dono (só no 1º dia de cada bloqueio novo, para não avisar todo dia).
 import fs from "node:fs";
 import path from "node:path";
-import { RAIZ, PASTA_EPISODIOS } from "./config.js";
+import { RAIZ, PASTA_EPISODIOS, canalDaSerie, canalDoEpisodio, infoSeries } from "./config.js";
 import { log } from "./util/log.js";
 import { listarEpisodios, resolverEpisodio, proximoNumero, lerJson, atualizarEstado, gravarTexto, relativo } from "./util/arquivos.js";
 import { hashJson } from "./util/hash.js";
@@ -80,7 +80,7 @@ async function escreverNovo({ canal, E, numero, refeitoDe = null, resumo }) {
     return { ep: null, causa: "sem ANTHROPIC_API_KEY: não dá para escrever o próximo roteiro" };
   }
   try {
-    const { dir } = await E.roteiro.etapaRoteiro({ canal, numero });
+    const { dir } = await E.roteiro.etapaRoteiro({ canal: canalDaSerie(canal, infoSeries(canal).ativa), numero });
     if (refeitoDe) atualizarEstado(dir, { refeito_de: relativo(refeitoDe) });
     resumo.push(`roteiro novo: ${path.basename(dir)}`);
     return { ep: resolverEpisodio(dir), causa: null };
@@ -94,7 +94,7 @@ async function escreverNovo({ canal, E, numero, refeitoDe = null, resumo }) {
 export function votoVirou(ep) {
   const r = ep.roteiro;
   if (!r?.parte_de || !r.opcao_vencedora_anterior) return null;
-  const anterior = listarEpisodios().find((e) => e.numero === r.parte_de);
+  const anterior = listarEpisodios({ serie: ep.serie }).find((e) => e.numero === r.parte_de);
   const votos = anterior ? lerJson(path.join(anterior.dir, "votos.json"), null) : null;
   if (!votos || !votos.opcao_vencedora || /sem comentários/.test(votos.metodo ?? "")) return null;
   if ((votos.contagem?.a ?? 0) + (votos.contagem?.b ?? 0) === 0) return null;
@@ -105,8 +105,8 @@ function escreverBloqueado(bloqueados) {
   if (!bloqueados.length) { fs.rmSync(ARQ_BLOQUEADO, { force: true }); return; }
   const partes = [`# A fábrica precisa de você\n\nAtualizado em ${new Date().toISOString().replace("T", " ").slice(0, 16)} UTC pela rotina diária. Este arquivo some sozinho quando nada estiver travado.\n`];
   for (const b of bloqueados) {
-    partes.push(`\n## Epi. ${String(b.numero).padStart(2, "0")} — ${b.titulo ?? "?"} (\`${String(b.pasta).replace(/\\/g, "/")}\`)\n`);
-    for (const c of b.causas) partes.push(`- **${c}**\n  → ${oQueFazer(c).replace(/episodio N/g, `episodio ${b.numero}`).replace(/--episodio N/g, `--episodio ${b.numero}`)}\n`);
+    partes.push(`\n## ${b.serie ? `${b.serie} · ` : ""}Epi. ${String(b.numero).padStart(2, "0")} — ${b.titulo ?? "?"} (\`${String(b.pasta).replace(/\\/g, "/")}\`)\n`);
+    for (const c of b.causas) partes.push(`- **${c}**\n  → ${oQueFazer(c).replace(/episodio N/g, `episodio ${b.ref ?? b.numero}`).replace(/--episodio N/g, `--episodio ${b.ref ?? b.numero}`)}\n`);
     partes.push(`\nQuem resolve: ${b.precisaDono ? "**o dono**" : "a IA (na próxima rotina)"} · travado desde ${b.desde} · ${b.vezes} tentativa(s).\n`);
   }
   gravarTexto(ARQ_BLOQUEADO, partes.join(""));
@@ -130,6 +130,7 @@ function opcoesDe(args) {
 
 /** Produz (até a entrega) e publica um episódio; devolve as causas se travou. */
 async function produzirEPublicar({ canal, ep, E, args, resumo }) {
+  canal = canalDoEpisodio(canal, ep);
   const r = await produzir({ canal, ep, de: "roteiro", ate: "entrega", opcoes: opcoesDe(args), E });
   let causas = causasDe(r, r.ep.dir);
   if (!causas.length) {
@@ -157,7 +158,9 @@ export async function diario({ canal, args = {}, E }) {
       log.info(`Já publicamos hoje (${jaHoje.nome}).`);
       resumo.push(`já publicado hoje: ${jaHoje.nome}`);
     } else {
-      let alvo = listarEpisodios().find((e) => e.roteiro && e.estado?.etapa !== "publicado") ?? null;
+      // o de hoje: o primeiro não publicado, começando pela série ativa
+      const pendentes = listarEpisodios().filter((e) => e.roteiro && e.estado?.etapa !== "publicado");
+      let alvo = pendentes.find((e) => e.serie === infoSeries(canal).ativa) ?? pendentes[0] ?? null;
       const virou = alvo && !alvo.publicacao?.publicado_em ? votoVirou(alvo) : null;
       if (virou) {
         const destino = descartar(alvo, `o voto do episódio ${alvo.roteiro.parte_de} virou para ${virou.toUpperCase()} depois que a continuação foi escrita`);
@@ -184,7 +187,7 @@ export async function diario({ canal, args = {}, E }) {
           }
           if (causas.length) {
             resumo.push(`não publicado: ${ep?.nome ?? "?"} — ${causas.join("; ")}`);
-            bloqueados.push({ numero: ep?.numero ?? "?", titulo: ep?.roteiro?.titulo, pasta: ep ? relativo(ep.dir) : "episodios/_descartados", causas, precisaDono: t.precisaDono, desde: t.travado?.desde, vezes: t.travado?.vezes ?? 1, avisar: t.avisar });
+            bloqueados.push({ numero: ep?.numero ?? "?", ref: ep?.ref, serie: ep ? infoSeries(canal).lista.find((s) => s.id === ep.serie)?.nome : null, titulo: ep?.roteiro?.titulo, pasta: ep ? relativo(ep.dir) : "episodios/_descartados", causas, precisaDono: t.precisaDono, desde: t.travado?.desde, vezes: t.travado?.vezes ?? 1, avisar: t.avisar });
           }
         } else if (ep) atualizarEstado(ep.dir, { travado: null });
       }

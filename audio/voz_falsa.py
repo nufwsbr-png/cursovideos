@@ -174,7 +174,7 @@ def main() -> None:
 
     ep = resolver_episodio(args.episodio)
     roteiro = carregar_json(ep / "roteiro.json")
-    canal = carregar_canal()
+    canal = carregar_canal(ep)
     pps = float(canal.get("vozes", {}).get("palavras_por_segundo_estimadas", 2.5))
     semente = args.semente if args.semente is not None else int(canal.get("estilo", {}).get("semente", 7))
     pasta = ep / "audio" / "falas"

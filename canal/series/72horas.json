@@ -1,0 +1,28 @@
+{
+  "_aviso": "Série 72 HORAS do canal ToquinhoVivo, aprovada pelo dono em 2026-11-10. Este arquivo substitui, para os episódios desta série, as chaves que trouxer do canal.json (motor/canal_serie.js). Ficção numa cidade inventada: sem data, órgão, empresa ou pessoa reais. Em construção: o mundo (Edifício Aurora) e o elenco entram nas fases S3 e S4.",
+  "frase_do_canal": "Você é o porteiro da noite do Edifício Aurora quando um relógio REINÍCIO EM 72:00:00 aparece em todas as telas e a cidade apaga, e a regra é: ninguém desce no subsolo antes do zero.",
+  "protagonista": {
+    "id": "eu",
+    "nome_real": "nunca dito",
+    "papel": "porteiro da noite do Edifício Aurora (turno das 19h às 7h, terceira semana no emprego)",
+    "como_chamam": "'moço' (moradores), 'garoto' (Seu Wanderley), 'querido' (Dona Celina)",
+    "pistas": {
+      "maos": "pele branca, unhas curtas, relógio digital barato no pulso esquerdo",
+      "roupa": "camisa polo cinza da portaria com 'ED. AURORA' bordado no peito",
+      "objeto": "lanterna amarela de borracha e o rádio comunicador da síndica",
+      "celular": "capinha transparente com uma foto 3x4 da mãe atrás; bateria sempre no fim",
+      "jeito_de_falar": "fala pouco e baixo, educado demais com morador, engole o que pensa"
+    },
+    "maos": {
+      "pele": "#f2c4a2",
+      "manga": "#8c949c",
+      "punho": "#7b838b",
+      "detalhe": "relógio digital preto no pulso esquerdo"
+    },
+    "objetos": ["lanterna", "radio", "celular"],
+    "voz": {
+      "nome": "Umbriel",
+      "estilo_base": "young man in his early twenties, polite and tired, speaks little and low, swallows what he thinks"
+    }
+  }
+}

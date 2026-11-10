@@ -14,6 +14,7 @@ import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { iniciarServidor, RAIZ } from './servidor.js';
 import { garantirFfmpegNoPath } from '../fabrica/util/binarios.js';
+import { canalDaPasta } from './canal_serie.js';
 
 garantirFfmpegNoPath();
 const require = createRequire(import.meta.url);
@@ -96,7 +97,8 @@ function coletarLegendas(acum, t, legendas) {
 
 async function main() {
   const t0 = Date.now();
-  const canal = lerJson(path.join(RAIZ, 'canal', 'canal.json'));
+  // o canal da série do episódio (canal.json + canal/series/<id>.json)
+  const canal = canalDaPasta(lerJson(path.join(RAIZ, 'canal', 'canal.json')), args.episodio ? path.resolve(RAIZ, String(args.episodio)) : RAIZ, RAIZ);
   const escala = args.escala ? Number(args.escala) : 1;
   const formato = args.formato || null;
 

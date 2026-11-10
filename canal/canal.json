@@ -1,9 +1,18 @@
 {
   "_aviso": "Este é o canal-exemplo ORIGINAL que faz a fábrica rodar hoje. Ele NÃO é o canal do livro (Teco / Posto 24h). Troque pelo SEU canal com `node fabrica/cli.js entrevista` depois de fazer a investigação da Parte 3. Nada aqui copia personagens, histórias ou cenas de outro criador.",
-  "nome_exibicao": "Guichê 3",
-  "arroba": "guiche3",
+  "nome_exibicao": "ToquinhoVivo",
+  "arroba": "toquinhovivo",
   "idioma": "pt-BR",
-  "bio": "Você assume o guichê da madrugada. Você decide o próximo episódio. Comece pelo Epi. 01 👇",
+  "bio": "Histórias em primeira pessoa: você no turno da madrugada, uma regra estranha e uma escolha no fim. Você decide o próximo episódio 👇",
+  "series": {
+    "_nota": "Desde 2026-11-10 o canal tem mais de uma série. A padrão (Guichê 3) é o resto deste arquivo; cada outra série tem um arquivo que substitui protagonista, elenco, cenários, mundos e frase, e funde o estilo (motor/canal_serie.js). Episódios: epNN_* (padrão) e <prefixo>-epNN_* (outras).",
+    "padrao": "guiche3",
+    "ativa": "72horas",
+    "lista": [
+      { "id": "guiche3", "nome": "Guichê 3" },
+      { "id": "72horas", "nome": "72 Horas", "arquivo": "canal/series/72horas.json", "prefixo_pasta": "72h" }
+    ]
+  },
   "frase_do_canal": "Você é atendente do guichê da madrugada na rodoviária de Boa Vista do Sul quando o painel anuncia um ônibus que não existe, e a regra é: nunca venda passagem para o das 3h.",
   "nicho": {
     "papel": "atendente novato do guichê noturno (turno das 22h às 6h, terceira semana de experiência)",

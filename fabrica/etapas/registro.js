@@ -3,7 +3,7 @@
 // mesma versão no Windows e no CI. O orquestrador usa isto para pular o que está em dia e refazer só o que ficou velho.
 import fs from "node:fs";
 import path from "node:path";
-import { RAIZ, PASTA_MOTOR, PASTA_AUDIO } from "../config.js";
+import { RAIZ, PASTA_MOTOR, PASTA_AUDIO, canalDoEpisodio } from "../config.js";
 import { lerJson } from "../util/arquivos.js";
 import { hashArquivo, hashArvore, hashArquivos, hashJson } from "../util/hash.js";
 import { entradaDe, hashPasta, hashSaidas, lerVersoes, gravarVersao, compararVersao } from "../util/versoes.js";
@@ -127,7 +127,7 @@ export const CONTRATOS = {
     entrada: (ctx) => ({
       roteiro: hashArquivo(no(ctx.dir, "roteiro.json")),
       linha: hashArquivo(no(ctx.dir, "linha_do_tempo.json")),
-      canal: { estilo: ctx.canal.estilo, publicacao: ctx.canal.publicacao, nome: ctx.canal.nome_exibicao, plataformas: ctx.canal.plataformas, cenarios: ctx.canal.cenarios, mundos: ctx.canal.mundos },
+      canal: { estilo: ctx.canal.estilo, publicacao: ctx.canal.publicacao, nome: ctx.canal.nome_exibicao, serie: ctx.canal.serie?.nome ?? null, plataformas: ctx.canal.plataformas, cenarios: ctx.canal.cenarios, mundos: ctx.canal.mundos, protagonista: ctx.canal.protagonista, elenco: ctx.canal.elenco },
       motor: arvore(PASTA_MOTOR),
       codigo: codigo("fabrica/etapas/09_capa_textos.js", "fabrica/publicar/textos.js"),
     }),
@@ -137,7 +137,11 @@ export const CONTRATOS = {
 };
 
 /** Situação de uma etapa: { valida, motivo, mudou, faltam, alteradas, sempre? } */
+// As versões usam sempre o canal da série do episódio, venha de onde vier a chamada (orquestrador, entrega, explicar).
+const comCanalDaSerie = (ctx) => (ctx.canal ? { ...ctx, canal: canalDoEpisodio(ctx.canal, { dir: ctx.dir, roteiro: ctx.roteiro }) } : ctx);
+
 export function situacao(etapa, ctx) {
+  ctx = comCanalDaSerie(ctx);
   const c = CONTRATOS[etapa];
   if (!c) throw new Error(`etapa sem contrato de versão: ${etapa}`);
   if (c.sempre) return { valida: false, sempre: true, motivo: "confere toda vez", mudou: [], faltam: [], alteradas: [] };
@@ -149,6 +153,7 @@ export function situacao(etapa, ctx) {
 
 /** Grava a versão atual da etapa (entrada e saídas como estão agora). */
 export function registrar(etapa, ctx, extra = {}) {
+  ctx = comCanalDaSerie(ctx);
   const c = CONTRATOS[etapa];
   const entrada = entradaDe(c.entrada(ctx));
   const saidas = hashSaidas(ctx.dir, c.saidas(ctx));

@@ -6,9 +6,15 @@ animação 3D determinística → som → prova → publicação → leitura dos
 conversa para a outra: **este arquivo e a pasta `memoria/` são a memória**. Leia-os sempre que começar.
 
 ## Resumo do canal (1 frase)
-Veja `memoria/canal_e_nicho.md`. O canal atual é o canal-exemplo original **"Guichê 3"** (rodoviária de
-Boa Vista do Sul, madrugada, regra: *nunca venda passagem para o das 3h*). Ele existe para a fábrica rodar
-hoje; o dono pode trocar tudo com `node fabrica/cli.js entrevista`.
+Veja `memoria/canal_e_nicho.md`. O canal se chama **ToquinhoVivo** (decisão do dono em 2026-11-10) e tem duas séries:
+- **Guichê 3** (série padrão): rodoviária de Boa Vista do Sul, madrugada, regra *nunca venda passagem para o das 3h*.
+  O Epi. 01 está produzido e aguarda as vozes reais.
+- **72 Horas** (série ativa): portaria do Edifício Aurora; um relógio REINÍCIO EM 72:00:00 apaga a cidade por 3 dias,
+  e a síndica Celina esconde água no subsolo. É ficção numa cidade inventada.
+
+Cada série tem protagonista, elenco e mundo próprios: o `canal/canal.json` é o canal mais o Guichê 3, e cada outra série
+tem um `canal/series/<id>.json` por cima (`motor/canal_serie.js`). Os episódios ficam em `episodios/epNN_*` (Guichê 3) e
+em `episodios/72h-epNN_*` (72 Horas). Na linha de comando: `--episodio 1` e `--episodio 72h-1`.
 
 ## Idioma e regras fixas
 - Tudo em **português do Brasil**: arquivos, mensagens, roteiros, falas. Estilos de voz ficam em inglês (regra do Google AI Studio).
@@ -83,7 +89,7 @@ node fabrica/cli.js status                         # onde paramos (etapa, public
 node fabrica/cli.js doctor                         # o ambiente está pronto?
 node fabrica/cli.js diario [--simular]             # a rotina de um dia (saída 3 = precisa do dono)
 node fabrica/cli.js episodio --novo                # escreve e produz o próximo episódio até a entrega
-node fabrica/cli.js episodio --episodio N          # produz o episódio N até a entrega, pulando o que está em dia
+node fabrica/cli.js episodio --episodio N          # produz o episódio N até a entrega, pulando o que está em dia (72 Horas: 72h-N)
 node fabrica/cli.js versoes --explicar --episodio N
 node fabrica/cli.js critico --preparar|--aplicar --episodio N   # crítico visual na sessão
 node fabrica/cli.js publicar --episodio N [--simular]

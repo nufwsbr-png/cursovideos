@@ -4,9 +4,15 @@ import path from "node:path";
 import { PASTA_MEMORIA, RAIZ } from "../config.js";
 import { listarEpisodios, lerTexto, gravarTexto, anexarTexto, lerJson } from "../util/arquivos.js";
 import { log } from "../util/log.js";
+import { lerCanal, infoSeries } from "../config.js";
 
 const INICIO = "<!-- auto:inicio (gerado pela fábrica; edite acima desta linha) -->";
 const FIM = "<!-- auto:fim -->";
+
+// nome da série de um episódio (o canal tem mais de uma desde 2026-11-10)
+function nomeSerie(e) {
+  try { return infoSeries(lerCanal()).lista.find((s) => s.id === e.serie)?.nome ?? e.serie ?? "—"; } catch { return e.serie ?? "—"; }
+}
 
 function blocoAutomatico({ resumoDoDia }) {
   const eps = listarEpisodios();
@@ -15,14 +21,14 @@ function blocoAutomatico({ resumoDoDia }) {
     const pub = e.publicacao?.publicado_em ? e.publicacao.publicado_em.slice(0, 10) : "—";
     const redes = Object.entries(e.publicacao?.plataformas ?? {}).filter(([, p]) => p?.ok).map(([n]) => n).join(", ") || "—";
     const votos = lerJson(path.join(e.dir, "votos.json"), null);
-    return `| ${String(e.numero).padStart(2, "0")} | ${r.titulo ?? "?"} | ${e.estado?.etapa ?? "?"} | ${(e.estado?.bloqueios ?? []).join("; ") || "—"} | ${pub} | ${redes} | ${votos ? `${votos.opcao_vencedora?.toUpperCase()} (${votos.contagem?.a ?? 0}×${votos.contagem?.b ?? 0}, ${votos.metodo})` : "—"} |`;
+    return `| ${nomeSerie(e)} | ${String(e.numero).padStart(2, "0")} | ${r.titulo ?? "?"} | ${e.estado?.etapa ?? "?"} | ${(e.estado?.bloqueios ?? []).join("; ") || "—"} | ${pub} | ${redes} | ${votos ? `${votos.opcao_vencedora?.toUpperCase()} (${votos.contagem?.a ?? 0}×${votos.contagem?.b ?? 0}, ${votos.metodo})` : "—"} |`;
   });
   const ultimo = eps[eps.length - 1];
-  const proximo = ultimo ? (ultimo.estado?.etapa === "publicado" ? `produzir o episódio ${ultimo.numero + 1} (continuação de "${ultimo.roteiro?.titulo}", respeitando o voto)` : `terminar o episódio ${ultimo.numero} (está em "${ultimo.estado?.etapa}"${(ultimo.estado?.bloqueios ?? []).length ? `, bloqueado por: ${ultimo.estado.bloqueios.join("; ")}` : ""})`) : "escrever o piloto";
+  const proximo = ultimo ? (ultimo.estado?.etapa === "publicado" ? `produzir o episódio ${ultimo.numero + 1} de ${nomeSerie(ultimo)} (continuação de "${ultimo.roteiro?.titulo}", respeitando o voto)` : `terminar o episódio ${ultimo.ref} de ${nomeSerie(ultimo)} (está em "${ultimo.estado?.etapa}"${(ultimo.estado?.bloqueios ?? []).length ? `, bloqueado por: ${ultimo.estado.bloqueios.join("; ")}` : ""})`) : "escrever o piloto";
   return `${INICIO}
 ## Painel automático (${new Date().toISOString().replace("T", " ").slice(0, 16)} UTC)
-| Ep | Título | Etapa | Bloqueios | Publicado | Redes | Voto |
-|---|---|---|---|---|---|---|
+| Série | Ep | Título | Etapa | Bloqueios | Publicado | Redes | Voto |
+|---|---|---|---|---|---|---|---|
 ${linhas.join("\n")}
 
 **Próximo passo da fábrica:** ${proximo}.
@@ -46,7 +52,7 @@ export function etapaMemoria({ resumoDoDia = "", aprendizados = [] } = {}) {
   for (const a of aprendizados) anexarTexto(path.join(PASTA_MEMORIA, "aprendizados.md"), `- [${hoje}] ${a}\n`);
   // índice de episódios
   const eps = listarEpisodios();
-  const indice = ["# Episódios", "", "| Ep | Título | Frase memorável | Dilema | Cenário | Pasta |", "|---|---|---|---|---|---|", ...eps.map((e) => `| ${String(e.numero).padStart(2, "0")} | ${e.roteiro?.titulo ?? "?"} | ${e.roteiro?.frase_memoravel ?? ""} | ${e.roteiro?.dilema ? `${e.roteiro.dilema.opcao_a} × ${e.roteiro.dilema.opcao_b}` : ""} | ${e.roteiro?.cenario ?? ""} | \`${path.relative(RAIZ, e.dir)}\` |`)].join("\n") + "\n";
+  const indice = ["# Episódios", "", "| Série | Ep | Título | Frase memorável | Dilema | Cenário | Pasta |", "|---|---|---|---|---|---|---|", ...eps.map((e) => `| ${nomeSerie(e)} | ${String(e.numero).padStart(2, "0")} | ${e.roteiro?.titulo ?? "?"} | ${e.roteiro?.frase_memoravel ?? ""} | ${e.roteiro?.dilema ? `${e.roteiro.dilema.opcao_a} × ${e.roteiro.dilema.opcao_b}` : ""} | ${e.roteiro?.cenario ?? ""} | \`${path.relative(RAIZ, e.dir)}\` |`)].join("\n") + "\n";
   gravarTexto(path.join(PASTA_MEMORIA, "episodios.md"), indice);
   log.ok("estado_atual.md, episodios.md e aprendizados.md atualizados.");
 }

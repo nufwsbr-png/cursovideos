@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { iniciarServidor, RAIZ } from './servidor.js';
+import { canalDaPasta } from './canal_serie.js';
 const require = createRequire(import.meta.url);
 
 const args = Object.fromEntries(process.argv.slice(2).map((a, i, arr) => a.startsWith('--') ? [a.slice(2), arr[i + 1] && !arr[i + 1].startsWith('--') ? arr[i + 1] : true] : []).filter(x => x.length));
@@ -16,7 +17,7 @@ const tempoDoNome = (n) => { const m = /t_(\d+\.\d+)/.exec(n); return m ? Number
 
 const render = existe(path.join(pastaEp, 'render.json')) ? lerJson(path.join(pastaEp, 'render.json')) : {};
 const linha = existe(path.join(pastaEp, 'linha_do_tempo.json')) ? lerJson(path.join(pastaEp, 'linha_do_tempo.json')) : existe(path.join(pastaEp, 'linha_do_tempo_previa.json')) ? lerJson(path.join(pastaEp, 'linha_do_tempo_previa.json')) : null;
-const canal = lerJson(path.join(RAIZ, 'canal', 'canal.json'));
+const canal = canalDaPasta(lerJson(path.join(RAIZ, 'canal', 'canal.json')), pastaEp, RAIZ); // o canal da série do episódio
 const W = canal.formato?.largura || 1080, H = canal.formato?.altura || 1920;
 const escala = render.escala || 1;
 

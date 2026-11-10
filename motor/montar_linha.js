@@ -7,6 +7,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { montarLinhaDoTempo } from './cena/linha_do_tempo.js';
 import { planejarDuracoes } from './cena/plano_camera.js';
+import { canalDaPasta } from './canal_serie.js';
 
 const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = {};
@@ -14,7 +15,7 @@ for (let i = 2; i < process.argv.length; i++) { const a = process.argv[i]; if (a
 if (!args.episodio) { console.error('uso: node motor/montar_linha.js --episodio <pasta> [--saida arquivo]'); process.exit(2); }
 const dir = path.resolve(RAIZ, args.episodio);
 const lerJson = (p, padrao) => (fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, 'utf8')) : padrao);
-const canal = lerJson(path.join(RAIZ, 'canal', 'canal.json'));
+const canal = canalDaPasta(lerJson(path.join(RAIZ, 'canal', 'canal.json')), dir, RAIZ); // o canal da série do episódio
 const roteiro = lerJson(path.join(dir, 'roteiro.json'));
 const medidas = lerJson(path.join(dir, 'medidas.json'), null);
 const plano = planejarDuracoes(roteiro, canal);

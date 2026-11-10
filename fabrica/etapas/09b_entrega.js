@@ -10,6 +10,7 @@ import { situacao, PRODUCAO, nomeMp4 } from "./registro.js";
 import { problemasGraves } from "./05b_quadros.js";
 import { lerCritico, configCritico } from "../critico/critico.js";
 import { VERSAO_REGRAS } from "../roteiro/nota.js";
+import { canalDoEpisodio } from "../config.js";
 
 const FONTES_DO_CRITICO_ACEITAS = ["api", "sessao_claude_code"];
 
@@ -21,6 +22,7 @@ function arquivoInfo(dir, nome) {
 
 /** Monta a entrega (sem gravar). */
 export function montarEntrega({ canal, ep, opcoes = {} }) {
+  canal = canalDoEpisodio(canal, ep);
   const dir = ep.dir;
   const r = ep.roteiro;
   const estado = lerJson(path.join(dir, "estado.json"), {});
@@ -88,6 +90,7 @@ export async function etapaEntrega({ canal, ep }) {
  * continua publicável. → { ok, motivo?, entrega? }
  */
 export function conferirEntrega({ canal, ep }) {
+  canal = canalDoEpisodio(canal, ep);
   const gravada = lerJson(path.join(ep.dir, "entrega.json"), null);
   if (!gravada) return { ok: false, motivo: "sem entrega.json: rode a etapa entrega (episodio --episodio N)" };
   if (!gravada.publicavel) return { ok: false, motivo: `a entrega não é publicável: ${gravada.motivos.join("; ")}` };

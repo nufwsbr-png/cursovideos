@@ -239,7 +239,7 @@ def mixar(ep: Path, linha: dict, video: Path | None, saida: Path | None, so_audi
     total = float(linha["duracao_total_s"])
     n = int(round(total * SR))
 
-    canal = carregar_canal() or {}
+    canal = carregar_canal(ep) or {}
     aud = canal.get("audio", {})
     alvo_lufs = float(aud.get("lufs_alvo", ALVO_LUFS))
     duck = aud.get("ducking_db", {})
@@ -389,7 +389,7 @@ def main() -> None:
     if not caminho_linha.exists():
         sys.exit(f"Linha do tempo não encontrada: {caminho_linha}")
     linha = carregar_json(caminho_linha)
-    canal = carregar_canal()
+    canal = carregar_canal(ep)
     semente = args.semente if args.semente is not None else int(canal.get("estilo", {}).get("semente", 7))
     video = Path(args.video)
     if not video.is_absolute():

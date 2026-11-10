@@ -118,12 +118,13 @@ function htmlGrade(capas) {
 }
 
 export function montarTextos({ canal, roteiro }) {
+  const nomeSerie = canal.serie?.varias ? canal.serie.nome : null; // canal com várias séries: o texto diz qual
   const numero = roteiro.numero;
   const hashtags = normalizarHashtags([...(roteiro.hashtags ?? []), ...(canal.publicacao?.hashtags_base ?? [])], canal.publicacao?.hashtags_max ?? 4);
   const situacao = String(roteiro.descricao ?? roteiro.titulos?.[0] ?? roteiro.titulo).replace(/\s*Epi\.?\s*\d+\s*$/i, "").trim();
-  const descricao = formulaTexto({ situacao, numero, hashtags: [], max_hashtags: 0 });
+  const descricao = formulaTexto({ situacao, numero, serie: nomeSerie, hashtags: [], max_hashtags: 0 });
   const titulos = roteiro.titulos?.length ? roteiro.titulos : [roteiro.titulo];
-  const tituloCurto = (roteiro.frase_memoravel ? `${roteiro.frase_memoravel.replace(/\.$/, "")} · Epi. ${String(numero).padStart(2, "0")}` : titulos[0]);
+  const tituloCurto = (roteiro.frase_memoravel ? `${roteiro.frase_memoravel.replace(/\.$/, "")} · ${nomeSerie ? `${nomeSerie} · ` : ""}Epi. ${String(numero).padStart(2, "0")}` : titulos[0]);
   const textos = {
     titulo: titulos[0],
     descricao,
@@ -131,11 +132,11 @@ export function montarTextos({ canal, roteiro }) {
     comentario_fixado: roteiro.comentario_fixado,
     promocao: false,
     por_plataforma: {
-      tiktok: { titulo: formulaTexto({ situacao, numero, hashtags }) },
-      youtube: { titulo: tituloCurto.length <= 92 ? tituloCurto : titulos[1] ?? titulos[0], descricao: [descricao, `${roteiro.dilema?.pergunta ?? "O que você faria?"} A) ${roteiro.dilema?.opcao_a} · B) ${roteiro.dilema?.opcao_b}`, roteiro.comentario_fixado, hashtags.map((h) => "#" + h).join(" "), `Canal ${canal.nome_exibicao} · história e personagens originais · vozes e animação feitas com IA`].filter(Boolean).join("\n\n"), tags: [...hashtags, "pov", "shorts", "historia", "suspense", "brasil"] },
+      tiktok: { titulo: formulaTexto({ situacao, numero, serie: nomeSerie, hashtags }) },
+      youtube: { titulo: tituloCurto.length <= 92 ? tituloCurto : titulos[1] ?? titulos[0], descricao: [descricao, `${roteiro.dilema?.pergunta ?? "O que você faria?"} A) ${roteiro.dilema?.opcao_a} · B) ${roteiro.dilema?.opcao_b}`, roteiro.comentario_fixado, hashtags.map((h) => "#" + h).join(" "), `Canal ${canal.nome_exibicao}${nomeSerie ? ` · série ${nomeSerie}` : ""} · história e personagens originais · vozes e animação feitas com IA`].filter(Boolean).join("\n\n"), tags: [...hashtags, "pov", "shorts", "historia", "suspense", "brasil"] },
       instagram: { legenda: [descricao, roteiro.comentario_fixado, hashtags.map((h) => "#" + h).join(" ")].filter(Boolean).join("\n\n") },
       facebook: { titulo: titulos[0], descricao: [descricao, roteiro.comentario_fixado, hashtags.map((h) => "#" + h).join(" ")].filter(Boolean).join("\n\n") },
-      kwai: { legenda: formulaTexto({ situacao, numero, hashtags }) },
+      kwai: { legenda: formulaTexto({ situacao, numero, serie: nomeSerie, hashtags }) },
     },
   };
   textos.conferencia = Object.fromEntries(["tiktok", "instagram", "facebook", "youtube", "kwai"].map((p) => [p, textoPara(p, textos, canal)]));
@@ -184,7 +185,7 @@ export async function etapaCapaTextos({ canal, ep }) {
     for (let i = 0; i < 3; i++) {
       const quadro = path.join(ep.dir, `quadro_capa_${i + 1}.png`);
       if (!quadrosMotor) await extrairQuadro(video, tempos[i], quadro);
-      const html = htmlCapa({ quadroBase64: fs.readFileSync(quadro).toString("base64"), gancho: r.capa?.frase_gancho ?? r.titulo, numero: r.numero, cores, variante: i + 1, nomeCanal: canal.nome_exibicao, fonte, largura, altura });
+      const html = htmlCapa({ quadroBase64: fs.readFileSync(quadro).toString("base64"), gancho: r.capa?.frase_gancho ?? r.titulo, numero: r.numero, cores, variante: i + 1, nomeCanal: canal.serie?.nome ?? canal.nome_exibicao, fonte, largura, altura });
       await pagina.setContent(html, { waitUntil: "load" });
       await pagina.evaluate(() => document.fonts.ready);
       const medida = await pagina.evaluate(ajustarTextoDaCapa);

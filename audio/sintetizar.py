@@ -698,7 +698,7 @@ def main() -> None:
     if not caminho.exists():
         sys.exit(f"Linha do tempo não encontrada: {caminho}. Rode a etapa de tempo (ou audio/_linha_previa.py) antes.")
     linha = carregar_json(caminho)
-    canal = carregar_canal()
+    canal = carregar_canal(ep)
     semente = args.semente if args.semente is not None else int(canal.get("estilo", {}).get("semente", 7))
     reg = gerar_camadas(linha, ep / "audio" / "camadas", semente, args.json, canal.get("audio"))
     if args.json:

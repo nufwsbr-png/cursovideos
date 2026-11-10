@@ -2,6 +2,7 @@
 import path from "node:path";
 import fs from "node:fs";
 import { fileURLToPath } from "node:url";
+import { canalDaSerie as canalDaSerieRaiz, canalDaPasta as canalDaPastaRaiz, infoSeries } from "../motor/canal_serie.js";
 
 export const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 export const PASTA_EPISODIOS = path.join(RAIZ, "episodios");
@@ -32,4 +33,13 @@ export function personagemPorId(canal, id) {
 export function hojeNoFuso(canal) {
   const fuso = canal.publicacao?.fuso || "America/Sao_Paulo";
   return new Intl.DateTimeFormat("sv-SE", { timeZone: fuso, year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+}
+
+// Séries do canal (desde 2026-11-10): o canal efetivo de um episódio é o canal.json com a série dele por cima
+// (motor/canal_serie.js). `canal.serie` = { id, nome, prefixo_pasta, padrao, varias } fica fora do JSON.
+export { infoSeries };
+export const canalDaSerie = (canal, serieId) => canalDaSerieRaiz(canal, serieId, RAIZ);
+export function canalDoEpisodio(canal, ep) {
+  const serie = ep?.roteiro?.serie ?? ep?.serie;
+  return serie ? canalDaSerieRaiz(canal, serie, RAIZ) : canalDaPastaRaiz(canal, ep?.dir ?? "", RAIZ);
 }

@@ -19,6 +19,7 @@ from __future__ import annotations
 import json
 import math
 import os
+import re
 import subprocess
 import sys
 import wave
@@ -81,8 +82,62 @@ def salvar_json(caminho, dados) -> None:
         f.write("\n")
 
 
-def carregar_canal() -> dict:
-    return carregar_json(RAIZ / "canal" / "canal.json")
+def _info_series(canal: dict) -> dict:
+    s = (canal or {}).get("series") or {}
+    padrao = s.get("padrao", "padrao")
+    lista = s.get("lista") or [{"id": padrao, "nome": (canal or {}).get("nome_exibicao", padrao)}]
+    return {"padrao": padrao, "ativa": s.get("ativa", padrao), "lista": lista}
+
+
+def _fundir(a, b):
+    if not isinstance(a, dict) or not isinstance(b, dict):
+        return b
+    o = dict(a)
+    for k, v in b.items():
+        o[k] = _fundir(a[k], v) if isinstance(v, dict) and isinstance(a.get(k), dict) else v
+    return o
+
+
+def serie_da_pasta(ep, canal: dict) -> str:
+    """Série do episódio: roteiro.serie; senão o prefixo da pasta ("72h-ep01_..."); senão a padrão (= motor/canal_serie.js)."""
+    info = _info_series(canal)
+    ep = Path(ep)
+    try:
+        r = carregar_json(ep / "roteiro.json")
+        if r.get("serie"):
+            return r["serie"]
+    except Exception:
+        pass
+    m = re.match(r"^([a-z0-9]+)-ep\d+_", ep.name, re.I)
+    if m:
+        for s in info["lista"]:
+            if s.get("prefixo_pasta") == m.group(1).lower():
+                return s["id"]
+    return info["padrao"]
+
+
+def canal_da_serie(canal: dict, serie: str | None) -> dict:
+    """O canal efetivo da série: o arquivo da série substitui tudo o que trouxer, menos "estilo" (fundido)."""
+    info = _info_series(canal)
+    sid = serie or info["padrao"]
+    meta = next((s for s in info["lista"] if s["id"] == sid), None)
+    if meta is None:
+        raise ValueError(f'série "{sid}" não existe em canal.json → series.lista')
+    if not meta.get("arquivo"):
+        return canal
+    sobre = carregar_json(RAIZ / meta["arquivo"])
+    out = dict(canal)
+    for k, v in sobre.items():
+        if k.startswith("_"):
+            continue
+        out[k] = _fundir(canal.get("estilo") or {}, v) if k == "estilo" else v
+    return out
+
+
+def carregar_canal(ep=None) -> dict:
+    """canal.json; com `ep` (pasta do episódio), o canal efetivo da série dele."""
+    canal = carregar_json(RAIZ / "canal" / "canal.json")
+    return canal if ep is None else canal_da_serie(canal, serie_da_pasta(ep, canal))
 
 
 def agora_iso() -> str:

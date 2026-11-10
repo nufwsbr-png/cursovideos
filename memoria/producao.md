@@ -1,5 +1,13 @@
 # Produção — como a fábrica funciona (Parte 7)
 
+## Séries (desde 2026-11-10)
+O canal ToquinhoVivo tem duas séries:
+- **Guichê 3:** `episodios/epNN_*`; na linha de comando, `--episodio 1`.
+- **72 Horas:** `episodios/72h-epNN_*`; na linha de comando, `--episodio 72h-1`.
+
+Cada episódio roda com o canal da série dele (`canal.json` + `canal/series/<id>.json`), e o `status` mostra as duas.
+`episodio --novo` escreve na série ativa (`canal.json → series.ativa`).
+
 ## A sequência de um episódio, automatizada (atualizada em 2026-11-10)
 Quem roda é o orquestrador (`fabrica/orquestrador.js`), como um `make`: pula o que está em dia (mesma versão),
 refaz a partir da primeira etapa velha e para nos portões. `node fabrica/cli.js episodio --episodio N`.

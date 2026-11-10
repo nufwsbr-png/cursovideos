@@ -2,8 +2,9 @@
 // seguindo a fórmula do capítulo 71: [Situação em uma frase] + [Epi. XX] + [2 a 4 hashtags].
 import { LIMITES, cortarTexto, cortarBytes } from './limites.js';
 
-export function numeroEpisodio(numero) {
-  return `Epi. ${String(numero).padStart(2, '0')}`;
+export function numeroEpisodio(numero, serie = null) {
+  const ep = `Epi. ${String(numero).padStart(2, '0')}`;
+  return serie ? `${serie} · ${ep}` : ep;
 }
 
 /** Normaliza hashtags: tira '#', espaços e repetições; mantém acentos (as redes aceitam). */
@@ -27,12 +28,12 @@ export function hashtagsComoTexto(lista = [], max = 4) {
 }
 
 /** A fórmula do capítulo 71. `situacao` já deve vir sem "Epi." no fim. */
-export function formulaTexto({ situacao, numero, hashtags = [], max_hashtags = 4 }) {
+export function formulaTexto({ situacao, numero, serie = null, hashtags = [], max_hashtags = 4 }) {
   const frase = String(situacao || '').trim().replace(/\s+$/, '');
   const jaTemEpisodio = /Epi\.\s*\d+\s*$/i.test(frase);
   const fraseComPonto = jaTemEpisodio || /[.!?…]$/.test(frase) ? frase : `${frase}.`;
   const partes = [fraseComPonto];
-  if (numero !== undefined && numero !== null && !jaTemEpisodio) partes.push(numeroEpisodio(numero));
+  if (numero !== undefined && numero !== null && !jaTemEpisodio) partes.push(numeroEpisodio(numero, serie));
   const tags = hashtagsComoTexto(hashtags, max_hashtags);
   if (tags) partes.push(tags);
   return partes.join(' ');

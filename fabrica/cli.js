@@ -3,7 +3,7 @@
 // É um invólucro fino: a ordem das etapas, o que pular e onde parar ficam no orquestrador (fabrica/orquestrador.js).
 import path from "node:path";
 import fs from "node:fs";
-import { RAIZ, ETAPAS, lerCanal, PASTA_MOTOR, hojeNoFuso } from "./config.js";
+import { RAIZ, ETAPAS, lerCanal, PASTA_MOTOR, hojeNoFuso, canalDaSerie, canalDoEpisodio, infoSeries } from "./config.js";
 import { carregarEnv } from "./util/ambiente.js";
 import { log } from "./util/log.js";
 import { listarEpisodios, resolverEpisodio, proximoNumero, lerJson, atualizarEstado, relativo } from "./util/arquivos.js";
@@ -35,6 +35,8 @@ Fábrica POV Viral — comandos
   diario [--simular]             a rotina de um dia: público → produzir → publicar → memória (saída 3 = precisa do dono)
   episodio --novo                escreve o próximo roteiro e produz até a entrega (sem publicar)
   episodio --episodio N          produz o episódio N até a entrega, pulando o que está em dia
+                                 (N = 1 na série padrão, Guichê 3; 72h-1 na série 72 Horas; ou --serie <id> --episodio N)
+  episodio --novo [--serie <id>] escreve e produz o próximo episódio da série (padrão: a série ativa)
      --de etapa --ate etapa      limita as etapas (${ETAPAS.join(", ")})
      --refazer etapa[,etapa]     refaz mesmo em dia     --provedor-voz gemini|falso   --escala 0.5   --rapido
   versoes --episodio N --explicar          o que está em dia e por quê
@@ -73,14 +75,15 @@ function imprimirRelatorio(r) {
 
 function status(canal) {
   const eps = listarEpisodios();
-  console.log(`\nCanal: ${canal.nome_exibicao} (@${canal.arroba}) — ${canal.frase_do_canal}\n`);
+  const info = infoSeries(canal);
+  console.log(`\nCanal: ${canal.nome_exibicao} (@${canal.arroba}) — séries: ${info.lista.map((s) => `${s.nome}${s.id === info.ativa ? " (ativa)" : ""}`).join(" · ")}\n`);
   if (!eps.length) { console.log("Nenhum episódio ainda. Rode: node fabrica/cli.js episodio --novo"); return; }
   log.tabela(eps.map((e) => {
     const entrega = lerJson(path.join(e.dir, "entrega.json"), null);
-    return { ep: e.numero, titulo: e.roteiro?.titulo ?? "?", etapa: e.estado?.etapa ?? "?", publicavel: entrega ? (entrega.publicavel ? "sim" : `não (${entrega.motivos.map((m) => m.split(":")[0]).join(", ")})`) : "—", bloqueios: (e.estado?.bloqueios ?? []).join("; ").slice(0, 120) || "—", publicado: e.publicacao?.publicado_em?.slice(0, 10) ?? "—" };
+    return { serie: info.lista.find((s) => s.id === e.serie)?.nome ?? e.serie, ep: e.ref, titulo: e.roteiro?.titulo ?? "?", etapa: e.estado?.etapa ?? "?", publicavel: entrega ? (entrega.publicavel ? "sim" : `não (${entrega.motivos.map((m) => m.split(":")[0]).join(", ")})`) : "—", bloqueios: (e.estado?.bloqueios ?? []).join("; ").slice(0, 120) || "—", publicado: e.publicacao?.publicado_em?.slice(0, 10) ?? "—" };
   }));
   const hoje = hojeNoFuso(canal);
-  console.log(`Hoje (${canal.publicacao?.fuso}): ${hoje}. Próximo número: ${proximoNumero()}. IA: ${provedorIA()}.`);
+  console.log(`Hoje (${canal.publicacao?.fuso}): ${hoje}. Próximo número: ${info.lista.map((s) => `${s.nome} ${proximoNumero(s.id)}`).join(" · ")}. IA: ${provedorIA()}.`);
   if (fs.existsSync(path.join(RAIZ, "BLOQUEADO.md"))) console.log("Há episódio travado: veja BLOQUEADO.md.");
   carregarEnv();
   const chaves = ["ANTHROPIC_API_KEY", "GEMINI_API_KEY", "TIKTOK_CLIENT_KEY", "META_PAGE_ACCESS_TOKEN", "YOUTUBE_REFRESH_TOKEN", "SUPABASE_URL"];
@@ -94,7 +97,8 @@ async function registrarCritico(canal, alvo, args) {
 }
 
 async function comandoCritico({ canal, args, E }) {
-  const alvo = resolverEpisodio(args.episodio);
+  const alvo = resolverEpisodio(args.episodio, { serie: args.serie });
+  canal = canalDoEpisodio(canal, alvo);
   const { prepararSessao, aplicarSessao } = await import("./critico/critico.js");
   const refazer = async () => { const r = await produzir({ canal, ep: alvo, de: "roteiro", ate: "quadros", opcoes: { ...opcoesProducao(args), refazer: [] }, E }); imprimirRelatorio(r); };
   if (args.preparar) {
@@ -133,7 +137,10 @@ async function main() {
   if (comando === "status") return status(canal);
   if (comando === "doctor") return (await import("./doctor.js")).doctor({ rapido: Boolean(args.rapido), json: Boolean(args.json) });
   const E = await carregarEtapas();
-  const ep = () => resolverEpisodio(args.episodio);
+  const ep = () => resolverEpisodio(args.episodio, { serie: args.serie });
+  // cada episódio roda com o canal da série dele (canal.json + canal/series/<id>.json)
+  const comEp = () => { const a = ep(); return { ep: a, canal: canalDoEpisodio(canal, a) }; };
+  const serieNova = () => args.serie ?? infoSeries(canal).ativa;
   switch (comando) {
     case "diario": {
       const r = await (await import("./diario.js")).diario({ canal, args, E });
@@ -143,28 +150,28 @@ async function main() {
     case "episodio": {
       let alvo;
       if (args.novo) {
-        const { dir } = await E.roteiro.etapaRoteiro({ canal, numero: Number(args.numero ?? proximoNumero()), opcoes: { semContinuacao: Boolean(args["sem-continuacao"]) } });
+        const { dir } = await E.roteiro.etapaRoteiro({ canal: canalDaSerie(canal, serieNova()), numero: Number(args.numero ?? proximoNumero(serieNova())), opcoes: { semContinuacao: Boolean(args["sem-continuacao"]) } });
         alvo = resolverEpisodio(dir);
       } else alvo = ep();
-      const r = await produzir({ canal, ep: alvo, de: args.de ?? "roteiro", ate: args.ate ?? "entrega", opcoes: opcoesProducao(args), E });
+      const r = await produzir({ canal: canalDoEpisodio(canal, alvo), ep: alvo, de: args.de ?? "roteiro", ate: args.ate ?? "entrega", opcoes: opcoesProducao(args), E });
       imprimirRelatorio(r);
       return;
     }
     case "versoes": {
       const alvo = ep();
       if (args.adotar) {
-        const adotadas = adotarVersoes({ canal, ep: alvo, ate: args.ate ?? "capa", opcoes: opcoesProducao(args) });
+        const adotadas = adotarVersoes({ canal: canalDoEpisodio(canal, alvo), ep: alvo, ate: args.ate ?? "capa", opcoes: opcoesProducao(args) });
         log.ok(`adotadas (marcadas como em dia, sem rodar): ${adotadas.join(", ") || "nenhuma"}`);
       }
-      log.tabela(explicarVersoes({ canal, ep: alvo, opcoes: opcoesProducao(args) }));
+      log.tabela(explicarVersoes({ canal: canalDoEpisodio(canal, alvo), ep: alvo, opcoes: opcoesProducao(args) }));
       return;
     }
     case "critico": return comandoCritico({ canal, args, E });
     case "roteiro": {
-      if (args.regras) { console.log((await import("./roteiro/regras.js")).textoRegras(canal, { continuacao: Boolean(args.continuacao), numero: args.numero ?? "N" })); return; }
+      if (args.regras) { console.log((await import("./roteiro/regras.js")).textoRegras(canalDaSerie(canal, serieNova()), { continuacao: Boolean(args.continuacao), numero: args.numero ?? "N" })); return; }
       if (args.validar) {
         const alvo = ep();
-        const r = E.roteiro.validarEpisodio({ canal, dir: alvo.dir });
+        const r = E.roteiro.validarEpisodio({ canal: canalDoEpisodio(canal, alvo), dir: alvo.dir });
         for (const e of r.erros) log.erro(e);
         for (const it of (r.itens ?? []).filter((i) => i.tipo === "desconto")) log.aviso(`${it.pontos} ${it.mensagem}`);
         for (const a of r.avisos) log.aviso(a);
@@ -173,19 +180,19 @@ async function main() {
         process.exitCode = r.aprovado ? 0 : 1;
         return;
       }
-      return E.roteiro.etapaRoteiro({ canal, numero: Number(args.numero ?? proximoNumero()), opcoes: { semContinuacao: Boolean(args["sem-continuacao"]) } });
+      return E.roteiro.etapaRoteiro({ canal: canalDaSerie(canal, serieNova()), numero: Number(args.numero ?? proximoNumero(serieNova())), opcoes: { semContinuacao: Boolean(args["sem-continuacao"]) } });
     }
-    case "vozes": return E.vozes({ canal, ep: ep(), provedor: args["provedor-voz"], so: args.so ? String(args.so).split(",") : null, forcar: Boolean(args.forcar) });
-    case "conferir": return E.conferir({ canal, ep: ep() });
-    case "tempo": return E.tempo({ canal, ep: ep() });
-    case "quadros": return E.quadros({ canal, ep: ep(), escala: Number(args.escala ?? 1) });
-    case "render": return E.render({ canal, ep: ep(), escala: Number(args.escala ?? 1), semStills: !args["com-stills"], semVideo: Boolean(args["sem-video"]), inicio: args.inicio ?? null, fim: args.fim ?? null, rapido: Boolean(args.rapido) });
-    case "som": return E.som({ canal, ep: ep() });
-    case "prova": return E.prova({ canal, ep: ep() });
-    case "capa": return E.capa({ canal, ep: ep() });
-    case "entrega": return E.entrega({ canal, ep: ep() });
+    case "vozes": return E.vozes({ ...comEp(), provedor: args["provedor-voz"], so: args.so ? String(args.so).split(",") : null, forcar: Boolean(args.forcar) });
+    case "conferir": return E.conferir({ ...comEp() });
+    case "tempo": return E.tempo({ ...comEp() });
+    case "quadros": return E.quadros({ ...comEp(), escala: Number(args.escala ?? 1) });
+    case "render": return E.render({ ...comEp(), escala: Number(args.escala ?? 1), semStills: !args["com-stills"], semVideo: Boolean(args["sem-video"]), inicio: args.inicio ?? null, fim: args.fim ?? null, rapido: Boolean(args.rapido) });
+    case "som": return E.som({ ...comEp() });
+    case "prova": return E.prova({ ...comEp() });
+    case "capa": return E.capa({ ...comEp() });
+    case "entrega": return E.entrega({ ...comEp() });
     case "publicar": {
-      const r = await E.publicar.etapaPublicar({ canal, ep: ep(), simular: Boolean(args.simular), plataformas: args.plataformas ? String(args.plataformas).split(",") : null, forcar: Boolean(args.forcar), republicar: Boolean(args.republicar) });
+      const r = await E.publicar.etapaPublicar({ ...comEp(), simular: Boolean(args.simular), plataformas: args.plataformas ? String(args.plataformas).split(",") : null, forcar: Boolean(args.forcar), republicar: Boolean(args.republicar) });
       if (!r.ok) process.exitCode = 1;
       return;
     }

@@ -65,8 +65,8 @@ function contextoMemoria() {
   return partes.join("\n\n") + `\n\n### aprendizados.md (últimas linhas)\n${aprendizados}`;
 }
 
-function resumoEpisodiosAnteriores() {
-  return listarEpisodios().filter((e) => e.roteiro).map((e) => {
+function resumoEpisodiosAnteriores(canal) {
+  return listarEpisodios({ serie: canal?.serie?.id }).filter((e) => e.roteiro).map((e) => {
     const r = e.roteiro;
     const votos = lerJson(path.join(e.dir, "votos.json"), null);
     return { numero: r.numero, titulo: r.titulo, cenario: r.cenario, frase_memoravel: r.frase_memoravel, dilema: r.dilema, opcao_vencedora: votos?.opcao_vencedora ?? null, metodo_do_voto: votos?.metodo ?? null, teorias_do_publico: votos?.teorias?.slice(0, 5) ?? [], pedidos_do_publico: votos?.pedidos?.slice(0, 5) ?? [], ultimas_linhas: r.linhas.slice(-3).map((l) => ({ t: l.t, imagem: l.imagem, fala: l.fala ? r.falas.find((f) => f.id === l.fala)?.texto : null })), proximo_episodio: r.proximo_episodio };
@@ -158,6 +158,7 @@ function montarContinuacao(anteriores, numero) {
 
 function completarRoteiro(roteiro, { numero, canal, continuacao }) {
   roteiro.numero = numero;
+  if (canal.serie?.varias) roteiro.serie = canal.serie.id;
   roteiro.slug = slug(roteiro.titulo || `episodio_${numero}`);
   roteiro.parte_de = continuacao ? continuacao.numero_anterior : null;
   roteiro.opcao_vencedora_anterior = continuacao ? continuacao.opcao_vencedora : null;
@@ -179,7 +180,7 @@ function completarRoteiro(roteiro, { numero, canal, continuacao }) {
 export async function etapaRoteiro({ canal, numero, opcoes = {} }) {
   log.passo(`Etapa 2 — Roteiro do episódio ${numero}`);
   if (!temClaude()) throw new Error("Sem ANTHROPIC_API_KEY: não dá para escrever roteiro novo. Escreva o roteiro.json à mão (ver episodios/ep01) ou preencha o .env.");
-  const anteriores = resumoEpisodiosAnteriores();
+  const anteriores = resumoEpisodiosAnteriores(canal);
   const continuacao = opcoes.semContinuacao ? null : montarContinuacao(anteriores, numero);
   const modelo = opcoes.modelo || canal.roteiro?.modelo_ia;
   const sis = sistema(canal);
@@ -217,7 +218,7 @@ export async function etapaRoteiro({ canal, numero, opcoes = {} }) {
   let { erros, avisos } = av;
   if (!av.aprovado && !erros.length) erros = [`nota ${av.nota} abaixo do mínimo ${av.nota_minima}`];
   roteiro = completarRoteiro(roteiro, { numero, canal, continuacao });
-  const dir = path.join(PASTA_EPISODIOS, nomePastaEpisodio(numero, roteiro.slug));
+  const dir = path.join(PASTA_EPISODIOS, nomePastaEpisodio(numero, roteiro.slug, canal.serie?.prefixo_pasta ?? ""));
   fs.mkdirSync(dir, { recursive: true });
   gravarJson(path.join(dir, "ideias.json"), ideias);
   gravarJson(path.join(dir, "critica.json"), { segundo_em_que_deslizaria: critica.segundo_em_que_deslizaria, problemas: critica.problemas });

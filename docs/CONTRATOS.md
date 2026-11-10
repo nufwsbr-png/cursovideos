@@ -13,6 +13,24 @@ Convenções gerais
 
 ## 1. `canal/canal.json` (resumo dos campos usados pelo código)
 
+**Séries (desde 2026-11-10).** O `canal.json` é o canal (nome, formato, estilo, áudio, publicação, IA) mais a série padrão.
+`series: { padrao, ativa, lista: [{ id, nome, arquivo?, prefixo_pasta? }] }` lista as séries. Cada outra série tem um
+arquivo (`canal/series/<id>.json`) que **substitui** as chaves que trouxer (protagonista, elenco, cenarios, mundos,
+frase_do_canal...) e **funde** `estilo`; chaves com `_` são notas.
+
+O canal efetivo de um episódio sai de `motor/canal_serie.js` (`canalDaSerie`, `canalDaPasta`); no Python, de
+`carregar_canal(ep)` em `audio/_comum.py`. Fábrica, motor e áudio usam sempre o canal da série do episódio:
+- pela chave `roteiro.serie`;
+- senão, pelo prefixo da pasta (`72h-ep01_*`);
+- senão, a série padrão.
+
+Os números são por série. A série padrão fica em `epNN_*`, e as outras em `<prefixo>-epNN_*`. Na linha de comando:
+- `--episodio 1` é o episódio 1 da série padrão;
+- `--episodio 72h-1` ou `--serie 72horas --episodio 1` é o da 72 Horas;
+- `episodio --novo` usa a série ativa.
+
+Com várias séries, a capa mostra o nome da série, e os textos dizem "72 Horas · Epi. 01".
+
 ```jsonc
 {
   "nome_exibicao": "...", "arroba": "...", "idioma": "pt-BR",

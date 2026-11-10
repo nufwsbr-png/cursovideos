@@ -2,7 +2,7 @@
 // primeira etapa velha, para nos portões (roteiro reprovado, duração, revisor, crítico visual) e registra a versão de
 // cada etapa que rodou. A IA pensa (roteiro, crítico); o código executa (motor, som); os portões decidem.
 import path from "node:path";
-import { ETAPAS } from "./config.js";
+import { ETAPAS, canalDoEpisodio } from "./config.js";
 import { log } from "./util/log.js";
 import { resolverEpisodio, lerJson, gravarJson, definirBloqueios } from "./util/arquivos.js";
 import { situacao, registrar, temSaidas, PRODUCAO, CONTRATOS } from "./etapas/registro.js";
@@ -88,6 +88,7 @@ const RODAR = {
  * → { ep, relatorio: [{etapa, acao: pulou|rodou|parou, motivo}], parou_em, motivo }
  */
 export async function produzir({ canal, ep, de = "roteiro", ate = "entrega", opcoes = {}, E = null, rodar = RODAR }) {
+  canal = canalDoEpisodio(canal, ep); // o canal da série do episódio (idempotente)
   E ??= await carregarEtapas();
   const i0 = ETAPAS.indexOf(de), i1 = ETAPAS.indexOf(ate);
   if (i0 < 0 || i1 < 0 || i0 > i1) throw new Error(`Etapas inválidas (${de} → ${ate}). Use: ${ETAPAS.join(", ")}`);
@@ -127,6 +128,7 @@ export async function produzir({ canal, ep, de = "roteiro", ate = "entrega", opc
 
 /** versoes --explicar: a situação de cada etapa e por quê. */
 export function explicarVersoes({ canal, ep, opcoes = {} }) {
+  canal = canalDoEpisodio(canal, ep);
   const ctx = ctxDe(canal, ep, opcoes);
   return PRODUCAO.map((etapa) => {
     const s = situacao(etapa, ctx);
@@ -139,6 +141,7 @@ export function explicarVersoes({ canal, ep, opcoes = {} }) {
  * da primeira etapa até `ate`, parando na primeira etapa sem saída. Não roda nada.
  */
 export function adotarVersoes({ canal, ep, ate = "capa", opcoes = {} }) {
+  canal = canalDoEpisodio(canal, ep);
   const ctx = ctxDe(canal, ep, opcoes);
   const adotadas = [];
   for (const etapa of PRODUCAO.slice(0, PRODUCAO.indexOf(ate) + 1)) {
