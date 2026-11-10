@@ -7,7 +7,8 @@ import { lerJson, gravarJson, atualizarEstado, anexarTexto, definirBloqueios } f
 import { executar, executarJson, PYTHON } from "../util/exec.js";
 import { log } from "../util/log.js";
 import { nomeMp4 } from "./07_som.js";
-import { problemasGraves } from "./06_render.js";
+import { problemasGraves } from "./05b_quadros.js";
+import { hashArquivo } from "../util/hash.js";
 
 async function sondar(arquivo) {
   const { saida } = await executar("ffprobe", ["-v", "error", "-print_format", "json", "-show_streams", "-show_format", arquivo], { capturar: true });
@@ -104,7 +105,7 @@ export async function etapaProva({ canal, ep }) {
     "Assistido inteiro no celular, com e sem som": "só o dono confere",
     "Ouvido com fones (sotaque, interpretação, efeitos)": "só o dono confere",
   };
-  const prova = { arquivo: path.basename(arquivo), medido_em: new Date().toISOString(), formato, som, transcricao, revisao_quadros: revisao ? { graves: graves.length, avisos: (revisao.avisos ?? []).length } : null, lista, bloqueios, avisos, nao_conferido: ["sotaque", "interpretação", "som ouvido de verdade", "movimento entre quadros"] };
+  const prova = { arquivo: path.basename(arquivo), arquivo_hash: hashArquivo(arquivo), medido_em: new Date().toISOString(), formato, som, transcricao, revisao_quadros: revisao ? { graves: graves.length, avisos: (revisao.avisos ?? []).length } : null, lista, bloqueios, avisos, nao_conferido: ["sotaque", "interpretação", "som ouvido de verdade", "movimento entre quadros"] };
   gravarJson(path.join(ep.dir, "prova.json"), prova);
   definirBloqueios(ep.dir, "prova", bloqueios);
   atualizarEstado(ep.dir, { etapa: "prova", avisos_prova: avisos });

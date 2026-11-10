@@ -201,14 +201,15 @@ export async function etapaRoteiro({ canal, numero, opcoes = {} }) {
   const ctx = { continuacao: continuacao?.numero_anterior ?? null, numero };
   const rodadasMax = canal.roteiro?.rodadas_correcao_max ?? 3;
   let av = avaliarRoteiro(roteiro, canal, ctx);
-  const rodadas = [{ rodada: 0, nota: av.nota, erros: av.erros.length }];
+  const idsDe = (a) => a.itens.filter((i) => i.tipo !== "ok").map((i) => i.id);
+  const rodadas = [{ rodada: 0, nota: av.nota, erros: av.erros.length, itens: idsDe(av) }];
   let melhor = { roteiro, av };
   for (let rodada = 1; rodada <= rodadasMax && !av.aprovado; rodada++) {
     log.aviso(`nota ${av.nota}/${av.nota_minima}, ${av.erros.length} erro(s); pedindo correção (${rodada}/${rodadasMax})`);
     for (const e of av.erros.slice(0, 15)) log.info("  - " + e);
     roteiro = await pedir({ sistema: sis, usuario: pedidoCorrecao(roteiro, av.erros, av.avisos, av), esquema: ESQUEMA_ROTEIRO, modelo, esforco: "high", maxTokens: 40000, rotulo: `correção ${rodada}` });
     av = avaliarRoteiro(roteiro, canal, ctx);
-    rodadas.push({ rodada, nota: av.nota, erros: av.erros.length });
+    rodadas.push({ rodada, nota: av.nota, erros: av.erros.length, itens: idsDe(av) });
     if (av.erros.length < melhor.av.erros.length || (av.erros.length === melhor.av.erros.length && av.nota > melhor.av.nota)) melhor = { roteiro, av };
   }
   ({ roteiro, av } = melhor);

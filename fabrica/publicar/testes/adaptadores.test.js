@@ -69,7 +69,9 @@ test('sem simular e sem credenciais, o adaptador falha com mensagem clara (sem r
 test('kwai em fila_manual deixa o pacote pronto', async () => {
   const canalFila = canalTeste({ plataformas: { ...canal.plataformas, kwai: { ativo: true, modo: 'fila_manual' } } });
   const r = await ADAPTADORES.kwai.publicar({ arquivo: ep.mp4, capa: ep.capa, textos, canal: canalFila, env: ENV_VAZIO, simular: false, roteiro });
-  assert.equal(r.ok, true);
+  // pacote pronto não conta como publicado
+  assert.equal(r.ok, false);
+  assert.equal(r.estado, 'pendente_manual');
   const fs = await import('node:fs');
   assert.ok(fs.existsSync(`${r.detalhes.pasta}/LEIA-ME.txt`));
   assert.ok(fs.existsSync(`${r.detalhes.pasta}/video.mp4`));

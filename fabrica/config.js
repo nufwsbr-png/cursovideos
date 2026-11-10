@@ -12,7 +12,9 @@ export const PASTA_MOTOR = path.join(RAIZ, "motor");
 export const PASTA_AUDIO = path.join(RAIZ, "audio");
 export const PASTA_PADRAO = path.join(RAIZ, "padrao_aprovado");
 
-export const ETAPAS = ["roteiro", "vozes", "conferir", "tempo", "render", "som", "prova", "capa", "publicar", "memoria"];
+// A ordem da produção. "quadros" (stills + revisor), "critico" (crítico visual por IA) e "entrega" (portão final,
+// entrega.json publicável) entraram em 2026-11-10. O orquestrador (fabrica/orquestrador.js) roda isto como um make.
+export const ETAPAS = ["roteiro", "vozes", "conferir", "tempo", "quadros", "critico", "render", "som", "prova", "capa", "entrega", "publicar", "memoria"];
 
 export function lerCanal() {
   const canal = JSON.parse(fs.readFileSync(ARQUIVO_CANAL, "utf8"));

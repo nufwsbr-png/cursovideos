@@ -22,15 +22,17 @@ async function quadrosDoMotor(ep, tempos) {
   if (!fs.existsSync(renderizar)) return null;
   const lista = tempos.map((t) => Number(t.toFixed(2)));
   try {
-    await executar("node", [renderizar, "--episodio", ep.dir, "--stills", lista.join(","), "--formato", "png"]);
+    // pasta própria e sem mexer no render.json: os stills do revisor e a versão da etapa "quadros" ficam intactos
+    await executar("node", [renderizar, "--episodio", ep.dir, "--stills", lista.join(","), "--formato", "png", "--pasta", "quadros_capa", "--sem-registro"]);
   } catch (e) { log.aviso(`motor não conseguiu renderizar os quadros da capa (${e.message}); usando o vídeo pronto`); return null; }
   const saida = [];
   for (let i = 0; i < lista.length; i++) {
-    const origem = path.join(ep.dir, "stills", "t_" + lista[i].toFixed(2).padStart(7, "0") + ".png");
+    const origem = path.join(ep.dir, "quadros_capa", "t_" + lista[i].toFixed(2).padStart(7, "0") + ".png");
     if (!fs.existsSync(origem)) return null;
     const destino = path.join(ep.dir, `quadro_capa_${i + 1}.png`);
     fs.copyFileSync(origem, destino); saida.push(destino);
   }
+  fs.rmSync(path.join(ep.dir, "quadros_capa"), { recursive: true, force: true });
   return saida;
 }
 

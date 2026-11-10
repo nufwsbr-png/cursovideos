@@ -26,6 +26,22 @@ export function contarVotosHeuristico(comentarios, dilema) {
   return { votos_a: a, votos_b: b, sem_voto: nenhum, teorias: [], pedidos: [], criticas_visual: [], apelidos: [], frases_repetidas: [], resumo: "contagem por palavras-chave (sem IA)" };
 }
 
+/**
+ * Linha da planilha (memoria/planilha_numeros.csv): uma por episódio e plataforma, só na primeira leitura com 44 h ou
+ * mais desde a publicação (a coluna é "views_48h"). Data = dia da publicação, não da leitura. null = ainda não.
+ */
+export function linhaPlanilha({ ep, plataforma, metricas: m, horas, csvAtual = "" }) {
+  if (!(horas >= 44)) return null;
+  const jaTem = csvAtual.split(/\r?\n/).some((l) => l.startsWith(`${ep.numero},`) && l.trim().endsWith(`,${plataforma}`));
+  if (jaTem) return null;
+  const views = m.views ?? 0;
+  const cv = views ? ((m.comentarios ?? 0) / views).toFixed(4) : "";
+  const sv = views ? ((m.salvamentos ?? 0) / views).toFixed(4) : "";
+  const pct = m.pct_ate_fim ?? m.percentual_assistido ?? "";
+  const data = String(ep.publicacao?.publicado_em ?? "").slice(0, 10);
+  return [ep.numero, data, ep.estado?.duracao_s ?? "", views, m.tempo_medio_s ?? "", pct, cv, sv, m.seguidores_novos ?? "", m.origem ?? "", "", plataforma].join(",");
+}
+
 async function contarVotos(ep, comentarios) {
   const dilema = ep.roteiro.dilema;
   if (!comentarios.length) return { ...contarVotosHeuristico([], dilema), metodo: "sem comentários" };
@@ -69,13 +85,15 @@ export async function etapaPublico({ canal, simular = false, horasEntreLeituras 
     const vencedora = votos.votos_a === votos.votos_b ? (lerJson(path.join(ep.dir, "votos.json"), null)?.opcao_vencedora ?? "a") : votos.votos_a > votos.votos_b ? "a" : "b";
     gravarJson(path.join(ep.dir, "votos.json"), { opcao_vencedora: vencedora, contagem: { a: votos.votos_a, b: votos.votos_b, sem_voto: votos.sem_voto }, total_comentarios: lista.length, metodo: votos.metodo, teorias: votos.teorias, pedidos: votos.pedidos, criticas_visual: votos.criticas_visual, apelidos: votos.apelidos, frases_repetidas: votos.frases_repetidas, resumo: votos.resumo, lido_em: new Date().toISOString(), horas_desde_publicacao: Math.round(horasDesdePublicacao) });
     const plataformas = metricas?.metricas ?? metricas?.plataformas ?? {};
-    const hoje = new Date().toISOString().slice(0, 10);
+    const planilha = path.join(PASTA_MEMORIA, "planilha_numeros.csv");
     for (const [plat, m] of Object.entries(plataformas)) {
-      if (!m || typeof m !== "object" || m.views === undefined) continue;
+      if (!m || typeof m !== "object" || m.views === undefined || m.views === null) continue;
       const views = m.views ?? 0;
       const cv = views ? ((m.comentarios ?? 0) / views).toFixed(4) : "";
-      const sv = views ? ((m.salvamentos ?? 0) / views).toFixed(4) : "";
-      anexarTexto(path.join(PASTA_MEMORIA, "planilha_numeros.csv"), `${ep.numero},${hoje},${ep.estado?.duracao_s ?? ""},${views},${m.tempo_medio_s ?? ""},${m.pct_ate_fim ?? ""},${cv},${sv},${m.seguidores_novos ?? ""},${m.origem ?? ""},,${plat}\n`);
+      if (!simular) {
+        const linha = linhaPlanilha({ ep, plataforma: plat, metricas: m, horas: horasDesdePublicacao, csvAtual: fs.existsSync(planilha) ? fs.readFileSync(planilha, "utf8") : "" });
+        if (linha) anexarTexto(planilha, linha + "\n");
+      }
       aprendizados.push(`[MEDIDO] ep${String(ep.numero).padStart(2, "0")} em ${plat} após ${Math.round(horasDesdePublicacao)} h: ${views} views, ${m.curtidas ?? "?"} curtidas, ${m.comentarios ?? "?"} comentários, ${m.compartilhamentos ?? "?"} compart. (comentários÷views ${cv || "?"}).`);
     }
     aprendizados.push(`[MEDIDO] ep${String(ep.numero).padStart(2, "0")} votação: A ${votos.votos_a} × B ${votos.votos_b} (${votos.metodo}); vence ${vencedora.toUpperCase()}.${votos.teorias?.length ? " Teorias: " + votos.teorias.slice(0, 3).join(" | ") : ""}`);

@@ -130,9 +130,9 @@ export async function lerMetricas({ id, env = process.env, simular = false, regi
   try {
     const fim = new Date().toISOString().slice(0, 10);
     const inicio = new Date(Date.now() - 90 * 86400000).toISOString().slice(0, 10);
-    const a = await chamar({ plataforma: 'youtube', descricao: 'youtubeAnalytics (tempo médio)', metodo: 'GET', url: `https://youtubeanalytics.googleapis.com/v2/reports?ids=channel%3D%3DMINE&startDate=${inicio}&endDate=${fim}&metrics=averageViewDuration,averageViewPercentage,shares&filters=video%3D%3D${encodeURIComponent(id)}`, headers: { Authorization: `Bearer ${token}` }, tipo: 'nenhum', simular, registro, simulado: () => ({ rows: [[0, 0, 0]] }) });
+    const a = await chamar({ plataforma: 'youtube', descricao: 'youtubeAnalytics (tempo médio)', metodo: 'GET', url: `https://youtubeanalytics.googleapis.com/v2/reports?ids=channel%3D%3DMINE&startDate=${inicio}&endDate=${fim}&metrics=averageViewDuration,averageViewPercentage,shares,subscribersGained&filters=video%3D%3D${encodeURIComponent(id)}`, headers: { Authorization: `Bearer ${token}` }, tipo: 'nenhum', simular, registro, simulado: () => ({ rows: [[0, 0, 0, 0]] }) });
     const linha = a.rows?.[0];
-    if (linha) { saida.tempo_medio_s = Number(linha[0]); saida.percentual_assistido = Number(linha[1]); saida.compartilhamentos = Number(linha[2]); }
+    if (linha) { saida.tempo_medio_s = Number(linha[0]); saida.percentual_assistido = Number(linha[1]); saida.compartilhamentos = Number(linha[2]); if (linha[3] !== undefined) saida.seguidores_novos = Number(linha[3]); }
   } catch { saida.observacao = 'tempo médio indisponível (sem escopo yt-analytics.readonly)'; }
   return saida;
 }

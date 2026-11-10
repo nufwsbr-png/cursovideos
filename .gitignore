@@ -31,3 +31,9 @@ referencias/
 # saídas dos episódios-teste do motor (só o roteiro vai para o git)
 motor/testes/*/*
 !motor/testes/*/roteiro.json
+
+# imagens do crítico visual (folhas e quadros) e quadros temporários da capa: ficam como artefato, não no git
+episodios/*/critico/**/*.jpg
+episodios/*/critico/**/*.png
+episodios/*/quadros_capa/
+# BLOQUEADO.md é gerado pela rotina diária e vai para o git (o dono vê no GitHub)

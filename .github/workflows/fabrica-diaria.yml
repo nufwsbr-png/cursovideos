@@ -38,8 +38,15 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Instalar FFmpeg e fontes
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
+      # A camada 2D é Verdana Bold (medida na referência): sem a Verdana o render sai com outra fonte e a prova bloqueia.
+      - name: Instalar FFmpeg e fontes (Verdana e emoji colorido)
+        run: |
+          echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | sudo debconf-set-selections
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fonts-dejavu-core ttf-mscorefonts-installer fonts-noto-color-emoji
+          sudo fc-cache -f
+          fc-list | grep -i "verdana" || { echo "Verdana não instalou"; exit 1; }
+          fc-list | grep -i "Noto Color Emoji" || { echo "emoji colorido não instalou"; exit 1; }
 
       - name: Instalar dependências
         run: |
@@ -51,7 +58,24 @@ jobs:
         continue-on-error: true
         run: python3 -c "from faster_whisper import WhisperModel; WhisperModel('${WHISPER_MODELO:-small}', device='cpu', compute_type='int8')"
 
+      - name: Conferir o ambiente (doctor)
+        continue-on-error: true
+        run: node fabrica/cli.js doctor --json | tee doctor.json
+
+      # Falas, vídeo mudo e MP4 ficam fora do git: o cache guarda os de episódios ainda não publicados (com hashes).
+      - name: Restaurar a mídia da execução anterior
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/midia
+          key: midia-${{ github.run_id }}
+          restore-keys: midia-
+
+      - name: Pôr a mídia de volta nos episódios (confere os hashes)
+        run: node fabrica/cli.js midia --restaurar
+
       - name: Rodar a rotina diária
+        id: diario
+        continue-on-error: true
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -71,12 +95,24 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           KWAI_MODO: fila_manual
           WHISPER_MODELO: small
+          MOTOR_EXIGIR_FONTES: "1"
         run: |
           ARGS="--escala ${{ github.event.inputs.escala || '1' }}"
           if [ "${{ github.event.inputs.simular }}" = "true" ]; then ARGS="$ARGS --simular"; fi
           node fabrica/cli.js diario $ARGS
 
-      - name: Guardar o episódio do dia (vídeo, capas, prova) como artefato
+      - name: Guardar a mídia para a próxima execução
+        if: always()
+        run: node fabrica/cli.js midia --empacotar
+
+      - name: Salvar o cache de mídia
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/midia
+          key: midia-${{ github.run_id }}
+
+      - name: Guardar o episódio do dia (vídeo, capas, prova, crítico) como artefato
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -86,8 +122,11 @@ jobs:
             episodios/*/ep*.mp4
             episodios/*/capa*.png
             episodios/*/folha*.png
-            episodios/*/prova.json
-            episodios/*/publicacao*.json
+            episodios/*/critico/rodada_*/folha_*.jpg
+            episodios/*/*.json
+            episodios/*/*.md
+            BLOQUEADO.md
+            doctor.json
             fila_manual/**
 
       - name: Salvar memória e estado no repositório
@@ -95,7 +134,16 @@ jobs:
         run: |
           git config user.name "fabrica-bot"
           git config user.email "fabrica-bot@users.noreply.github.com"
-          git add memoria episodios/*/*.json episodios/*/textos.json episodios/*/capa.png episodios/*/metricas 2>/dev/null || true
+          git add memoria episodios/*/*.json episodios/*/*.md episodios/*/textos.json episodios/*/capa.png episodios/*/metricas 2>/dev/null || true
+          git add episodios/_descartados 2>/dev/null || true
+          git add -A BLOQUEADO.md 2>/dev/null || true
           git diff --cached --quiet || git commit -m "Fábrica diária: $(date -u +%Y-%m-%d)"
           git pull --rebase origin ${{ github.ref_name }} || true
           git push origin HEAD:${{ github.ref_name }} || true
+
+      # Saída 3 = precisa do dono (só no 1º dia de cada bloqueio novo): a execução fica vermelha e o GitHub avisa por e-mail.
+      - name: Falhar se a rotina falhou ou precisa do dono
+        if: steps.diario.outcome == 'failure'
+        run: |
+          echo "A rotina diária terminou com erro ou precisa do dono. Veja BLOQUEADO.md e o log do passo 'Rodar a rotina diária'."
+          exit 1

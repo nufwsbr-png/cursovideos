@@ -5,6 +5,7 @@
 //   node motor/renderizar.js --episodio episodios/ep01_x --folha
 //   node motor/renderizar.js --episodio episodios/ep01_x --video [--escala 0.5] [--inicio 0 --fim 8]
 //   node motor/renderizar.js --episodio episodios/ep01_x --sequencia 23.5,25.5
+//   --stills ... --pasta critico/rodada_1/quadros --formato jpg --sem-registro   (quadros do crítico: outra pasta, sem mexer no render.json)
 //   node motor/renderizar.js --teste-estilos --cenario saguao --saida padrao_aprovado/estilos [--tempo-estilo 24]
 import fs from 'node:fs';
 import path from 'node:path';
@@ -130,7 +131,7 @@ async function main() {
     if (process.env.MOTOR_DEPURAR) await pagina.evaluate((m) => window.depurarLente(m), process.env.MOTOR_DEPURAR);
     if (args.stills) {
       const tempos = String(args.stills).split(',').map(Number).filter(n => !Number.isNaN(n));
-      const pasta = path.join(pastaEp, 'stills');
+      const pasta = path.join(pastaEp, args.pasta ? String(args.pasta) : 'stills');
       const ini = Date.now();
       for (const t of tempos) {
         const [q] = await pagina.evaluate(([ts, f]) => window.renderizarLote(ts, f, 0.95, true), [[t], formato || 'png']);
@@ -217,6 +218,7 @@ async function main() {
   if (layout.size) saida.layout2d = [...layout.values()].sort((a, b) => a.t_primeiro - b.t_primeiro);
   saida.amostras = amostras;
   saida.tempo_total_s = (Date.now() - t0) / 1000;
+  if (args['sem-registro']) { log('render.json não alterado (--sem-registro)'); return; }
   gravarRenderJson(pastaEp, saida);
   log('render.json atualizado');
 }

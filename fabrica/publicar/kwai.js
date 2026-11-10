@@ -115,12 +115,13 @@ export async function publicar({ arquivo, capa, textos, canal, env = process.env
     } catch (e) {
       avisos.push(`modo navegador falhou (${e.message}); caiu para a fila manual`);
       const fila = filaManual({ arquivo, capa, textos, canal, roteiro, motivo: e.message, simular });
-      return { plataforma: 'kwai', ok: false, id: null, url: null, erro: `Kwai: publicação automática falhou; pacote pronto em ${fila.pasta}`, detalhes: { modo: 'fila_manual', avisos, pasta: fila.pasta, pendencias_manuais: [`Kwai: publicar manualmente a partir de ${fila.pasta}`] } };
+      return { plataforma: 'kwai', ok: false, pendente_manual: true, estado: 'pendente_manual', id: null, url: null, erro: `Kwai: publicação automática falhou; pacote pronto em ${fila.pasta}`, detalhes: { modo: 'fila_manual', avisos, pasta: fila.pasta, pendencias_manuais: [`Kwai: publicar manualmente a partir de ${fila.pasta}`] } };
     }
   }
 
   const fila = filaManual({ arquivo, capa, textos, canal, roteiro, motivo: 'modo fila_manual (sem API pública do Kwai)', simular });
-  return { plataforma: 'kwai', ok: true, id: `fila_manual_${path.basename(fila.pasta)}`, url: null, detalhes: { modo: 'fila_manual', avisos, pasta: fila.pasta, simulado: simular, pendencias_manuais: [`Kwai: publicar manualmente a partir de ${fila.pasta} (siga o LEIA-ME.txt)`] } };
+  // pacote pronto não é vídeo publicado: fica "pendente_manual" até alguém postar no app
+  return { plataforma: 'kwai', ok: false, pendente_manual: true, estado: 'pendente_manual', id: `fila_manual_${path.basename(fila.pasta)}`, url: null, erro: null, detalhes: { modo: 'fila_manual', avisos, pasta: fila.pasta, simulado: simular, pendencias_manuais: [`Kwai: publicar manualmente a partir de ${fila.pasta} (siga o LEIA-ME.txt)`] } };
 }
 
 export async function lerMetricas() {

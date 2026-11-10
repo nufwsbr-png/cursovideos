@@ -36,7 +36,9 @@ export function mesclarPublicacao(anterior, resultados, { publicado_em = agoraIS
       base.plataformas[r.plataforma] = { ...antigo, ultima_tentativa: { em: publicado_em, erro: r.erro } };
       continue;
     }
-    base.plataformas[r.plataforma] = { ok: !!r.ok, id: r.id ?? null, url: r.url ?? null, erro: r.erro ?? null, em: publicado_em, detalhes: r.detalhes || {} };
+    // estado: publicado | pendente_manual (pacote pronto, falta alguém postar no app) | falhou
+    const estado = r.ok ? 'publicado' : r.pendente_manual ? 'pendente_manual' : 'falhou';
+    base.plataformas[r.plataforma] = { ok: !!r.ok, estado, pendente_manual: estado === 'pendente_manual', id: r.id ?? null, url: r.url ?? null, erro: r.erro ?? null, em: publicado_em, detalhes: r.detalhes || {} };
     for (const p of r.detalhes?.pendencias_manuais || []) if (!base.pendencias_manuais.includes(p)) base.pendencias_manuais.push(p);
   }
   if (!base.publicado_em && resultados.some((r) => r.ok)) base.publicado_em = publicado_em;
@@ -57,11 +59,21 @@ function carregarEpisodio(dirEpisodio) {
   return { dir, roteiro, textos, estado, capa, arquivo };
 }
 
+/** As plataformas que precisam dar certo para o episódio contar como publicado (canal.publicacao.plataformas_obrigatorias). */
+export function plataformasObrigatorias(canal, filtro) {
+  const ativas = plataformasAtivas(canal);
+  const obrig = (canal?.publicacao?.plataformas_obrigatorias ?? ativas).filter((p) => ativas.includes(p));
+  if (!filtro || !filtro.length) return obrig;
+  const f = plataformasAtivas(canal, filtro);
+  return obrig.filter((p) => f.includes(p));
+}
+
 /**
- * publicarTudo({ dirEpisodio, canal, env, simular, plataformas, forcar, registro })
- * → { ok, resultados, publicacao, registro, pendencias_manuais }
+ * publicarTudo({ dirEpisodio, canal, env, simular, plataformas, forcar, republicar, registro })
+ * forcar: ignora bloqueios (decisão humana). republicar: tenta de novo até as plataformas que já deram certo.
+ * → { ok (obrigatórias pedidas todas publicadas), completo (todas as obrigatórias do canal publicadas), resultados, publicacao, registro, pendencias_manuais }
  */
-export async function publicarTudo({ dirEpisodio, canal, env = process.env, simular = false, plataformas, forcar = false, registro = criarRegistro(), log = console.log }) {
+export async function publicarTudo({ dirEpisodio, canal, env = process.env, simular = false, plataformas, forcar = false, republicar = false, registro = criarRegistro(), log = console.log }) {
   const ep = carregarEpisodio(dirEpisodio);
   const bloqueios = Array.isArray(ep.estado.bloqueios) ? ep.estado.bloqueios : [];
   if (bloqueios.length && !forcar) {
@@ -74,9 +86,11 @@ export async function publicarTudo({ dirEpisodio, canal, env = process.env, simu
 
   const caminhoPublicacao = path.join(ep.dir, 'publicacao.json');
   const anterior = lerJson(caminhoPublicacao, {});
-  const alvo = plataformasAtivas(canal, plataformas).filter((p) => forcar || !anterior?.plataformas?.[p]?.ok);
+  // não repete o que já deu certo nem refaz um pacote manual que ainda espera alguém (a não ser que peçam)
+  const jaFeito = (p) => anterior?.plataformas?.[p]?.ok || (anterior?.plataformas?.[p]?.pendente_manual && !forcar);
+  const alvo = plataformasAtivas(canal, plataformas).filter((p) => republicar || !jaFeito(p));
   const puladas = plataformasAtivas(canal, plataformas).filter((p) => !alvo.includes(p));
-  if (puladas.length) log(`já publicado antes, pulando: ${puladas.join(', ')}`);
+  if (puladas.length) log(`já feito antes, pulando: ${puladas.join(', ')}`);
 
   const resultados = [];
   for (const nome of alvo) {
@@ -95,8 +109,12 @@ export async function publicarTudo({ dirEpisodio, canal, env = process.env, simu
   const publicacao = mesclarPublicacao(anterior, resultados);
   if (!simular) escreverJson(caminhoPublicacao, publicacao);
   else escreverJson(path.join(ep.dir, 'publicacao.simulada.json'), { ...publicacao, simulado: true, requisicoes: registro.itens });
-  const ok = resultados.length > 0 && resultados.every((r) => r.ok);
-  return { ok, resultados, publicacao, registro, pendencias_manuais: publicacao.pendencias_manuais, arquivo: ep.arquivo };
+  // "ok" = todas as plataformas obrigatórias pedidas estão publicadas (o Kwai em fila manual fica "pendente_manual")
+  const publicada = (p) => Boolean(publicacao.plataformas?.[p]?.ok);
+  const obrigPedidas = plataformasObrigatorias(canal, plataformas);
+  const ok = obrigPedidas.length > 0 && obrigPedidas.every(publicada);
+  const completo = plataformasObrigatorias(canal).every(publicada);
+  return { ok, completo, resultados, publicacao, registro, pendencias_manuais: publicacao.pendencias_manuais, arquivo: ep.arquivo };
 }
 
 function caminhoMetricas(dir, data = hojeISO()) {
