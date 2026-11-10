@@ -79,3 +79,19 @@ _(a fábrica anexa aqui quando algo falha e é consertado)_
 - [2026-11-10] [MEDIDO] Rotina diária simulada (`diario --simular --ia falsa`): saída 3 e `BLOQUEADO.md` no 1º dia do bloqueio; saída 0 ("já avisado antes") ao repetir.
   - O aviso mandava o dono "ver o som" por causa da voz falsa repetida na prova.
   - Agora cada bloqueio da prova é uma causa, e causas com a mesma ação aparecem uma vez.
+- [2026-11-10] [REGRA] Dono assistiu o Epi. 01 a 30 fps (com vozes falsas) e aprovou: "Ficou bom."
+- [2026-11-10] [REGRA] Dono decidiu: o protagonista tem **pele branca** (era morena escura, #7a4a28 → #f2c4a2 em `canal.json → protagonista.maos.pele`). Motivo: escolha do dono para o personagem dele. O Epi. 01 pega a cor nova quando for refeito (com as vozes de verdade, o tempo, os quadros, o crítico e o render já refazem).
+- [2026-11-10] [REGRA] Dono pediu outros cenários e uma história que prenda mais a atenção; ideias em discussão (ver `estado_atual.md`).
+- [2026-11-10] [REGRA] Dono decidiu: o canal passa a se chamar **ToquinhoVivo**, um perfil só com as séries (as contas nas redes ainda não existem). Aplicar em `canal.json` junto com o suporte a mais de uma série.
+- [2026-11-10] [REGRA] Dono escolheu uma série nova sobre "3 dias de apagão" e um "reset no sistema", pedindo uma história que parta das notícias do momento. É ficção numa cidade inventada: sem data real, sem órgão, empresa, militar ou pessoa reais, sem profecia religiosa e sem conspiração política (temas proibidos e regra de desinformação das plataformas).
+- [2026-11-10] [MEDIDO] Notícias de 10/11/2026:
+  - a Defesa Civil recomendou um kit de 72 h em 6/11 (prevenção, sem alerta);
+  - viralizou o boato de "apagão mundial de 3 dias em 17/11", que é falso (no dia 17 há só um teste de alerta nos EUA);
+  - o Reino Unido lançou a campanha "Be Ready" (3 dias de estoque) em 22/10;
+  - a Fox News divulgou em 25/10 o plano FORTRESS do Pentágono (bases com 90 dias de autonomia), que as redes leram como "estocar 90 dias";
+  - há relatos de mães estocando comida e do custo disso para famílias pobres; nenhuma corrida aos mercados foi confirmada.
+- [2026-11-10] [HIPÓTESE] O medo que prende não é o apagão: é "quem sabe de algo está estocando, e escolhe quem entra". Dividir ou obedecer rende comentário.
+- [2026-11-10] [REGRA] Avisado de que o nome lembra o cantor Toquinho e o padrão de "Teco Sobrevive", o dono manteve **ToquinhoVivo**. Decisão dele, registrada.
+- [2026-11-10] [REGRA] Dono pediu que os roteiros despertem emoção e vontade de assistir, estudando as estratégias de atenção: "Eles precisam ter raiva de algum personagem".
+- [2026-11-10] [REGRA] Dono aprovou o Epi. 01 de "72 HORAS": portaria do Edifício Aurora; a síndica Celina é a vilã (mente no grupo, esconde água no subsolo, humilha o porteiro, deixa os empregados fora da lista); a primeira frase volta na boca dela. O mapa de emoção está em `docs/metodo/emocoes_e_atencao.md`.
+- [2026-11-10] [REGRA] Dono aprovou as estratégias de emoção como regra de **todos** os roteiros, com a nota automática conferindo. Na primeira resposta disse "só o vilão"; pediu para refazer a pergunta e escolheu "virar regra".

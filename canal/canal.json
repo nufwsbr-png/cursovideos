@@ -28,14 +28,14 @@
     "nome_real": "nunca dito",
     "como_chamam": "'novato' (Dalva), 'menino' (Seu Amaral), 'moço' (passageiros)",
     "pistas": {
-      "maos": "pele morena escura, caneta azul mordida na ponta, esparadrapo no dedo indicador esquerdo",
+      "maos": "pele branca, caneta azul mordida na ponta, esparadrapo no dedo indicador esquerdo",
       "roupa": "camisa azul-clara de uniforme com manga dobrada e crachá de plástico dobrado no bolso",
       "objeto": "carimbo de madeira 'VIAÇÃO SERRA AZUL' e bloco de passagens em papel amarelo",
       "celular": "tela trincada no canto, bateria sempre baixa, mensagens da mãe (Dona Neusa)",
       "jeito_de_falar": "frases curtas, nervosas, muitas reticências; raramente completa uma pergunta"
     },
     "maos": {
-      "pele": "#7a4a28",
+      "pele": "#f2c4a2",
       "manga": "#a9c7e8",
       "detalhe": "esparadrapo branco no indicador esquerdo",
       "punho": "#bdd5ee"

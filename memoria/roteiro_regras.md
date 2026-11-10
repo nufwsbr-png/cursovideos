@@ -47,5 +47,26 @@ a nota automática (`fabrica/roteiro/nota.js`, mínimo 70) confere cada uma. O e
 - **Virada preferida do episódio 1:** "a primeira cena volta com outro sentido" — uma frase banal dos primeiros segundos volta no fim com outro peso.
 - **Corpo e cena:** o protagonista começa sentado no guichê; trabalhar e segurar telefone/bloco só sentado; para sair, levantar (ou andar, que levanta antes); as portas das passagens abrem sozinhas quando ele passa (a da plataforma, não: precisa de evento).
 
+## Emoção (aprovado pelo dono em 2026-11-10; a nota confere)
+Por quê: emoção de alta excitação (raiva, medo, espanto) faz compartilhar e comentar; tristeza, menos. Indignação moral
+espalha mais, e o público brasileiro ama odiar uma vilã (estudo e fontes em `docs/metodo/emocoes_e_atencao.md`).
+1. **Um personagem para odiar:** vilão com rosto e voz, **em cena** (não só no telefone), que comete uma injustiça clara
+   (mente, esconde, humilha quem tem menos, escolhe quem se salva). É calmo e educado e sabe de algo que o protagonista
+   não sabe.
+2. **Escada da raiva em 3 golpes:** a mentira, a ordem e a humilhação, no meio do vídeo (≈ 15–50 s).
+3. **Alguém para proteger e algo a perder:** a mãe, um idoso, quem ficou de fora. O protagonista arrisca o emprego ou a
+   segurança.
+4. **Humor nos primeiros segundos:** um personagem engraçado faz gostar das pessoas antes do susto.
+5. **Uma pergunta nova a cada ≈ 10 s,** antes de responder a anterior: relógio, escuro, sinal impossível.
+6. **A primeira frase volta no fim, na boca do vilão,** com outro sentido.
+7. **Escolha final de justiça × segurança:** os dois lados têm razão e risco; o vermelho é agir, o azul é obedecer ou
+   esperar.
+8. **O assunto do momento só como boato** na boca dos personagens, com detalhes que qualquer um reconhece. A raiva é
+   contra o personagem inventado, nunca contra um grupo ou uma pessoa real.
+
+No roteiro: o elenco marca o vilão (`papel: "vilao"`) e cada linha pode dizer a emoção que quer causar (`emocao`). A nota
+cobra o vilão em cena (erro, se faltar), riso nos primeiros 10 s, 3 golpes de raiva, compaixão, a primeira frase voltando
+e o vermelho na ação.
+
 ## Regras aprendidas (automáticas)
 _(a fábrica acrescenta aqui, com data, correções que se repetiram em 3 ou mais episódios — `fabrica/aprender.js`)_

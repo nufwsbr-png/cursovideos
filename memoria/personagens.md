@@ -3,7 +3,7 @@
 ## Protagonista sem rosto — as 6 pistas (capítulo 28)
 | Pista | Como aparece |
 |---|---|
-| Mãos | Pele morena escura, caneta azul mordida, esparadrapo no indicador esquerdo |
+| Mãos | Pele branca (#f2c4a2, decidido pelo dono em 2026-11-10), caneta azul mordida, esparadrapo no indicador esquerdo |
 | Manga e roupa | Camisa azul-clara de uniforme, manga dobrada, crachá de plástico dobrado no bolso |
 | Objeto de trabalho | Carimbo de madeira "VIAÇÃO SERRA AZUL" e bloco de passagens amarelo |
 | Celular | Tela trincada no canto, bateria baixa, mensagens da mãe (Dona Neusa) |
