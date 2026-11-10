@@ -19,7 +19,7 @@ description: Escreve ou corrige o roteiro.json de um episódio (pela API com a f
 
 ## Regras que não se negociam
 Nunca copiar nome, personagem, história, cena ou visual de outro criador (a técnica e o acabamento seguem a referência;
-a história é nossa). Temas proibidos: `canal.json → roteiro.temas_proibidos`. Continuação começa no perigo, com
+a história é nossa). Temas proibidos: `canal.json → roteiro.temas_proibidos`. Emoção (desde 2026-11-10): o vilão do elenco (`papel: "vilao"`) entra em cena e fala 2 vezes ou mais; marque `emocao` nas linhas (riso nos primeiros 10 s, 3 golpes de raiva, uma compaixão) e faça a última fala do vilão repetir a primeira frase. A nota confere. Continuação começa no perigo, com
 `tela.selo=PARTE N`, e respeita o voto. Mudar a bíblia ou a identidade = parar e perguntar ao dono.
 
 ## Entrega

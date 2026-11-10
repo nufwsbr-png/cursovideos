@@ -3,6 +3,9 @@ const texto = { type: "string" };
 const textoOuNulo = { type: ["string", "null"] };
 const numero = { type: "number" };
 
+// O que o público deve sentir em cada linha (regras de emoção, memoria/roteiro_regras.md; a nota confere).
+export const EMOCOES = ["riso", "susto", "medo", "raiva", "indignacao", "compaixao", "curiosidade", "calafrio", "alivio", "tensao", "decisao"];
+
 export const ESQUEMA_DIRECAO = {
   type: "object",
   additionalProperties: false,
@@ -25,8 +28,9 @@ export const ESQUEMA_LINHA = {
     fala: textoOuNulo,
     som: textoOuNulo,
     direcao: ESQUEMA_DIRECAO,
+    emocao: { type: ["string", "null"], enum: [null, ...EMOCOES] },
   },
-  required: ["t", "ato", "imagem", "fala", "som", "direcao"],
+  required: ["t", "ato", "imagem", "fala", "som", "direcao", "emocao"],
 };
 
 export const ESQUEMA_FALA = {

@@ -40,6 +40,7 @@ function vocabulario() {
   transicao:preto (ou transicao:preto:<segundos 0.9–3>) — mergulho no preto para pular tempo/lugar; só nela valem os eventos camera.ir=<nó|marca> e camera.postura=sentado|em_pe |
   tremor:<0..1> | fade.
 - clima: rotina | sinal | escalada | climax | pergunta (a última linha é sempre ato "pergunta" com clima "pergunta").
+- emocao (em cada linha): o que o público deve sentir ali — riso | susto | medo | raiva | indignacao | compaixao | curiosidade | calafrio | alivio | tensao | decisao | null. O vilão do elenco (papel "vilao") entra em cena (personagem.<id>.posicao) e fala pelo menos 2 vezes; marque riso nos primeiros 10 s, três golpes de raiva/indignação entre 15 e 50 s (a mentira, a ordem, a humilhação) e uma compaixão; a última fala do vilão repete palavras da primeira frase do episódio com outro sentido.
 - eventos (lista de "alvo.campo=valor"):
   prop.<id>.estado=<valor> (painel: normal|alerta|alerta_forte|apagado; lampada: normal|piscar|fraca|apagada; porta: fechada|aberta; onibus: ausente|chegando|parado|portas_abertas; lanchonete: fechada|acesa; telefone_fixo: parado|tocando|na_mao; ventilador_teto: girando|parado)
   prop.<id>.texto=<linha1|linha2|...>

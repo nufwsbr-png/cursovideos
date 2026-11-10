@@ -2,6 +2,7 @@
 import { montarMundo } from "../../motor/cena/mundo.js";
 import { planejar, planejarDuracoes } from "../../motor/cena/plano_camera.js";
 import { montarLinhaDoTempo } from "../../motor/cena/linha_do_tempo.js";
+import { EMOCOES } from "./esquema.js";
 
 const ATOS = ["rotina", "sinal", "negacao", "escalada", "autoridade", "desobediencia", "dilema", "pergunta"];
 const CLIMAS = ["rotina", "sinal", "escalada", "climax", "pergunta"];
@@ -58,6 +59,7 @@ export function validarRoteiro(roteiro, canal, contexto = {}) {
   }
   const exigidos = parte ? ATOS.slice(Math.max(3, ATOS.indexOf(linhas[0]?.ato ?? "escalada"))) : ATOS;
   for (const ato of exigidos) if (!linhas.some((l) => l.ato === ato)) erros.push(`falta o ato "${ato}"`);
+  for (const [i, l] of linhas.entries()) if (l.emocao !== undefined && l.emocao !== null && !EMOCOES.includes(l.emocao)) avisos.push(`linha ${i}: emoção desconhecida "${l.emocao}" (use ${EMOCOES.join(", ")} ou null)`);
   const primeiroSinal = linhas.find((l) => l.ato === "sinal");
   const limiteSinal = cfg.sinal_ate_s ?? 7;
   if (!parte && primeiroSinal && primeiroSinal.t > limiteSinal) erros.push(`o primeiro sinal está em ${primeiroSinal.t}s; precisa aparecer até ${limiteSinal}s`);

@@ -3,7 +3,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
-import { avaliarRoteiro } from "../roteiro/nota.js";
+import { avaliarRoteiro, medirRoteiro } from "../roteiro/nota.js";
 import { lerCanal, RAIZ } from "../config.js";
 
 const canal = lerCanal();
@@ -85,4 +85,49 @@ test("continuação: começa no perigo e precisa do selo; episódio 1 não leva 
   c.linhas[0].direcao.eventos.push("tela.selo=PARTE 2");
   av = avaliarRoteiro(c, canal, { continuacao: 1, numero: 2 });
   assert.ok(!av.erros.some((e) => /selo/.test(e)), av.erros.join(" | "));
+});
+
+// Regras de emoção (aprovadas pelo dono em 2026-11-10)
+const comVilao = () => {
+  const c = clonar(canal);
+  c.elenco = c.elenco.map((p) => (p.id === "passageiro" ? { ...p, papel: "vilao" } : p));
+  return c;
+};
+const marcarEmocoes = (r, c) => {
+  const lt = medirRoteiro(r, c).linha;
+  r.linhas[0].emocao = "riso";
+  const meio = lt.linhas.filter((l) => l.inicio_s >= 16 && l.inicio_s <= 50).map((l) => l.indice).slice(0, 3);
+  for (const i of meio) r.linhas[i].emocao = "raiva";
+  r.linhas[r.linhas.length - 3].emocao = "compaixao";
+  return r;
+};
+
+test("emoção: roteiro dispensado (regras_emocao: false) não perde ponto; sem a dispensa e sem vilão no elenco, é erro", () => {
+  assert.ok(avaliarRoteiro(modelo, canal).avisos.some((a) => /emoção dispensadas/.test(a)));
+  const r = clonar(modelo); delete r.regras_emocao;
+  const av = avaliarRoteiro(r, canal);
+  assert.ok(ids(av).includes("emocao.vilao"));
+  assert.equal(av.aprovado, false);
+});
+
+test("emoção: vilão em cena, riso no começo, 3 golpes de raiva, compaixão e a primeira frase na boca dele = sem desconto", () => {
+  const c = comVilao();
+  const r = clonar(modelo); delete r.regras_emocao;
+  r.falas = r.falas.map((f) => (f.id === "f19" ? { ...f, texto: "Ela ligou sozinha de novo, moço." } : f));
+  marcarEmocoes(r, c);
+  const av = avaliarRoteiro(r, c);
+  assert.deepEqual(ids(av).filter((i) => i.startsWith("emocao.")), [], JSON.stringify(av.itens.filter((i) => i.id.startsWith("emocao."))));
+  assert.equal(av.aprovado, true);
+});
+
+test("emoção: sem riso, sem raiva, sem compaixão e sem a primeira frase de volta, cada falta desconta", () => {
+  const c = comVilao();
+  const r = clonar(modelo); delete r.regras_emocao;
+  const av = avaliarRoteiro(r, c);
+  for (const id of ["emocao.humor", "emocao.raiva", "emocao.compaixao", "emocao.virada_vilao"]) assert.ok(ids(av).includes(id), id);
+  assert.equal(av.itens.find((i) => i.id === "emocao.raiva").pontos, -9);
+  // vilão que só fala no telefone (sem posicao) não conta como em cena
+  const r2 = clonar(r);
+  r2.linhas = r2.linhas.map((l) => ({ ...l, direcao: { ...l.direcao, eventos: (l.direcao?.eventos ?? []).filter((e) => !/^personagem\.passageiro\./.test(e)) } }));
+  assert.ok(avaliarRoteiro(r2, c).erros.some((e) => /em cena: não/.test(e)));
 });

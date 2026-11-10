@@ -232,6 +232,7 @@ Cada checagem: `{ "ok", "detalhe", ... }`. A publicação refaz a conferência e
 - `falas[].estilo` guarda só a emoção e o ritmo daquela fala. Na geração, a fábrica monta a instrução completa:
   `"<vozes.prefixo_estilo>, <voz.estilo_base do personagem>, <falas[].estilo>"`.
 - `roteiro.celular[]` é indexado por posição: `celular.tela=0` mostra a primeira mensagem.
+- `linhas[].emocao` (desde 2026-11-10): o que o público deve sentir na linha (`riso`, `susto`, `medo`, `raiva`, `indignacao`, `compaixao`, `curiosidade`, `calafrio`, `alivio`, `tensao`, `decisao` ou `null`). A nota cobra o vilão do elenco (`papel: "vilao"`) em cena e com 2 falas ou mais (senão é erro), riso nos primeiros 10 s, 3 golpes de raiva entre 15 e 50 s, uma compaixão e a última fala do vilão repetindo a primeira frase. `regras_emocao: false` dispensa só roteiros feitos e aprovados antes da regra (o Epi. 01 do Guichê 3); a IA nunca escreve esse campo.
 - `roteiro.efeitos_extra[]` e `roteiro.silencios[]` são opcionais; a etapa 05 copia para a linha do tempo com o mesmo deslocamento das linhas.
 - O esquema da IA exige todos os campos e manda os opcionais como `null` (ex.: `repeticoes`, `intervalo_s`, `ganho_db`):
   **`null` = use o padrão** em todo código que lê o roteiro ou a linha do tempo (no Epi. 01, um `ganho_db: null` derrubou

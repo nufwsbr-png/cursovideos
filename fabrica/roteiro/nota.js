@@ -6,7 +6,8 @@ import { regrasNumericas } from "./regras.js";
 import { montarLinhaDoTempo, contarPalavras } from "../../motor/cena/linha_do_tempo.js";
 import { planejarDuracoes } from "../../motor/cena/plano_camera.js";
 
-export const VERSAO_REGRAS = "2026-11-10";
+// "b": regras de emoção (vilão em cena, escada da raiva, humor, compaixão, a primeira frase na boca do vilão), 2026-11-10.
+export const VERSAO_REGRAS = "2026-11-10b";
 const ACOES_DE_ACAO = /^(levantar|sentar|andar:|correr:|avancar:|transicao:|pegar_celular|guardar_celular|trabalhar|segurar:)/;
 const mediana = (xs) => { if (!xs.length) return 0; const s = [...xs].sort((a, b) => a - b); return s[Math.floor(s.length / 2)]; };
 const r1 = (v) => Math.round(v * 10) / 10;
@@ -43,6 +44,37 @@ export function medirRoteiro(roteiro, canal, medidas = null) {
       lugares: [...new Set(plano.ambientes.map((a) => a.modulo).filter(Boolean))],
     },
   };
+}
+
+/**
+ * Regras de emoção (aprovadas pelo dono em 2026-11-10; memoria/roteiro_regras.md → "Emoção"). Usa a linha do tempo
+ * estimada para saber em que segundo cada emoção marcada (`linhas[].emocao`) cai. Devolve erros e descontos.
+ */
+export function avaliarEmocao(roteiro, canal, lt) {
+  const r = [];
+  const linhas = roteiro.linhas ?? [];
+  const normal = (s) => String(s ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  const viloes = (canal.elenco ?? []).filter((p) => p.papel === "vilao").map((p) => p.id);
+  if (!viloes.length) r.push({ tipo: "erro", id: "emocao.vilao", mensagem: 'o elenco não tem vilão (papel "vilao"): todo episódio precisa de um personagem para o público odiar, em cena' });
+  else {
+    const falasV = (roteiro.falas ?? []).filter((f) => viloes.includes(f.quem));
+    const re = new RegExp(`^personagem\\.(${viloes.join("|")})\\.(posicao|andar|visivel=true)`);
+    const emCena = linhas.some((l) => (l.direcao?.eventos ?? []).some((e) => re.test(e)));
+    if (falasV.length < 2 || !emCena) r.push({ tipo: "erro", id: "emocao.vilao", mensagem: `o vilão (${viloes.join(", ")}) tem de aparecer em cena (personagem.<id>.posicao/andar) e falar pelo menos 2 vezes: hoje ${falasV.length} fala(s), em cena: ${emCena ? "sim" : "não"}` });
+    // a primeira frase volta na boca do vilão, com outro sentido (≥ 2 palavras de 4+ letras em comum)
+    const chave = (s) => new Set(normal(s).split(/[^a-z0-9]+/).filter((w) => w.length >= 4));
+    const inicio = chave(lt.falas.filter((f) => f.inicio_s <= 5).map((f) => f.texto).join(" "));
+    const ultimaV = [...lt.falas].filter((f) => viloes.includes(f.quem)).sort((a, b) => a.inicio_s - b.inicio_s).at(-1);
+    const comuns = ultimaV ? [...chave(ultimaV.texto)].filter((w) => inicio.has(w)) : [];
+    if (falasV.length && comuns.length < 2) r.push({ tipo: "desconto", id: "emocao.virada_vilao", pontos: 4, mensagem: "a última fala do vilão não repete a primeira frase do episódio (2 palavras ou mais) com outro sentido" });
+  }
+  const tempo = (i) => (lt.linhas[i]?.indice === i ? lt.linhas[i].inicio_s : Number(linhas[i]?.t ?? 0));
+  const com = (nomes, de = 0, ate = Infinity) => linhas.filter((l, i) => nomes.includes(l.emocao) && tempo(i) >= de && tempo(i) <= ate).length;
+  if (!com(["riso"], 0, 10)) r.push({ tipo: "desconto", id: "emocao.humor", pontos: 4, mensagem: "nenhuma linha de riso nos primeiros 10 s (humor antes do susto faz gostar das pessoas)" });
+  const golpes = com(["raiva", "indignacao"], 12, 55);
+  if (golpes < 3) r.push({ tipo: "desconto", id: "emocao.raiva", pontos: 3 * (3 - golpes), mensagem: `${golpes} golpe(s) de raiva entre 15 e 50 s (a escada pede 3: a mentira, a ordem, a humilhação)` });
+  if (!com(["compaixao"])) r.push({ tipo: "desconto", id: "emocao.compaixao", pontos: 3, mensagem: "ninguém para proteger: falta uma linha de compaixão (a mãe, um idoso, quem ficou de fora)" });
+  return r;
 }
 
 /**
@@ -117,6 +149,9 @@ export function avaliarRoteiro(roteiro, canal, contexto = {}) {
     const comum = [...chave(inicio)].filter((w) => chave(fim).has(w));
     if (!comum.length) desc("virada.ep1", 3, "nada dos primeiros 5 s volta no fim (virada preferida: a primeira cena volta com outro sentido)");
   }
+  // emoção (aprovado pelo dono em 2026-11-10): um roteiro feito e aprovado antes disso pode dizer regras_emocao: false
+  if (roteiro.regras_emocao === false) avisos.push("regras de emoção dispensadas neste roteiro (feito e aprovado antes de 2026-11-10)");
+  else for (const it of avaliarEmocao(roteiro, canal, medirRoteiro(roteiro, canal).linha)) it.tipo === "erro" ? erro(it.id, it.mensagem) : desc(it.id, it.pontos, it.mensagem);
   // textos de publicação
   if (!/Epi\.?\s*\d+/i.test(roteiro.descricao ?? "")) desc("textos.descricao", 2, "a descrição deveria trazer 'Epi. NN'");
   const nh = (roteiro.hashtags ?? []).length;

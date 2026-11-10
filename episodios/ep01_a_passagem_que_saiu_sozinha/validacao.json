@@ -1,11 +1,13 @@
 {
-  "versao_regras": "2026-11-10",
+  "versao_regras": "2026-11-10b",
   "nota": 100,
   "nota_minima": 70,
   "aprovado": true,
   "itens": [],
   "erros": [],
-  "avisos": [],
+  "avisos": [
+    "regras de emoção dispensadas neste roteiro (feito e aprovado antes de 2026-11-10)"
+  ],
   "medidas": {
     "duracao_estimada_s": 82.75,
     "falas": 19,
@@ -28,5 +30,5 @@
       "guarda_volumes"
     ]
   },
-  "gerado_em": "2026-11-10T16:33:33.247Z"
+  "gerado_em": "2026-11-10T22:44:56.997Z"
 }
