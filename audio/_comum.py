@@ -55,6 +55,13 @@ def _garantir_ffmpeg_no_path() -> None:
 
 _garantir_ffmpeg_no_path()
 
+# o console do Windows (cp1252) não imprime "→", "×"...: sempre UTF-8, sem quebrar
+for _fluxo in (sys.stdout, sys.stderr):
+    try:
+        _fluxo.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 
 # ---------------------------------------------------------------- arquivos e json
 
@@ -399,6 +406,57 @@ def normalizar_texto(t: str) -> str:
     t = t.lower()
     t = re.sub(r"[^a-z0-9\s]", " ", t)
     return re.sub(r"\s+", " ", t).strip()
+
+
+def energia_por_banda(x: np.ndarray, sr: int, falas: list | None = None, fim_s: float | None = None) -> dict:
+    """Assinatura do som medida igual na referência e no nosso vídeo (2026-11-10):
+    fração da energia em 20–80 Hz, os 3 picos graves (< 150 Hz), nível por segundo (p10/p90), trechos abaixo de
+    −40 dBFS (≥ 0,4 s) e a diferença de RMS (banda inteira) entre trechos com e sem fala."""
+    x = np.asarray(x, dtype=np.float64)
+    if fim_s is not None:
+        x = x[: int(fim_s * sr)]
+    n = x.size
+    if n < sr:
+        return {}
+    P = np.abs(np.fft.rfft(x)) ** 2
+    f = np.fft.rfftfreq(n, 1 / sr)
+    tot = float(P[f > 20].sum()) + 1e-30
+    fr = float(P[(f >= 20) & (f < 80)].sum()) / tot
+    sel = (f > 20) & (f < 150)
+    acc = np.bincount(np.floor(f[sel]).astype(int), weights=P[sel])
+    picos = []
+    for b in np.argsort(acc)[::-1]:
+        if all(abs(b - q) >= 3 for q in picos):
+            picos.append(int(b))
+        if len(picos) == 3:
+            break
+    k = n // sr
+    blocos = x[: k * sr].reshape(k, sr)
+    niveis = 20 * np.log10(np.sqrt(np.mean(blocos ** 2, axis=1)) + 1e-12)
+    j = int(0.1 * sr); m = n // j
+    curtos = 20 * np.log10(np.sqrt(np.mean(x[: m * j].reshape(m, j) ** 2, axis=1)) + 1e-12)
+    abaixo, ini = [], None
+    for i, v in enumerate(curtos):
+        if v < -40 and ini is None:
+            ini = i
+        if v >= -40 and ini is not None:
+            if (i - ini) * 0.1 >= 0.4:
+                abaixo.append([round(ini * 0.1, 1), round(i * 0.1, 1)])
+            ini = None
+    if ini is not None and (m - ini) * 0.1 >= 0.4:
+        abaixo.append([round(ini * 0.1, 1), round(m * 0.1, 1)])
+    saida = {"fracao_20_80": round(fr, 3), "picos_graves_hz": picos, "nivel_1s_p10_db": round(float(np.percentile(niveis, 10)), 1),
+             "nivel_1s_p90_db": round(float(np.percentile(niveis, 90)), 1), "trechos_abaixo_40db": abaixo}
+    if falas:
+        mask = np.zeros(n, dtype=bool)
+        for fl in falas:
+            a, b = int(float(fl["inicio_s"]) * sr), int(float(fl["fim_s"]) * sr)
+            mask[max(0, a):min(n, b)] = True
+        if mask.any() and (~mask).any():
+            rf = 20 * math.log10(float(np.sqrt(np.mean(x[mask] ** 2))) + 1e-12)
+            rs = 20 * math.log10(float(np.sqrt(np.mean(x[~mask] ** 2))) + 1e-12)
+            saida["rms_fala_menos_sem_fala_db"] = round(rf - rs, 1)
+    return saida
 
 
 def contar_palavras(texto: str) -> int:

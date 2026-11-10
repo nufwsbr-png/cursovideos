@@ -21,8 +21,8 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _comum import (carregar_json, dbfs, envelope_rms, extrair_audio_ffmpeg, ffprobe_json, filtrar_banda,  # noqa: E402
-                    medir_loudness_ffmpeg, pico, rms)
+from _comum import (carregar_canal, carregar_json, dbfs, energia_por_banda, envelope_rms, extrair_audio_ffmpeg,  # noqa: E402
+                    ffprobe_json, filtrar_banda, medir_loudness_ffmpeg, pico, rms)
 
 SR = 48000
 PASSO = 0.05
@@ -60,8 +60,15 @@ def medir_arquivo(arquivo, linha: dict | None = None) -> dict:
     x = extrair_audio_ffmpeg(arquivo, SR)
     saida["volume_medio_dbfs"] = round(dbfs(rms(x)), 2)
     saida["pico_amostra_dbfs"] = round(dbfs(pico(x)), 2)
-    saida["ok_lufs"] = loud.get("input_i") is not None and -17.0 <= loud["input_i"] <= -13.5
-    saida["ok_pico"] = loud.get("input_tp") is not None and loud["input_tp"] <= -1.0 + 0.05
+    aud = (carregar_canal() or {}).get("audio", {})
+    alvo, tol, teto = float(aud.get("lufs_alvo", -14.0)), float(aud.get("lufs_tolerancia", 1.0)), float(aud.get("pico_max_dbtp", -1.0))
+    saida["alvo_lufs"] = alvo
+    saida["ok_lufs"] = loud.get("input_i") is not None and alvo - tol <= loud["input_i"] <= alvo + tol
+    saida["ok_pico"] = loud.get("input_tp") is not None and loud["input_tp"] <= teto + 0.05
+    # assinatura do som (a mesma medida feita na referência): zumbido grave, nunca silêncio, voz × fundo
+    fim_perg = (linha or {}).get("pergunta", {}) or {}
+    saida["bandas"] = energia_por_banda(x, SR, (linha or {}).get("falas"), None)
+    saida["bandas"]["fim_considerado_s"] = fim_perg.get("fim_s")
 
     banda = filtrar_banda(x, SR, 300, 3000)
     env = envelope_rms(banda, SR, PASSO)
@@ -105,8 +112,11 @@ def imprimir(m: dict) -> None:
         a = m["audio"]
         print(f"Áudio: {a['codec']} {a['taxa']} Hz, {a['canais']} canal(is)")
     if "lufs_integrado" in m:
-        print(f"Loudness: {m['lufs_integrado']} LUFS (alvo -16 a -14) {'OK' if m['ok_lufs'] else 'FORA'} · pico verdadeiro {m['pico_verdadeiro_dbtp']} dBTP (teto -1) {'OK' if m['ok_pico'] else 'FORA'} · LRA {m['faixa_de_loudness_lra']}")
+        print(f"Loudness: {m['lufs_integrado']} LUFS (alvo {m.get('alvo_lufs')}) {'OK' if m['ok_lufs'] else 'FORA'} · pico verdadeiro {m['pico_verdadeiro_dbtp']} dBTP (teto -1) {'OK' if m['ok_pico'] else 'FORA'} · LRA {m['faixa_de_loudness_lra']}")
         print(f"Volume médio {m['volume_medio_dbfs']} dBFS · pico de amostra {m['pico_amostra_dbfs']} dBFS")
+    bd = m.get("bandas") or {}
+    if bd:
+        print(f"Grave 20–80 Hz: {bd.get('fracao_20_80')} da energia · picos {bd.get('picos_graves_hz')} Hz · nível por segundo p10 {bd.get('nivel_1s_p10_db')} / p90 {bd.get('nivel_1s_p90_db')} dB · trechos abaixo de -40 dB: {len(bd.get('trechos_abaixo_40db', []))}")
     b = m.get("banda_de_voz") or {}
     if "diferenca_db" in b:
         print(f"Banda de voz: com fala {b['com_fala_dbfs']} dBFS · sem fala {b['sem_fala_dbfs']} dBFS · diferença {b['diferenca_db']} dB → {b['veredito']}")

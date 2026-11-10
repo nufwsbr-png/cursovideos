@@ -1805,5 +1805,40 @@
         }
       ]
     }
-  ]
+  ],
+  "audio": {
+    "lufs_alvo": -14,
+    "lufs_tolerancia": 1,
+    "pico_max_dbtp": -1,
+    "drone": {
+      "parciais_hz": [
+        46,
+        69,
+        92
+      ],
+      "amplitudes": [
+        1,
+        0.6,
+        0.3
+      ],
+      "batimento_hz": 46.3,
+      "am_hz": 0.15,
+      "am_profundidade": 0.12,
+      "passa_baixa_hz": 140,
+      "fracao_20_80_alvo": 0.84,
+      "fracao_20_80_faixa": [
+        0.8,
+        0.88
+      ],
+      "subida_climas_db": {
+        "escalada": 2,
+        "climax": 4
+      }
+    },
+    "ducking_db": {
+      "ambiente": -7,
+      "tensao": -3
+    },
+    "passo_camera_hz": 2.9
+  }
 }

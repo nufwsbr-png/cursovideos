@@ -46,8 +46,22 @@ export async function etapaProva({ canal, ep }) {
     som = await executarJson(PYTHON, [path.join(PASTA_AUDIO, "medir.py"), "--arquivo", arquivo, "--linha-do-tempo", path.join(ep.dir, "linha_do_tempo.json"), "--json"]);
     const lufs = som.lufs_integrado ?? som.lufs;
     const pico = som.pico_verdadeiro_dbtp ?? som.pico_dbtp ?? som.pico;
-    if (typeof lufs === "number" && (lufs < -17.5 || lufs > -13.5)) bloqueios.push(`volume ${lufs.toFixed(1)} LUFS fora de -17..-14`);
-    if (typeof pico === "number" && pico > -0.9) bloqueios.push(`pico ${pico.toFixed(2)} dBTP acima de -1`);
+    const aud = canal.audio ?? {};
+    const alvo = aud.lufs_alvo ?? -14, tol = (aud.lufs_tolerancia ?? 1) + 0.5, teto = (aud.pico_max_dbtp ?? -1) + 0.1;
+    if (typeof lufs === "number" && Math.abs(lufs - alvo) > tol) bloqueios.push(`volume ${lufs.toFixed(1)} LUFS fora de ${alvo}±${tol}`);
+    if (typeof pico === "number" && pico > teto) bloqueios.push(`pico ${pico.toFixed(2)} dBTP acima de ${teto.toFixed(1)}`);
+    // assinatura do som da referência: zumbido grave contínuo, nunca silêncio de verdade
+    const bd = som.bandas ?? {};
+    if (typeof bd.fracao_20_80 === "number") {
+      const [lo, hi] = aud.drone?.fracao_20_80_faixa ?? [0.8, 0.88];
+      if (bd.fracao_20_80 < 0.6) bloqueios.push(`zumbido grave ausente: 20–80 Hz com ${(100 * bd.fracao_20_80).toFixed(0)} % da energia (referência 83–87 %)`);
+      else if (bd.fracao_20_80 < lo || bd.fracao_20_80 > hi) avisos.push(`20–80 Hz com ${(100 * bd.fracao_20_80).toFixed(0)} % da energia (alvo ${lo * 100}–${hi * 100} %)`);
+      // o fim do arquivo pode ter silêncio de propósito depois do cartão; só conta antes da pergunta acabar
+      const fimUtil = (lt.pergunta?.fim_s ?? lt.duracao_total_s) - 0.3;
+      const buracos = (bd.trechos_abaixo_40db ?? []).filter(([a]) => a < fimUtil);
+      if (buracos.length) bloqueios.push(`silêncio de verdade em ${buracos.map(([a, b]) => `${a}–${b}s`).join(", ")} (a referência nunca cai abaixo de -40 dB)`);
+      if (typeof bd.nivel_1s_p90_db === "number" && bd.nivel_1s_p90_db - bd.nivel_1s_p10_db > 10) avisos.push(`nível varia ${(bd.nivel_1s_p90_db - bd.nivel_1s_p10_db).toFixed(1)} dB entre trechos (referência ≈ 8 dB)`);
+    }
     const veredito = som.banda_de_voz?.veredito ?? som.veredito;
     if (veredito && !/destaca/i.test(veredito)) avisos.push(`banda de voz: ${veredito}`);
     const encobertas = som.banda_de_voz?.falas_possivelmente_encobertas ?? [];
@@ -81,7 +95,8 @@ export async function etapaProva({ canal, ep }) {
 
   const lista = {
     "Formato 1080x1920, fps e duração": bloqueios.every((b) => !/formato|fps|duração/.test(b)),
-    "Volume -16 LUFS e pico abaixo de -1 dB": bloqueios.every((b) => !/volume|pico/.test(b)),
+    [`Volume ${canal.audio?.lufs_alvo ?? -14} LUFS e pico abaixo de -1 dB`]: bloqueios.every((b) => !/volume|pico/.test(b)),
+    "Zumbido grave contínuo, sem silêncio (como a referência)": bloqueios.every((b) => !/zumbido|silêncio de verdade/.test(b)),
     "Voz se destaca do fundo": !avisos.some((a) => /banda de voz/.test(a)),
     "Todas as falas no vídeo pronto (transcrição)": transcricao?.conferido_por && transcricao.conferido_por !== "nao_conferido" ? !(transcricao.faltando ?? []).length : "não conferido",
     "Quadros revisados (revisor automático)": graves.length === 0,

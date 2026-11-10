@@ -28,12 +28,6 @@ concluido.flag
 # Vídeos de referência baixados para estudo (nunca vão para o git) e perfil do navegador com login
 referencias/
 
-# saídas dos episódios-teste do motor
-motor/testes/*/stills/
-motor/testes/*/sequencia/
-motor/testes/*/*.mp4
-motor/testes/*/render.json
-motor/testes/*/linha_do_tempo_previa.json
-motor/testes/*/folha.png
-motor/testes/*/plano_camera.json
-motor/testes/*/revisao.json
+# saídas dos episódios-teste do motor (só o roteiro vai para o git)
+motor/testes/*/*
+!motor/testes/*/roteiro.json

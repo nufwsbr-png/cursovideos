@@ -108,17 +108,24 @@ export function montarLinhaDoTempo(roteiro, medidas, canal, opcoes = {}) {
   const cen = (canal.cenarios || []).find((c) => c.id === roteiro.cenario) || (canal.cenarios || [])[0] || {};
   const ambPadrao = roteiro.ambiente || cen.ambiente?.tipo || (/rua|estrada/.test(roteiro.cenario || '') ? 'rua_noite' : 'saguao_noite');
   const ganhoPadrao = cen.ambiente?.ganho_db ?? -26;
-  const ambiente = [];
+  // o ambiente troca no instante em que a câmera muda de lugar (durante a caminhada ou no meio do preto),
+  // com 0,6 s de sobreposição entre um som e outro
+  const ambDoModulo = (m) => { const c = (canal.cenarios || []).find((x) => x.id === m); return c?.ambiente ? { tipo: c.ambiente.tipo, ganho_db: c.ambiente.ganho_db ?? ganhoPadrao } : null; };
   const porLinha = opcoes.ambientes || [];
+  const mudancas = [{ t: 0, tipo: ambPadrao, ganho_db: ganhoPadrao }];
   for (let i = 0; i < linhas.length; i++) {
-    const a = porLinha[i] || { tipo: ambPadrao, ganho_db: ganhoPadrao };
-    const ini = i === 0 ? 0 : (a.inicio_s ?? linhas[i].inicio_s);
-    if (!ambiente.length || ambiente[ambiente.length - 1].tipo !== a.tipo) {
-      if (ambiente.length) ambiente[ambiente.length - 1].fim_s = r3(ini);
-      ambiente.push({ inicio_s: r3(ini), fim_s: null, tipo: a.tipo, ganho_db: a.ganho_db ?? ganhoPadrao });
-    }
+    const d = duracoes[i] || {};
+    if (d.movimento?.modulos?.length) {
+      for (const m of d.movimento.modulos) { const a = ambDoModulo(m.modulo); if (a) mudancas.push({ t: linhas[i].inicio_s + (m.t_rel || 0), ...a }); }
+    } else if (porLinha[i]) mudancas.push({ t: d.transicao ? linhas[i].t_eventos : linhas[i].inicio_s, tipo: porLinha[i].tipo, ganho_db: porLinha[i].ganho_db ?? ganhoPadrao });
   }
-  if (!ambiente.length) ambiente.push({ inicio_s: 0, fim_s: null, tipo: ambPadrao, ganho_db: ganhoPadrao });
+  const ambiente = [];
+  for (const m of mudancas.sort((a, b) => a.t - b.t)) {
+    const ult = ambiente[ambiente.length - 1];
+    if (ult && ult.tipo === m.tipo) continue;
+    if (ult) ult.fim_s = r3(Math.min(total, m.t + 0.3));
+    ambiente.push({ inicio_s: r3(ult ? Math.max(0, m.t - 0.3) : 0), fim_s: null, tipo: m.tipo, ganho_db: m.ganho_db });
+  }
   ambiente[ambiente.length - 1].fim_s = r3(total);
 
   let pergunta = null;

@@ -173,8 +173,16 @@ def derivar_efeitos(roteiro: dict, linhas_resolvidas: list[dict], canal: dict | 
                 elif ident == "lanchonete" and valor == "acesa":
                     add(t0, "lampada_estalo")
             elif alvo == "celular" and campo == "notificacao":
-                add(t0, "celular_vibrar")
-                add(t0 + 0.15, "notificacao")
+                try:
+                    msg = (roteiro.get("celular") or [])[int(valor)]
+                except (ValueError, IndexError):
+                    msg = {}
+                if (msg or {}).get("tipo") == "alerta":
+                    add(t0 + 0.3, "alerta_bipe")      # alerta do sistema: bipe triplo junto com o cartão vermelho
+                    add(t0, "celular_vibrar")
+                else:
+                    add(t0, "celular_vibrar")
+                    add(t0 + 0.15, "notificacao")
             elif alvo == "personagem":
                 if campo == "posicao":
                     posicao_personagem[ident] = valor
@@ -186,6 +194,22 @@ def derivar_efeitos(roteiro: dict, linhas_resolvidas: list[dict], canal: dict | 
                     add(t0, "passos", duracao_s=round(dur, 2), ritmo="lento")
                     posicao_personagem[ident] = valor
         acao = str(d.get("acao") or "")
+        # o corpo do protagonista: passos no ritmo do balanço da câmera, portas que abrem no caminho, corrida
+        mov = ln.get("movimento") or {}
+        if mov.get("tipo") in ("andar", "correr") and float(mov.get("duracao_s") or 0) > 0:
+            ini_mov = float(ln["inicio_s"]) + float(mov.get("atraso_s") or 0)
+            passo_hz = float(mov.get("passo_hz") or 2.9)
+            # primeiro passo no primeiro vale do balanço (cos 2φ = -1 → t = (k + 0,5) / f)
+            k0 = math.ceil(ini_mov * passo_hz - 0.5)
+            primeiro = (k0 + 0.5) / passo_hz
+            corrida = mov.get("tipo") == "correr"
+            piso = "ladrilho"
+            add(primeiro, "passos_camera", duracao_s=round(max(0.3, float(mov["duracao_s"]) - (primeiro - ini_mov) - 0.15), 3),
+                intervalo_s=round(1 / passo_hz, 5), piso=piso, corrida=corrida)
+            if corrida:
+                add(ini_mov, "ruido_corrida", duracao_s=round(float(mov["duracao_s"]), 2))
+            for pt in mov.get("portas") or []:  # t_rel já conta desde o início da linha (inclui o levantar)
+                add(float(ln["inicio_s"]) + float(pt.get("t_rel", 0)) - 0.6, "porta_abrir", ganho_db=-4)
         if acao == "trabalhar":
             n = 0
             t = t0 + 0.3

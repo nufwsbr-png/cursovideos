@@ -6,7 +6,9 @@ a partir da linha do tempo (capítulo 64: fala, ambiente, efeitos, tensão):
 
   audio/camadas/ambiente.wav   o som do lugar, bem baixo
   audio/camadas/efeitos.wav    sons pontuais ligados à imagem
-  audio/camadas/tensao.wav     grave crescente, pancada e o "drone" dos climas escalada/clímax
+  audio/camadas/tensao.wav     grave crescente, pancada e a subida dos climas escalada/clímax
+  audio/camadas/drone.wav      o zumbido grave contínuo (46/69/92 Hz) do começo ao fim, como na referência
+                               (medido em 2026-11-10: 83–87 % da energia entre 20 e 80 Hz, nunca silêncio)
 
 Tudo com semente (mesma linha do tempo → mesmo som). 48 kHz, mono, 24 bits.
 Nos `silencios` da linha do tempo, ambiente e tensão caem quase a zero (o silêncio é roteiro).
@@ -36,6 +38,7 @@ NIVEL_PADRAO_DB = {
     "vidro": -12, "celular_vibrar": -16, "notificacao": -18, "estatica_radio": -18, "lampada_estalo": -16,
     "lampada_piscar": -16, "grave_crescente": -6, "pancada": -5, "freio_onibus": -12, "motor_onibus": -14,
     "sino": -14, "campainha": -12, "papel": -22, "carimbo": -17,
+    "alerta_bipe": -10, "passos_camera": -15, "ruido_corrida": -24, "impressora": -14,
 }
 # quanto de reverb de saguão cada efeito recebe (0 = perto do ouvido, seco)
 REVERB_DB = {
@@ -43,6 +46,7 @@ REVERB_DB = {
     "vidro": 0.25, "celular_vibrar": 0.0, "notificacao": 0.0, "estatica_radio": 0.0, "lampada_estalo": 0.2,
     "lampada_piscar": 0.2, "grave_crescente": 0.0, "pancada": 0.0, "freio_onibus": 0.15, "motor_onibus": 0.12,
     "sino": 0.3, "campainha": 0.1, "papel": 0.0, "carimbo": 0.05,
+    "alerta_bipe": 0.0, "passos_camera": 0.08, "ruido_corrida": 0.0, "impressora": 0.05,
 }
 CAMADA_TENSAO = {"grave_crescente", "pancada"}
 
@@ -351,6 +355,73 @@ def ef_carimbo(rng, **k):
     return _fade(filtrar_banda(y.astype(np.float32), SR, 70, 6000))
 
 
+def ef_alerta_bipe(rng, freq=1600.0, **k):
+    """Três bipes de alerta do sistema (≈ 1,6 kHz, como os da referência): 0,12 s ligado, 0,08 s desligado."""
+    y = np.zeros(_n(0.62), dtype=np.float32)
+    for i in range(3):
+        m = _n(0.12)
+        t = _t(m)
+        b = (np.sin(2 * math.pi * float(freq) * t) + 0.3 * np.sin(2 * math.pi * 2 * float(freq) * t)) * 0.8
+        b = _fade(b.astype(np.float32), 0.004, 0.012)
+        p = _n(0.2 * i)
+        y[p:p + m] += b[: max(0, min(m, y.size - p))]
+    return y
+
+
+def ef_passos_camera(rng, duracao_s=3.0, intervalo_s=1 / 2.9, piso="ladrilho", inicio_rel_s=0.0, corrida=False, **k):
+    """Passos do protagonista cravados no ritmo do balanço da câmera (um passo por ciclo): sem sorteio no tempo,
+    para o som cair junto com a imagem. Ladrilho = estalo mais claro; cimento = mais surdo."""
+    dur = float(duracao_s)
+    n = _n(dur + 0.4)
+    y = np.zeros(n, dtype=np.float32)
+    lo, hi = (1200, 6500) if piso == "ladrilho" else (500, 3000)
+    t = float(inicio_rel_s)
+    i = 0
+    while t < dur:
+        n_p = _n(0.16)
+        tt = _t(n_p)
+        thump = _tom(np.linspace(110 if corrida else 95, 58, n_p), n_p) * np.exp(-tt / (0.05 if corrida else 0.045))
+        n_s = _n(0.06)
+        estalo = filtrar_banda(_ruido(rng, n_s), SR, lo, hi) * np.exp(-_t(n_s) / (0.012 if piso == "ladrilho" else 0.02))
+        passo = np.zeros(n_p, dtype=np.float32)
+        passo += (thump * 0.9).astype(np.float32)
+        passo[:n_s] += (estalo * (0.55 if corrida else 0.4)).astype(np.float32)
+        g = (1.0 if i % 2 == 0 else 0.84) * (0.95 + 0.1 * rng.random())
+        p = _n(t)
+        fim = min(n, p + n_p)
+        if fim > p:
+            y[p:fim] += passo[: fim - p] * g
+        t += float(intervalo_s)
+        i += 1
+    return y
+
+
+def ef_ruido_corrida(rng, duracao_s=3.0, **k):
+    """Roupa e respiração na corrida: ruído largo pulsando no passo."""
+    n = _n(float(duracao_s))
+    t = _t(n)
+    env = 0.55 + 0.45 * np.abs(np.sin(math.pi * 2.9 * t))
+    y = filtrar_banda(_ruido(rng, n), SR, 300, 5000) * env
+    return _fade(y.astype(np.float32), 0.25, 0.4)
+
+
+def ef_impressora(rng, duracao_s=2.2, **k):
+    """Impressora matricial da passagem: motor de passo linha a linha + agulhas, e o papel rasgado no fim."""
+    dur = float(duracao_s)
+    n = _n(dur + 0.45)
+    t = _t(n)
+    linhas = (np.sin(2 * math.pi * 8.5 * t) > -0.2).astype(float) * (t < dur)
+    motor = np.sign(np.sin(2 * math.pi * 430 * t)) * 0.35 + np.sin(2 * math.pi * 860 * t) * 0.25
+    agulhas = filtrar_banda(_ruido(rng, n), SR, 1800, 7500) * (np.sin(2 * math.pi * 140 * t) > 0.55)
+    y = (motor + agulhas * 0.7) * linhas
+    a = _n(dur + 0.05)
+    m = min(_n(0.32), n - a)
+    if m > 0:
+        rasgo = filtrar_banda(_ruido(rng, m), SR, 900, 8000) * np.concatenate([np.linspace(0.3, 1.0, m // 2), np.linspace(1.0, 0.0, m - m // 2)])
+        y[a:a + m] += rasgo * 1.2
+    return _fade(filtrar_banda(y.astype(np.float32), SR, 120, 9000), 0.01, 0.05)
+
+
 EFEITOS = {
     "clique": ef_clique, "clique_triplo": ef_clique_triplo, "passos": ef_passos, "porta_abrir": ef_porta_abrir,
     "porta_fechar": ef_porta_fechar, "batida": ef_batida, "vidro": ef_vidro, "celular_vibrar": ef_celular_vibrar,
@@ -358,6 +429,7 @@ EFEITOS = {
     "lampada_piscar": ef_lampada_piscar, "grave_crescente": ef_grave_crescente, "pancada": ef_pancada,
     "freio_onibus": ef_freio_onibus, "motor_onibus": ef_motor_onibus, "sino": ef_sino, "campainha": ef_campainha,
     "papel": ef_papel, "carimbo": ef_carimbo,
+    "alerta_bipe": ef_alerta_bipe, "passos_camera": ef_passos_camera, "ruido_corrida": ef_ruido_corrida, "impressora": ef_impressora,
 }
 
 
@@ -423,7 +495,28 @@ def amb_silencio(rng, n: int) -> np.ndarray:
     return (_ruido(rng, n) * 0.0003).astype(np.float32)
 
 
-AMBIENTES = {"saguao_noite": amb_saguao_noite, "rua_noite": amb_rua_noite, "chuva": amb_chuva, "vento": amb_vento, "silencio": amb_silencio}
+def amb_corredor_servico(rng, n: int) -> np.ndarray:
+    """Corredor estreito: reator de lâmpada fluorescente perto, ventilação no teto, sem grilos (não tem janela)."""
+    t = _t(n)
+    reator = (0.6 * np.sin(2 * math.pi * 120 * t) + 0.25 * np.sin(2 * math.pi * 240 * t)) * (1 + 0.08 * _ruido_lento(rng, n, 0.4))
+    buzz = filtrar_banda(_ruido(rng, n), SR, 2200, 5200) * (np.abs(np.sin(2 * math.pi * 120 * t)) ** 3) * 0.5
+    vent = filtrar_banda(_ruido(rng, n), SR, 80, 600) * (0.8 + 0.2 * _ruido_lento(rng, n, 0.3))
+    y = reator * 0.35 + buzz * 0.3 + vent * 0.7
+    return aplicar_reverb(y.astype(np.float32), SR, 0.08, 0.35, int(rng.integers(1, 9999)))
+
+
+def amb_guarda_volumes(rng, n: int) -> np.ndarray:
+    """Sala fechada e abafada: tom de sala baixo, lâmpada distante, um chiado quase nenhum."""
+    t = _t(n)
+    sala = filtrar_banda(_ruido(rng, n), SR, 50, 400) * (0.85 + 0.15 * _ruido_lento(rng, n, 0.2))
+    lamp = (0.4 * np.sin(2 * math.pi * 120 * t)) * (1 + 0.05 * _ruido_lento(rng, n, 0.3))
+    chiado = filtrar_banda(_ruido(rng, n), SR, 3000, 8000) * 0.05
+    y = sala * 0.8 + lamp * 0.2 + chiado
+    return aplicar_reverb(y.astype(np.float32), SR, 0.05, 0.25, int(rng.integers(1, 9999)))
+
+
+AMBIENTES = {"saguao_noite": amb_saguao_noite, "rua_noite": amb_rua_noite, "chuva": amb_chuva, "vento": amb_vento, "silencio": amb_silencio,
+             "corredor_servico": amb_corredor_servico, "guarda_volumes": amb_guarda_volumes}
 
 
 # ---------------------------------------------------------------- montagem
@@ -455,10 +548,40 @@ def _portao_silencios(n: int, silencios: list[dict], piso: float = 0.05) -> np.n
     return g
 
 
+def camada_drone(n: int, climas: list[dict], cfg: dict | None = None) -> np.ndarray:
+    """Zumbido grave contínuo (a assinatura de som da referência): parciais 46/69/92 Hz + batimento em 46,3 Hz,
+    modulação lenta, passa-baixa em 140 Hz (fora da faixa da voz). Do começo ao fim, inclusive no cartão final;
+    nunca entra nos silêncios. Sobe +2 dB na escalada e +4 dB no clímax (suavizado em 2 s). Nível final: a mixagem calibra."""
+    cfg = cfg or {}
+    t = _t(n)
+    parciais = cfg.get("parciais_hz", [46, 69, 92])
+    amps = cfg.get("amplitudes", [1.0, 0.6, 0.3])
+    y = np.zeros(n, dtype=np.float64)
+    for f, a in zip(parciais, amps):
+        y += float(a) * np.sin(2 * math.pi * float(f) * t)
+    y += 0.5 * np.sin(2 * math.pi * float(cfg.get("batimento_hz", 46.3)) * t)
+    y *= 1 + float(cfg.get("am_profundidade", 0.12)) * np.sin(2 * math.pi * float(cfg.get("am_hz", 0.15)) * t)
+    subida = cfg.get("subida_climas_db", {"escalada": 2, "climax": 4})
+    alvo = np.ones(n, dtype=np.float64)
+    for i, c in enumerate(climas or []):
+        a = int(float(c["inicio_s"]) * SR)
+        b = int(float(climas[i + 1]["inicio_s"]) * SR) if i + 1 < len(climas) else n
+        alvo[max(0, a):min(n, b)] = db_para_ganho(float(subida.get(c.get("clima"), 0)))
+    passo = _n(0.05)
+    k = max(1, int(2.0 / 0.05))
+    blocos = alvo[::passo]
+    blocos = np.convolve(np.pad(blocos, (k, k), mode="edge"), np.ones(k) / k, mode="same")[k:-k]
+    env = np.interp(np.arange(n), np.arange(blocos.size) * passo, blocos)
+    y *= env
+    y = filtrar_banda(y.astype(np.float32), SR, 25, float(cfg.get("passa_baixa_hz", 140)))
+    y = _fade(y, 0.05, 0.3)
+    return normalizar_rms(y, -24.0, teto_pico_dbfs=-6)
+
+
 def _drone_dos_climas(rng, n: int, climas: list[dict], efeitos: list[dict], total: float) -> np.ndarray:
-    """Grave baixo e contínuo nos climas escalada/clímax (some na pergunta)."""
+    """Grave baixo nos climas escalada/clímax (some na pergunta). Fica bem menor agora que existe o zumbido contínuo."""
     y = np.zeros(n, dtype=np.float32)
-    nivel = {"rotina": 0.0, "sinal": 0.0, "escalada": db_para_ganho(-30), "climax": db_para_ganho(-24), "pergunta": 0.0}
+    nivel = {"rotina": 0.0, "sinal": 0.0, "escalada": db_para_ganho(-36), "climax": db_para_ganho(-30), "pergunta": 0.0}
     alvo = np.zeros(n, dtype=np.float32)
     for i, c in enumerate(climas or []):
         a = int(float(c["inicio_s"]) * SR)
@@ -482,7 +605,7 @@ def _drone_dos_climas(rng, n: int, climas: list[dict], efeitos: list[dict], tota
     return y
 
 
-def gerar_camadas(linha: dict, pasta_saida: Path, semente: int = 7, silencioso: bool = False) -> dict:
+def gerar_camadas(linha: dict, pasta_saida: Path, semente: int = 7, silencioso: bool = False, cfg_audio: dict | None = None) -> dict:
     total = float(linha["duracao_total_s"])
     n = _n(total)
     rng = np.random.default_rng(semente)
@@ -511,19 +634,24 @@ def gerar_camadas(linha: dict, pasta_saida: Path, semente: int = 7, silencioso: 
         if not fn:
             registro["avisos"].append(f"efeito desconhecido: {tipo} em {e.get('t')} s (ignorado)")
             continue
-        r = np.random.default_rng(semente * 7919 + i * 31 + int(float(e["t"]) * 10))
-        params = {k: v for k, v in e.items() if k not in ("t", "tipo", "ganho_db")}
-        y = fn(r, **params)
-        nivel = NIVEL_PADRAO_DB.get(tipo, -16) + float(e.get("ganho_db", 0))
-        y = _normaliza(y, nivel)
-        rev = REVERB_DB.get(tipo, 0.0)
-        if rev > 0:
-            y = aplicar_reverb(y, SR, rev, 0.7, int(r.integers(1, 9999)))
+        r = np.random.default_rng(semente * 7919 + int(float(e["t"]) * 1000) % 100003 + sum(map(ord, tipo)))
+        reps = int(e.get("repeticoes") or 1)
+        intervalo = float(e.get("intervalo_s") or 1.0) if reps > 1 else 0.0
+        params = {k: v for k, v in e.items() if k not in ("t", "tipo", "ganho_db", "repeticoes") and not (k == "intervalo_s" and reps > 1)}
         destino = tensao if tipo in CAMADA_TENSAO else efeitos
-        _colocar(destino, y, float(e["t"]))
+        nivel = NIVEL_PADRAO_DB.get(tipo, -16) + float(e.get("ganho_db", 0))
+        for k_rep in range(max(1, reps)):
+            y = fn(r, **params)
+            y = _normaliza(y, nivel - (1.5 if k_rep % 2 else 0.0))  # batidas alternam um pouco de força
+            rev = REVERB_DB.get(tipo, 0.0)
+            if rev > 0:
+                y = aplicar_reverb(y, SR, rev, 0.7, int(r.integers(1, 9999)))
+            jitter = (r.random() - 0.5) * 0.06 * intervalo if k_rep > 0 else 0.0
+            _colocar(destino, y, float(e["t"]) + k_rep * intervalo + jitter)
         registro["efeitos"].append({"t": float(e["t"]), "tipo": tipo, "pico_dbfs": round(nivel, 1), "camada": "tensao" if tipo in CAMADA_TENSAO else "efeitos", "duracao_s": round(y.size / SR, 2)})
 
     tensao += _drone_dos_climas(rng, n, linha.get("climas", []), linha.get("efeitos", []), total)
+    drone = camada_drone(n, linha.get("climas", []), (cfg_audio or {}).get("drone"))
 
     portao = _portao_silencios(n, linha.get("silencios", []))
     ambiente *= portao
@@ -538,7 +666,7 @@ def gerar_camadas(linha: dict, pasta_saida: Path, semente: int = 7, silencioso: 
             tensao[a:a + r] *= rampa(r, False)
             tensao[a + r:] = 0.0
 
-    for nome, cam in (("ambiente", ambiente), ("efeitos", efeitos), ("tensao", tensao)):
+    for nome, cam in (("ambiente", ambiente), ("efeitos", efeitos), ("tensao", tensao), ("drone", drone)):
         p = pico(cam)
         if p > 0.95:
             cam *= 0.95 / p
@@ -568,7 +696,7 @@ def main() -> None:
     linha = carregar_json(caminho)
     canal = carregar_canal()
     semente = args.semente if args.semente is not None else int(canal.get("estilo", {}).get("semente", 7))
-    reg = gerar_camadas(linha, ep / "audio" / "camadas", semente, args.json)
+    reg = gerar_camadas(linha, ep / "audio" / "camadas", semente, args.json, canal.get("audio"))
     if args.json:
         print(json.dumps(reg, ensure_ascii=False))
 

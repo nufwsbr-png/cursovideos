@@ -108,7 +108,26 @@ def ganho_ducking(voz: np.ndarray, reducao_db: float) -> np.ndarray:
 
 
 TETO_PICO_DBFS = -2.0      # pico de amostra antes do AAC (sobra para o pico verdadeiro ficar abaixo de -1 dBTP)
-ALVO_LUFS = -16.0
+ALVO_LUFS = -14.0          # o da referência (medido em 2026-11-10: -14,1 LUFS); canal.json → audio.lufs_alvo manda
+
+
+def energias_banda(x: np.ndarray, lo: float = 20.0, hi: float = 80.0) -> tuple[float, float]:
+    """(energia total acima de 20 Hz, energia em lo–hi Hz) pelo espectro do sinal inteiro."""
+    P = np.abs(np.fft.rfft(x.astype(np.float64))) ** 2
+    f = np.fft.rfftfreq(x.size, 1 / SR)
+    return float(P[f > 20].sum()), float(P[(f >= lo) & (f < hi)].sum())
+
+
+def ganho_do_drone(outros: np.ndarray, drone: np.ndarray, alvo: float) -> float:
+    """Ganho do zumbido para a faixa 20–80 Hz ficar com `alvo` da energia da mistura (sinais sem correlação):
+    g² = (alvo·E_o − E_o,banda) / (E_d,banda − alvo·E_d)."""
+    eo, eob = energias_banda(outros)
+    ed, edb = energias_banda(drone)
+    den = edb - alvo * ed
+    if den <= 1e-12 or ed <= 1e-12:
+        return 1.0
+    g2 = (alvo * eo - eob) / den
+    return float(math.sqrt(max(g2, 0.0)))
 
 
 def limitar_picos(x: np.ndarray, teto_dbfs: float = TETO_PICO_DBFS, antecipacao_s: float = 0.005, soltura_s: float = 0.08) -> tuple[np.ndarray, float]:
@@ -137,17 +156,17 @@ def limitar_picos(x: np.ndarray, teto_dbfs: float = TETO_PICO_DBFS, antecipacao_
     return (x * gs).astype(np.float32), round(-20 * math.log10(max(float(g.min()), 1e-6)), 2)
 
 
-def loudnorm_duas_passagens(raw_f32: Path, saida_wav: Path, silencioso: bool) -> dict:
+def loudnorm_duas_passagens(raw_f32: Path, saida_wav: Path, silencioso: bool, alvo: float = ALVO_LUFS) -> dict:
     entrada = ["-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", str(raw_f32)]
-    p1 = subprocess.run(["ffmpeg", "-v", "info", "-nostats", *entrada, "-af", "loudnorm=I=-16:TP=-1:LRA=11:print_format=json", "-f", "null", "-"],
+    p1 = subprocess.run(["ffmpeg", "-v", "info", "-nostats", *entrada, "-af", f"loudnorm=I={alvo}:TP=-1:LRA=11:print_format=json", "-f", "null", "-"],
                         capture_output=True, text=True)
     txt = p1.stderr
     ini, fim = txt.rfind("{"), txt.rfind("}")
     if ini < 0:
         raise RuntimeError("loudnorm (passagem 1) não devolveu JSON:\n" + txt[-500:])
     m = json.loads(txt[ini:fim + 1])
-    filtro = ("loudnorm=I=-16:TP=-1.5:LRA=11:measured_I={input_i}:measured_TP={input_tp}:measured_LRA={input_lra}:"
-              "measured_thresh={input_thresh}:offset={target_offset}:linear=true:print_format=json").format(**m)
+    filtro = ("loudnorm=I={alvo}:TP=-1.5:LRA=11:measured_I={input_i}:measured_TP={input_tp}:measured_LRA={input_lra}:"
+              "measured_thresh={input_thresh}:offset={target_offset}:linear=true:print_format=json").format(alvo=alvo, **m)
     p2 = subprocess.run(["ffmpeg", "-v", "info", "-nostats", "-y", *entrada, "-af", filtro, "-ar", str(SR), "-c:a", "pcm_s24le", str(saida_wav)],
                         capture_output=True, text=True)
     if p2.returncode != 0:
@@ -189,11 +208,16 @@ def mixar(ep: Path, linha: dict, video: Path | None, saida: Path | None, so_audi
     total = float(linha["duracao_total_s"])
     n = int(round(total * SR))
 
+    canal = carregar_canal() or {}
+    aud = canal.get("audio", {})
+    alvo_lufs = float(aud.get("lufs_alvo", ALVO_LUFS))
+    duck = aud.get("ducking_db", {})
+    duck_amb, duck_ten = float(duck.get("ambiente", DUCK_AMBIENTE_DB)), float(duck.get("tensao", -3.0))
     pasta_cam = ep / "audio" / "camadas"
-    if not (pasta_cam / "ambiente.wav").exists():
-        falar("Camadas não encontradas: sintetizando agora.", silencioso)
+    if not (pasta_cam / "ambiente.wav").exists() or not (pasta_cam / "drone.wav").exists():
+        falar("Camadas não encontradas (ou sem o zumbido grave): sintetizando agora.", silencioso)
         from sintetizar import gerar_camadas
-        gerar_camadas(linha, pasta_cam, semente, silencioso)
+        gerar_camadas(linha, pasta_cam, semente, silencioso, aud)
 
     voz = np.zeros(n, dtype=np.float32)
     relatorio_falas = []
@@ -215,9 +239,17 @@ def mixar(ep: Path, linha: dict, video: Path | None, saida: Path | None, so_audi
     ambiente = ler_camada(pasta_cam / "ambiente.wav", n)
     efeitos = ler_camada(pasta_cam / "efeitos.wav", n)
     tensao = ler_camada(pasta_cam / "tensao.wav", n)
-    g_amb = ganho_ducking(voz, DUCK_AMBIENTE_DB)
-    g_ten = ganho_ducking(voz, DUCK_TENSAO_DB)
-    mistura = voz + ambiente * g_amb + efeitos + tensao * g_ten
+    drone = ler_camada(pasta_cam / "drone.wav", n)
+    g_amb = ganho_ducking(voz, duck_amb)
+    g_ten = ganho_ducking(voz, duck_ten)
+    outros = voz + ambiente * g_amb + efeitos + tensao * g_ten
+    # o zumbido grave não abaixa com a fala (está fora da faixa da voz) e é calibrado para a assinatura da referência
+    cfg_drone = aud.get("drone", {})
+    alvo_banda = float(cfg_drone.get("fracao_20_80_alvo", 0.84))
+    g_drone = ganho_do_drone(outros, drone, alvo_banda) if np.any(drone) else 0.0
+    mistura = outros + drone * g_drone
+    et, eb = energias_banda(mistura)
+    fracao = eb / max(et, 1e-30)
     p = pico(mistura)
     if p > 0.98:
         mistura = mistura * (0.98 / p)
@@ -232,7 +264,7 @@ def mixar(ep: Path, linha: dict, video: Path | None, saida: Path | None, so_audi
         pre = medir_loudness_ffmpeg_raw(raw)
         if pre.get("input_i") is None:
             break
-        ganho_db = ALVO_LUFS - pre["input_i"]
+        ganho_db = alvo_lufs - pre["input_i"]
         if abs(ganho_db) < 0.25:
             break
         mistura = (mistura * db_para_ganho(ganho_db)).astype(np.float32)
@@ -243,7 +275,7 @@ def mixar(ep: Path, linha: dict, video: Path | None, saida: Path | None, so_audi
     escrever_raw_f32(raw, mistura)
     ganho_db = ganho_total_db
     mix_wav = so_audio if so_audio else (ep / "mix.wav")
-    medidas_loud = loudnorm_duas_passagens(raw, mix_wav, silencioso)
+    medidas_loud = loudnorm_duas_passagens(raw, mix_wav, silencioso, alvo_lufs)
     medidas_loud["ganho_linear_db"] = round(ganho_db, 2)
     medidas_loud["limitador_reducao_max_db"] = reducao_db
     try:
@@ -251,7 +283,9 @@ def mixar(ep: Path, linha: dict, video: Path | None, saida: Path | None, so_audi
     except OSError:
         pass
 
-    resultado = {"duracao_total_s": total, "falas": relatorio_falas, "ducking_db": {"ambiente": DUCK_AMBIENTE_DB, "tensao": DUCK_TENSAO_DB},
+    falar(f"zumbido grave: ganho {20 * math.log10(max(g_drone, 1e-9)):+.1f} dB → 20–80 Hz com {fracao:.3f} da energia (alvo {alvo_banda})", silencioso)
+    resultado = {"duracao_total_s": total, "falas": relatorio_falas, "ducking_db": {"ambiente": duck_amb, "tensao": duck_ten},
+                 "drone": {"ganho_db": round(20 * math.log10(max(g_drone, 1e-9)), 2), "fracao_20_80": round(fracao, 3), "alvo": alvo_banda}, "alvo_lufs": alvo_lufs,
                  "mix_wav": str(mix_wav), "loudnorm": medidas_loud, "video": None, "saida": None}
     if video and video.exists() and saida:
         muxar(video, mix_wav, saida, silencioso)
