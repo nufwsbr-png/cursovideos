@@ -17,17 +17,25 @@ Tudo o que ela decide fica registrado no **cérebro** (`CLAUDE.md` + `memoria/`)
 | 2 | Roteiro | Claude escreve 10 ideias → episódio em 8 atos → crítico impaciente → correção → validador | cap. 36–45 |
 | 3 | Vozes | Gemini TTS, uma fala por arquivo, mesmo elenco de vozes sempre, estilo com sotaque brasileiro | cap. 46–49 |
 | 4 | Conferir | Mede duração, volume, início/fim; transcreve com Whisper e compara (alerta, não prova); refaz só o que deu errado | cap. 50 |
-| 5 | Tempo | A voz manda: linha do tempo pelas durações medidas | cap. 62 |
-| 6 | Render | three.js determinístico: stills → folha → revisor automático → MP4 mudo 1080×1920 60 fps | cap. 56–61, 65 |
-| 7 | Som | Ambiente, efeitos e tensão sintetizados do zero; mixagem com ducking; −16 LUFS, pico < −1 dB | cap. 64 |
-| 8 | Prova | Formato, duração, LUFS, pico, banda de voz, transcrição do vídeo pronto, folha, lista do revisor | cap. 66 |
-| 9 | Capa e textos | 3 capas com área segura (texto entre 240 e 1680 px), gancho ≤ 5 palavras, textos por plataforma | cap. 70–71 |
-| 10 | Publicar | 5 redes, etiqueta de IA ligada, comentários ativados, comentário da votação | cap. 72, 84 |
-| 11 | Memória | Atualiza `memoria/estado_atual.md`, `episodios.md`, `aprendizados.md`, planilha | cap. 54–55 |
+| 5 | Tempo | A voz manda: linha do tempo pelas durações medidas (e pelo tempo de andar entre os lugares) | cap. 62 |
+| 6 | Quadros | three.js determinístico: stills → folha → revisor automático | cap. 56–61, 65 |
+| 7 | Crítico visual | Claude olha as folhas de quadros (às cegas e depois com a rubrica), dá 6 notas e corrige a direção; passa com tudo ≥ 7 | — |
+| 8 | Render | MP4 mudo 1080×1920 a 30 fps (só com o crítico aprovado) | cap. 66 |
+| 9 | Som | Zumbido grave contínuo, ambiente, efeitos e tensão sintetizados do zero; −14 LUFS, pico < −1 dB | cap. 64 |
+| 10 | Prova | Formato, duração, LUFS, pico, zumbido 20–80 Hz, transcrição do vídeo pronto, fontes, folha | cap. 66 |
+| 11 | Capa e textos | 3 capas com área segura (texto entre 240 e 1680 px), gancho ≤ 5 palavras, textos por plataforma | cap. 70–71 |
+| 12 | Entrega | `entrega.json`: confere tudo de novo e diz se é **publicável**, com os motivos e o hash dos arquivos | — |
+| 13 | Publicar | 5 redes, etiqueta de IA ligada, comentários ativados, comentário da votação | cap. 72, 84 |
+| 14 | Memória | Atualiza `memoria/estado_atual.md`, `episodios.md`, `aprendizados.md`, planilha, `BLOQUEADO.md` | cap. 54–55 |
 
-Regras de segurança embutidas: um episódio por dia; nunca publica com **voz falsa**, volume fora da faixa,
-formato errado, fala faltando ou problema grave nos quadros (`estado.json → bloqueios`); opção
-`exigir_aprovacao_humana` para o dono liberar cada vídeo (`node fabrica/cli.js aprovar --episodio N`).
+Quem decide a ordem é o orquestrador (`fabrica/orquestrador.js`): como um `make`, ele pula o que está em dia e
+refaz só o que ficou velho (cada etapa grava o hash do que entrou e do que saiu). Como tudo se encaixa:
+`docs/ARQUITETURA.md`.
+
+Regras de segurança embutidas: um episódio por dia; só publica com `entrega.json` **publicável** (voz de verdade,
+nota do roteiro ≥ 70, revisor e crítico aprovados, prova sem bloqueio, fontes certas, etapas em dia) e com os
+arquivos idênticos aos da entrega; `--forcar` é decisão humana e fica registrada; opção `exigir_aprovacao_humana`
+para o dono liberar cada vídeo (`node fabrica/cli.js aprovar --episodio N`).
 
 ## Instalação (uma vez)
 
@@ -52,23 +60,30 @@ node fabrica/cli.js status                                   # onde paramos
 node fabrica/cli.js diario                                   # a rotina completa (produz e publica 1 episódio)
 node fabrica/cli.js diario --simular                         # tudo, menos enviar às redes
 node fabrica/cli.js episodio --novo                          # escreve e produz o próximo episódio, sem publicar
-node fabrica/cli.js episodio --episodio 1 --provedor-voz falso --escala 0.5   # teste rápido do piloto, sem chaves
-node fabrica/cli.js episodio --episodio 2 --de render --ate prova            # refaz só um trecho da linha
+node fabrica/cli.js episodio --episodio 1 --provedor-voz falso --ate quadros   # teste sem chaves até os quadros
+node fabrica/cli.js episodio --episodio 2 --de render --ate prova            # um trecho da linha (pula o que está em dia)
+node fabrica/cli.js versoes --explicar --episodio 2                         # o que está em dia e por quê
+node fabrica/cli.js critico --preparar --episodio 2                         # crítico visual na sessão do Claude Code
+node fabrica/cli.js critico --aplicar --episodio 2                          #   (depois de escrever olhar.json e julgar.json)
+node fabrica/cli.js entrega --episodio 2                                    # publicável? (entrega.json)
+node fabrica/cli.js diario --simular --ia falsa                             # a rotina inteira sem chave e sem gasto
+node fabrica/cli.js doctor                                                  # confere o ambiente
 node fabrica/cli.js publicar --episodio 2 --simular --plataformas tiktok,youtube
 node fabrica/cli.js metricas                                 # lê números e comentários, conta votos
 node fabrica/cli.js estilos                                  # teste dos 3 estilos (A/B/C) do capítulo 35/57
 node fabrica/cli.js entrevista                               # cria o SEU canal
-node motor/renderizar.js --episodio episodios/ep01_uma_pra_das_tres --stills 0,5.6,24 --escala 0.5   # olhar quadros
-npm run testes                                               # testes automatizados
+node motor/renderizar.js --episodio episodios/ep01_a_passagem_que_saiu_sozinha --stills 0,5.6,24 --escala 0.5   # olhar quadros
+npm run testes ; npm run testes:audio                        # testes automatizados
 ```
 
 ## Agendamento diário
 
 - **GitHub Actions** (recomendado: não depende do seu computador ligado): `.github/workflows/fabrica-diaria.yml`
   roda todo dia (cron) ou à mão (*Run workflow*). Cadastre as chaves em *Settings → Secrets and variables → Actions*
-  com os mesmos nomes do `.env.example`. O vídeo do dia fica como artefato e a memória é salva no repositório.
-  Render em CPU demora (sem placa de vídeo): a 60 fps, conte 2 a 3 horas por episódio (≈ 1 s por quadro); com placa de vídeo (`MOTOR_GPU=1`), minutos.
-  Para olhar rápido, use `--escala 0.5` ou troque `formato.fps` para 30 no `canal/canal.json`.
+  com os mesmos nomes do `.env.example`. O vídeo do dia fica como artefato, a memória é salva no repositório e a
+  mídia pesada (falas, vídeo) passa de um dia para o outro pelo cache do Actions, conferida por hash.
+  Render em CPU demora (sem placa de vídeo): a 30 fps, conte cerca de 1 hora por episódio de 90 s; com placa de vídeo (`MOTOR_GPU=1`), minutos.
+  Se a rotina precisar de você, a execução sai com código 3 (o GitHub manda e-mail) e o motivo fica em `BLOQUEADO.md`.
 - **Windows**: `powershell -ExecutionPolicy Bypass -File scripts\agendar-windows.ps1 -Hora 17:30`
 - **Linux/Mac**: `bash scripts/agendar-linux.sh 17:30`
 
@@ -76,13 +91,14 @@ npm run testes                                               # testes automatiza
 
 ```
 CLAUDE.md, memoria/        o cérebro (leia antes de tudo; a IA também lê)
+.claude/skills/            as receitas por tarefa (canal, episódio novo, roteiro, produção, crítico visual, prova, publicar, referência)
 curso/conhecimento.md      o método do livro resumido
-canal/canal.json           TUDO do canal: nicho, elenco, cenários, estilo, vozes, plataformas
-episodios/epNN_slug/       roteiro.json, audio/, medidas.json, linha_do_tempo.json, stills/, folha.png, epNN.mp4, prova.json, capa*.png, textos.json, publicacao.json, votos.json, metricas/
-fabrica/                   CLI, etapas, IA (Claude/Gemini), publicadores das 5 redes, testes
+canal/canal.json           TUDO do canal: nicho, elenco, mundo (lugares conectados), estilo, vozes, plataformas
+episodios/epNN_slug/       roteiro.json, validacao.json, audio/, medidas.json, linha_do_tempo.json, stills/, folha.png, critico.json, revisoes.md, critico/, epNN.mp4, prova.json, capa*.png, textos.json, entrega.json, publicacao.json, votos.json, metricas/
+fabrica/                   CLI, orquestrador, etapas, crítico visual, IA (Claude/Gemini), publicadores das 5 redes, testes
 motor/                     motor three.js (render determinístico, revisor, teste de estilos)
 audio/                     voz falsa, medições, linha do tempo, síntese de som, mixagem, transcrição
-docs/                      CONTRATOS.md (formatos), CREDENCIAIS.md, LIMITES_PLATAFORMAS.md
+docs/                      ARQUITETURA.md (como tudo se encaixa), CONTRATOS.md (formatos), criterios_visuais.md (rubrica do crítico), CREDENCIAIS.md, LIMITES_PLATAFORMAS.md, metodo/
 padrao_aprovado/           quadros de referência (o revisor compara)
 scripts/, .github/         agendamento
 ```

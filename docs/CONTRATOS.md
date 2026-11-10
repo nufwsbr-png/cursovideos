@@ -113,7 +113,11 @@ Tipos de efeito reconhecidos pelo sintetizador: `clique`, `clique_triplo`, `pass
 Tipos de ambiente: `saguao_noite` (zumbido de lâmpada + ventilador + grilos longe), `rua_noite`, `chuva`, `vento`, `silencio`.
 Filtros de voz: `null`, `telefone`, `radio`, `alto_falante`.
 
-## 6. Render (etapa 06 — `node motor/renderizar.js`)
+## 6. Quadros e render (etapas 05b e 06 — `node motor/renderizar.js`)
+
+A etapa **quadros** (05b) faz stills nos instantes importantes + folha + revisor; a etapa **render** (06) faz só o
+vídeo mudo e roda depois do crítico visual aprovado. Opções novas do renderizador: `--pasta <rel>` (stills noutra
+pasta do episódio, usada pelo crítico e pela capa) e `--sem-registro` (não mexe no `render.json`).
 
 ```
 node motor/renderizar.js --episodio episodios/ep01_x --stills 0,2,5,8,13,24     # salva stills/t_0005.00.png etc.
@@ -132,11 +136,13 @@ Saídas: na pasta do episódio (`stills/`, `sequencia/`, `folha.png`, `video_mud
 
 ```
 python3 audio/sintetizar.py --episodio <dir>         # cria audio/camadas/{ambiente,efeitos,tensao}.wav a partir da linha do tempo
-python3 audio/mixar.py --episodio <dir> --video video_mudo.mp4 --saida ep01.mp4   # falas (com filtro) + camadas, loudnorm -16 LUFS, pico -1 dB
+python3 audio/mixar.py --episodio <dir> --video video_mudo.mp4 --saida ep01.mp4   # falas (com filtro) + camadas + zumbido grave, loudnorm -14 LUFS, pico -1 dB
 python3 audio/medir.py --arquivo ep01.mp4 --linha-do-tempo linha_do_tempo.json    # imprime JSON: duração, lufs, pico, banda de voz com/sem fala
 python3 audio/transcrever.py --arquivo ep01.mp4 --roteiro roteiro.json           # imprime JSON: falas encontradas/faltando (ou "nao_conferido")
 ```
-`prova.json` (etapa 08) junta tudo: formato, duração, LUFS, pico, falas conferidas, revisão de quadros, lista do revisor.
+`prova.json` (etapa 08) junta tudo: formato, duração, LUFS, pico, bandas (20–80 Hz, trechos abaixo de −40 dB), falas
+conferidas, fontes, revisão de quadros, lista do revisor e `arquivo_hash` (o hash do MP4 medido: a entrega confere que
+a prova é do mesmo arquivo).
 
 ## 8. Capa e textos (etapa 09)
 
@@ -151,15 +157,67 @@ export async function publicar({ arquivo, capa, textos, canal, env, simular }) /
 export async function lerMetricas({ id, canal, env })                           // → { views, curtidas, comentarios, compartilhamentos, salvamentos, tempo_medio_s, origem } (campos ausentes = null)
 export async function lerComentarios({ id, canal, env, limite })                // → [ { texto, curtidas, data } ]  (SEM nome de usuário)
 ```
-`publicacao.json` no episódio: `{ "publicado_em": "ISO", "plataformas": { "tiktok": { "ok": true, "id": "...", "url": "..." }, ... } }`.
+`publicacao.json` no episódio: `{ "publicado_em": "ISO", "plataformas": { "tiktok": { "ok": true, "estado": "publicado|pendente_manual|falhou", "pendente_manual": false, "id": "...", "url": "..." }, ... }, "pendencias_manuais": [...] }`.
+- `pendente_manual`: o pacote está pronto mas falta alguém postar (Kwai em `fila_manual`); não conta como publicado e
+  não é refeito a cada rotina.
+- O resultado `ok` de `publicarTudo` = todas as `canal.publicacao.plataformas_obrigatorias` pedidas publicadas;
+  `completo` = todas as obrigatórias do canal. Sem `completo`, o episódio fica em `publicacao_parcial` e a próxima
+  rotina tenta só o que falta (`--republicar` tenta de novo até o que já deu certo).
+- A etapa 10 só publica com `entrega.json` publicável e os arquivos com o mesmo hash; `--forcar` (humano) pula isso e
+  fica em `estado.json → publicacao_forcada`.
 Credenciais só por variáveis de ambiente (`.env` local ou segredos do GitHub). Nunca no cérebro, nunca no git.
 
 ## 10. Estados do episódio (`estado.json`)
 
-`{ "etapa": "roteiro|vozes|conferido|tempo|render|som|prova|capa|publicado", "aprovado": true|false, "bloqueios": ["voz falsa", ...] }`
-A etapa de publicação recusa episódios com `bloqueios` não vazios, salvo `--forcar`.
+```json
+{ "etapa": "roteiro|vozes|conferido|tempo|quadros|critico|render|som|prova|capa|entrega|publicacao_parcial|publicado",
+  "aprovado": false, "publicavel": false,
+  "bloqueios": ["voz falsa: ..."],                       // a união das listas abaixo
+  "bloqueios_por_etapa": { "vozes": ["voz falsa: ..."], "quadros": [], "critico": [], "prova": [] },
+  "versoes": { "<etapa>": { "entrada": { "hash": "sha256:...", "partes": { "roteiro": "sha256:...", "motor": "sha256:..." } },
+                             "saidas": { "linha_do_tempo.json": "sha256:..." }, "em": "ISO" } },
+  "travado": { "assinatura": "sha256:...", "vezes": 1, "desde": "AAAA-MM-DD", "causas": ["..."] },
+  "aviso_dono": { "assinatura": "sha256:...", "em": "ISO" },
+  "refeito_de": "episodios/_descartados/..." }
+```
+Cada etapa é dona dos seus bloqueios (`definirBloqueios`). Uma etapa está **em dia** quando a entrada recalculada tem o
+mesmo hash e as saídas continuam iguais (`fabrica/etapas/registro.js`); o orquestrador refaz a partir da primeira velha.
 
-## 11. Observações finais
+## 11. `validacao.json` (etapa roteiro)
+
+`{ "versao_regras", "nota" (0–100), "nota_minima", "aprovado", "itens": [{ "id", "tipo": "erro|desconto", "pontos", "mensagem" }], "erros", "avisos", "medidas": {...}, "rodadas": [{ "rodada", "nota", "erros", "itens": [ids] }] }`.
+Aprovado = 0 erros e nota ≥ `canal.roteiro.nota_minima`. `rodadas` guarda as correções pedidas durante a escrita
+(é o que `fabrica/aprender.js` conta para promover regra).
+
+## 12. `critico.json` e `revisoes.md` (etapa critico)
+
+```json
+{ "status": "em_andamento|aprovado|reprovado", "aprovado": true, "motivo": "...", "fonte": "api|sessao_claude_code|ia_falsa",
+  "nota_minima": 7, "rodadas_max": 3, "rubrica": "docs/criterios_visuais.md", "rubrica_hash": "sha256:...",
+  "rodadas": [{ "n": 1, "fonte": "...", "cego": true, "notas": { "gancho": 7, "legibilidade": 8, "clareza_acao": 5, "continuidade": 8, "acabamento": 6, "dilema_final": 7 },
+                "evidencias": {...}, "minima": 5, "pior": "clareza_acao", "aprovado": false, "defeitos": [...],
+                "patch": { "aplicado": true, "aplicadas": [...], "recusadas": [...], "nota_roteiro": 100, "hash_historia": "...", "hash_historia_depois": "..." } }],
+  "ciclos_anteriores": [...], "hash_roteiro": "sha256:..." }
+```
+Quadros de cada rodada em `critico/rodada_N/` (folhas, detalhes, `mapa.json`; na sessão também `pedido.md`,
+`olhar.json`, `julgar.json`). O patch só aceita: `linha N` → `olhar`, `acao`, `clima`, `eventos_adicionar`/`eventos_remover`
+(personagem.<id>.pose|expressao|posicao|andar, camera.ir|postura), `t` (±1,5 s); `celular N` → `duracao_s` (2–8 s).
+A fonte `ia_falsa` nunca vale para publicar.
+
+## 13. `entrega.json` (etapa entrega)
+
+`{ "episodio", "titulo", "publicavel", "motivos": ["voz_real: ..."], "checagens": { "voz_real", "linter", "revisor", "critico", "prova", "fontes", "bloqueios", "aprovacao", "versoes", "arquivos" }, "arquivos": { "video": { "caminho", "hash", "bytes" }, "capa": {...}, "textos": {...} }, "gerado_em" }`.
+Cada checagem: `{ "ok", "detalhe", ... }`. A publicação refaz a conferência e recusa se algum hash mudou.
+
+## 14. Rotina diária (`fabrica/diario.js`) e mídia do CI (`fabrica/midia.js`)
+
+- Saída: 0 ok · 1 erro · 3 precisa do dono (só no 1º dia de cada bloqueio novo). Aviso em `BLOQUEADO.md` na raiz.
+- Travado 2 vezes pela mesma causa que a IA corrige (roteiro, duração, revisor, crítico) → o episódio vai para
+  `episodios/_descartados/` (com `DESCARTADO.md`) e é refeito uma vez com o mesmo número.
+- `.cache/midia/manifesto.json`: `{ "episodios": { "<pasta>": { "<arquivo relativo>": { "hash", "bytes" } } } }`;
+  `midia --restaurar` só devolve arquivo com o hash do manifesto.
+
+## 15. Observações finais
 
 - `falas[].estilo` guarda só a emoção e o ritmo daquela fala. Na geração, a fábrica monta a instrução completa:
   `"<vozes.prefixo_estilo>, <voz.estilo_base do personagem>, <falas[].estilo>"`.
