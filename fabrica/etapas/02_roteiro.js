@@ -7,6 +7,9 @@ import { log } from "../util/log.js";
 import { pedir, temClaude } from "../ia/claude.js";
 import { ESQUEMA_ROTEIRO, ESQUEMA_IDEIAS, ESQUEMA_CRITICA } from "../roteiro/esquema.js";
 import { validarRoteiro } from "../roteiro/validar.js";
+import { avaliarRoteiro } from "../roteiro/nota.js";
+import { textoRegras } from "../roteiro/regras.js";
+import { montarMundo } from "../../motor/cena/mundo.js";
 
 function resumoCanal(canal) {
   const elenco = [
@@ -14,28 +17,40 @@ function resumoCanal(canal) {
     ...(canal.elenco ?? []).map((p) => ({ id: p.id, nome: p.nome, papel: p.papel, idade: p.idade, funcao_no_lugar: p.funcao_no_lugar, funcao_na_historia: p.funcao_na_historia, quer: p.quer, esconde: p.esconde, frase_tipica: p.frase_tipica, quando_para_de_brincar: p.quando_para_de_brincar, visivel: p.visivel, visual_de_longe: p.visual?.acessorio, objeto: p.visual?.objeto, voz: p.voz?.nome ?? null, filtro: p.voz?.filtro ?? null, pode_falar: Boolean(p.voz) })),
   ];
   const cenarios = (canal.cenarios ?? []).map((c) => ({
-    id: c.id, nome: c.nome, descricao: c.descricao, camera: c.camera_inicial,
+    id: c.id, nome: c.nome, descricao: c.descricao, camera: c.camera_inicial, mundo: c.mundo ?? null,
+    nos_do_caminho: Object.keys(c.caminho?.nos ?? {}), assentos: Object.keys(c.caminho?.assentos ?? {}),
     marcas: Object.keys(c.marcas ?? {}),
     props: (c.props ?? []).map((p) => ({ id: p.id, tipo: p.tipo, texto: p.texto, estado_inicial: p.estado ?? null })),
     detalhes_vida: c.detalhes_vida,
   }));
-  return { frase_do_canal: canal.frase_do_canal, nicho: canal.nicho, formato: canal.formato, elenco, cenarios, regras_roteiro: canal.roteiro, estilo_climas: Object.keys(canal.estilo?.climas ?? {}), cor_que_conta_a_historia: canal.estilo?.cor_que_conta_a_historia, prefixo_estilo_voz: canal.vozes?.prefixo_estilo };
+  const mundos = (canal.mundos ?? []).map((w) => ({ id: w.id, nome: w.nome, lugares: w.modulos, passagens: (w.passagens ?? []).map((p) => ({ porta: p.porta, liga: p.liga, abre_sozinha_quando_a_camera_passa: p.auto !== false })) }));
+  const { palavras_de_risco, temas_palavras, ...regras } = canal.roteiro ?? {};
+  return { frase_do_canal: canal.frase_do_canal, nicho: canal.nicho, formato: canal.formato, elenco, cenarios, mundos, regras_roteiro: regras, estilo_climas: Object.keys(canal.estilo?.climas ?? {}), cor_que_conta_a_historia: canal.estilo?.cor_que_conta_a_historia, prefixo_estilo_voz: canal.vozes?.prefixo_estilo };
 }
 
 function vocabulario() {
   return `VOCABULÁRIO DE DIREÇÃO (use só isto; o motor de animação só entende isto):
-- olhar: id de prop, id de personagem visível, nome de marca, ou maos | celular | frente | chao | teto.
-- acao: trabalhar | parar | pegar_celular | guardar_celular | andar:<marca|prop|personagem> | segurar:<objeto> | fade | aproximar:<alvo> | tremor:<0..1> | voltar.
+- olhar: id de prop, id de personagem visível, nome de marca, nó do caminho, ou maos | celular | frente | caminho | chao | teto.
+- acao (o corpo do protagonista; ele começa SENTADO no guichê):
+  trabalhar | parar | segurar:<telefone|bloco_passagens> (só sentado no guichê) |
+  pegar_celular | guardar_celular (o celular fica na mão até guardar; use pegar_celular quando chegar mensagem/alerta) |
+  levantar | sentar (perto do assento cab_assento) |
+  andar:<nó|marca|prop> | correr:<nó|marca|prop> (a câmera segue o caminho do mundo, abre as portas sozinha, olha para onde anda; se estiver sentado, levanta antes) |
+  avancar:<alvo> (câmera chega devagar perto do alvo; use na linha antes da pergunta) | aproximar:<alvo> (fecha a lente) |
+  transicao:preto (ou transicao:preto:<segundos 0.9–3>) — mergulho no preto para pular tempo/lugar; só nela valem os eventos camera.ir=<nó|marca> e camera.postura=sentado|em_pe |
+  tremor:<0..1> | fade.
 - clima: rotina | sinal | escalada | climax | pergunta (a última linha é sempre ato "pergunta" com clima "pergunta").
 - eventos (lista de "alvo.campo=valor"):
   prop.<id>.estado=<valor> (painel: normal|alerta|alerta_forte|apagado; lampada: normal|piscar|fraca|apagada; porta: fechada|aberta; onibus: ausente|chegando|parado|portas_abertas; lanchonete: fechada|acesa; telefone_fixo: parado|tocando|na_mao; ventilador_teto: girando|parado)
   prop.<id>.texto=<linha1|linha2|...>
   personagem.<id>.visivel=true|false · personagem.<id>.posicao=<marca> · personagem.<id>.pose=em_pe|sentado|andando|apontando|segurando|limpando|parado_de_costas · personagem.<id>.expressao=normal|medo|raiva|calma|surpresa · personagem.<id>.andar=<marca>
-  celular.tela=<indice> · celular.notificacao=<indice> · tela.selo=PARTE 2
+  celular.tela=<indice> · celular.notificacao=<indice> (mostra o cartão no alto pelo tempo de duracao_s) · tela.selo=PARTE N (só na 1ª linha de uma continuação)
+  prop.<armario>.estado=aberto_<numero> (armário de volumes) · prop.<mala>.estado=ausente · prop.<porta>.estado=aberta|fechada
 - Quando uma linha tem fala, a câmera olha para quem fala, salvo "olhar" explícito. Personagens com visivel=false na ficha nunca entram em cena: só falam por telefone, rádio ou alto-falante (campo filtro da fala).
 - Cada fala: id sequencial f01, f02...; "quem" é o id do personagem; "voz" é o nome da voz da ficha; "estilo" é só a emoção e o ritmo daquela fala, em inglês, curto (o prefixo de sotaque e o estilo base são acrescentados automaticamente); "filtro" segue a ficha (telefone/radio/alto_falante) ou null; "reaproveitar_de" = "epNN:fXX" quando a fala é idêntica a uma já gravada.
-- celular[]: mensagens que aparecem na tela do celular (indexadas por posição a partir de 0).
-- efeitos_extra[]: sons fora do que os eventos já implicam (grave_crescente com duracao_s, pancada, sino, campainha, passos, vidro...). silencios[]: trechos em que ambiente e tensão somem.`;
+- celular[]: o que chega no celular (índice a partir de 0): { de, texto, tipo: mensagem|alerta, hora, rotulo (alerta: nome inventado do sistema, ex. SISTEMA SERRA AZUL; mensagem: null), duracao_s (2–8; null = 4) }.
+- efeitos_extra[]: sons fora do que os eventos já implicam: impressora (duracao_s), batida (repeticoes, intervalo_s ≈ 1), alerta_bipe, grave_crescente (duracao_s), pancada, sino, campainha, vidro, papel… (repeticoes/intervalo_s/ganho_db: null quando não se aplicam). Passos da câmera, portas no caminho, bipe dos alertas e vibração das mensagens já saem sozinhos. silencios[]: quase nunca (o canal tem um zumbido grave contínuo; silêncio é só de fala).
+- dilema: { pergunta ("O que você faria?"), opcao_a, opcao_b, emoji_a, emoji_b, arriscada: "a"|"b" }.`;
 }
 
 function regrasDoLivro() {
@@ -75,19 +90,19 @@ ${regrasDoLivro()}
 ${contextoMemoria()}`;
 }
 
-function pedidoIdeias({ numero, continuacao, anteriores }) {
+function pedidoIdeias({ numero, continuacao, anteriores, canal }) {
   if (continuacao) {
     return `Vamos escrever o EPISÓDIO ${numero}, continuação direta do episódio ${continuacao.numero_anterior} ("${continuacao.titulo_anterior}").
 Opção vencedora no público: ${continuacao.opcao_vencedora.toUpperCase()} = "${continuacao.texto_opcao}" (${continuacao.metodo}).
 O episódio anterior terminou assim: ${JSON.stringify(continuacao.ultimas_linhas)}
 Caminho previsto na bíblia para essa opção: "${continuacao.caminho_previsto}".
 Comentários que mais se repetem / teorias / pedidos: ${JSON.stringify(continuacao.comentarios)}.
-Regras do episódio seguinte (capítulo 44): começa na ação, no exato segundo em que o anterior parou; selo "PARTE ${numero}" com uma única frase de contexto; respeita o voto; a resposta da escolha traz uma pergunta pior; nunca entregue de graça; o que está fechado continua fechado; o caminho volta à espinha do mapa em até um episódio; reaproveite cenário.
-Dê 5 ideias para este episódio, cada uma em: rotina de abertura (a ação em que parou), primeiro sinal novo (até 7 s), escalada, dilema final com 2 opções, por que divide, tipo de virada usado (dos 30 do livro). Escolha a melhor (índice a partir de 0), diga o motivo e depois faça o papel de um crítico duro: por que essa ideia pode dar errado.`;
+Regras do episódio seguinte: começa já no perigo, no exato segundo em que o anterior parou; selo "PARTE ${numero}"; se houver frase de contexto, quem diz é o protagonista e ela já é ação; respeita o voto; a resposta da escolha traz uma pergunta pior; nunca entregue de graça; o que está fechado continua fechado; o caminho volta à espinha do mapa em até um episódio; use os lugares do mundo.
+Dê 5 ideias para este episódio, cada uma em: abertura (a ação em que parou), primeiro sinal novo, escalada (com um trecho de ação sem fala andando ou correndo por outro lugar), dilema final com 2 opções, por que divide, tipo de virada usado (dos 30 do livro). Escolha a melhor (índice a partir de 0), diga o motivo e depois faça o papel de um crítico duro: por que essa ideia pode dar errado.`;
   }
   const outros = anteriores.length ? `Episódios já existentes (não repita situação nem dilema): ${JSON.stringify(anteriores.map((a) => ({ numero: a.numero, titulo: a.titulo, dilema: a.dilema })))}.` : "Este é o PILOTO do canal.";
   return `Vamos escrever o EPISÓDIO ${numero}. ${outros}
-Dê 10 ideias de episódio de cerca de 100 s, em primeira pessoa, sem narrador, cada uma em: rotina (mãos fazendo algo banal no lugar do canal), primeiro sinal (pequeno e estranho, até 7 s), escalada (escada de provas), dilema final com 2 opções razoáveis, por que o dilema divide as pessoas, tipo de virada usado. Nada de ameaça mostrada por inteiro. Um ou dois lugares no máximo (prefira um). Não use histórias de filmes, séries ou outros canais.
+Dê 10 ideias de episódio de cerca de ${canal?.formato?.duracao_alvo_s ?? 100} s, em primeira pessoa, sem narrador, cada uma em: rotina (mãos fazendo algo banal no lugar do canal, com uma fala já no primeiro segundo), primeiro sinal (pequeno e estranho, até ${canal?.roteiro?.sinal_ate_s ?? 7} s), escalada (escada de provas, com um trecho de ação sem fala em que o protagonista levanta e anda ou corre por outro lugar do mundo), dilema final com 2 opções razoáveis, por que o dilema divide as pessoas, tipo de virada usado. Nada de ameaça mostrada por inteiro. De 1 a ${canal?.roteiro?.lugares_max ?? 4} lugares conectados do mundo do canal. Não use histórias de filmes, séries ou outros canais.
 Escolha a melhor (índice a partir de 0), diga o motivo e depois faça o papel de um crítico duro: por que essa ideia pode dar errado.`;
 }
 
@@ -96,13 +111,13 @@ function pedidoEpisodio({ numero, ideia, canal, continuacao }) {
   return `Escreva o episódio ${numero} com a ideia escolhida: ${JSON.stringify(ideia)}.
 Entregue o roteiro completo no esquema pedido: "linhas" é a tabela do capítulo 41 (t em segundos, ato, imagem para humanos, fala por id, som, e a "direcao" no vocabulário), "falas" é a ficha de falas.
 Exigências:
-- 8 atos nesta ordem: rotina (t=0, mãos já fazendo algo, lugar reconhecível em 2 s), primeiro sinal até 7 s, negação, escalada, autoridade, desobediência, dilema, pergunta. Guia: 0–7 rotina+sinal, 7–17 negação, 17–40 escalada+autoridade, 40–65 desobediência, 65–92 dilema, fim pergunta. A cada 8–10 s algo muda ou piora.
-- Duração alvo ${f.duracao_alvo_s} s (entre ${f.duracao_min_s} e ${f.duracao_max_s}). Entre ${canal.roteiro?.falas_min ?? 10} e ${canal.roteiro?.falas_max ?? 22} falas, todas curtas, em português do Brasil falado; ~2,5 palavras por segundo; marque silêncios (silencios[]) nos momentos de tensão; a frase memorável é dita com calma no maior silêncio.
-- Toda fala gera reação na imagem (coluna imagem). O protagonista ("eu") fala pouco (no máximo 30% das palavras).
+${continuacao ? "- Continuação: os atos seguem a ordem do livro a partir de onde o perigo está (escalada/autoridade/desobediência → dilema → pergunta)." : "- 8 atos nesta ordem: rotina (t=0, mãos já fazendo algo, lugar reconhecível em 2 s), primeiro sinal, negação, escalada, autoridade, desobediência, dilema, pergunta."}
+${textoRegras(canal, { continuacao: Boolean(continuacao), numero })}
+- Português do Brasil falado de verdade ("cê", "tá"). Toda fala gera reação na imagem (coluna imagem). A frase memorável é dita com calma.
 - Use só ids que existem no canal (props, marcas, personagens). Personagens com visivel=false só por filtro de voz. Quem não tem voz só aparece por mensagem no celular.
 - A ameaça nunca aparece por inteiro. O dilema: os dois lados têm razão e risco; cabe num comentário; o vídeo termina antes da resposta.
 - Textos de publicação: 3 títulos (lugar+situação; frase memorável; escolha do público), descrição no formato "[Situação em uma frase]. Epi. ${String(numero).padStart(2, "0")}", 2 a 4 hashtags sem '#', comentário fixado com a votação, capa com frase de gancho de até 5 palavras e t_quadro num instante SEM fala, e proximo_episodio com se_a e se_b (começando no último segundo, cada um voltando ao mapa em até um episódio).
-- ${continuacao ? `Esta é a PARTE ${numero}: a primeira linha repete a ação final do anterior e inclui o evento tela.selo=PARTE ${numero}. Se repetir a última fala do anterior, use reaproveitar_de.` : "É o piloto: um único lugar, poucos personagens, o máximo de detalhe no primeiro plano."}
+- ${continuacao ? `Esta é a PARTE ${numero}: a primeira linha retoma a ação final do anterior, já no perigo, e inclui o evento tela.selo=PARTE ${numero}. Se repetir a última fala do anterior, use reaproveitar_de.` : "Episódio 1: poucos personagens, o máximo de detalhe no primeiro plano, e o protagonista sai do guichê pelo menos uma vez."}
 - checagens: responda com sinceridade.`;
 }
 
@@ -113,9 +128,12 @@ ROTEIRO:
 ${JSON.stringify(roteiro)}`;
 }
 
-function pedidoCorrecao(roteiro, erros, avisos) {
-  return `O validador automático encontrou estes problemas no roteiro. Corrija TODOS os erros (e os avisos que fizerem sentido) e devolva o roteiro inteiro corrigido, no mesmo esquema, mudando o mínimo possível.
-ERROS:\n- ${erros.join("\n- ")}
+function pedidoCorrecao(roteiro, erros, avisos, avaliacao = null) {
+  const descontos = (avaliacao?.itens ?? []).filter((i) => i.tipo === "desconto").sort((a, b) => a.pontos - b.pontos).slice(0, 5);
+  return `A nota automática do roteiro ficou ${avaliacao?.nota ?? "?"}/100 (mínimo ${avaliacao?.nota_minima ?? 70}). Corrija TODOS os erros e os maiores descontos e devolva o roteiro inteiro corrigido, no mesmo esquema, mudando o mínimo possível (não mude a história, só o que a regra pede).
+ERROS:\n- ${erros.join("\n- ") || "nenhum"}
+MAIORES DESCONTOS:\n- ${descontos.map((d) => `${d.mensagem} (${d.pontos})`).join("\n- ") || "nenhum"}
+MEDIDAS: ${JSON.stringify(avaliacao?.medidas ?? {})}
 AVISOS:\n- ${avisos.join("\n- ") || "nenhum"}
 ROTEIRO:
 ${JSON.stringify(roteiro)}`;
@@ -166,7 +184,7 @@ export async function etapaRoteiro({ canal, numero, opcoes = {} }) {
   const sis = sistema(canal);
 
   log.info("1/4 pedindo ideias...");
-  const ideias = await pedir({ sistema: sis, usuario: pedidoIdeias({ numero, continuacao, anteriores }), esquema: ESQUEMA_IDEIAS, modelo, esforco: "high", maxTokens: 16000, rotulo: "ideias" });
+  const ideias = await pedir({ sistema: sis, usuario: pedidoIdeias({ numero, continuacao, anteriores, canal }), esquema: ESQUEMA_IDEIAS, modelo, esforco: "high", maxTokens: 16000, rotulo: "ideias" });
   const ideia = ideias.ideias[Math.min(Math.max(ideias.escolhida, 0), ideias.ideias.length - 1)];
   log.ok(`Ideia escolhida: "${ideia.titulo}" — ${ideias.motivo}`);
   log.info(`Crítico sobre a ideia: ${ideias.critica_dura}`);
@@ -179,36 +197,48 @@ export async function etapaRoteiro({ canal, numero, opcoes = {} }) {
   for (const p of critica.problemas.slice(0, 12)) log.info(`  ${p.segundo}s: ${p.problema} → ${p.correcao}`);
   roteiro = critica.roteiro_revisado;
 
-  log.info("4/4 validando contra o contrato e o canal...");
-  let { erros, avisos } = validarRoteiro(roteiro, canal);
-  for (let rodada = 1; rodada <= 2 && erros.length; rodada++) {
-    log.aviso(`${erros.length} erro(s) na validação; pedindo correção (${rodada}/2)`);
-    for (const e of erros.slice(0, 15)) log.info("  - " + e);
-    roteiro = await pedir({ sistema: sis, usuario: pedidoCorrecao(roteiro, erros, avisos), esquema: ESQUEMA_ROTEIRO, modelo, esforco: "high", maxTokens: 40000, rotulo: `correção ${rodada}` });
-    ({ erros, avisos } = validarRoteiro(roteiro, canal));
+  log.info("4/4 nota do roteiro (validador + regras medidas)...");
+  const ctx = { continuacao: continuacao?.numero_anterior ?? null, numero };
+  const rodadasMax = canal.roteiro?.rodadas_correcao_max ?? 3;
+  let av = avaliarRoteiro(roteiro, canal, ctx);
+  const rodadas = [{ rodada: 0, nota: av.nota, erros: av.erros.length }];
+  let melhor = { roteiro, av };
+  for (let rodada = 1; rodada <= rodadasMax && !av.aprovado; rodada++) {
+    log.aviso(`nota ${av.nota}/${av.nota_minima}, ${av.erros.length} erro(s); pedindo correção (${rodada}/${rodadasMax})`);
+    for (const e of av.erros.slice(0, 15)) log.info("  - " + e);
+    roteiro = await pedir({ sistema: sis, usuario: pedidoCorrecao(roteiro, av.erros, av.avisos, av), esquema: ESQUEMA_ROTEIRO, modelo, esforco: "high", maxTokens: 40000, rotulo: `correção ${rodada}` });
+    av = avaliarRoteiro(roteiro, canal, ctx);
+    rodadas.push({ rodada, nota: av.nota, erros: av.erros.length });
+    if (av.erros.length < melhor.av.erros.length || (av.erros.length === melhor.av.erros.length && av.nota > melhor.av.nota)) melhor = { roteiro, av };
   }
+  ({ roteiro, av } = melhor);
+  let { erros, avisos } = av;
+  if (!av.aprovado && !erros.length) erros = [`nota ${av.nota} abaixo do mínimo ${av.nota_minima}`];
   roteiro = completarRoteiro(roteiro, { numero, canal, continuacao });
   const dir = path.join(PASTA_EPISODIOS, nomePastaEpisodio(numero, roteiro.slug));
   fs.mkdirSync(dir, { recursive: true });
   gravarJson(path.join(dir, "ideias.json"), ideias);
   gravarJson(path.join(dir, "critica.json"), { segundo_em_que_deslizaria: critica.segundo_em_que_deslizaria, problemas: critica.problemas });
+  const validacao = { ...av, erros, rodadas, gerado_em: new Date().toISOString() };
   if (erros.length) {
     gravarJson(path.join(dir, "roteiro_rascunho.json"), roteiro);
-    gravarJson(path.join(dir, "validacao.json"), { erros, avisos });
-    throw new Error(`Roteiro do episódio ${numero} ainda tem ${erros.length} erro(s) depois de 2 correções. Rascunho em ${dir}/roteiro_rascunho.json:\n- ${erros.join("\n- ")}`);
+    gravarJson(path.join(dir, "validacao.json"), validacao);
+    throw new Error(`Roteiro do episódio ${numero} não passou (nota ${av.nota}, ${erros.length} erro(s)) depois de ${rodadas.length - 1} correção(ões). Rascunho em ${dir}/roteiro_rascunho.json:\n- ${erros.join("\n- ")}`);
   }
   gravarJson(path.join(dir, "roteiro.json"), roteiro);
-  gravarJson(path.join(dir, "validacao.json"), { erros, avisos });
+  gravarJson(path.join(dir, "validacao.json"), validacao);
   atualizarEstado(dir, { etapa: "roteiro", aprovado: false, bloqueios: [], avisos });
   for (const a of avisos) log.aviso(a);
   log.ok(`Roteiro gravado em ${path.relative(RAIZ, dir)}/roteiro.json (${roteiro.falas.length} falas, ${roteiro.linhas.length} linhas, "${roteiro.frase_memoravel}")`);
   return { dir, roteiro, avisos };
 }
 
-/** Só valida um roteiro já existente (útil para roteiros escritos à mão). */
+/** Só valida um roteiro já existente (útil para roteiros escritos à mão): grava validacao.json com a nota. */
 export function validarEpisodio({ canal, dir }) {
   const roteiro = lerJson(path.join(dir, "roteiro.json"));
-  const r = validarRoteiro(roteiro, canal);
+  const av = avaliarRoteiro(roteiro, canal, { continuacao: roteiro.parte_de ?? null, numero: roteiro.numero ?? null });
+  const r = { ...av, gerado_em: new Date().toISOString() };
+  if (!av.aprovado && !av.erros.length) r.erros = [`nota ${av.nota} abaixo do mínimo ${av.nota_minima}`];
   gravarJson(path.join(dir, "validacao.json"), r);
   return r;
 }

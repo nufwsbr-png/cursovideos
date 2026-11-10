@@ -751,7 +751,33 @@ const TIPOS = {
     };
   },
 
+  // Impressora de passagem (matricial, velha) em cima do balcão. Estados: parada | imprimindo (a fita de papel sai em
+  // 2,2 s) | impressa (a passagem fica para fora). O texto da passagem vem de def.texto (ex.: ["03:00", "PLAT 7"]).
+  impressora(def, ctx) {
+    const e = ctx.estilo; const g = new THREE.Group();
+    const [x, y, z] = def.pos;
+    const corpo = new THREE.Mesh(geoCaixaArredondada(0.22, 0.09, 0.16, 0.015), e.material(def.cor || '#d8d0b8')); corpo.position.set(x, y + 0.045, z); g.add(corpo);
+    const tampa = caixa(e, 0.2, 0.012, 0.07, escurecer(def.cor || '#d8d0b8', 0.85)); tampa.position.set(x, y + 0.096, z - 0.03); g.add(tampa);
+    const fenda = caixa(e, 0.14, 0.01, 0.012, '#2a2622'); fenda.position.set(x, y + 0.07, z + 0.081); g.add(fenda);
+    const led = new THREE.Mesh(new THREE.CircleGeometry(0.006, 10), e.luminoso('#4cff7a')); led.position.set(x + 0.085, y + 0.06, z + 0.081); led.userData.semTraco = true; g.add(led);
+    const tex = texturaTexto({ largura: 256, altura: 384, fundo: '#f7f2e4', cor: '#2a2a2a', linhas: def.texto || ['03:00', 'PLAT 7'], fonte: `700 64px ${FONTE_PLACA}, monospace`, entrelinha: 1.25, borda: { cor: '#c9c0a8', espessura: 6 } });
+    const papel = new THREE.Group(); papel.position.set(x, y + 0.07, z + 0.084); g.add(papel);
+    const fita = new THREE.Mesh(new THREE.PlaneGeometry(0.12, 0.18), e.materialTextura(tex, { side: THREE.DoubleSide })); fita.position.set(0, 0, 0.09); fita.rotation.x = -Math.PI / 2 + 0.25; papel.add(fita);
+    return {
+      grupo: g,
+      atualizar(est, t) {
+        const s = est?.estado || def.estado || 'parada';
+        const k = s === 'impressa' ? 1 : s === 'imprimindo' ? clamp((t - (est?.inicioEstado || 0)) / 2.2, 0, 1) : 0;
+        papel.visible = k > 0.01;
+        papel.scale.set(1, 1, Math.max(0.01, k)); // a fita cresce para fora da fenda
+        led.material.color.set(s === 'imprimindo' && Math.floor(t * 6) % 2 ? '#ffb000' : '#4cff7a');
+      },
+      pontoOlhar: new THREE.Vector3(x, y + 0.08, z + 0.06),
+    };
+  },
+
   // Mala de rodoviária: caixa arredondada com alça e etiqueta de papel (texto curto, ex.: "Nº 07").
+  // O texto da etiqueta pode mudar por evento: prop.<id>.texto=LINHA1|LINHA2.
   mala(def, ctx) {
     const e = ctx.estilo; const g = new THREE.Group();
     const [w, h, d] = def.tamanho || [0.42, 0.3, 0.16];
@@ -759,12 +785,23 @@ const TIPOS = {
     const corpo = new THREE.Mesh(geoCaixaArredondada(w, h, d, 0.03), e.material(cor)); corpo.position.set(def.pos[0], y0 + h / 2, def.pos[2]); g.add(corpo);
     const alca = new THREE.Mesh(new THREE.TorusGeometry(0.05, 0.012, 6, 12, Math.PI), e.material(escurecer(cor, 0.6))); alca.position.set(def.pos[0], y0 + h, def.pos[2]); g.add(alca);
     for (const sx of [-1, 1]) { const fecho = caixa(e, 0.04, 0.03, 0.01, '#c9b37a'); fecho.position.set(def.pos[0] + sx * w * 0.28, y0 + h * 0.82, def.pos[2] + d / 2 + 0.004); g.add(fecho); }
+    let redesenhar = null;
     if (def.etiqueta) {
       const tex = texturaTexto({ largura: 256, altura: 192, fundo: '#f1e9d6', cor: '#2a2a2a', linhas: def.etiqueta, fonte: `700 64px ${FONTE_PLACA}, sans-serif`, borda: { cor: '#8a7a5a', espessura: 8 } });
       const et = planoTextura(e, 0.12, 0.09, tex); et.position.set(def.pos[0] + w * 0.22, y0 + h * 0.45, def.pos[2] + d / 2 + 0.006); et.rotation.z = -0.12; g.add(et);
       const fio = cilindro(e, 0.002, 0.002, 0.08, '#8a7a5a', 6); fio.position.set(def.pos[0] + w * 0.12, y0 + h * 0.72, def.pos[2] + d / 2 + 0.006); fio.rotation.z = 0.7; g.add(fio);
+      let chave = def.etiqueta.join('|');
+      redesenhar = (linhas) => {
+        const k = linhas.join('|'); if (k === chave) return; chave = k;
+        const c = tex._ctx, W = 256, H = 192;
+        c.fillStyle = '#f1e9d6'; c.fillRect(0, 0, W, H); c.strokeStyle = '#8a7a5a'; c.lineWidth = 8; c.strokeRect(4, 4, W - 8, H - 8);
+        c.fillStyle = '#2a2a2a'; c.textAlign = 'center'; c.textBaseline = 'middle';
+        const tam = linhas.length > 1 ? 52 : 64; c.font = `700 ${tam}px ${FONTE_PLACA}, sans-serif`;
+        linhas.forEach((l, i) => c.fillText(l, W / 2, H / 2 + (i - (linhas.length - 1) / 2) * tam * 1.1, W - 24));
+        tex.needsUpdate = true;
+      };
     }
-    return { grupo: g, atualizar(est) { g.visible = (est?.estado || 'normal') !== 'ausente'; }, pontoOlhar: new THREE.Vector3(def.pos[0], y0 + h * 0.5, def.pos[2] + d / 2) };
+    return { grupo: g, atualizar(est) { g.visible = (est?.estado || 'normal') !== 'ausente'; if (redesenhar) redesenhar(est?.texto || def.etiqueta); }, pontoOlhar: new THREE.Vector3(def.pos[0], y0 + h * 0.5, def.pos[2] + d / 2) };
   },
   poster(def, ctx) {
     const e = ctx.estilo; const g = new THREE.Group(); const [w, h] = def.tamanho || [0.6, 0.9];

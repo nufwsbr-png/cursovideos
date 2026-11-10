@@ -159,13 +159,16 @@ async function main() {
       return produzir({ canal, ep: resolverEpisodio(args.episodio), args, E });
     }
     case "roteiro": {
+      if (args.regras) { console.log((await import("./roteiro/regras.js")).textoRegras(canal, { continuacao: Boolean(args.continuacao), numero: args.numero ?? "N" })); return; }
       if (args.validar) {
         const ep = resolverEpisodio(args.episodio);
         const r = E.roteiro.validarEpisodio({ canal, dir: ep.dir });
         for (const e of r.erros) log.erro(e);
+        for (const it of (r.itens ?? []).filter((i) => i.tipo === "desconto")) log.aviso(`${it.pontos} ${it.mensagem}`);
         for (const a of r.avisos) log.aviso(a);
-        log.ok(r.erros.length ? `${r.erros.length} erro(s)` : "roteiro válido");
-        process.exitCode = r.erros.length ? 1 : 0;
+        if (r.medidas) log.info(`medidas: ${r.medidas.duracao_estimada_s} s · ${r.medidas.palavras_por_minuto} palavras/min · 1ª fala ${r.medidas.primeira_fala_s} s · trecho sem fala ${r.medidas.maior_trecho_sem_fala_s} s · última fala → cartão ${r.medidas.ultima_fala_ate_pergunta_s} s · lugares ${r.medidas.lugares.join(", ")}`);
+        log.ok(`nota ${r.nota}/100 (mínimo ${r.nota_minima}) · ${r.erros.length} erro(s) → ${r.aprovado ? "aprovado" : "NÃO aprovado"}`);
+        process.exitCode = r.aprovado ? 0 : 1;
         return;
       }
       return E.roteiro.etapaRoteiro({ canal, numero: Number(args.numero ?? proximoNumero()), opcoes: { semContinuacao: Boolean(args["sem-continuacao"]) } });

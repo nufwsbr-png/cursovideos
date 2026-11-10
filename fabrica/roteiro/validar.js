@@ -1,6 +1,7 @@
 // Validação do roteiro contra o contrato, o canal e as regras do livro. Devolve erros (bloqueiam) e avisos.
 import { montarMundo } from "../../motor/cena/mundo.js";
-import { planejar } from "../../motor/cena/plano_camera.js";
+import { planejar, planejarDuracoes } from "../../motor/cena/plano_camera.js";
+import { montarLinhaDoTempo } from "../../motor/cena/linha_do_tempo.js";
 
 const ATOS = ["rotina", "sinal", "negacao", "escalada", "autoridade", "desobediencia", "dilema", "pergunta"];
 const CLIMAS = ["rotina", "sinal", "escalada", "climax", "pergunta"];
@@ -11,10 +12,17 @@ const PALAVRAS_PROIBIDAS = ["sangue", "pistola", "revólver", "revolver", "espin
 
 const palavras = (s) => String(s ?? "").trim().split(/\s+/).filter(Boolean).length;
 
-export function validarRoteiro(roteiro, canal) {
+/**
+ * @param contexto.continuacao  número do episódio anterior (continuação) — antes de completarRoteiro preencher parte_de
+ * @param contexto.numero       número deste episódio
+ */
+export function validarRoteiro(roteiro, canal, contexto = {}) {
   const erros = [];
   const avisos = [];
   const cfg = canal.roteiro ?? {};
+  const parte = contexto.continuacao ?? roteiro.parte_de ?? null;
+  const numero = contexto.numero ?? roteiro.numero ?? null;
+  const atosInicio = cfg.atos_inicio_continuacao ?? ["escalada", "autoridade", "desobediencia"];
   const cenario = (canal.cenarios ?? []).find((c) => c.id === roteiro.cenario);
   if (!cenario) erros.push(`cenario "${roteiro.cenario}" não existe em canal.cenarios (${(canal.cenarios ?? []).map((c) => c.id).join(", ")})`);
   // o mundo do cenário inicial: props, marcas e nós de todos os lugares conectados a ele
@@ -30,7 +38,15 @@ export function validarRoteiro(roteiro, canal) {
   if (!linhas.length) erros.push("roteiro sem linhas");
   for (let i = 1; i < linhas.length; i++) if (linhas[i].t < linhas[i - 1].t) erros.push(`linha ${i} tem t ${linhas[i].t} menor que a anterior`);
   if (linhas.length && linhas[0].t !== 0) erros.push("a primeira linha precisa começar em t=0 com as mãos já fazendo algo");
-  if (linhas.length && linhas[0].ato !== "rotina") erros.push("a primeira linha precisa ser do ato rotina");
+  if (linhas.length && !parte && linhas[0].ato !== "rotina") erros.push("a primeira linha do episódio 1 precisa ser do ato rotina");
+  if (linhas.length && parte && linhas[0].ato !== "rotina" && !atosInicio.includes(linhas[0].ato)) erros.push(`a continuação começa no perigo: primeiro ato entre ${atosInicio.join(", ")} (veio "${linhas[0].ato}")`);
+  // selo "PARTE N": obrigatório na primeira linha da continuação; proibido no episódio 1
+  const selos = linhas.flatMap((l, i) => (l.direcao?.eventos ?? []).filter((e) => /^tela\.selo=/.test(e)).map((e) => ({ i, e })));
+  if (parte) {
+    const s0 = selos.find((x) => x.i === 0);
+    if (!s0) erros.push(`a continuação precisa do evento tela.selo=PARTE ${numero ?? "N"} na primeira linha`);
+    else if (numero && !new RegExp(`^tela\\.selo=PARTE 0?${numero}$`, "i").test(s0.e)) avisos.push(`selo "${s0.e}" diferente de PARTE ${numero}`);
+  } else if (selos.length) erros.push("o episódio 1 não leva selo de parte (tela.selo)");
 
   // Ordem dos atos e presença de todos
   let indiceAto = 0;
@@ -40,10 +56,11 @@ export function validarRoteiro(roteiro, canal) {
     if (idx < indiceAto) erros.push(`linha ${i} (t=${l.t}): ato "${l.ato}" aparece depois de "${ATOS[indiceAto]}" — os 8 atos têm ordem fixa`);
     indiceAto = Math.max(indiceAto, idx);
   }
-  for (const ato of ATOS) if (!linhas.some((l) => l.ato === ato)) erros.push(`falta o ato "${ato}"`);
+  const exigidos = parte ? ATOS.slice(Math.max(3, ATOS.indexOf(linhas[0]?.ato ?? "escalada"))) : ATOS;
+  for (const ato of exigidos) if (!linhas.some((l) => l.ato === ato)) erros.push(`falta o ato "${ato}"`);
   const primeiroSinal = linhas.find((l) => l.ato === "sinal");
   const limiteSinal = cfg.sinal_ate_s ?? 7;
-  if (primeiroSinal && primeiroSinal.t > limiteSinal) erros.push(`o primeiro sinal está em ${primeiroSinal.t}s; precisa aparecer até ${limiteSinal}s`);
+  if (!parte && primeiroSinal && primeiroSinal.t > limiteSinal) erros.push(`o primeiro sinal está em ${primeiroSinal.t}s; precisa aparecer até ${limiteSinal}s`);
   const ultima = linhas[linhas.length - 1];
   if (ultima && (ultima.ato !== "pergunta" || ultima.direcao?.clima !== "pergunta")) erros.push("a última linha precisa ser o ato pergunta com clima pergunta (tela escura com as duas opções)");
 
@@ -93,7 +110,7 @@ export function validarRoteiro(roteiro, canal) {
 
   // Falas
   const falas = roteiro.falas ?? [];
-  const minF = cfg.falas_min ?? 10, maxF = cfg.falas_max ?? 22;
+  const minF = cfg.falas_min ?? 9, maxF = cfg.falas_max ?? 34;
   if (falas.length < minF || falas.length > maxF) erros.push(`${falas.length} falas; o canal pede entre ${minF} e ${maxF}`);
   const ids = new Map();
   for (const f of falas) {
@@ -123,8 +140,9 @@ export function validarRoteiro(roteiro, canal) {
   const palavrasEu = falas.filter((f) => f.quem === "eu").reduce((a, f) => a + palavras(f.texto), 0);
   if (palavrasTotal && palavrasEu / palavrasTotal > 0.35) avisos.push(`o protagonista fala ${Math.round((100 * palavrasEu) / palavrasTotal)}% das palavras; ele deveria falar pouco`);
 
-  // Duração
-  const fim = (ultima?.t ?? 0) + 5;
+  // Duração: estimada pela mesma linha do tempo do vídeo (falas a ~2,5 palavras/s + tempo de andar/correr + pergunta)
+  let fim = (ultima?.t ?? 0) + (cfg.pergunta_duracao_s ?? 4);
+  try { fim = montarLinhaDoTempo(roteiro, null, canal, planejarDuracoes(roteiro, canal)).duracao_total_s; } catch { /* usa o nominal */ }
   const minD = canal.formato?.duracao_min_s ?? 65, maxD = canal.formato?.duracao_max_s ?? 130;
   if (fim < minD || fim > maxD) erros.push(`duração estimada ${fim.toFixed(0)}s fora de ${minD}–${maxD}s`);
   const pps = canal.vozes?.palavras_por_segundo_estimadas ?? 2.5;

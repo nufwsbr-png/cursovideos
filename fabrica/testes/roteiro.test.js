@@ -6,10 +6,10 @@ import { validarRoteiro } from "../roteiro/validar.js";
 import { lerCanal, RAIZ } from "../config.js";
 
 const canal = lerCanal();
-const piloto = JSON.parse(fs.readFileSync(path.join(RAIZ, "episodios/ep01_uma_pra_das_tres/roteiro.json"), "utf8"));
+const piloto = JSON.parse(fs.readFileSync(path.join(RAIZ, "fabrica/testes/fixtures/roteiro_ep1_modelo.json"), "utf8"));
 const clonar = (o) => JSON.parse(JSON.stringify(o));
 
-test("o piloto passa na validação", () => {
+test("o roteiro-modelo do Epi. 01 passa na validação", () => {
   const r = validarRoteiro(piloto, canal);
   assert.deepEqual(r.erros, []);
 });

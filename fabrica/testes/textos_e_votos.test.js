@@ -7,7 +7,7 @@ import { contarVotosHeuristico } from "../etapas/01_publico.js";
 import { lerCanal, RAIZ } from "../config.js";
 
 const canal = lerCanal();
-const piloto = JSON.parse(fs.readFileSync(path.join(RAIZ, "episodios/ep01_uma_pra_das_tres/roteiro.json"), "utf8"));
+const piloto = JSON.parse(fs.readFileSync(path.join(RAIZ, "fabrica/testes/fixtures/roteiro_ep1_modelo.json"), "utf8"));
 
 test("textos seguem a fórmula do capítulo 71 e cabem nos limites", () => {
   const t = montarTextos({ canal, roteiro: piloto });

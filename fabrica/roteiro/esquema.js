@@ -59,13 +59,13 @@ export const ESQUEMA_ROTEIRO = {
       type: "array",
       items: {
         type: "object", additionalProperties: false,
-        properties: { de: texto, texto: texto, tipo: { type: "string", enum: ["mensagem", "alerta", "audio", "ligacao"] }, hora: texto },
-        required: ["de", "texto", "tipo", "hora"],
+        properties: { de: texto, texto: texto, tipo: { type: "string", enum: ["mensagem", "alerta", "audio", "ligacao"] }, hora: texto, rotulo: textoOuNulo, duracao_s: { type: ["number", "null"] } },
+        required: ["de", "texto", "tipo", "hora", "rotulo", "duracao_s"],
       },
     },
     efeitos_extra: {
       type: "array",
-      items: { type: "object", additionalProperties: false, properties: { t: numero, tipo: texto, duracao_s: { type: ["number", "null"] } }, required: ["t", "tipo", "duracao_s"] },
+      items: { type: "object", additionalProperties: false, properties: { t: numero, tipo: texto, duracao_s: { type: ["number", "null"] }, repeticoes: { type: ["integer", "null"] }, intervalo_s: { type: ["number", "null"] }, ganho_db: { type: ["number", "null"] } }, required: ["t", "tipo", "duracao_s", "repeticoes", "intervalo_s", "ganho_db"] },
     },
     silencios: {
       type: "array",
@@ -73,8 +73,8 @@ export const ESQUEMA_ROTEIRO = {
     },
     dilema: {
       type: "object", additionalProperties: false,
-      properties: { pergunta: texto, opcao_a: texto, opcao_b: texto },
-      required: ["pergunta", "opcao_a", "opcao_b"],
+      properties: { pergunta: texto, opcao_a: texto, opcao_b: texto, emoji_a: texto, emoji_b: texto, arriscada: { type: "string", enum: ["a", "b"] } },
+      required: ["pergunta", "opcao_a", "opcao_b", "emoji_a", "emoji_b", "arriscada"],
     },
     por_que_o_dilema_divide: texto,
     comentario_fixado: texto,

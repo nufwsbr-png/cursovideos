@@ -18,7 +18,7 @@
 | 3 canais para estudar (não copiar) | `A DECIDIR` pelo dono na investigação (tabela do detetive, capítulo 17) |
 
 ## Teste das 7 perguntas (capítulo 21) — nota nossa, hipótese
-Reconhecível 2 · Público 1 (sem tabela do detetive ainda) · Espaço 2 · Dilema 2 · Série 2 · Produção 2 (um cenário) · Você `A DECIDIR` → 11+ se o dono gostar do tema.
+Reconhecível 2 · Público 1 (sem tabela do detetive ainda) · Espaço 2 · Dilema 2 · Série 2 · Produção 2 (um mundo de 3 lugares conectados) · Você `A DECIDIR` → 11+ se o dono gostar do tema.
 
 ## Bio (3 partes)
 Promessa: "Você assume o guichê da madrugada." · Convite: "Você decide o próximo episódio." · Caminho: "Comece pelo Epi. 01 👇"

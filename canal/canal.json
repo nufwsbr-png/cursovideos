@@ -702,6 +702,20 @@
           "texto": [
             "SÓ FUNCIONÁRIOS"
           ]
+        },
+        {
+          "id": "impressora",
+          "tipo": "impressora",
+          "pos": [
+            0.58,
+            1.05,
+            -0.53
+          ],
+          "estado": "parada",
+          "texto": [
+            "03:00",
+            "PLAT 7"
+          ]
         }
       ],
       "detalhes_vida": [
@@ -1685,8 +1699,8 @@
   },
   "roteiro": {
     "modelo_ia": "claude-opus-5-5",
-    "falas_min": 10,
-    "falas_max": 22,
+    "falas_min": 9,
+    "falas_max": 34,
     "sinal_ate_s": 7,
     "mudanca_a_cada_s": 10,
     "lugares_max": 4,
@@ -1704,7 +1718,72 @@
       "sangue",
       "arma apontada"
     ],
-    "pergunta_duracao_s": 4
+    "pergunta_duracao_s": 4,
+    "palavras_por_minuto_min": 60,
+    "palavras_por_minuto_max": 90,
+    "palavras_por_fala_mediana_max": 6,
+    "palavras_por_fala_max": 9,
+    "primeira_fala_ate_s": 1,
+    "trecho_sem_fala_min_s": 8,
+    "trecho_sem_fala_max_s": 15,
+    "ultima_fala_antes_pergunta_min_s": 1,
+    "ultima_fala_antes_pergunta_max_s": 4,
+    "selo_duracao_s": 2.5,
+    "protagonista_max_pct": 30,
+    "dilema_opcao_palavras": [
+      2,
+      6
+    ],
+    "alerta_palavras_max": 4,
+    "mensagem_palavras_max": 10,
+    "cartao_duracao_s": [
+      2,
+      8
+    ],
+    "atos_inicio_continuacao": [
+      "escalada",
+      "autoridade",
+      "desobediencia"
+    ],
+    "nota_minima": 70,
+    "rodadas_correcao_max": 3,
+    "palavras_de_risco": [
+      "sangue",
+      "pistola",
+      "revólver",
+      "revolver",
+      "espingarda",
+      "faca no",
+      "esfaque",
+      "suicíd",
+      "suicid",
+      "se matar",
+      "automutil",
+      "estupr",
+      "pedofil"
+    ],
+    "temas_palavras": {
+      "política": [
+        "eleição",
+        "deputado",
+        "senador",
+        "partido",
+        "presidente da república"
+      ],
+      "religião": [
+        "igreja",
+        "pastor",
+        "padre",
+        "terreiro",
+        "evangélico"
+      ],
+      "polícia ou exército reais": [
+        "polícia militar",
+        "pm de",
+        "exército brasileiro",
+        "bope"
+      ]
+    }
   },
   "plataformas": {
     "tiktok": {
@@ -1750,7 +1829,16 @@
     "exigir_aprovacao_humana": false,
     "etiqueta_ia": true,
     "episodios_adiantados": 1,
-    "um_por_dia": true
+    "um_por_dia": true,
+    "exigir_critico_visual": true,
+    "critico_nota_minima": 7,
+    "critico_rodadas_max": 3,
+    "plataformas_obrigatorias": [
+      "tiktok",
+      "youtube",
+      "instagram",
+      "facebook"
+    ]
   },
   "hospedagem": {
     "provedor": "supabase",
@@ -1840,5 +1928,10 @@
       "tensao": -3
     },
     "passo_camera_hz": 2.9
+  },
+  "ia": {
+    "modelo_critico": "claude-opus-5-5",
+    "esforco_critico": "high",
+    "max_chamadas_por_execucao": 25
   }
 }

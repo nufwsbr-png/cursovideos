@@ -1,0 +1,32 @@
+{
+  "versao_regras": "2026-11-10",
+  "nota": 100,
+  "nota_minima": 70,
+  "aprovado": true,
+  "itens": [],
+  "erros": [],
+  "avisos": [],
+  "medidas": {
+    "duracao_estimada_s": 82.75,
+    "falas": 19,
+    "palavras": 87,
+    "palavras_por_minuto": 63.1,
+    "mediana_palavras_por_fala": 5,
+    "maior_fala_palavras": 7,
+    "primeira_fala_s": 0,
+    "maior_trecho_sem_fala_s": 10.9,
+    "trecho_sem_fala": [
+      33.4,
+      44.3
+    ],
+    "trecho_com_acao": true,
+    "ultima_fala_ate_pergunta_s": 3.2,
+    "aproximacao_final": true,
+    "pct_protagonista": 16,
+    "lugares": [
+      "saguao",
+      "guarda_volumes"
+    ]
+  },
+  "gerado_em": "2026-11-10T15:39:52.871Z"
+}
