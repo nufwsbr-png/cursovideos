@@ -2,12 +2,20 @@
 import fs from "node:fs";
 import path from "node:path";
 import { PASTA_MOTOR, PASTA_MEMORIA } from "../config.js";
-import { lerJson, atualizarEstado, adicionarBloqueio, removerBloqueio, anexarTexto } from "../util/arquivos.js";
+import { lerJson, atualizarEstado, definirBloqueios, anexarTexto } from "../util/arquivos.js";
 import { executar } from "../util/exec.js";
 import { log } from "../util/log.js";
 
 const RENDERIZAR = path.join(PASTA_MOTOR, "renderizar.js");
 const REVISAR = path.join(PASTA_MOTOR, "revisar.js");
+
+/** Problemas graves do revisor. O revisor grava `problemas` (+ `aprovado`); `graves` era um nome antigo que nunca existiu. */
+export function problemasGraves(revisao) {
+  if (!revisao) return [];
+  const lista = revisao.problemas ?? revisao.graves ?? revisao.problemas_graves ?? [];
+  if (!lista.length && revisao.aprovado === false) return [{ tipo: "reprovado", detalhe: "revisor marcou aprovado=false" }];
+  return lista;
+}
 
 function temposImportantes(lt) {
   const ts = new Set();
@@ -31,12 +39,10 @@ export async function etapaRender({ canal, ep, escala = 1, semVideo = false, sem
     await executar("node", [RENDERIZAR, ...comuns, "--stills", tempos.join(",")]);
     await executar("node", [RENDERIZAR, ...comuns, "--folha"]);
     await executar("node", [REVISAR, "--episodio", ep.dir]);
-    const revisao = lerJson(path.join(ep.dir, "revisao.json"), { graves: [], avisos: [] });
-    const graves = revisao.graves ?? revisao.problemas_graves ?? [];
-    if (graves.length) {
-      adicionarBloqueio(ep.dir, `revisor: ${graves.length} problema(s) grave(s) nos quadros (veja revisao.json)`);
-      for (const g of graves.slice(0, 10)) log.aviso(typeof g === "string" ? g : JSON.stringify(g));
-    } else removerBloqueio(ep.dir, "revisor");
+    const revisao = lerJson(path.join(ep.dir, "revisao.json"), { problemas: [], avisos: [] });
+    const graves = problemasGraves(revisao);
+    definirBloqueios(ep.dir, "quadros", graves.length ? [`revisor: ${graves.length} problema(s) grave(s) nos quadros (veja revisao.json)`] : []);
+    for (const g of graves.slice(0, 10)) log.aviso(typeof g === "string" ? g : `${g.tipo ?? "problema"} em ${g.t ?? "?"} s: ${g.detalhe ?? JSON.stringify(g)}`);
   }
 
   if (!semVideo) {

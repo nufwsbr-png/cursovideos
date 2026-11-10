@@ -2,14 +2,21 @@
 import fs from "node:fs";
 import path from "node:path";
 import { PASTA_AUDIO, PASTA_EPISODIOS, personagemPorId } from "../config.js";
-import { lerJson, gravarJson, listarEpisodios, atualizarEstado, adicionarBloqueio, removerBloqueio } from "../util/arquivos.js";
+import { lerJson, gravarJson, listarEpisodios, atualizarEstado, definirBloqueios } from "../util/arquivos.js";
 import { executar, PYTHON } from "../util/exec.js";
 import { log } from "../util/log.js";
+import { hashJson } from "../util/hash.js";
 import { gerarFalaGemini, temGemini } from "../ia/gemini_tts.js";
 
 export function estiloCompleto(canal, fala) {
   const p = personagemPorId(canal, fala.quem);
   return [canal.vozes?.prefixo_estilo, p?.voz?.estilo_base, fala.estilo].filter(Boolean).join(", ");
+}
+
+/** O que define o conteúdo de uma fala gravada: mudou isto, a fala é refeita (o provedor é tratado à parte). */
+export function hashConteudoFala(canal, fala) {
+  const p = personagemPorId(canal, fala.quem);
+  return hashJson({ texto: fala.texto, estilo: estiloCompleto(canal, fala), voz: fala.voz || p?.voz?.nome || null, filtro: fala.filtro ?? null, reaproveitar_de: fala.reaproveitar_de ?? null });
 }
 
 function origemDoEpisodio(dir) {
@@ -51,11 +58,14 @@ export async function etapaVozes({ canal, ep, provedor, so = null, forcar = fals
 
   for (const fala of falas) {
     const destino = path.join(pastaFalas, `${fala.id}.wav`);
-    const jaExiste = fs.existsSync(destino) && origem[fala.id];
-    if (jaExiste && !forcar && (origem[fala.id].provedor === provedor || origem[fala.id].provedor === "gemini")) { puladas++; continue; }
+    const hash = hashConteudoFala(canal, fala);
+    const o = origem[fala.id];
+    // pula só quando o arquivo existe, o conteúdo (texto, estilo, voz) é o mesmo e o provedor serve
+    const mesmaFala = fs.existsSync(destino) && o && o.hash_conteudo === hash;
+    if (mesmaFala && !forcar && (o.provedor === provedor || o.provedor === "gemini")) { puladas++; continue; }
     if (fala.reaproveitar_de) {
-      const o = copiarReaproveitada(dir, fala);
-      origem[fala.id] = { ...o, reaproveitada_de: fala.reaproveitar_de, gerado_em: new Date().toISOString() };
+      const oo = copiarReaproveitada(dir, fala);
+      origem[fala.id] = { ...oo, reaproveitada_de: fala.reaproveitar_de, hash_conteudo: hash, gerado_em: new Date().toISOString() };
       reaproveitadas++;
       continue;
     }
@@ -66,7 +76,7 @@ export async function etapaVozes({ canal, ep, provedor, so = null, forcar = fals
       log.info(`${fala.id} · ${fala.quem} · ${voz}: "${fala.texto}"`);
       const { wav, taxa, modelo } = await gerarFalaGemini({ texto: fala.texto, voz, estilo, modelo: canal.vozes?.modelo });
       fs.writeFileSync(destino, wav);
-      origem[fala.id] = { provedor: "gemini", modelo, voz, taxa, estilo, texto: fala.texto, gerado_em: new Date().toISOString(), tentativas: (origem[fala.id]?.tentativas ?? 0) + 1 };
+      origem[fala.id] = { provedor: "gemini", modelo, voz, taxa, estilo, texto: fala.texto, hash_conteudo: hash, gerado_em: new Date().toISOString(), tentativas: (origem[fala.id]?.tentativas ?? 0) + 1 };
       geradas++;
     } else {
       pendentesFalsas.push(fala.id);
@@ -74,18 +84,30 @@ export async function etapaVozes({ canal, ep, provedor, so = null, forcar = fals
   }
 
   if (pendentesFalsas.length) {
-    const args = [path.join(PASTA_AUDIO, "voz_falsa.py"), "--episodio", dir, "--so", pendentesFalsas.join(",")];
-    if (forcar) args.push("--forcar");
+    // estas falas precisam ser refeitas (novas ou mudaram): sempre com --forcar
+    const args = [path.join(PASTA_AUDIO, "voz_falsa.py"), "--episodio", dir, "--so", pendentesFalsas.join(","), "--forcar"];
     await executar(PYTHON, args);
     const novaOrigem = origemDoEpisodio(dir);
-    for (const id of pendentesFalsas) origem[id] = novaOrigem[id] ?? { provedor: "falso", gerado_em: new Date().toISOString() };
+    for (const id of pendentesFalsas) {
+      const fala = ep.roteiro.falas.find((f) => f.id === id);
+      origem[id] = { ...(novaOrigem[id] ?? { provedor: "falso", gerado_em: new Date().toISOString() }), texto: fala.texto, estilo: estiloCompleto(canal, fala), hash_conteudo: hashConteudoFala(canal, fala) };
+    }
     geradas += pendentesFalsas.length;
+  }
+  // falas que saíram do roteiro: o arquivo vai para _orfas/ (não some, mas não confunde a mixagem)
+  const ids = new Set(ep.roteiro.falas.map((f) => f.id));
+  for (const n of fs.readdirSync(pastaFalas).filter((n) => /^f\d+\.wav$/.test(n))) {
+    const id = n.replace(/\.wav$/, "");
+    if (!ids.has(id)) {
+      fs.mkdirSync(path.join(pastaFalas, "_orfas"), { recursive: true });
+      fs.renameSync(path.join(pastaFalas, n), path.join(pastaFalas, "_orfas", n));
+      delete origem[id];
+    }
   }
   gravarJson(path.join(pastaFalas, "origem.json"), origem);
 
   const temFalsa = ep.roteiro.falas.some((f) => origem[f.id]?.provedor === "falso");
-  if (temFalsa) adicionarBloqueio(dir, "voz falsa: gere as vozes de verdade antes de publicar");
-  else removerBloqueio(dir, "voz falsa");
+  definirBloqueios(dir, "vozes", temFalsa ? ["voz falsa: gere as vozes de verdade antes de publicar"] : []);
   atualizarEstado(dir, { etapa: "vozes" });
   log.ok(`Vozes: ${geradas} geradas, ${reaproveitadas} reaproveitadas, ${puladas} já existiam (provedor ${provedor}).`);
   return { provedor, geradas, reaproveitadas, puladas, temFalsa };

@@ -30,6 +30,32 @@ import numpy as np
 RAIZ = Path(__file__).resolve().parents[1]
 
 
+def _garantir_ffmpeg_no_path() -> None:
+    """Põe ffmpeg/ffprobe no PATH quando o shell é antigo (Windows + WinGet). Mesma ordem de fabrica/util/binarios.js."""
+    from shutil import which
+    if which("ffmpeg") and which("ffprobe"):
+        return
+    candidatos = []
+    if os.environ.get("FFMPEG_DIR"):
+        candidatos.append(Path(os.environ["FFMPEG_DIR"]))
+    if sys.platform == "win32":
+        local = Path(os.environ.get("LOCALAPPDATA", str(Path.home() / "AppData" / "Local")))
+        pacotes = local / "Microsoft" / "WinGet" / "Packages"
+        if pacotes.exists():
+            for p in sorted(pacotes.glob("Gyan.FFmpeg*")):
+                for sub in sorted(p.glob("ffmpeg-*"), reverse=True):
+                    candidatos.append(sub / "bin")
+        candidatos.append(local / "Microsoft" / "WinGet" / "Links")
+    ext = ".exe" if sys.platform == "win32" else ""
+    for c in candidatos:
+        if (c / f"ffmpeg{ext}").exists() and (c / f"ffprobe{ext}").exists():
+            os.environ["PATH"] = str(c) + os.pathsep + os.environ.get("PATH", "")
+            return
+
+
+_garantir_ffmpeg_no_path()
+
+
 # ---------------------------------------------------------------- arquivos e json
 
 def pasta_raiz() -> Path:

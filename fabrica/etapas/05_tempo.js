@@ -2,7 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { PASTA_AUDIO } from "../config.js";
-import { lerJson, atualizarEstado, adicionarBloqueio, removerBloqueio } from "../util/arquivos.js";
+import { lerJson, atualizarEstado, definirBloqueios } from "../util/arquivos.js";
 import { executar, PYTHON } from "../util/exec.js";
 import { log } from "../util/log.js";
 
@@ -21,8 +21,7 @@ export async function etapaTempo({ canal, ep }) {
   const lt = lerJson(saida);
   const dur = lt.duracao_total_s;
   const { duracao_min_s: min, duracao_max_s: max } = canal.formato;
-  if (dur < min || dur > max) adicionarBloqueio(ep.dir, `duração ${dur.toFixed(1)}s fora de ${min}–${max}s: corte ou acrescente falas`);
-  else removerBloqueio(ep.dir, "duração");
+  definirBloqueios(ep.dir, "tempo", dur < min || dur > max ? [`duração ${dur.toFixed(1)}s fora de ${min}–${max}s: corte ou acrescente falas`] : []);
   atualizarEstado(ep.dir, { etapa: "tempo", duracao_s: dur });
   log.ok(`Duração total ${dur.toFixed(1)} s, ${lt.falas?.length ?? 0} falas, ${lt.efeitos?.length ?? 0} efeitos.`);
   return lt;

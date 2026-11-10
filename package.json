@@ -12,7 +12,9 @@
     "diario": "node fabrica/cli.js diario",
     "episodio": "node fabrica/cli.js episodio",
     "stills": "node motor/renderizar.js",
-    "testes": "node --test 'fabrica/testes/*.test.js' 'fabrica/publicar/testes/*.test.js'"
+    "testes": "node --test \"fabrica/testes/*.test.js\" \"fabrica/publicar/testes/*.test.js\"",
+    "testes:audio": "python -I -m unittest discover -s audio/testes -t audio/testes",
+    "doctor": "node fabrica/cli.js doctor"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.6.0",

@@ -7,6 +7,9 @@ import { carregarEnv } from "./util/ambiente.js";
 import { log } from "./util/log.js";
 import { listarEpisodios, resolverEpisodio, proximoNumero, lerJson, atualizarEstado, relativo } from "./util/arquivos.js";
 import { executar } from "./util/exec.js";
+import { garantirFfmpegNoPath } from "./util/binarios.js";
+
+garantirFfmpegNoPath();
 
 function lerArgs(argv) {
   const args = { _: [] };
@@ -25,6 +28,7 @@ const AJUDA = `
 Fábrica POV Viral — comandos
 
   status                         onde paramos (episódios, etapas, bloqueios)
+  doctor [--rapido] [--json]     confere o ambiente (node, python, ffmpeg, chromium, fontes, chaves, canal)
   diario [--simular]             a rotina de um dia: público → produzir o próximo → publicar → memória
   episodio --novo                escreve e produz o próximo episódio (sem publicar)
   episodio --episodio N          (re)produz o episódio N a partir do roteiro existente
@@ -143,6 +147,7 @@ async function main() {
   const canal = lerCanal();
   if (comando === "ajuda" || comando === "--help" || comando === "-h") { console.log(AJUDA); return; }
   if (comando === "status") return status(canal);
+  if (comando === "doctor") return (await import("./doctor.js")).doctor({ rapido: Boolean(args.rapido), json: Boolean(args.json) });
   const E = await etapas();
   switch (comando) {
     case "diario": return diario({ canal, args, E });

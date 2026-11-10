@@ -93,6 +93,31 @@ export function atualizarEstado(dir, mudancas) {
   return novo;
 }
 
+/**
+ * Cada etapa é dona dos seus bloqueios: `bloqueios_por_etapa[etapa] = lista`, e `bloqueios` vira a união de todas.
+ * Assim uma etapa (ex.: a prova) não apaga o bloqueio de outra (ex.: o revisor). Bloqueios antigos sem dono ficam em "legado".
+ */
+export function definirBloqueios(dir, etapa, lista) {
+  const caminho = path.join(dir, "estado.json");
+  const estado = lerJson(caminho, { etapa: "roteiro", aprovado: false, bloqueios: [] });
+  const porEtapa = { ...(estado.bloqueios_por_etapa ?? {}) };
+  if (!estado.bloqueios_por_etapa && (estado.bloqueios ?? []).length) porEtapa.legado = [...estado.bloqueios];
+  porEtapa[etapa] = [...new Set(lista)];
+  if (porEtapa.legado) {
+    // um bloqueio legado some quando outra etapa já tem o mesmo motivo (mesmo começo de frase)
+    // ou quando a etapa dona dele acabou de rodar (se ainda vale, ela mesma o pôs na própria lista)
+    const prefixo = (b) => b.split(":")[0].trim();
+    const atuais = new Set(Object.entries(porEtapa).filter(([k]) => k !== "legado").flatMap(([, v]) => v.map(prefixo)));
+    porEtapa.legado = porEtapa.legado.filter((b) => !atuais.has(prefixo(b)) && DONO_LEGADO[prefixo(b)] !== etapa);
+    if (!porEtapa.legado.length) delete porEtapa.legado;
+  }
+  const bloqueios = [...new Set(Object.values(porEtapa).flat())];
+  return atualizarEstado(dir, { bloqueios, bloqueios_por_etapa: porEtapa });
+}
+
+// qual etapa responde por cada bloqueio antigo (para limpar o "legado" quando a etapa roda de novo)
+const DONO_LEGADO = { "voz falsa": "vozes", revisor: "quadros", "duração": "tempo" };
+
 export function adicionarBloqueio(dir, motivo) {
   const estado = lerJson(path.join(dir, "estado.json"), { etapa: "roteiro", aprovado: false, bloqueios: [] });
   const bloqueios = [...new Set([...(estado.bloqueios ?? []), motivo])];

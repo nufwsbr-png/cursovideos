@@ -3,8 +3,11 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
+import { garantirFfmpegNoPath } from '../../util/binarios.js';
 
-export const SCRATCH = process.env.SCRATCHPAD || '/tmp/claude-0/-home-user-cursovideos/88e5d9cc-f218-5c4b-8b9e-7ff9d81df1e8/scratchpad';
+garantirFfmpegNoPath();
+
+export const SCRATCH = process.env.SCRATCHPAD || path.join(os.tmpdir(), 'fabrica-testes');
 
 export function criarEpisodioTeste(nome = 'ep99_teste', { bloqueios = [], duracao = 3 } = {}) {
   const base = fs.existsSync(path.dirname(SCRATCH)) ? SCRATCH : os.tmpdir();

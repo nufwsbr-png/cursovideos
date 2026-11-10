@@ -3,10 +3,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import { PASTA_AUDIO, PASTA_MEMORIA } from "../config.js";
-import { lerJson, gravarJson, atualizarEstado, anexarTexto } from "../util/arquivos.js";
+import { lerJson, gravarJson, atualizarEstado, anexarTexto, definirBloqueios } from "../util/arquivos.js";
 import { executar, executarJson, PYTHON } from "../util/exec.js";
 import { log } from "../util/log.js";
 import { nomeMp4 } from "./07_som.js";
+import { problemasGraves } from "./06_render.js";
 
 async function sondar(arquivo) {
   const { saida } = await executar("ffprobe", ["-v", "error", "-print_format", "json", "-show_streams", "-show_format", arquivo], { capturar: true });
@@ -71,7 +72,7 @@ export async function etapaProva({ canal, ep }) {
 
   const vozFalsa = ep.roteiro.falas.some((x) => origem[x.id]?.provedor === "falso");
   if (vozFalsa) bloqueios.push("voz falsa: gere as vozes de verdade antes de publicar");
-  const graves = revisao?.graves ?? revisao?.problemas_graves ?? [];
+  const graves = problemasGraves(revisao);
   if (graves.length) bloqueios.push(`revisor: ${graves.length} problema(s) grave(s) nos quadros`);
 
   const lista = {
@@ -86,7 +87,8 @@ export async function etapaProva({ canal, ep }) {
   };
   const prova = { arquivo: path.basename(arquivo), medido_em: new Date().toISOString(), formato, som, transcricao, revisao_quadros: revisao ? { graves: graves.length, avisos: (revisao.avisos ?? []).length } : null, lista, bloqueios, avisos, nao_conferido: ["sotaque", "interpretação", "som ouvido de verdade", "movimento entre quadros"] };
   gravarJson(path.join(ep.dir, "prova.json"), prova);
-  atualizarEstado(ep.dir, { etapa: "prova", bloqueios, avisos_prova: avisos });
+  definirBloqueios(ep.dir, "prova", bloqueios);
+  atualizarEstado(ep.dir, { etapa: "prova", avisos_prova: avisos });
   anexarTexto(path.join(PASTA_MEMORIA, "aprendizados.md"), `- [${new Date().toISOString().slice(0, 10)}] [MEDIDO] ep${String(ep.roteiro.numero).padStart(2, "0")}: ${formato.duracao_s.toFixed(1)} s, ${formato.largura}x${formato.altura}, ${som?.lufs_integrado ?? "?"} LUFS, pico ${som?.pico_verdadeiro_dbtp ?? "?"} dBTP, ${formato.tamanho_mb.toFixed(1)} MB.\n`);
   log.tabela(Object.entries(lista).map(([item, ok]) => ({ item, resultado: ok === true ? "✔" : ok === false ? "✖" : ok })));
   for (const b of bloqueios) log.erro("bloqueio: " + b);
