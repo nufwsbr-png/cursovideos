@@ -42,7 +42,7 @@ function copiarReaproveitada(dir, fala) {
  * @param {boolean} [p.forcar]   regera mesmo se já existir
  */
 export async function etapaVozes({ canal, ep, provedor, so = null, forcar = false }) {
-  log.passo(`Etapa 3 — Vozes do episódio ${ep.roteiro.numero}`);
+  log.passo(`Etapa 3 — Vozes do episódio ${ep.ref ?? ep.roteiro.numero}`);
   const dir = ep.dir;
   const pastaFalas = path.join(dir, "audio", "falas");
   fs.mkdirSync(pastaFalas, { recursive: true });

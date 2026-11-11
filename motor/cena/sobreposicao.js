@@ -312,6 +312,8 @@ export class TelaCelular {
     for (let i = 0; i <= ate && i < this.mensagens.length; i++) {
       const m = this.mensagens[i];
       if (m.tipo === 'alerta' && i !== ate) continue; // alertas antigos não ficam na conversa
+      // a tela mostra a conversa de quem mandou a mensagem atual (o grupo do prédio não aparece na conversa da mãe)
+      if (msg && msg.tipo !== 'alerta' && i !== ate && (m.de || 'Mãe') !== (msg.de || 'Mãe')) continue;
       const linhas = quebrarLinhas(c, m.tipo === 'alerta' ? String(m.texto).toUpperCase() : m.texto, 390);
       const h = linhas.length * 60 + 70;
       c.fillStyle = m.tipo === 'alerta' ? '#ffe3df' : (i === ate ? '#ffffff' : '#f4f6f8');

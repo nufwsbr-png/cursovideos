@@ -1,0 +1,259 @@
+{
+  "etapa": "quadros",
+  "aprovado": false,
+  "bloqueios": [
+    "voz falsa: gere as vozes de verdade antes de publicar"
+  ],
+  "avisos": [],
+  "historico": [
+    {
+      "em": "2026-11-10T23:20:23.068Z",
+      "etapa": "roteiro"
+    },
+    {
+      "em": "2026-11-10T23:20:23.080Z",
+      "etapa": "roteiro"
+    },
+    {
+      "em": "2026-11-10T23:20:24.322Z",
+      "etapa": "roteiro"
+    },
+    {
+      "em": "2026-11-10T23:20:24.324Z",
+      "etapa": "vozes"
+    },
+    {
+      "em": "2026-11-10T23:20:24.353Z",
+      "etapa": "vozes"
+    },
+    {
+      "em": "2026-11-10T23:20:28.891Z",
+      "etapa": "conferido"
+    },
+    {
+      "em": "2026-11-10T23:20:28.916Z",
+      "etapa": "conferido"
+    },
+    {
+      "em": "2026-11-10T23:20:28.927Z",
+      "etapa": "conferido"
+    },
+    {
+      "em": "2026-11-10T23:20:29.474Z",
+      "etapa": "conferido"
+    },
+    {
+      "em": "2026-11-10T23:20:29.476Z",
+      "etapa": "tempo"
+    },
+    {
+      "em": "2026-11-10T23:20:29.487Z",
+      "etapa": "tempo"
+    },
+    {
+      "em": "2026-11-10T23:24:47.506Z",
+      "etapa": "tempo"
+    },
+    {
+      "em": "2026-11-10T23:24:47.508Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-10T23:24:47.536Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-10T23:39:56.719Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-10T23:39:56.747Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-10T23:39:58.252Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-10T23:39:58.260Z",
+      "etapa": "tempo"
+    },
+    {
+      "em": "2026-11-10T23:39:58.291Z",
+      "etapa": "tempo"
+    },
+    {
+      "em": "2026-11-10T23:53:14.769Z",
+      "etapa": "tempo"
+    },
+    {
+      "em": "2026-11-10T23:53:14.786Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-10T23:53:14.952Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-10T23:56:59.754Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-11T00:05:25.072Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-11T00:05:25.092Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-11T00:05:25.101Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-11T00:05:25.621Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-11T00:05:25.622Z",
+      "etapa": "tempo"
+    },
+    {
+      "em": "2026-11-11T00:05:25.629Z",
+      "etapa": "tempo"
+    },
+    {
+      "em": "2026-11-11T00:09:39.793Z",
+      "etapa": "tempo"
+    },
+    {
+      "em": "2026-11-11T00:09:39.797Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-11T00:09:39.833Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-11T00:10:42.172Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-11T00:12:40.464Z",
+      "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-11T00:12:40.505Z",
+      "etapa": "quadros"
+    }
+  ],
+  "bloqueios_por_etapa": {
+    "roteiro": [],
+    "vozes": [
+      "voz falsa: gere as vozes de verdade antes de publicar"
+    ],
+    "tempo": [],
+    "quadros": [],
+    "critico": []
+  },
+  "atualizado_em": "2026-11-11T00:12:40.505Z",
+  "versoes": {
+    "roteiro": {
+      "entrada": {
+        "hash": "sha256:cd273beee7599d7259e1656bb2ffae25380fddc6617a4700dfffe520c50cea55",
+        "partes": {
+          "roteiro": "sha256:358bdbf88f4d6e6ea9de7b8e23f3b44df2fbedb4f9c3a8a811cc168cfe3c2bfa",
+          "regras": "sha256:c295a2befcbb30f6a314ad03f6dffb626b172c88eb0522519fd80e7f61f69b13",
+          "canal_roteiro": "sha256:b5eae75572ebf19dc10dea9ed06801037891e2184cf36db272bc784b4fce2932",
+          "mundo": "sha256:284a3cb86338e6c280932c370ebb7c019da21db815fa28a0ad75e24029486690",
+          "codigo": "sha256:c615f3f13799ded86c88cfe6faef7c33f18de6e9bd93aa95ed5e04dd9f5d644c"
+        }
+      },
+      "saidas": {
+        "validacao.json": "sha256:f16cdf6d603881f52f6f0e6c2c7def2dbb9f4c0adc28201d66574acf61d2dd43"
+      },
+      "em": "2026-11-11T00:05:25.099Z"
+    },
+    "vozes": {
+      "entrada": {
+        "hash": "sha256:6ec59c53c6c1ea49952b43bafdeb5c1412dba2f639f7d45882cd177454b5e54f",
+        "partes": {
+          "falas": "sha256:2a075ac8ab4010f83ba8bb4fe5be8a9b1ff0cedf7f42ac05f498af8d9f11bbda",
+          "provedor": "sha256:c014fd0eba928b291532eef9c568a99b8ab85dc793e126ed3d8dfe7a52eb9dc8"
+        }
+      },
+      "saidas": {
+        "audio/falas": "sha256:63b2665d385426ffc6cc346a48a10c3ca67239b74e7d91211ccc4f043336c0fb"
+      },
+      "em": "2026-11-10T23:20:28.926Z"
+    },
+    "conferir": {
+      "entrada": {
+        "hash": "sha256:63527db9245c23c68b787b7247588b35b37184daa56c8ad4288c6c8a9d262d55",
+        "partes": {
+          "falas_wav": "sha256:5188375d5e7a0840ae94bcd21ddc261a0aa6e6b3f985cad4621b92f5d9623a52",
+          "codigo": "sha256:75894b219e66f6d18c9a06c55695036a76c8c1b9a09116c5ac5cd0f3458d189d"
+        }
+      },
+      "saidas": {
+        "medidas.json": "sha256:9f99be6cb9f7c50d328160d2ade36c528c6a68942e08f2cf7932092fbb73e18e"
+      },
+      "em": "2026-11-10T23:20:28.913Z"
+    },
+    "tempo": {
+      "entrada": {
+        "hash": "sha256:00954909bdb2e99dc1a4db8417edff0a84305cd071528a689cac08be45765c0c",
+        "partes": {
+          "roteiro": "sha256:358bdbf88f4d6e6ea9de7b8e23f3b44df2fbedb4f9c3a8a811cc168cfe3c2bfa",
+          "medidas": "sha256:9f99be6cb9f7c50d328160d2ade36c528c6a68942e08f2cf7932092fbb73e18e",
+          "canal": "sha256:6dfd1753ac88ee914f2010a3f0bd98e56f6fb4b8b3419dbd7be912d9451a63da",
+          "codigo": "sha256:fdb09cdf772d700cc5556b1b09d681367921845fe1dd0a5505d2f3dd9d59f71b"
+        }
+      },
+      "saidas": {
+        "linha_do_tempo.json": "sha256:3c8cc186fcbc10d7ad6125a62fbf0aba980e93bde08ec4d672b642b45ef71d66"
+      },
+      "em": "2026-11-11T00:05:25.628Z"
+    },
+    "quadros": {
+      "entrada": {
+        "hash": "sha256:59ac34846702e33faaf07f553652be1f5c6e4bf34b8e4bec556782e9e9dcb47b",
+        "partes": {
+          "roteiro": "sha256:358bdbf88f4d6e6ea9de7b8e23f3b44df2fbedb4f9c3a8a811cc168cfe3c2bfa",
+          "linha": "sha256:3c8cc186fcbc10d7ad6125a62fbf0aba980e93bde08ec4d672b642b45ef71d66",
+          "medidas": "sha256:9f99be6cb9f7c50d328160d2ade36c528c6a68942e08f2cf7932092fbb73e18e",
+          "canal": "sha256:6dfd1753ac88ee914f2010a3f0bd98e56f6fb4b8b3419dbd7be912d9451a63da",
+          "motor": "sha256:0bfc4cbc8deb5bcc595c77307b76e54672e6e607d8b7b82eefc4f93afaa21c96",
+          "escala": "sha256:6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+          "codigo": "sha256:852e2314465a0f4e0d6ec5fa4a4e82d5e011dab5e8d7247bb6249a45cb269702"
+        }
+      },
+      "saidas": {
+        "revisao.json": "sha256:81de1b2faae2e2fdf8990729032886a2d903af25b699994fcf32fe53d4f04f13",
+        "folha.png": "sha256:3e8041e6c19e746e387f5883092cb45d48fff1d1682c329279e9cddd01ccf591"
+      },
+      "em": "2026-11-11T00:09:39.832Z"
+    },
+    "critico": {
+      "entrada": {
+        "hash": "sha256:69ed7c3b6fd7e0fcfb1d851f084ade8b293b6e6a00adaceb2f7dfd317c948069",
+        "partes": {
+          "roteiro": "sha256:358bdbf88f4d6e6ea9de7b8e23f3b44df2fbedb4f9c3a8a811cc168cfe3c2bfa",
+          "linha": "sha256:3c8cc186fcbc10d7ad6125a62fbf0aba980e93bde08ec4d672b642b45ef71d66",
+          "medidas": "sha256:9f99be6cb9f7c50d328160d2ade36c528c6a68942e08f2cf7932092fbb73e18e",
+          "canal": "sha256:6dfd1753ac88ee914f2010a3f0bd98e56f6fb4b8b3419dbd7be912d9451a63da",
+          "motor": "sha256:0bfc4cbc8deb5bcc595c77307b76e54672e6e607d8b7b82eefc4f93afaa21c96",
+          "rubrica": "sha256:d606b91f6d2b88ed84bec59020d2b7145ae5ecc8f14b8876b0dd864a0225cad4",
+          "codigo": "sha256:5d1dd5e3a7cdce1d243b8b01fb06e90a5fb29218e13c3c3d7116284942ec24de",
+          "limites": "sha256:90bbcd3b066fbce13353f47b08c2563de4fd31cb71d9c39fef7cfe945bada1e1"
+        }
+      },
+      "saidas": {
+        "critico.json": "sha256:6f21bc12ddec59f5cad6c15481da43a60488adab8d0b890e299b19e1fca7fb33"
+      },
+      "em": "2026-11-11T00:12:40.504Z"
+    }
+  },
+  "avisos_vozes": [],
+  "duracao_s": 112.207
+}

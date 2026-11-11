@@ -1,0 +1,330 @@
+{
+ "quadros": [
+  {
+   "id": "Q01",
+   "o_que_se_ve": "Guarita de prédio vista de dentro, pelo vidro: hall com dois elevadores e a placa EDIFÍCIO AURORA; uma senhora de blusa rosa ao lado de um carrinho de feira lotado de galões; mãos apoiadas no balcão; monitores na borda esquerda; um rádio com visor verde no canto inferior direito. Câmera olha para a senhora.",
+   "texto_na_tela": "Moço, segura o elevador que eu tô estocando! (laranja) · visor do rádio: CANAL 1",
+   "problemas": [
+    "visor do rádio encosta na borda direita (o '1' fica no limite)"
+   ]
+  },
+  {
+   "id": "Q02",
+   "o_que_se_ve": "Igual a Q01 (meio segundo depois): hall, senhora com o carrinho, mãos no balcão.",
+   "texto_na_tela": "Moço, segura o elevador que eu tô estocando! · CANAL 1",
+   "problemas": []
+  },
+  {
+   "id": "Q03",
+   "o_que_se_ve": "Igual a Q01.",
+   "texto_na_tela": "Moço, segura o elevador que eu tô estocando! · CANAL 1",
+   "problemas": []
+  },
+  {
+   "id": "Q04",
+   "o_que_se_ve": "Igual a Q01; o relógio do monitor da esquerda avançou.",
+   "texto_na_tela": "Moço, segura o elevador que eu tô estocando! · CANAL 1",
+   "problemas": []
+  },
+  {
+   "id": "Q05",
+   "o_que_se_ve": "Mesmo hall; a senhora parada junto ao carrinho; um celular deitado no balcão perto do rádio.",
+   "texto_na_tela": "Tudo isso, Dona Cida? Vai abrir um mercado? (branco) · CANAL 1",
+   "problemas": []
+  },
+  {
+   "id": "Q06",
+   "o_que_se_ve": "Câmera virada à esquerda para a pilha de 4 monitores, todos com REINÍCIO EM 71:59:59 em vermelho; braço esquerdo atravessando o balcão; mão direita levantando o celular no canto inferior direito; cartão vermelho de alerta no alto.",
+   "texto_na_tela": "SISTEMA AURORA / REINÍCIO EM 72 HORAS (cartão de alerta) · REINÍCIO EM 71:59:59 (x4)",
+   "problemas": [
+    "dedos da mão direita abertos em V ao lado do celular, pose estranha (leve)"
+   ]
+  },
+  {
+   "id": "Q07",
+   "o_que_se_ve": "Hall agora numa luz fria azul-acinzentada (lâmpadas do teto apagadas); a senhora diante dos elevadores; o celular de volta ao balcão; monitores na borda esquerda; cartão de alerta ainda no alto.",
+   "texto_na_tela": "SISTEMA AURORA / REINÍCIO EM 72 HORAS · Viu? Eu falei! Ninguém me escuta. (laranja) · CANAL 1",
+   "problemas": [
+    "a legenda passa por cima do celular branco no balcão (continua legível)"
+   ]
+  },
+  {
+   "id": "Q08",
+   "o_que_se_ve": "Close do balcão à direita: rádio com visor vermelho e led aceso, interfone atrás com todas as teclas e o visor TODOS; braço direito apoiado indo até o rádio.",
+   "texto_na_tela": "visor: ● ZELADOR · interfone: TODOS · Calma, garoto. É o boato da internet. (azul-claro)",
+   "problemas": []
+  },
+  {
+   "id": "Q09",
+   "o_que_se_ve": "Mesmo close do rádio e do interfone.",
+   "texto_na_tela": "● ZELADOR · Amanhã cedo volta tudo. (azul-claro)",
+   "problemas": []
+  },
+  {
+   "id": "Q10",
+   "o_que_se_ve": "Mão direita segurando o celular no meio da tela com a conversa aberta; mão esquerda no balcão; rádio à direita; cartão de mensagem branco no alto.",
+   "texto_na_tela": "Grupo Ed. Aurora · Celina / Gente, é BOATO. Ninguém precisa estocar 🙏 (cartão e tela do celular) · CANAL 1",
+   "problemas": []
+  },
+  {
+   "id": "Q11",
+   "o_que_se_ve": "Pilha de monitores no centro, todos contando.",
+   "texto_na_tela": "REINÍCIO EM 71:59:41 (x4) · O relógio... continua. (branco)",
+   "problemas": []
+  },
+  {
+   "id": "Q12",
+   "o_que_se_ve": "Câmera girando para a direita e fechando a lente: monitores na metade esquerda; à direita, os elevadores, com o mostrador laranja '▼ S1' em cima do da esquerda, e a senhora.",
+   "texto_na_tela": "REINÍCIO EM 71:59:38 · ▼ S1 · O elevador tá descendo. (branco)",
+   "problemas": [
+    "no meio do giro; o mostrador ainda pequeno"
+   ]
+  },
+  {
+   "id": "Q13",
+   "o_que_se_ve": "Lente fechada no elevador da esquerda: mostrador laranja grande '▼ S2' em cima da porta; monitores cortados na borda esquerda; a senhora na borda direita, só metade do corpo no quadro.",
+   "texto_na_tela": "▼ S2 · Sem luz? Como? (laranja)",
+   "problemas": [
+    "quem fala (a senhora) está cortada pela borda direita"
+   ]
+  },
+  {
+   "id": "Q14",
+   "o_que_se_ve": "Monitores de perto, lente fechada: a tela de cima à esquerda virou a câmera CAM 4 S2 com 16 galões de água grandes (corpo azul-claro, gargalo e tampa) em pilhas; as outras três contam.",
+   "texto_na_tela": "CAM 4 S2 · REINÍCIO EM 71:59:33 (x3)",
+   "problemas": []
+  },
+  {
+   "id": "Q15",
+   "o_que_se_ve": "Mesmos monitores, lente ainda fechada: os galões de água da câmera do S2 ocupam o canto de cima, grandes e reconhecíveis.",
+   "texto_na_tela": "CAM 4 S2 · Isso é água. Água até o teto. (branco) · REINÍCIO EM 71:59:30",
+   "problemas": []
+  },
+  {
+   "id": "Q16",
+   "o_que_se_ve": "Rádio de perto com visor vermelho e led aceso; interfone TODOS atrás.",
+   "texto_na_tela": "● SÍNDICA · Querido, se pedirem água diz que acabou. (rosa)",
+   "problemas": []
+  },
+  {
+   "id": "Q17",
+   "o_que_se_ve": "Monitores com a câmera do S2 (galões visíveis) e três relógios; lente aberta de novo.",
+   "texto_na_tela": "E desliga a câmera do S2. (rosa) · REINÍCIO EM 71:59:22",
+   "problemas": []
+  },
+  {
+   "id": "Q18",
+   "o_que_se_ve": "Rádio de perto, visor vermelho.",
+   "texto_na_tela": "● SÍNDICA · Você é pago pra abrir portão, não pra olhar. (rosa)",
+   "problemas": []
+  },
+  {
+   "id": "Q19",
+   "o_que_se_ve": "Hall; a senhora ao lado do carrinho; o mostrador do elevador da esquerda ainda em '▼ S2'; monitores na borda esquerda; rádio no canto.",
+   "texto_na_tela": "Ela jurou no grupo que era boato... (laranja) · ▼ S2 · CANAL 1",
+   "problemas": []
+  },
+  {
+   "id": "Q20",
+   "o_que_se_ve": "Câmera subindo (ele se levanta): monitores à esquerda, hall e senhora ao fundo, o mostrador do elevador voltou para 'T', rádio cortado na borda direita.",
+   "texto_na_tela": "REINÍCIO EM 71:59:11 · T",
+   "problemas": []
+  },
+  {
+   "id": "Q21",
+   "o_que_se_ve": "Passando por uma porta: o batente escuro ocupa a esquerda, parede com faixa azul; mãos baixas.",
+   "texto_na_tela": "",
+   "problemas": [
+    "câmera muito perto do batente (metade do quadro é batente), dura só o instante da passagem"
+   ]
+  },
+  {
+   "id": "Q22",
+   "o_que_se_ve": "Andando pelo hall em direção aos elevadores; senhora ao fundo; mãos no ritmo do passo.",
+   "texto_na_tela": "",
+   "problemas": []
+  },
+  {
+   "id": "Q23",
+   "o_que_se_ve": "Mais perto: o elevador da esquerda aberto, a senhora com o carrinho diante do da direita, vaso de planta à esquerda.",
+   "texto_na_tela": "",
+   "problemas": []
+  },
+  {
+   "id": "Q24",
+   "o_que_se_ve": "Diante do elevador aberto: cabine iluminada por dentro (luz no teto, parede do fundo); mãos baixas; quem fala não está no quadro.",
+   "texto_na_tela": "Não entra aí, moço. (laranja)",
+   "problemas": []
+  },
+  {
+   "id": "Q25",
+   "o_que_se_ve": "Entrando na cabine, começa a escurecer.",
+   "texto_na_tela": "",
+   "problemas": []
+  },
+  {
+   "id": "Q26",
+   "o_que_se_ve": "Tela preta (mergulho).",
+   "texto_na_tela": "",
+   "problemas": []
+  },
+  {
+   "id": "Q27",
+   "o_que_se_ve": "Lugar novo e escuro: garagem com coluna marcada S2, carro escuro atrás, faixa amarela na parede; um facho claro no chão; mãos baixas.",
+   "texto_na_tela": "placa: S2",
+   "problemas": []
+  },
+  {
+   "id": "Q28",
+   "o_que_se_ve": "Garagem: carro à esquerda, colunas, porta com um papel no fundo; à direita, caixas empilhadas e galões azuis; facho no chão.",
+   "texto_na_tela": "",
+   "problemas": []
+  },
+  {
+   "id": "Q29",
+   "o_que_se_ve": "Mesma garagem, mais perto das caixas e galões.",
+   "texto_na_tela": "",
+   "problemas": []
+  },
+  {
+   "id": "Q30",
+   "o_que_se_ve": "Caixas sobre paletes e colunas de galões azuis até perto do teto, no facho.",
+   "texto_na_tela": "",
+   "problemas": []
+  },
+  {
+   "id": "Q31",
+   "o_que_se_ve": "Chegando nas caixas com a lente fechando: etiquetas brancas em cada caixa, as da frente já com 'ESTOCADO EM MAIO / 1401 · NÃO MEXER' legível, pequeno; mãos erguidas.",
+   "texto_na_tela": "Maio... (branco) · ESTOCADO EM MAIO / 1401 · NÃO MEXER",
+   "problemas": [
+    "etiquetas ainda pequenas no instante da fala (legíveis nas caixas da frente)"
+   ]
+  },
+  {
+   "id": "Q32",
+   "o_que_se_ve": "Virando para a porta do fundo; coluna em primeiro plano à direita; porta com um papel colado.",
+   "texto_na_tela": "",
+   "problemas": []
+  },
+  {
+   "id": "Q33",
+   "o_que_se_ve": "Andando até a porta com o papel.",
+   "texto_na_tela": "",
+   "problemas": []
+  },
+  {
+   "id": "Q34",
+   "o_que_se_ve": "Mais perto da porta; o papel e um cadeado amarelo.",
+   "texto_na_tela": "",
+   "problemas": []
+  },
+  {
+   "id": "Q35",
+   "o_que_se_ve": "Close do papel colado na porta, iluminado pelo facho; cadeado amarelo embaixo à direita.",
+   "texto_na_tela": "QUEM DESCE ANTES DO ZERO / 1401 CELINA (SÍNDICA) - SIM / 1402 DR. HÉLIO - SIM / 1301 FAMÍLIA PRADO - SIM / 1201 CASAL ARAGÃO - SIM / 1104 SRA. MOTTA - SIM / ZELADOR - NÃO / PORTEIRO - NÃO (as duas últimas em vermelho)",
+   "problemas": []
+  },
+  {
+   "id": "Q36",
+   "o_que_se_ve": "Cartão de mensagem no alto, por cima do papel; celular na mão com a conversa; cadeado.",
+   "texto_na_tela": "Mãe / Filho, o mercado tá vazio. Tem água aí?",
+   "problemas": []
+  },
+  {
+   "id": "Q37",
+   "o_que_se_ve": "Papel de perto; celular na mão embaixo com a conversa da mãe; cadeado à direita.",
+   "texto_na_tela": "Porteiro... não. (branco) · a lista",
+   "problemas": []
+  },
+  {
+   "id": "Q38",
+   "o_que_se_ve": "Virado para trás: mulher de roupa vinho e coque, com uma lanterninha acesa na mão, parada na garagem a uns 3 m; carro escuro à direita; elevador atrás dela; uma mão na borda de baixo.",
+   "texto_na_tela": "Você não sabe o que acontece no zero, querido. (rosa)",
+   "problemas": []
+  },
+  {
+   "id": "Q39",
+   "o_que_se_ve": "A mesma mulher, mesmo lugar.",
+   "texto_na_tela": "Eu sei. (rosa)",
+   "problemas": []
+  },
+  {
+   "id": "Q40",
+   "o_que_se_ve": "A mesma mulher.",
+   "texto_na_tela": "Agora segura o elevador... que eu tô estocando. (rosa)",
+   "problemas": []
+  },
+  {
+   "id": "Q41",
+   "o_que_se_ve": "Voltando para a porta: papel no alto à esquerda (inclinado), cadeado no centro, beirada da porta; as duas mãos indo até a porta.",
+   "texto_na_tela": "",
+   "problemas": []
+  },
+  {
+   "id": "Q42",
+   "o_que_se_ve": "Cartão da pergunta sobre a cena escurecida da porta (papel e beirada ainda visíveis).",
+   "texto_na_tela": "O QUE VOCÊ FARIA? · 🔓 ABRIR O ESTOQUE PRA TODOS (vermelho) · 📋 SEGUIR A LISTA (azul) · Comenta aqui 👇",
+   "problemas": []
+  },
+  {
+   "id": "Q43",
+   "o_que_se_ve": "Igual a Q42.",
+   "texto_na_tela": "O QUE VOCÊ FARIA? · ABRIR O ESTOQUE PRA TODOS · SEGUIR A LISTA · Comenta aqui 👇",
+   "problemas": []
+  },
+  {
+   "id": "Q44",
+   "o_que_se_ve": "Igual a Q42.",
+   "texto_na_tela": "O QUE VOCÊ FARIA? · ABRIR O ESTOQUE PRA TODOS · SEGUIR A LISTA · Comenta aqui 👇",
+   "problemas": []
+  },
+  {
+   "id": "Q45",
+   "o_que_se_ve": "Igual a Q42 (último quadro).",
+   "texto_na_tela": "O QUE VOCÊ FARIA? · ABRIR O ESTOQUE PRA TODOS · SEGUIR A LISTA · Comenta aqui 👇",
+   "problemas": []
+  },
+  {
+   "id": "D1",
+   "o_que_se_ve": "Q04 em tamanho real: hall nítido, senhora e carrinho, mãos no balcão, caderno azul, monitores com câmeras na borda esquerda, rádio no canto direito.",
+   "texto_na_tela": "Moço, segura o elevador que eu tô estocando! · EDIFÍCIO AURORA · CANAL 1",
+   "problemas": [
+    "visor 'CANAL 1' cortado pela borda direita (leve)"
+   ]
+  },
+  {
+   "id": "D2",
+   "o_que_se_ve": "Cartão de alerta e os 4 monitores de perto, tudo nítido; braço esquerdo cruzando o balcão; mão direita com o celular no canto de baixo.",
+   "texto_na_tela": "SISTEMA AURORA / REINÍCIO EM 72 HORAS · REINÍCIO EM 71:59:59 (x4)",
+   "problemas": [
+    "mão direita com dois dedos esticados em V ao lado do celular (leve)"
+   ]
+  },
+  {
+   "id": "D3",
+   "o_que_se_ve": "Cartão de mensagem nítido; celular na mão com a mesma conversa; rádio à direita com o visor bem legível.",
+   "texto_na_tela": "Grupo Ed. Aurora · Celina / Gente, é BOATO. Ninguém precisa estocar 🙏 · CANAL 1",
+   "problemas": []
+  },
+  {
+   "id": "D4",
+   "o_que_se_ve": "Andando no hall na luz fria do apagão; senhora com o carrinho; elevador da esquerda aberto e aceso por dentro; mostradores 'T' e '12' legíveis; luz de emergência acesa; mãos no ritmo do passo.",
+   "texto_na_tela": "EDIFÍCIO AURORA · T · 12",
+   "problemas": []
+  },
+  {
+   "id": "D5",
+   "o_que_se_ve": "Bem perto da porta, no escuro com o facho: cadeado amarelo no centro, papel no alto à esquerda cortado pela borda, as duas mãos na beirada da porta.",
+   "texto_na_tela": "trechos da lista: ...SIM, ...NÃO",
+   "problemas": []
+  },
+  {
+   "id": "D6",
+   "o_que_se_ve": "Cartão da pergunta nítido; porta e papel visíveis atrás do véu; emojis coloridos.",
+   "texto_na_tela": "O QUE VOCÊ FARIA? · ABRIR O ESTOQUE PRA TODOS · SEGUIR A LISTA · Comenta aqui 👇",
+   "problemas": []
+  }
+ ],
+ "historia_entendida": "Um porteiro de prédio vê uma moradora estocando galões quando um relógio REINÍCIO EM 72 HORAS toma todas as telas e a luz cai; pelo rádio o zelador diz que é boato e a síndica manda esconder a água e desligar a câmera do S2, onde o monitor mostra água estocada. Ele desce de elevador ao S2, acha caixas 'ESTOCADO EM MAIO' e, na porta trancada, uma lista em que porteiro e zelador estão fora; a síndica aparece atrás dele e a pergunta é abrir o estoque para todos ou seguir a lista.",
+ "impressao_geral": "Mesmo acabamento da rodada anterior; agora os textos de que as falas dependem se leem: '▼ S2' no mostrador do elevador (Q13), os galões na câmera do S2 (Q14, Q15) e as etiquetas 'ESTOCADO EM MAIO' (Q31, no limite). Resta a senhora cortada pela borda na fala 'Sem luz? Como?' (Q13) e o início parado (Q01–Q04)."
+}

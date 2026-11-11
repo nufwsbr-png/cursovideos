@@ -144,7 +144,7 @@ export function montarTextos({ canal, roteiro }) {
 }
 
 export async function etapaCapaTextos({ canal, ep }) {
-  log.passo(`Etapa 9 — Capa e textos do episódio ${ep.roteiro.numero}`);
+  log.passo(`Etapa 9 — Capa e textos do episódio ${ep.ref ?? ep.roteiro.numero}`);
   const r = ep.roteiro;
   const video = [path.join(ep.dir, nomeMp4(r.numero)), path.join(ep.dir, "video_mudo.mp4")].find((p) => fs.existsSync(p));
   const { largura, altura } = canal.formato;

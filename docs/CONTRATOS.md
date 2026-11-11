@@ -84,10 +84,29 @@ Vocabulário de `direcao` (o motor implementa exatamente isto):
 - `eventos`: lista de `alvo.campo=valor`. Campos conhecidos:
   - `prop.<id>.estado=<valor>` (ex.: painel: `normal|alerta|alerta_forte|apagado`; luz: `normal|piscar|fraca|apagada`; porta: `fechada|aberta`; onibus: `ausente|chegando|parado|portas_abertas`; lanchonete: `fechada|acesa`)
   - `prop.<id>.texto=<linha1|linha2|...>` (texto do painel/placa; `|` separa linhas)
-  - `personagem.<id>.visivel=true|false`, `personagem.<id>.posicao=<marca>`, `personagem.<id>.pose=em_pe|sentado|andando|apontando|segurando|limpando|parado_de_costas`, `personagem.<id>.expressao=normal|medo|raiva|calma|surpresa`, `personagem.<id>.andar=<marca>` (anda até a marca a partir de t)
+  - Props do Edifício Aurora (série 72 Horas, `motor/cena/props_predio.js`, desde 2026-11-10):
+    - `monitores`: `normal|contando` (contando = relógio REINÍCIO EM regressivo a partir do evento); texto = o modo de
+      cada tela, separados por `|` (`hall|entrada|garagem|s2|elevador|relogio|chuvisco|apagado`);
+    - `elevador`: `aberto|fechado` (portas em 0,9 s); texto = mostrador (ex.: `▼|S2`);
+    - `interfone`: `normal|todos` (todos os apartamentos chamando);
+    - `quadro_luz`: `normal|apagao`. No apagão, a luz do mundo cai piscando em 0,7 s e só ficam a `luz_emergencia` e
+      as lâmpadas com `emergencia: true`;
+    - `lanterna` (sem corpo): `acesa|apagada`, o facho do celular na tela (bordas escuras, centro mais claro);
+    - `papel_lista`: texto = linhas; a que começa com `!` sai em vermelho, escrita à mão; as linhas encolhem juntas
+      até a maior caber na folha;
+    - `radio_base`: sem estado. O visor mostra o rótulo de quem fala no rádio (`"vozes": { "celina": "SÍNDICA" }`) e o
+      led pisca enquanto essa pessoa fala;
+    - cenário, sem estado: `galoes`, `caixas_estoque` (`rotulo`: a etiqueta, com o texto ajustado), `luz_emergencia`,
+      `cadeado`, `carrinho_feira`.
+  - `personagem.<id>.visivel=true|false`, `personagem.<id>.posicao=<marca>`, `personagem.<id>.pose=em_pe|sentado|andando|apontando|segurando|limpando|parado_de_costas`, `personagem.<id>.expressao=normal|medo|raiva|calma|surpresa|triste|sorriso` (sorriso = boca fechada em arco, quando não fala), `personagem.<id>.andar=<marca>` (anda até a marca a partir de t)
   - `celular.tela=<indice>` (mostra a mensagem `celular[indice]`), `celular.notificacao=<indice>`
   - `tela.selo=PARTE 2` (selo no canto superior nos primeiros segundos da continuação)
 - A fala em uma linha faz a câmera olhar para quem fala automaticamente, salvo `olhar` explícito.
+- Elevador entre lugares do mesmo mundo: `mundos[].passagens[]` com `"elevador": true` liga dois nós sem caminho a pé.
+  Só se chega pelo preto: `transicao:preto` com `camera.ir=<nó do outro lugar>` (e `camera.postura`). O validador
+  conta o elevador para saber se o mundo está ligado; `andar:` nunca passa por ele.
+- Em pé, o corpo acompanha a cabeça quando ela vira mais de ~35° (olhar para trás vira o corpo; sentado, o corpo fica
+  na cadeira).
 
 ## 3. `falas/` e `audio/` (etapa 03)
 
@@ -148,6 +167,8 @@ node motor/revisar.js --episodio episodios/ep01_x                               
 ```
 Entradas: `canal/canal.json`, `<ep>/roteiro.json`, `<ep>/linha_do_tempo.json`, `<ep>/medidas.json`.
 Saídas: na pasta do episódio (`stills/`, `sequencia/`, `folha.png`, `video_mudo.mp4`; em modo prévia também `linha_do_tempo_previa.json`). O motor também grava `<ep>/render.json` com `{ "quadros": N, "segundos_por_quadro": x, "gpu": "...", "legendas": [ {"t": 2.0, "caixa": [x,y,w,h]} ] }`.
+Revisor: o aviso `regressao_padrao` compara cada still com o padrão aprovado **da série**. A série padrão usa
+`padrao_aprovado/quadros`, as outras usam `padrao_aprovado/<id da série>/quadros`; sem a pasta, não compara.
 Área segura: nada importante abaixo de 80 % da altura nem nos 15 % à direita (botões do TikTok). Legenda centrada em `estilo.legenda.y_centro`.
 
 ## 7. Som e prova (etapas 07 e 08)

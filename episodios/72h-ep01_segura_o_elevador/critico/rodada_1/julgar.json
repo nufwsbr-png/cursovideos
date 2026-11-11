@@ -1,0 +1,65 @@
+{
+  "notas": {
+    "gancho": {
+      "nota": 7,
+      "evidencia": ["Q01", "Q02", "Q03", "Q04", "D1"],
+      "comentario": "O lugar se reconhece no primeiro quadro (hall, dois elevadores, placa EDIFÍCIO AURORA), a primeira legenda está na tela desde Q01 e o carrinho lotado de galões é o detalhe estranho. Mas os 2 s são parados, as mãos só descansam no balcão, a senhora e o carrinho são pequenos no quadro e o visor verde 'CANAL 1', cortado na borda direita (D1), puxa o olho para o canto."
+    },
+    "legibilidade": {
+      "nota": 6,
+      "evidencia": ["Q12", "Q13", "Q15", "Q31", "D2", "D3", "Q08", "Q16", "Q35", "D6"],
+      "comentario": "Cartões, legendas, visor do rádio, monitores e a lista se leem bem (D2, D3, Q08, Q16, Q35, D6). Três textos importantes, porém, ficam pequenos demais justo quando a fala depende deles. O mostrador do elevador ('▼ S1', depois '▼ S2') nunca se lê: Q12 está no meio do giro e em Q13 a câmera já abriu de novo. A imagem da câmera do S2 com a água ocupa um quarto da pilha de monitores, com galões miúdos, em 'Isso é água' (Q15). As etiquetas das caixas ainda não se leem em 'Maio...' (Q31)."
+    },
+    "clareza_acao": {
+      "nota": 8,
+      "evidencia": ["Q08", "Q16", "Q18", "Q07", "Q19", "Q38", "Q10", "Q21", "Q22", "Q23", "D4", "Q28", "Q33"],
+      "comentario": "Sempre se sabe quem fala: o visor do rádio diz ZELADOR ou SÍNDICA (Q08, Q16, Q18), a senhora está em quadro nas falas dela (Q07, Q19) e a síndica aparece nas falas finais (Q38). As mãos fazem coisas legíveis (celular em Q10 e Q36). O caminho da guarita ao elevador (Q21–Q24, D4) e o do subsolo até a porta (Q28–Q34) são claros. Ressalva pequena: em Q24 a dona da fala está fora do quadro."
+    },
+    "continuidade": {
+      "nota": 8,
+      "evidencia": ["Q05", "Q07", "Q26", "Q27", "Q23", "D4", "Q21"],
+      "comentario": "A troca de lugar acontece só no mergulho no preto (Q26 → Q27). A luz do hall muda com motivo, o apagão (Q05 → Q07). O elevador já está aberto antes de a câmera chegar (Q23, D4), e a senhora e o carrinho ficam no mesmo lugar. Em Q21 a câmera passa rente ao batente da porta da guarita, sem atravessar."
+    },
+    "acabamento": {
+      "nota": 8,
+      "evidencia": ["Q01", "Q07", "D4", "Q38", "Q28", "Q30", "D2", "Q21"],
+      "comentario": "O estilo do canal está em todos os quadros: olho-de-peixe, traço preto, cores chapadas, bonecos de olhos grandes (Q01, D4, Q38). O subsolo é escuro, mas o facho deixa tudo legível e o traço continua preto (Q28, Q30). Pequenos: a mão direita com dedos em V ao pegar o celular (D2) e o batente ocupando meio quadro por um instante (Q21)."
+    },
+    "dilema_final": {
+      "nota": 8,
+      "evidencia": ["Q41", "D5", "D6", "Q42", "Q45"],
+      "comentario": "O fim chega no cadeado da porta (Q41, D5). O cartão tem as duas opções claras, com o vermelho na arriscada (ABRIR O ESTOQUE PRA TODOS), emojis coloridos 🔓 📋 e 'Comenta aqui 👇' visível (D6). Atrás do véu ainda se veem a porta e a lista. Ressalva: durante a pergunta, o cadeado fica quase todo atrás do botão vermelho."
+    }
+  },
+  "defeitos": [
+    {
+      "quadro": "Q13",
+      "criterio": "legibilidade",
+      "gravidade": 2,
+      "descricao": "O mostrador do elevador, que mostra o elevador descendo sozinho até o S2, nunca se lê. É um painel pequeno com '▼' e 'S1/S2' em duas linhas, a 6 m. A linha 8 aproxima, mas a linha 9 volta a abrir a câmera em 1 s, e em Q13 o mostrador vira um ponto laranja.",
+      "correcao": "Linha 9: olhar elevador_social e acao aproximar:elevador_social, para segurar o zoom da linha 8 enquanto o mostrador troca para S2; a senhora fica no quadro, ao lado. Fora do patch: um mostrador maior, numa linha só ('▼ S2')."
+    },
+    {
+      "quadro": "Q15",
+      "criterio": "legibilidade",
+      "gravidade": 2,
+      "descricao": "Em 'Isso é água. Água até o teto.', a imagem da câmera do S2 é um quarto da pilha de monitores, e os galões são retângulos miúdos: não se reconhece água. A linha 10 aproxima, e a linha 11 abre de novo justo na fala.",
+      "correcao": "Linha 11: acao aproximar:monitores, para segurar o zoom da linha 10. Fora do patch: desenhar na câmera do S2 galões maiores, com gargalo e tampa, até o alto da tela."
+    },
+    {
+      "quadro": "Q31",
+      "criterio": "legibilidade",
+      "gravidade": 1,
+      "descricao": "As etiquetas 'ESTOCADO EM MAIO' ainda estão pequenas no quadro da fala 'Maio...'. A aproximação da linha 21 começa com a fala, e as letras só crescem depois.",
+      "correcao": "Conferir na próxima rodada, quando o zoom da linha 21 tiver avançado; se continuar pequeno, olhar caixas_comida já na caminhada da linha 20."
+    }
+  ],
+  "patch": {
+    "mudancas": [
+      { "alvo": "linha", "indice": 9, "campo": "olhar", "valor": "elevador_social", "motivo": "o mostrador troca para ▼ S2 nesta linha; a câmera fica nele, e a senhora continua no quadro ao lado" },
+      { "alvo": "linha", "indice": 9, "campo": "acao", "valor": "aproximar:elevador_social", "motivo": "segura o zoom da linha 8 (antes a câmera voltava a abrir em 1 s e o mostrador sumia)" },
+      { "alvo": "linha", "indice": 11, "campo": "acao", "valor": "aproximar:monitores", "motivo": "segura o zoom da linha 10 na fala 'Isso é água. Água até o teto.', para a imagem da câmera do S2 ficar grande" }
+    ]
+  },
+  "veredito": "Reprovado só na legibilidade (6): o mostrador do elevador e a imagem da água na câmera do S2 ficam pequenos justo nas falas que dependem deles; o patch segura o zoom nas linhas 9 e 11, e o motor ganha um mostrador maior e galões reconhecíveis na câmera."
+}

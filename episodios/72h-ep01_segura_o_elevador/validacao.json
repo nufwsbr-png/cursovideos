@@ -1,0 +1,32 @@
+{
+  "versao_regras": "2026-11-10b",
+  "nota": 100,
+  "nota_minima": 70,
+  "aprovado": true,
+  "itens": [],
+  "erros": [],
+  "avisos": [],
+  "medidas": {
+    "duracao_estimada_s": 103.914,
+    "falas": 19,
+    "palavras": 105,
+    "palavras_por_minuto": 60.6,
+    "mediana_palavras_por_fala": 6,
+    "maior_fala_palavras": 9,
+    "primeira_fala_s": 0,
+    "maior_trecho_sem_fala_s": 12.8,
+    "trecho_sem_fala": [
+      72.4,
+      85.2
+    ],
+    "trecho_com_acao": true,
+    "ultima_fala_ate_pergunta_s": 3.5,
+    "aproximacao_final": true,
+    "pct_protagonista": 24,
+    "lugares": [
+      "portaria",
+      "subsolo"
+    ]
+  },
+  "gerado_em": "2026-11-11T00:05:25.090Z"
+}

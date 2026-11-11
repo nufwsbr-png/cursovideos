@@ -15,7 +15,7 @@ export async function etapaRender({ canal, ep, escala = 1, semVideo = false, sem
   // compatibilidade: render com stills = quadros + vídeo (o CLI antigo fazia tudo junto)
   if (!semStills) await etapaQuadros({ canal, ep, escala });
   if (semVideo) return;
-  log.passo(`Etapa 6 — Render do episódio ${ep.roteiro.numero} (escala ${escala})`);
+  log.passo(`Etapa 6 — Render do episódio ${ep.ref ?? ep.roteiro.numero} (escala ${escala})`);
   const t0 = Date.now();
   const args = [RENDERIZAR, "--episodio", ep.dir, "--escala", String(escala), "--video"];
   if (inicio !== null) args.push("--inicio", String(inicio));

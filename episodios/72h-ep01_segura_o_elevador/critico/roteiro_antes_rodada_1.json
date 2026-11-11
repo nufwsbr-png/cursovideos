@@ -1,0 +1,773 @@
+{
+  "numero": 1,
+  "serie": "72horas",
+  "slug": "segura_o_elevador",
+  "titulo": "Segura o elevador",
+  "frase_memoravel": "Segura o elevador, que eu tô estocando.",
+  "ideia": "Às 23:58, na portaria do Edifício Aurora, um relógio REINÍCIO EM 72:00:00 aparece em todas as telas e a luz do prédio cai. A síndica Celina jura no grupo que é boato, mas a câmera do subsolo mostra água e comida até o teto. Ela manda o porteiro dizer que a água acabou. Ele desce: as caixas dizem ESTOCADO EM MAIO e a lista na porta diz quem desce antes do zero. Porteiro: não. A síndica aparece atrás dele, sorrindo.",
+  "cenario": "portaria",
+  "lugares": [
+    "portaria",
+    "subsolo"
+  ],
+  "parte_de": null,
+  "opcao_vencedora_anterior": null,
+  "escrito_por": "Claude (2026-11-10), à mão na sessão, a partir do mapa de emoção aprovado pelo dono",
+  "linhas": [
+    {
+      "t": 0,
+      "ato": "rotina",
+      "fala": "f01",
+      "som": "carrinho rangendo no piso",
+      "imagem": "Dona Cida no hall, entre os elevadores, com um carrinho de feira cheio de galões e fardos de papel higiênico; o porteiro na guarita",
+      "direcao": {
+        "olhar": "cida",
+        "acao": "parar",
+        "clima": "rotina",
+        "eventos": [
+          "personagem.cida.visivel=true",
+          "personagem.cida.posicao=cida_elevador",
+          "personagem.cida.pose=em_pe",
+          "personagem.cida.expressao=normal"
+        ]
+      },
+      "emocao": "riso"
+    },
+    {
+      "t": 3.3,
+      "ato": "rotina",
+      "fala": "f02",
+      "som": "",
+      "imagem": "ele olha o carrinho lotado",
+      "direcao": {
+        "olhar": "carrinho_cida",
+        "acao": "parar",
+        "clima": "rotina",
+        "eventos": []
+      },
+      "emocao": "riso"
+    },
+    {
+      "t": 5.2,
+      "ato": "sinal",
+      "fala": null,
+      "som": "bipe triplo; o interfone toca de todos os apartamentos",
+      "imagem": "todos os monitores mostram REINÍCIO EM 72:00:00; o celular dele também; o interfone acende inteiro",
+      "direcao": {
+        "olhar": "monitores",
+        "acao": "pegar_celular",
+        "clima": "sinal",
+        "eventos": [
+          "celular.notificacao=0",
+          "celular.tela=0",
+          "prop.monitores.estado=contando",
+          "prop.monitores.texto=relogio|relogio|relogio|relogio",
+          "prop.interfone.estado=todos"
+        ]
+      },
+      "emocao": "susto"
+    },
+    {
+      "t": 7.6,
+      "ato": "sinal",
+      "fala": "f03",
+      "som": "estalo; a luz cai",
+      "imagem": "as luzes piscam e apagam; acendem as luzes de emergência; os monitores continuam acesos, contando",
+      "direcao": {
+        "olhar": "cida",
+        "acao": "guardar_celular",
+        "clima": "sinal",
+        "eventos": [
+          "prop.quadro_luz.estado=apagao",
+          "personagem.cida.expressao=surpresa"
+        ]
+      },
+      "emocao": "susto"
+    },
+    {
+      "t": 10.5,
+      "ato": "negacao",
+      "fala": "f04",
+      "som": "chiado do rádio",
+      "imagem": "o rádio da síndica chia em cima do balcão",
+      "direcao": {
+        "olhar": "radio_sindica",
+        "acao": "parar",
+        "clima": "sinal",
+        "eventos": []
+      },
+      "emocao": "alivio"
+    },
+    {
+      "t": 13.4,
+      "ato": "negacao",
+      "fala": "f05",
+      "som": "",
+      "imagem": "o zelador, pelo rádio, de algum andar lá em cima",
+      "direcao": {
+        "olhar": "radio_sindica",
+        "acao": "parar",
+        "clima": "sinal",
+        "eventos": []
+      },
+      "emocao": "alivio"
+    },
+    {
+      "t": 15,
+      "ato": "negacao",
+      "fala": null,
+      "som": "vibração",
+      "imagem": "mensagem da síndica no grupo do prédio",
+      "direcao": {
+        "olhar": "celular",
+        "acao": "pegar_celular",
+        "clima": "sinal",
+        "eventos": [
+          "celular.notificacao=1",
+          "celular.tela=1"
+        ]
+      },
+      "emocao": null
+    },
+    {
+      "t": 19.5,
+      "ato": "escalada",
+      "fala": "f06",
+      "som": "",
+      "imagem": "o monitor sem energia continua contando: 71:59:46",
+      "direcao": {
+        "olhar": "monitores",
+        "acao": "guardar_celular",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "emocao": "calafrio"
+    },
+    {
+      "t": 22,
+      "ato": "escalada",
+      "fala": "f07",
+      "som": "ronco grave do poço do elevador",
+      "imagem": "o mostrador do elevador social desce sozinho: ▼ S1",
+      "direcao": {
+        "olhar": "elevador_social",
+        "acao": "aproximar:elevador_social",
+        "clima": "escalada",
+        "eventos": [
+          "prop.elevador_social.texto=▼|S1"
+        ]
+      },
+      "emocao": "curiosidade"
+    },
+    {
+      "t": 24.6,
+      "ato": "escalada",
+      "fala": "f08",
+      "som": "",
+      "imagem": "o mostrador marca ▼ S2; Dona Cida recua do elevador",
+      "direcao": {
+        "olhar": "cida",
+        "acao": "parar",
+        "clima": "escalada",
+        "eventos": [
+          "prop.elevador_social.texto=▼|S2",
+          "personagem.cida.expressao=medo"
+        ]
+      },
+      "emocao": "medo"
+    },
+    {
+      "t": 26.5,
+      "ato": "escalada",
+      "fala": null,
+      "som": "",
+      "imagem": "o monitor principal troca sozinho para a câmera do S2: paletes de galões até o teto, caixas de comida e o carro da síndica",
+      "direcao": {
+        "olhar": "monitores",
+        "acao": "aproximar:monitores",
+        "clima": "escalada",
+        "eventos": [
+          "prop.monitores.texto=s2|relogio|relogio|relogio"
+        ]
+      },
+      "emocao": "indignacao"
+    },
+    {
+      "t": 29,
+      "ato": "escalada",
+      "fala": "f09",
+      "som": "",
+      "imagem": "ele entende: a síndica guardou água",
+      "direcao": {
+        "olhar": "monitores",
+        "acao": "parar",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "emocao": "indignacao"
+    },
+    {
+      "t": 32,
+      "ato": "autoridade",
+      "fala": "f10",
+      "som": "chiado do rádio",
+      "imagem": "a voz doce da síndica no rádio",
+      "direcao": {
+        "olhar": "radio_sindica",
+        "acao": "parar",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "emocao": "raiva"
+    },
+    {
+      "t": 35,
+      "ato": "autoridade",
+      "fala": "f11",
+      "som": "",
+      "imagem": "a ordem",
+      "direcao": {
+        "olhar": "monitores",
+        "acao": "parar",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "emocao": "raiva"
+    },
+    {
+      "t": 37.6,
+      "ato": "autoridade",
+      "fala": "f12",
+      "som": "",
+      "imagem": "a humilhação, dita sorrindo",
+      "direcao": {
+        "olhar": "radio_sindica",
+        "acao": "parar",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "emocao": "raiva"
+    },
+    {
+      "t": 41.4,
+      "ato": "autoridade",
+      "fala": "f13",
+      "som": "",
+      "imagem": "Dona Cida, baixinho, do lado do carrinho",
+      "direcao": {
+        "olhar": "cida",
+        "acao": "parar",
+        "clima": "escalada",
+        "eventos": [
+          "personagem.cida.expressao=triste"
+        ]
+      },
+      "emocao": "indignacao"
+    },
+    {
+      "t": 44,
+      "ato": "desobediencia",
+      "fala": null,
+      "som": "",
+      "imagem": "ele levanta; o mostrador do elevador volta para T, sozinho",
+      "direcao": {
+        "olhar": "elevador_social",
+        "acao": "levantar",
+        "clima": "escalada",
+        "eventos": [
+          "prop.elevador_social.texto=T"
+        ]
+      },
+      "emocao": "tensao"
+    },
+    {
+      "t": 45.2,
+      "ato": "desobediencia",
+      "fala": null,
+      "som": "passos; plim do elevador",
+      "imagem": "sai pela porta de trás da guarita e atravessa o hall no escuro; as portas do elevador abrem sozinhas, esperando",
+      "direcao": {
+        "olhar": "caminho",
+        "acao": "andar:hall_elevador",
+        "clima": "escalada",
+        "eventos": [
+          "prop.elevador_social.estado=aberto"
+        ]
+      },
+      "emocao": "tensao"
+    },
+    {
+      "t": 55,
+      "ato": "desobediencia",
+      "fala": "f14",
+      "som": "",
+      "imagem": "Dona Cida, de longe, sem chegar perto",
+      "direcao": {
+        "olhar": "elevador_social",
+        "acao": "parar",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "emocao": "medo"
+    },
+    {
+      "t": 57,
+      "ato": "desobediencia",
+      "fala": null,
+      "som": "portas fechando; o elevador desce sem energia",
+      "imagem": "preto. O elevador abre no S2; ele liga a lanterna do celular",
+      "direcao": {
+        "olhar": "frente",
+        "acao": "transicao:preto:1.6",
+        "clima": "escalada",
+        "eventos": [
+          "camera.ir=s2_elevador",
+          "camera.postura=em_pe",
+          "prop.elevador_s2.estado=aberto",
+          "prop.lanterna_celular.estado=acesa"
+        ]
+      },
+      "emocao": "tensao"
+    },
+    {
+      "t": 59,
+      "ato": "desobediencia",
+      "fala": null,
+      "som": "passos no concreto",
+      "imagem": "o facho da lanterna passa pelas colunas e pelo carro da síndica até os paletes de galões",
+      "direcao": {
+        "olhar": "caminho",
+        "acao": "andar:s2_estoque",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "emocao": "tensao"
+    },
+    {
+      "t": 64,
+      "ato": "desobediencia",
+      "fala": "f15",
+      "som": "",
+      "imagem": "a etiqueta das caixas: ESTOCADO EM MAIO · 1401 NÃO MEXER",
+      "direcao": {
+        "olhar": "caixas_comida",
+        "acao": "aproximar:caixas_comida",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "emocao": "indignacao"
+    },
+    {
+      "t": 66.5,
+      "ato": "desobediencia",
+      "fala": null,
+      "som": "passos",
+      "imagem": "anda até a porta do depósito, que tem cadeado e uma folha colada",
+      "direcao": {
+        "olhar": "caminho",
+        "acao": "andar:s2_deposito",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "emocao": "tensao"
+    },
+    {
+      "t": 71,
+      "ato": "dilema",
+      "fala": null,
+      "som": "",
+      "imagem": "a lista: QUEM DESCE ANTES DO ZERO",
+      "direcao": {
+        "olhar": "lista_porta",
+        "acao": "aproximar:lista_porta",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "emocao": "curiosidade"
+    },
+    {
+      "t": 73.5,
+      "ato": "dilema",
+      "fala": null,
+      "som": "vibração",
+      "imagem": "mensagem da mãe",
+      "direcao": {
+        "olhar": "celular",
+        "acao": "pegar_celular",
+        "clima": "escalada",
+        "eventos": [
+          "celular.notificacao=2",
+          "celular.tela=2"
+        ]
+      },
+      "emocao": "compaixao"
+    },
+    {
+      "t": 77.5,
+      "ato": "dilema",
+      "fala": "f16",
+      "som": "",
+      "imagem": "no fim da lista, à mão, em vermelho: ZELADOR — NÃO. PORTEIRO — NÃO",
+      "direcao": {
+        "olhar": "lista_porta",
+        "acao": "aproximar:lista_porta",
+        "clima": "climax",
+        "eventos": []
+      },
+      "emocao": "indignacao"
+    },
+    {
+      "t": 79.5,
+      "ato": "dilema",
+      "fala": "f17",
+      "som": "",
+      "imagem": "a voz vem de trás: a síndica, de roupão, com uma lanterna, sorrindo",
+      "direcao": {
+        "olhar": "celina",
+        "acao": "guardar_celular",
+        "clima": "climax",
+        "eventos": [
+          "personagem.celina.visivel=true",
+          "personagem.celina.posicao=s2_celina",
+          "personagem.celina.pose=em_pe",
+          "personagem.celina.expressao=sorriso"
+        ]
+      },
+      "emocao": "medo"
+    },
+    {
+      "t": 83.5,
+      "ato": "dilema",
+      "fala": "f18",
+      "som": "",
+      "imagem": "ela chega um passo mais perto",
+      "direcao": {
+        "olhar": "celina",
+        "acao": "parar",
+        "clima": "climax",
+        "eventos": []
+      },
+      "emocao": "calafrio"
+    },
+    {
+      "t": 85,
+      "ato": "dilema",
+      "fala": "f19",
+      "som": "",
+      "imagem": "a primeira frase da noite, na boca dela",
+      "direcao": {
+        "olhar": "celina",
+        "acao": "parar",
+        "clima": "climax",
+        "eventos": []
+      },
+      "emocao": "calafrio"
+    },
+    {
+      "t": 89,
+      "ato": "dilema",
+      "fala": null,
+      "som": "",
+      "imagem": "a câmera volta devagar para o cadeado do depósito",
+      "direcao": {
+        "olhar": "cadeado_deposito",
+        "acao": "avancar:cadeado_deposito",
+        "clima": "climax",
+        "eventos": []
+      },
+      "emocao": "decisao"
+    },
+    {
+      "t": 92,
+      "ato": "pergunta",
+      "fala": null,
+      "som": "",
+      "imagem": "pergunta por cima do cadeado",
+      "direcao": {
+        "olhar": "cadeado_deposito",
+        "acao": "parar",
+        "clima": "pergunta",
+        "eventos": []
+      },
+      "emocao": "decisao"
+    }
+  ],
+  "falas": [
+    {
+      "id": "f01",
+      "quem": "cida",
+      "voz": "Sulafat",
+      "texto": "Moço, segura o elevador que eu tô estocando!",
+      "estilo": "loud from across the lobby, cheerful, a little out of breath, pushing a heavy cart",
+      "filtro": null,
+      "reaproveitar_de": null
+    },
+    {
+      "id": "f02",
+      "quem": "eu",
+      "voz": "Umbriel",
+      "texto": "Tudo isso, Dona Cida? Vai abrir um mercado?",
+      "estilo": "amused, polite, a small laugh",
+      "filtro": null,
+      "reaproveitar_de": null
+    },
+    {
+      "id": "f03",
+      "quem": "cida",
+      "voz": "Sulafat",
+      "texto": "Viu? Eu falei! Ninguém me escuta.",
+      "estilo": "half scared, half vindicated, fast",
+      "filtro": null,
+      "reaproveitar_de": null
+    },
+    {
+      "id": "f04",
+      "quem": "wanderley",
+      "voz": "Charon",
+      "texto": "Calma, garoto. É o boato da internet.",
+      "estilo": "calm, fatherly, a little tired, over a walkie-talkie",
+      "filtro": "radio",
+      "reaproveitar_de": null
+    },
+    {
+      "id": "f05",
+      "quem": "wanderley",
+      "voz": "Charon",
+      "texto": "Amanhã cedo volta tudo.",
+      "estilo": "reassuring, slow",
+      "filtro": "radio",
+      "reaproveitar_de": null
+    },
+    {
+      "id": "f06",
+      "quem": "eu",
+      "voz": "Umbriel",
+      "texto": "O relógio... continua.",
+      "estilo": "whisper, unsettled",
+      "filtro": null,
+      "reaproveitar_de": null
+    },
+    {
+      "id": "f07",
+      "quem": "eu",
+      "voz": "Umbriel",
+      "texto": "O elevador tá descendo.",
+      "estilo": "low, confused",
+      "filtro": null,
+      "reaproveitar_de": null
+    },
+    {
+      "id": "f08",
+      "quem": "cida",
+      "voz": "Sulafat",
+      "texto": "Sem luz? Como?",
+      "estilo": "scared, quiet",
+      "filtro": null,
+      "reaproveitar_de": null
+    },
+    {
+      "id": "f09",
+      "quem": "eu",
+      "voz": "Umbriel",
+      "texto": "Isso é água. Água até o teto.",
+      "estilo": "slow, realizing, quiet anger",
+      "filtro": null,
+      "reaproveitar_de": null
+    },
+    {
+      "id": "f10",
+      "quem": "celina",
+      "voz": "Despina",
+      "texto": "Querido, se pedirem água diz que acabou.",
+      "estilo": "sweet, smooth, cold, smiling, over a walkie-talkie",
+      "filtro": "radio",
+      "reaproveitar_de": null
+    },
+    {
+      "id": "f11",
+      "quem": "celina",
+      "voz": "Despina",
+      "texto": "E desliga a câmera do S2.",
+      "estilo": "light, polite, an order",
+      "filtro": "radio",
+      "reaproveitar_de": null
+    },
+    {
+      "id": "f12",
+      "quem": "celina",
+      "voz": "Despina",
+      "texto": "Você é pago pra abrir portão, não pra olhar.",
+      "estilo": "soft and smiling, humiliating, very calm",
+      "filtro": "radio",
+      "reaproveitar_de": null
+    },
+    {
+      "id": "f13",
+      "quem": "cida",
+      "voz": "Sulafat",
+      "texto": "Ela jurou no grupo que era boato...",
+      "estilo": "hurt, quiet, disbelief",
+      "filtro": null,
+      "reaproveitar_de": null
+    },
+    {
+      "id": "f14",
+      "quem": "cida",
+      "voz": "Sulafat",
+      "texto": "Não entra aí, moço.",
+      "estilo": "scared, pleading, from a distance",
+      "filtro": null,
+      "reaproveitar_de": null
+    },
+    {
+      "id": "f15",
+      "quem": "eu",
+      "voz": "Umbriel",
+      "texto": "Maio...",
+      "estilo": "whisper, reading, stunned",
+      "filtro": null,
+      "reaproveitar_de": null
+    },
+    {
+      "id": "f16",
+      "quem": "eu",
+      "voz": "Umbriel",
+      "texto": "Porteiro... não.",
+      "estilo": "whisper, breaking",
+      "filtro": null,
+      "reaproveitar_de": null
+    },
+    {
+      "id": "f17",
+      "quem": "celina",
+      "voz": "Despina",
+      "texto": "Você não sabe o que acontece no zero, querido.",
+      "estilo": "close, calm, sweet, almost kind",
+      "filtro": null,
+      "reaproveitar_de": null
+    },
+    {
+      "id": "f18",
+      "quem": "celina",
+      "voz": "Despina",
+      "texto": "Eu sei.",
+      "estilo": "a whisper with a smile",
+      "filtro": null,
+      "reaproveitar_de": null
+    },
+    {
+      "id": "f19",
+      "quem": "celina",
+      "voz": "Despina",
+      "texto": "Agora segura o elevador... que eu tô estocando.",
+      "estilo": "slow, smiling, chilling, the joke is gone",
+      "filtro": null,
+      "reaproveitar_de": null
+    }
+  ],
+  "celular": [
+    {
+      "de": "Sistema Aurora",
+      "texto": "REINÍCIO EM 72 HORAS",
+      "tipo": "alerta",
+      "hora": "23:58",
+      "rotulo": "SISTEMA AURORA",
+      "duracao_s": 4
+    },
+    {
+      "de": "Grupo Ed. Aurora · Celina",
+      "texto": "Gente, é BOATO. Ninguém precisa estocar 🙏",
+      "tipo": "mensagem",
+      "hora": "23:59",
+      "rotulo": null,
+      "duracao_s": 4
+    },
+    {
+      "de": "Mãe",
+      "texto": "Filho, o mercado tá vazio. Tem água aí?",
+      "tipo": "mensagem",
+      "hora": "00:01",
+      "rotulo": null,
+      "duracao_s": 4
+    }
+  ],
+  "efeitos_extra": [
+    {
+      "t": 5.3,
+      "tipo": "campainha",
+      "duracao_s": null,
+      "repeticoes": 3,
+      "intervalo_s": 0.7,
+      "ganho_db": -4
+    },
+    {
+      "t": 7.6,
+      "tipo": "lampada_estalo",
+      "duracao_s": null,
+      "repeticoes": null,
+      "intervalo_s": null,
+      "ganho_db": null
+    },
+    {
+      "t": 22,
+      "tipo": "grave_crescente",
+      "duracao_s": 4.5,
+      "repeticoes": null,
+      "intervalo_s": null,
+      "ganho_db": null
+    },
+    {
+      "t": 45.4,
+      "tipo": "sino",
+      "duracao_s": null,
+      "repeticoes": null,
+      "intervalo_s": null,
+      "ganho_db": -6
+    }
+  ],
+  "silencios": [],
+  "dilema": {
+    "pergunta": "O que você faria?",
+    "opcao_a": "Abrir o estoque pra todos",
+    "opcao_b": "Seguir a lista",
+    "emoji_a": "🔓",
+    "emoji_b": "📋",
+    "arriscada": "a"
+  },
+  "por_que_o_dilema_divide": "Abrir é justo: a mãe e o prédio inteiro estão sem água. Mas custa o emprego e desobedece quem parece saber o que acontece no zero. Seguir a lista guarda o emprego e talvez siga uma regra que ninguém explicou, mas deixa a mãe, o zelador e ele mesmo de fora.",
+  "comentario_fixado": "Votação aberta: abrir o estoque pra todos ou seguir a lista? A mais votada decide o Epi. 02.",
+  "titulos": [
+    "A síndica escondeu a água no subsolo",
+    "O relógio do reinício apareceu em todas as telas",
+    "Porteiro — não"
+  ],
+  "descricao": "A síndica jurou que era boato, mas o subsolo estava cheio de água. Epi. 01",
+  "hashtags": [
+    "pov",
+    "suspense",
+    "apagao",
+    "condominio"
+  ],
+  "capa": {
+    "frase_gancho": "A SÍNDICA ESCONDEU A ÁGUA",
+    "t_quadro": 26.8,
+    "alternativas_t": [
+      6,
+      72
+    ]
+  },
+  "checagens": {
+    "sinal_ate_7s": true,
+    "mudanca_a_cada_10s": true,
+    "dilema_divide": true,
+    "ameaca_oculta": true,
+    "frase_memoravel": true,
+    "sem_narrador": true,
+    "lugares": 2,
+    "temas_proibidos": "nenhum"
+  },
+  "proximo_episodio": {
+    "se_a": "Começa no segundo em que o cadeado cai: ele sobe com galões para o hall e o prédio inteiro desce atrás de água. A síndica não impede; sorri e olha o relógio (71:58). Volta ao mapa: todo mundo no subsolo na hora errada.",
+    "se_b": "Começa no segundo em que ele volta ao elevador: as portas não abrem no térreo e o mostrador marca S3, um andar que o prédio não tem. A mãe para de responder. Volta ao mapa: o porteiro descobre o S3."
+  }
+}

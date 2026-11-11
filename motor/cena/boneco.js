@@ -111,6 +111,9 @@ export class Boneco {
     if (prop.nariz !== false) { const nariz = new THREE.Mesh(new THREE.SphereGeometry(raioCab * 0.1, 12, 8), estilo.material(escurecer(pele, 0.92))); nariz.position.set(0, yC - raioCab * 0.22, zRosto * 0.98); nariz.scale.set(1, 0.85, 0.9); this.cabeca.add(nariz); }
     this.boca = new THREE.Mesh(new THREE.SphereGeometry(1, 14, 10), estilo.luminoso('#3a1515')); this.boca.scale.set(raioCab * 0.14, raioCab * 0.02, raioCab * 0.03);
     this.boca.position.set(0, yC - raioCab * 0.48, zRosto * 0.90); this.cabeca.add(this.boca);
+    // sorriso de boca fechada (arco): a expressão "sorriso" da vilã quando não está falando
+    this.sorriso = new THREE.Mesh(new THREE.TorusGeometry(raioCab * 0.16, raioCab * 0.024, 8, 20, Math.PI), estilo.luminoso('#3a1515'));
+    this.sorriso.rotation.z = Math.PI; this.sorriso.scale.set(1, 0.55, 1); this.sorriso.position.set(0, yC - raioCab * 0.40, zRosto * 0.91); this.sorriso.visible = false; this.cabeca.add(this.sorriso);
     this.lingua = new THREE.Mesh(new THREE.SphereGeometry(1, 10, 8), estilo.luminoso('#b84a5a')); this.lingua.visible = false; this.cabeca.add(this.lingua);
     if (v.oculos) {
       const corOc = v.cor_oculos || '#1a1410';
@@ -151,6 +154,13 @@ export class Boneco {
       const alca = new THREE.Mesh(new THREE.TorusGeometry(0.05, 0.012, 8, 12, Math.PI), estilo.material('#3a2a1a')); alca.position.y = -0.06; o.add(alca);
       const fecho = new THREE.Mesh(geoCaixaArredondada(0.08, 0.03, 0.01, 0.004), estilo.material('#c9b26a')); fecho.position.set(0, -0.12, 0.065); o.add(fecho);
       this.objeto = o; this.tipoObjeto = 'mala';
+    }
+    if (v.objeto === 'lanterna') {
+      const o = new THREE.Group();
+      const corpoL = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.16, 12), estilo.material('#2b2b2b')); corpoL.rotation.x = Math.PI / 2; corpoL.position.set(0, -0.02, 0.06); o.add(corpoL);
+      const cabL = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.024, 0.05, 12), estilo.material('#f2c230')); cabL.rotation.x = Math.PI / 2; cabL.position.set(0, -0.02, 0.15); o.add(cabL);
+      const lente = new THREE.Mesh(new THREE.CircleGeometry(0.028, 14), estilo.luminoso('#fff6d0')); lente.position.set(0, -0.02, 0.176); lente.userData.semTraco = true; o.add(lente);
+      this.objeto = o; this.tipoObjeto = 'lanterna';
     }
     // o objeto pende do cotovelo, na posição da mão (a mão é uma esfera achatada: pendurar nela distorceria o objeto)
     if (this.objeto) { this.objeto.position.copy(this.bracos[1].mao.position); this.bracos[1].cotovelo.add(this.objeto); }
@@ -261,6 +271,7 @@ export class Boneco {
     else if (ex === 'surpresa') { escOlho = 1.25; sobY = r * 0.12; }
     else if (ex === 'raiva') { escY = 0.7; sobAng = -0.5; sobY = -r * 0.07; }
     else if (ex === 'calma') { escY = 0.6; }
+    else if (ex === 'sorriso') { escY = 0.72; sobAng = -0.18; }
     else if (ex === 'triste') { sobAng = 0.5; sobY = r * 0.03; }
     this.olhos.forEach((o) => { o.scale.set(escOlho, piscar ? 0.08 : 1.1 * escY * escOlho, 0.55); });
     this.pupilas.forEach((p, i) => { p.visible = !piscar; const lado = i === 0 ? -1 : 1; p.position.x = lado * r * 0.33 + olharX * r * 0.35; p.position.y = yC - r * 0.02 + olharY * r * 0.3; });
@@ -273,6 +284,8 @@ export class Boneco {
     if (ex === 'calma' && abertura <= 0.02) larg = r * 0.34;
     if (ex === 'triste' && abertura <= 0.02) { larg = r * 0.22; }
     this.boca.scale.set(larg / 2, alt / 2, r * 0.03);
+    const sorrindo = ex === 'sorriso' && abertura <= 0.02;
+    this.boca.visible = !sorrindo; if (this.sorriso) this.sorriso.visible = sorrindo;
     this.lingua.visible = aberta && alt > r * 0.12;
     if (this.lingua.visible) { this.lingua.scale.set(larg * 0.3, alt * 0.22, r * 0.02); this.lingua.position.set(0, this.boca.position.y - alt * 0.22, this.boca.position.z + r * 0.012); }
   }

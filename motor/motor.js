@@ -139,6 +139,9 @@ window.carregar = async function carregar(canalOriginal, roteiro, linhaDoTempo, 
     }
     g.add(criarDetalhesVida(mod.def.detalhes_vida, mod.def, ctxProps));
   }
+  // quem manda no apagão (quadro de luz) e na lanterna do celular: props especiais do mundo
+  M.quadrosLuz = Object.keys(M.props).filter((id) => M.mundo.props[id]?.def.tipo === 'quadro_luz');
+  M.lanternas = Object.keys(M.props).filter((id) => M.mundo.props[id]?.def.tipo === 'lanterna');
   // pontos de olhar dos props no referencial do mundo
   M.cena.updateMatrixWorld(true);
   for (const id in M.props) { const r = M.props[id]; const mod = M.modulos[r.modulo]; if (r.pontoOlhar && mod) r.pontoOlharMundo = r.pontoOlhar.clone().applyMatrix4(mod.matrixWorld); }
@@ -259,6 +262,44 @@ function quemFala(t) {
 }
 
 // ------------------------------------------------------------------ quadro
+// Apagão do prédio (série 72 Horas): quadro de luz no estado "apagao". 0 = luz normal, 1 = escuro; a luz cai piscando
+// em 0,7 s. Função só do tempo (o instante do evento está no estado do prop).
+const PISCA_APAGAO = [0, 1, 0, 0, 1, 1, 0, 1, 1, 1];
+function apagaoEm(est, t) {
+  let k = 0;
+  for (const id of M.quadrosLuz || []) {
+    const p = est.props[id];
+    if (p?.estado !== 'apagao') continue;
+    const dt = t - (p.inicioEstado || 0);
+    k = Math.max(k, dt >= 0.7 ? 1 : PISCA_APAGAO[Math.max(0, Math.floor(dt / 0.07))]);
+  }
+  return k;
+}
+const COR_APAGAO = new THREE.Color('#7f95b8');
+// Lanterna do celular acesa (prop "lanterna" no estado "acesa"): liga em 0,25 s.
+function lanternaEm(est, t) {
+  let k = 0;
+  for (const id of M.lanternas || []) { const p = est.props[id]; if (p?.estado === 'acesa') k = Math.max(k, Math.min(1, Math.max(0, (t - (p.inicioEstado || 0)) / 0.25))); }
+  return k;
+}
+// O facho: escurece as bordas e clareia o centro da imagem (antes das legendas e cartões, que ficam por cima).
+function desenharFacho(ctx, k) {
+  const W = M.W, H = M.H, cx = W * 0.5, cy = H * 0.58, r = Math.max(W, H) * 0.64;
+  ctx.save();
+  ctx.globalAlpha = k;
+  ctx.globalCompositeOperation = 'multiply';
+  const g1 = ctx.createRadialGradient(cx, cy, r * 0.12, cx, cy, r);
+  g1.addColorStop(0, '#ffffff'); g1.addColorStop(0.42, '#b6b9c8'); g1.addColorStop(1, '#262a36');
+  ctx.fillStyle = g1; ctx.fillRect(0, 0, W, H);
+  // clarão do centro em soft-light: clareia os meios-tons e mantém o preto do traço (o "screen" deixava tudo lavado e
+  // as pernas de quem estava no facho pareciam transparentes)
+  ctx.globalCompositeOperation = 'soft-light';
+  const g2 = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 0.45);
+  g2.addColorStop(0, 'rgba(255,244,214,0.85)'); g2.addColorStop(1, 'rgba(255,244,214,0)');
+  ctx.fillStyle = g2; ctx.fillRect(0, 0, W, H);
+  ctx.restore();
+}
+
 window.renderizarQuadro = function renderizarQuadro(t) {
   if (!M.pronto) throw new Error('chame carregar() antes');
   t = Math.max(0, t);
@@ -279,12 +320,13 @@ window.renderizarQuadro = function renderizarQuadro(t) {
   const aberturas = aberturaPortas(M.plano, M.linha, t);
   for (const id in aberturas) if (est.props[id]) est.props[id].abertura_auto = aberturas[id]; else est.props[id] = { estado: 'fechada', inicioEstado: 0, abertura_auto: aberturas[id] };
   const sentado = ['sentado', 'levantando', 'sentando'].includes(corpo.postura);
-  for (const id in M.props) { try { M.props[id].atualizar(est.props[id], t, { luz: clima.luz, clima: clima.nome, sentado }); } catch (e) { M.avisos.push('prop ' + id + ': ' + e.message); } }
+  const apagao = apagaoEm(est, t);
+  const falante = quemFala(t); // o rádio da portaria mostra quem fala
+  for (const id in M.props) { try { M.props[id].atualizar(est.props[id], t, { luz: clima.luz, clima: clima.nome, sentado, apagao, falando: falante }); } catch (e) { M.avisos.push('prop ' + id + ': ' + e.message); } }
   // só desenha o lugar onde a câmera está e os vizinhos com passagem aberta (economiza render em CPU)
   const vis = visiveis(M.mundo, [corpo.pos[0], 0, corpo.pos[2]], (id) => M.props[id]?.abertura ?? 0);
   for (const id in M.modulos) M.modulos[id].visible = vis.has(id);
   // bonecos
-  const falante = quemFala(t);
   for (const id in M.bonecos) {
     const pe = est.personagens[id];
     if (!pe) continue;
@@ -299,15 +341,27 @@ window.renderizarQuadro = function renderizarQuadro(t) {
   }
   // corpo em primeira pessoa segue a posição do corpo (sentado na origem; anda junto com a câmera)
   M.corpo.grupo.position.set(corpo.pos[0], corpo.piso || 0, corpo.pos[2]);
-  M.corpo.grupo.rotation.set(0, corpo.yaw || 0, 0);
+  // em pé, o corpo acompanha a cabeça quando ela vira mais de ~35° (ninguém olha para trás só com o pescoço; antes a
+  // manga do outro braço aparecia no canto quando a câmera virava para quem estava atrás). Sentado, o corpo fica na cadeira.
+  let yawCorpo = corpo.yaw || 0;
+  if (!sentado) {
+    const frente = new THREE.Vector3(); M.camera.getWorldDirection(frente);
+    if (Math.hypot(frente.x, frente.z) > 1e-3) {
+      let d = Math.atan2(-frente.x, -frente.z) - yawCorpo; d = Math.atan2(Math.sin(d), Math.cos(d));
+      const MAX_PESCOCO = 0.6;
+      if (Math.abs(d) > MAX_PESCOCO) yawCorpo += d - Math.sign(d) * MAX_PESCOCO;
+    }
+  }
+  M.corpo.grupo.rotation.set(0, yawCorpo, 0);
   const tremorAcao = acao.startsWith('tremor:') ? parseFloat(acao.split(':')[1]) || 0 : 0;
   M.corpo.aplicar(acao, tLinha, t, clima.tremor * 0.5 + tremorAcao, acaoAnterior, corpo);
   M.telaCelular.desenhar(est.celular.tela, t);
   // luzes gerais seguem o clima
+  // no apagão: céu e direcional caem, a cor esfria, o preenchimento frio sobe um pouco (a cena continua legível)
   const luz = clima.luz;
-  M.hemi.intensity = 0.3 + 0.8 * luz; M.hemi.color.set(clima.cor_luz);
-  M.dir.intensity = 1.2 * luz; M.dir.color.set(clima.cor_luz);
-  M.dir2.intensity = 0.35 * luz;
+  M.hemi.intensity = (0.3 + 0.8 * luz) * (1 - 0.66 * apagao); M.hemi.color.set(clima.cor_luz); if (apagao > 0) M.hemi.color.lerp(COR_APAGAO, apagao);
+  M.dir.intensity = 1.2 * luz * (1 - 0.88 * apagao); M.dir.color.set(clima.cor_luz);
+  M.dir2.intensity = 0.35 * luz * (1 + 0.7 * apagao);
 
   // preto (mergulho/fade antigo): desenhado pela sobreposição; a pergunta final nunca escurece até o preto
   const naPergunta = !!(M.linha.pergunta && t >= M.linha.pergunta.inicio_s);
@@ -319,12 +373,14 @@ window.renderizarQuadro = function renderizarQuadro(t) {
   // passes: a lente faz as duas câmeras, o G-buffer, o olho de peixe, o traço e o FXAA no canvas GL
   const cl = hexParaRgb(clima.cor_luz).map(v => v / 255); const mx = Math.max(cl[0], cl[1], cl[2], 0.01);
   const corLuz = new THREE.Vector3(cl[0] / mx, cl[1] / mx, cl[2] / mx).lerp(new THREE.Vector3(1, 1, 1), 0.5);
-  M.lente.renderizar(M.cena, M.camera, { corLuz, vinheta: clima.vinheta, fade });
+  M.lente.renderizar(M.cena, M.camera, { corLuz, vinheta: clima.vinheta + 0.18 * apagao, fade });
 
   // sobreposição 2D
   const ctx = M.ctx;
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1;
   ctx.drawImage(M.canvasGL, 0, 0);
+  const facho = lanternaEm(est, t);
+  if (facho > 0) desenharFacho(ctx, facho);
   const some = M.estiloCfg.legenda?.some_apos_s ?? 0.15;
   const falasAtivas = M.linha.falas.filter(f => t >= f.inicio_s && t <= f.fim_s + some).map(f => ({ ...f, texto: f.texto || (M.roteiro.falas.find(x => x.id === f.id)?.texto || '') }));
   const pergunta = M.linha.pergunta ? { ...(M.roteiro.dilema || {}), ...M.linha.pergunta, ativa: naPergunta } : null;

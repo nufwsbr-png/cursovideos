@@ -36,15 +36,17 @@ function vocabulario() {
   pegar_celular | guardar_celular (o celular fica na mão até guardar; use pegar_celular quando chegar mensagem/alerta) |
   levantar | sentar (perto do assento cab_assento) |
   andar:<nó|marca|prop> | correr:<nó|marca|prop> (a câmera segue o caminho do mundo, abre as portas sozinha, olha para onde anda; se estiver sentado, levanta antes) |
-  avancar:<alvo> (câmera chega devagar perto do alvo; use na linha antes da pergunta) | aproximar:<alvo> (fecha a lente) |
+  avancar:<alvo> (câmera chega devagar perto do alvo; use na linha antes da pergunta) | aproximar:<alvo> (fecha a lente só durante a linha; se a fala seguinte ainda depende de um texto pequeno — mostrador, tela, etiqueta —, repita aproximar:<alvo> nela, senão a lente abre de novo em 1 s) |
   transicao:preto (ou transicao:preto:<segundos 0.9–3>) — mergulho no preto para pular tempo/lugar; só nela valem os eventos camera.ir=<nó|marca> e camera.postura=sentado|em_pe |
   tremor:<0..1> | fade.
 - clima: rotina | sinal | escalada | climax | pergunta (a última linha é sempre ato "pergunta" com clima "pergunta").
 - emocao (em cada linha): o que o público deve sentir ali — riso | susto | medo | raiva | indignacao | compaixao | curiosidade | calafrio | alivio | tensao | decisao | null. O vilão do elenco (papel "vilao") entra em cena (personagem.<id>.posicao) e fala pelo menos 2 vezes; marque riso nos primeiros 10 s, três golpes de raiva/indignação entre 15 e 50 s (a mentira, a ordem, a humilhação) e uma compaixão; a última fala do vilão repete palavras da primeira frase do episódio com outro sentido.
 - eventos (lista de "alvo.campo=valor"):
   prop.<id>.estado=<valor> (painel: normal|alerta|alerta_forte|apagado; lampada: normal|piscar|fraca|apagada; porta: fechada|aberta; onibus: ausente|chegando|parado|portas_abertas; lanchonete: fechada|acesa; telefone_fixo: parado|tocando|na_mao; ventilador_teto: girando|parado)
+  prédio (série 72 Horas): monitores: normal|contando (o relógio REINÍCIO EM conta a partir do evento) · elevador: aberto|fechado · interfone: normal|todos · quadro_luz: normal|apagao (apaga o prédio; só a luz de emergência e os monitores ficam) · lanterna: acesa|apagada (o facho do celular) · radio_base: sem estado (o visor mostra quem fala no rádio; olhe para ele quando a fala vem pelo rádio)
+  prop.monitores.texto=<tela1|tela2|tela3|tela4> (hall|entrada|garagem|s2|elevador|relogio|chuvisco|apagado) · prop.<elevador>.texto=▼|S2 (o mostrador) · prop.<papel_lista>.texto=<linhas> (as que começam com ! saem em vermelho)
   prop.<id>.texto=<linha1|linha2|...>
-  personagem.<id>.visivel=true|false · personagem.<id>.posicao=<marca> · personagem.<id>.pose=em_pe|sentado|andando|apontando|segurando|limpando|parado_de_costas · personagem.<id>.expressao=normal|medo|raiva|calma|surpresa · personagem.<id>.andar=<marca>
+  personagem.<id>.visivel=true|false · personagem.<id>.posicao=<marca> · personagem.<id>.pose=em_pe|sentado|andando|apontando|segurando|limpando|parado_de_costas · personagem.<id>.expressao=normal|medo|raiva|calma|surpresa|triste|sorriso (sorriso: o vilão sorri de boca fechada quando não fala) · personagem.<id>.andar=<marca>
   celular.tela=<indice> · celular.notificacao=<indice> (mostra o cartão no alto pelo tempo de duracao_s) · tela.selo=PARTE N (só na 1ª linha de uma continuação)
   prop.<armario>.estado=aberto_<numero> (armário de volumes) · prop.<mala>.estado=ausente · prop.<porta>.estado=aberta|fechada
 - Quando uma linha tem fala, a câmera olha para quem fala, salvo "olhar" explícito. Personagens com visivel=false na ficha nunca entram em cena: só falam por telefone, rádio ou alto-falante (campo filtro da fala).

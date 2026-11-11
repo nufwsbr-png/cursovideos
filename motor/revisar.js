@@ -118,7 +118,9 @@ if (render.quadros && render.duracao_total_s && render.fps && !render.video_parc
   if (Math.abs(esperados - render.quadros) > 1) add('quadro_faltando', null, `vídeo com ${render.quadros} quadros; esperados ${esperados}`);
 }
 
-const padrao = path.join(RAIZ, 'padrao_aprovado', 'quadros');
+// padrão aprovado por série: a série padrão usa padrao_aprovado/quadros; as outras, padrao_aprovado/<id>/quadros.
+// Sem o padrão da série, não compara (os quadros do Guichê 3 não são régua para o Edifício Aurora).
+const padrao = canal.serie && !canal.serie.padrao ? path.join(RAIZ, 'padrao_aprovado', canal.serie.id, 'quadros') : path.join(RAIZ, 'padrao_aprovado', 'quadros');
 const temPadrao = existe(padrao);
 
 async function analisarImagens() {
@@ -131,7 +133,7 @@ async function analisarImagens() {
   const resultados = [];
   try {
     for (const img of imagens) {
-      const urlPadrao = temPadrao && existe(path.join(padrao, img.arquivo)) ? servidor.url + '/padrao_aprovado/quadros/' + img.arquivo : null;
+      const urlPadrao = temPadrao && existe(path.join(padrao, img.arquivo)) ? servidor.url + '/' + path.relative(RAIZ, path.join(padrao, img.arquivo)).split(path.sep).join('/') : null;
       const r = await pagina.evaluate(async ([url, urlPadrao]) => {
         const carregar = (u) => new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = u; });
         const im = await carregar(url);

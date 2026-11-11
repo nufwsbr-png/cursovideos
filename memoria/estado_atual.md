@@ -2,9 +2,19 @@
 
 _A parte de cima é escrita à mão ao fechar cada sessão; o painel no fim é da etapa `memoria` (rotina diária)._
 
-## Onde paramos (2026-11-10)
-- Canal ativo: **canal-exemplo "Guichê 3"** (original, criado para a fábrica rodar). O dono ainda não fez a entrevista
-  (`node fabrica/cli.js entrevista`): status `A DECIDIR` se mantém este canal ou cria o seu.
+## Onde paramos (2026-11-10, noite)
+- Canal **ToquinhoVivo** (decisão do dono) com duas séries:
+  - **Guichê 3**: série padrão; o Epi. 01 está pronto, com voz falsa.
+  - **72 Horas**: série ativa; `canal/series/72horas.json`, episódios em `episodios/72h-epNN_*`.
+- **72 Horas, Epi. 01 "Segura o elevador"** (`episodios/72h-ep01_segura_o_elevador/`):
+  - fases S0–S3 com commit: decisões do dono; nota das regras de emoção; canal com séries; motor do Edifício Aurora;
+  - roteiro com nota 100; quadros com voz falsa (112,2 s); revisor sem aviso;
+  - crítico visual na sessão: a rodada 1 reprovou a legibilidade (mostrador do elevador e câmera do S2 pequenos); a
+    rodada 2 aprovou, com notas 7/8/8/8/8/8. Detalhes em `revisoes.md`;
+  - **falta:** render → som → prova → capa → entrega (`node fabrica/cli.js episodio --episodio 72h-1`, ≈ 2,5 h em CPU).
+    Sem a `GEMINI_API_KEY`, a entrega sai "não publicável — voz falsa".
+- Os stills tirados antes do crítico mostraram cinco defeitos de motor, corrigidos com 0 pixel diferente no Guichê 3
+  (lista em `aprendizados.md`).
 - 2026-11-08/09: motor refeito no estilo da referência que o dono mandou; estudo do modelo de edição do canal de
   referência (5 reels medidos, MEDIDO × HIPÓTESE em `estilo_visual.md` e `roteiro_regras.md`).
 - 2026-11-10: o dono aprovou **"deixar o máximo parecido"** (técnica e acabamento; só a história é nossa), **30 fps**,
@@ -24,6 +34,19 @@ _A parte de cima é escrita à mão ao fechar cada sessão; o painel no fim é d
     "(inventado)" na tela do celular) e aprovou a rodada 2 (notas 7/8/8/8/7/8). Defeitos e correções em `revisoes.md`;
   - entrega **não publicável só por voz falsa** (`BLOQUEADO.md` diz o que fazer).
 
+## Marca e produto (2026-11-10, sessão paralela à produção do vídeo)
+- **Marca do canal** em `marca/` (`MARCA.md` = tamanhos, bios, destaques, link da bio, posts fixados):
+  - fotos de perfil A (protagonista com rosto) e B (POV, mãos com celular); capa do YouTube A e B, capa do Facebook,
+    6 capas de destaque, tudo em `marca/final/` (refazer: `python -I marca/montar_final.py`);
+  - `A DECIDIR` pelo dono: foto A ou B (nos episódios ele continua sem rosto), @ livre nas redes.
+- **Produto "Fábrica POV"** em `produto/` (`OFERTA.md` = promessa, módulos, preço R$ 197 `A DECIDIR`, garantia 7 dias,
+  regras de venda honesta); landing em `produto/landing/` (`index.html` para hospedar; prévia privada em
+  https://claude.ai/artifact/XnUwAtiU2DB6MKB58BrT4x); criativos em `produto/criativos/final/` e roteiros de vídeo em
+  `produto/criativos/roteiros_video.md` (refazer: `python -I produto/montar_criativos.py`).
+- Falta (dono): link do checkout (`CHECKOUT_URL` na landing), gravar as aulas, decidir se o motor 3D entra no kit,
+  hospedar a página, orçamento de anúncio. Trocar os quadros da landing pelos do render novo (pele branca).
+- Gasto Higgsfield: 34,75 créditos (1.000 → 965,25), dos quais ≈ 11,5 descartados (mascote reprovado pelo dono).
+
 ## O que está pronto
 - Produção inteira sem chave: `node fabrica/cli.js episodio --episodio N` pula o que está em dia e para nos portões. Sem
   `ANTHROPIC_API_KEY`, o crítico visual roda na sessão do Claude Code (skill `critico-visual`).
@@ -33,7 +56,7 @@ _A parte de cima é escrita à mão ao fechar cada sessão; o painel no fim é d
   - descarta e refaz uma vez o episódio que travou 2 vezes por motivo que a IA corrige;
   - o CI dela está em `.github/workflows/fabrica-diaria.yml`.
 - Publicação nas 5 redes em modo `--simular`. Kwai fica em fila manual (`pendente_manual`).
-- Testes: 73 de JS (`npm run testes`) e 10 de áudio (`npm run testes:audio`), todos passando.
+- Testes: 80 de JS (`npm run testes`) e 12 de áudio (`npm run testes:audio`), todos passando em 2026-11-10.
 
 ## O que falta (nesta ordem)
 1. **Dono:** pôr a `GEMINI_API_KEY` no `.env` e rodar `node fabrica/cli.js episodio --episodio 1`.
@@ -46,7 +69,13 @@ _A parte de cima é escrita à mão ao fechar cada sessão; o painel no fim é d
 5. Ligar a rotina diária: segredos no GitHub e workflow, ou o agendador do computador.
    - Antes, medir o tempo no runner: em repositório privado, o runner gratuito tem 2 núcleos (aqui são 4).
    - O render pode passar de 4 h; o limite do job é 350 min.
-6. Opcional: entrevista do canal, para trocar o canal-exemplo pelo canal do dono.
+6. Decisões do dono que seguem abertas:
+   - um vilão para o Guichê 3 antes do Epi. 02 (a regra de emoção exige um em todo episódio);
+   - a bio do perfil;
+   - confirmar que @toquinhovivo está livre nas redes;
+   - foto de perfil A ou B (`marca/`).
+7. Janela do boato: o "apagão de 3 dias" circula até 17/11. Publicar o 72h-1 antes disso depende das chaves (voz real) e
+   das credenciais das redes.
 
 ## Medido / não conferido
 - **Medido:** Epi. 01 final contra a referência, com os mesmos scripts (tabela em `estilo_visual.md`, detalhes em

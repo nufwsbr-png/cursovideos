@@ -229,7 +229,7 @@ export async function prepararSessao({ canal, ep }) {
   const pedido = `# Crítico visual — rodada ${n} (Epi. ${String(roteiro.numero).padStart(2, "0")})
 
 Você é o crítico. Leia as imagens abaixo com a ferramenta de leitura de arquivos, na ordem, e escreva as duas respostas em JSON
-nesta pasta. Depois rode \`node fabrica/cli.js critico --aplicar --episodio ${roteiro.numero}\`.
+nesta pasta. Depois rode \`node fabrica/cli.js critico --aplicar --episodio ${ep.ref ?? roteiro.numero}\`.
 
 ## Imagens
 ${prep.imagens.map((im) => `- \`${rel(RAIZ, im.caminho)}\` — ${im.rotulo}`).join("\n")}

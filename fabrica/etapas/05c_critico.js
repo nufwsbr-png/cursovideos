@@ -9,7 +9,7 @@ import { CRITERIOS } from "../critico/esquema.js";
 export const SEM_CRITICO = "crítico visual não rodou: sem ANTHROPIC_API_KEY (na sessão do Claude Code use a skill critico-visual: critico --preparar, olhar as folhas, critico --aplicar)";
 
 export async function etapaCritico({ canal, ep, refazer }) {
-  log.passo(`Etapa 5c — Crítico visual do episódio ${ep.roteiro.numero}`);
+  log.passo(`Etapa 5c — Crítico visual do episódio ${ep.ref ?? ep.roteiro.numero}`);
   const cfg = configCritico(canal);
   if (!temClaude()) {
     if (cfg.exigir) {

@@ -1,0 +1,381 @@
+{
+  "gerado_em": "2026-11-11T00:09:39.728Z",
+  "episodio": "episodios\\72h-ep01_segura_o_elevador",
+  "imagens_analisadas": 52,
+  "legendas_conferidas": 25,
+  "problemas": [],
+  "avisos": [],
+  "aprovado": true,
+  "nao_conferido": [
+    "movimento entre quadros (só a sequência mostra)",
+    "som",
+    "sotaque e interpretação das vozes",
+    "se a história prende"
+  ],
+  "amostras": [
+    {
+      "t": 0,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0000.00.png",
+      "luminancia": 0.504,
+      "uniforme": 0.227,
+      "clima": "rotina"
+    },
+    {
+      "t": 0.3,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0000.30.png",
+      "luminancia": 0.504,
+      "uniforme": 0.227,
+      "clima": "rotina"
+    },
+    {
+      "t": 2.1,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0002.10.png",
+      "luminancia": 0.506,
+      "uniforme": 0.227,
+      "clima": "rotina"
+    },
+    {
+      "t": 4.9,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0004.90.png",
+      "luminancia": 0.503,
+      "uniforme": 0.206,
+      "clima": "rotina"
+    },
+    {
+      "t": 6.7,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0006.70.png",
+      "luminancia": 0.498,
+      "uniforme": 0.2,
+      "clima": "rotina"
+    },
+    {
+      "t": 9.4,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0009.40.png",
+      "luminancia": 0.437,
+      "uniforme": 0.243,
+      "clima": "sinal"
+    },
+    {
+      "t": 11.8,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0011.80.png",
+      "luminancia": 0.273,
+      "uniforme": 0.269,
+      "clima": "sinal"
+    },
+    {
+      "t": 13.1,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0013.10.png",
+      "luminancia": 0.316,
+      "uniforme": 0.236,
+      "clima": "sinal"
+    },
+    {
+      "t": 15.4,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0015.40.png",
+      "luminancia": 0.283,
+      "uniforme": 0.301,
+      "clima": "sinal"
+    },
+    {
+      "t": 17,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0017.00.png",
+      "luminancia": 0.253,
+      "uniforme": 0.425,
+      "clima": "sinal"
+    },
+    {
+      "t": 19.6,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0019.60.png",
+      "luminancia": 0.252,
+      "uniforme": 0.43,
+      "clima": "sinal"
+    },
+    {
+      "t": 20.5,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0020.50.png",
+      "luminancia": 0.252,
+      "uniforme": 0.431,
+      "clima": "sinal"
+    },
+    {
+      "t": 22.4,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0022.40.png",
+      "luminancia": 0.25,
+      "uniforme": 0.481,
+      "clima": "sinal"
+    },
+    {
+      "t": 26.9,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0026.90.png",
+      "luminancia": 0.232,
+      "uniforme": 0.342,
+      "clima": "escalada"
+    },
+    {
+      "t": 27.8,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0027.80.png",
+      "luminancia": 0.22,
+      "uniforme": 0.214,
+      "clima": "escalada"
+    },
+    {
+      "t": 29.8,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0029.80.png",
+      "luminancia": 0.24,
+      "uniforme": 0.19,
+      "clima": "escalada"
+    },
+    {
+      "t": 30.6,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0030.60.png",
+      "luminancia": 0.267,
+      "uniforme": 0.182,
+      "clima": "escalada"
+    },
+    {
+      "t": 32.5,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0032.50.png",
+      "luminancia": 0.272,
+      "uniforme": 0.146,
+      "clima": "escalada"
+    },
+    {
+      "t": 33.1,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0033.10.png",
+      "luminancia": 0.272,
+      "uniforme": 0.146,
+      "clima": "escalada"
+    },
+    {
+      "t": 34.7,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0034.70.png",
+      "luminancia": 0.176,
+      "uniforme": 0.286,
+      "clima": "escalada"
+    },
+    {
+      "t": 37.2,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0037.20.png",
+      "luminancia": 0.141,
+      "uniforme": 0.345,
+      "clima": "escalada"
+    },
+    {
+      "t": 38.6,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0038.60.png",
+      "luminancia": 0.141,
+      "uniforme": 0.346,
+      "clima": "escalada"
+    },
+    {
+      "t": 40.9,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0040.90.png",
+      "luminancia": 0.237,
+      "uniforme": 0.299,
+      "clima": "escalada"
+    },
+    {
+      "t": 42.5,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0042.50.png",
+      "luminancia": 0.222,
+      "uniforme": 0.289,
+      "clima": "escalada"
+    },
+    {
+      "t": 45,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0045.00.png",
+      "luminancia": 0.237,
+      "uniforme": 0.268,
+      "clima": "escalada"
+    },
+    {
+      "t": 46.1,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0046.10.png",
+      "luminancia": 0.226,
+      "uniforme": 0.216,
+      "clima": "escalada"
+    },
+    {
+      "t": 48.2,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0048.20.png",
+      "luminancia": 0.24,
+      "uniforme": 0.262,
+      "clima": "escalada"
+    },
+    {
+      "t": 50.1,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0050.10.png",
+      "luminancia": 0.222,
+      "uniforme": 0.29,
+      "clima": "escalada"
+    },
+    {
+      "t": 52.9,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0052.90.png",
+      "luminancia": 0.254,
+      "uniforme": 0.198,
+      "clima": "escalada"
+    },
+    {
+      "t": 54.4,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0054.40.png",
+      "luminancia": 0.291,
+      "uniforme": 0.255,
+      "clima": "escalada"
+    },
+    {
+      "t": 57,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0057.00.png",
+      "luminancia": 0.273,
+      "uniforme": 0.239,
+      "clima": "escalada"
+    },
+    {
+      "t": 58.2,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0058.20.png",
+      "luminancia": 0.253,
+      "uniforme": 0.335,
+      "clima": "escalada"
+    },
+    {
+      "t": 68.5,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0068.50.png",
+      "luminancia": 0.243,
+      "uniforme": 0.258,
+      "clima": "escalada"
+    },
+    {
+      "t": 69.3,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0069.30.png",
+      "luminancia": 0.25,
+      "uniforme": 0.239,
+      "clima": "escalada"
+    },
+    {
+      "t": 71,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0071.00.png",
+      "luminancia": 0.003,
+      "uniforme": 1,
+      "clima": "escalada"
+    },
+    {
+      "t": 73,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0073.00.png",
+      "luminancia": 0.151,
+      "uniforme": 0.323,
+      "clima": "escalada"
+    },
+    {
+      "t": 78.4,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0078.40.png",
+      "luminancia": 0.173,
+      "uniforme": 0.199,
+      "clima": "escalada"
+    },
+    {
+      "t": 78.7,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0078.70.png",
+      "luminancia": 0.172,
+      "uniforme": 0.232,
+      "clima": "escalada"
+    },
+    {
+      "t": 80.9,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0080.90.png",
+      "luminancia": 0.163,
+      "uniforme": 0.246,
+      "clima": "escalada"
+    },
+    {
+      "t": 85.4,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0085.40.png",
+      "luminancia": 0.143,
+      "uniforme": 0.222,
+      "clima": "escalada"
+    },
+    {
+      "t": 87.9,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0087.90.png",
+      "luminancia": 0.156,
+      "uniforme": 0.214,
+      "clima": "escalada"
+    },
+    {
+      "t": 91.9,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0091.90.png",
+      "luminancia": 0.149,
+      "uniforme": 0.25,
+      "clima": "climax"
+    },
+    {
+      "t": 92.6,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0092.60.png",
+      "luminancia": 0.126,
+      "uniforme": 0.322,
+      "clima": "climax"
+    },
+    {
+      "t": 94.2,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0094.20.png",
+      "luminancia": 0.132,
+      "uniforme": 0.323,
+      "clima": "climax"
+    },
+    {
+      "t": 96.1,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0096.10.png",
+      "luminancia": 0.108,
+      "uniforme": 0.38,
+      "clima": "climax"
+    },
+    {
+      "t": 98.9,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0098.90.png",
+      "luminancia": 0.105,
+      "uniforme": 0.38,
+      "clima": "climax"
+    },
+    {
+      "t": 99.2,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0099.20.png",
+      "luminancia": 0.106,
+      "uniforme": 0.38,
+      "clima": "climax"
+    },
+    {
+      "t": 100.4,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0100.40.png",
+      "luminancia": 0.107,
+      "uniforme": 0.376,
+      "clima": "climax"
+    },
+    {
+      "t": 102.5,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0102.50.png",
+      "luminancia": 0.108,
+      "uniforme": 0.377,
+      "clima": "climax"
+    },
+    {
+      "t": 105.5,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0105.50.png",
+      "luminancia": 0.121,
+      "uniforme": 0.358,
+      "clima": "climax"
+    },
+    {
+      "t": 108.5,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0108.50.png",
+      "luminancia": 0.121,
+      "uniforme": 0.43,
+      "clima": "pergunta"
+    },
+    {
+      "t": 111.2,
+      "arquivo": "episodios\\72h-ep01_segura_o_elevador\\stills\\t_0111.20.png",
+      "luminancia": 0.121,
+      "uniforme": 0.43,
+      "clima": "pergunta"
+    }
+  ]
+}

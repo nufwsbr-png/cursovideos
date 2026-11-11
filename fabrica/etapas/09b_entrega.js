@@ -75,7 +75,7 @@ export function montarEntrega({ canal, ep, opcoes = {} }) {
 }
 
 export async function etapaEntrega({ canal, ep }) {
-  log.passo(`Etapa 9b — Entrega do episódio ${ep.roteiro.numero}`);
+  log.passo(`Etapa 9b — Entrega do episódio ${ep.ref ?? ep.roteiro.numero}`);
   const entrega = montarEntrega({ canal, ep });
   gravarJson(path.join(ep.dir, "entrega.json"), entrega);
   atualizarEstado(ep.dir, { etapa: "entrega", publicavel: entrega.publicavel });

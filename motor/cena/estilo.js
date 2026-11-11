@@ -72,7 +72,7 @@ function prepararTextura(tex, repetir = false) {
 export const FONTE_PLACA = '"Verdana POV", Verdana';
 
 // Textura a partir de um canvas 2D com texto. `desenharExtra(ctx, w, h)` permite detalhes. Resolução alta e mipmaps: nada de letra borrada.
-export function texturaTexto({ largura = 1024, altura = 256, fundo = '#222', cor = '#fff', linhas = [], fonte = `800 96px ${FONTE_PLACA}, sans-serif`, alinhamento = 'center', margem = 24, entrelinha = 1.12, desenharExtra = null, cantosArredondados = 0, borda = null }) {
+export function texturaTexto({ largura = 1024, altura = 256, fundo = '#222', cor = '#fff', linhas = [], fonte = `800 96px ${FONTE_PLACA}, sans-serif`, alinhamento = 'center', margem = 24, entrelinha = 1.12, desenharExtra = null, cantosArredondados = 0, borda = null, ajustar = false }) {
   const c = document.createElement('canvas');
   c.width = largura; c.height = altura;
   const ctx = c.getContext('2d');
@@ -90,7 +90,15 @@ export function texturaTexto({ largura = 1024, altura = 256, fundo = '#222', cor
   ctx.font = fonte;
   ctx.textAlign = alinhamento;
   ctx.textBaseline = 'middle';
-  const tamanho = parseInt(/(\d+)px/.exec(fonte)?.[1] || '48', 10);
+  let tamanho = parseInt(/(\d+)px/.exec(fonte)?.[1] || '48', 10);
+  // ajustar: diminui a fonte até a linha mais larga e o bloco caberem dentro da margem (etiqueta que cortava as pontas)
+  if (ajustar && linhas.length) {
+    const maior = Math.max(1, ...linhas.map((l) => ctx.measureText(String(l)).width));
+    const porLargura = tamanho * Math.min(1, (largura - 2 * margem) / maior);
+    const porAltura = (altura - 2 * margem) / (linhas.length * entrelinha);
+    const novo = Math.max(10, Math.floor(Math.min(tamanho, porLargura, porAltura)));
+    if (novo !== tamanho) { tamanho = novo; ctx.font = fonte.replace(/\d+px/, `${novo}px`); }
+  }
   const total = linhas.length;
   const alturaBloco = total * tamanho * entrelinha;
   const x = alinhamento === 'left' ? margem : alinhamento === 'right' ? largura - margem : largura / 2;

@@ -1,0 +1,59 @@
+{
+  "notas": {
+    "gancho": {
+      "nota": 7,
+      "evidencia": ["Q01", "Q02", "Q03", "Q04", "D1"],
+      "comentario": "Igual à rodada 1. O lugar se reconhece no primeiro quadro, a primeira legenda está na tela desde Q01 e o carrinho lotado de galões chama o olho. Os 2 s, porém, são parados, as mãos só descansam no balcão e o visor 'CANAL 1', cortado na borda (D1), disputa a atenção."
+    },
+    "legibilidade": {
+      "nota": 8,
+      "evidencia": ["Q13", "Q14", "Q15", "Q31", "D4", "D2", "D3", "Q08", "Q16", "Q35", "D6"],
+      "comentario": "Os textos de que as falas dependem agora se leem: '▼ S2' grande em cima do elevador (Q13), os galões de água na câmera do S2 (Q14, Q15), os mostradores 'T' e '12' (D4) e as etiquetas 'ESTOCADO EM MAIO' nas caixas da frente (Q31, ainda pequenas no instante da fala). Cartões, legendas, visor do rádio, monitores, lista e pergunta continuam nítidos (D2, D3, Q08, Q16, Q35, D6)."
+    },
+    "clareza_acao": {
+      "nota": 8,
+      "evidencia": ["Q08", "Q16", "Q18", "Q07", "Q19", "Q38", "Q10", "Q21", "Q22", "Q23", "D4", "Q28", "Q33", "Q13"],
+      "comentario": "Sempre se sabe quem fala: o visor do rádio diz ZELADOR ou SÍNDICA (Q08, Q16, Q18), a senhora (Q07, Q19) e a síndica (Q38) estão em quadro nas suas falas. Os caminhos são claros (Q21–Q24, Q28–Q34). Ressalvas pequenas: em Q13 a senhora aparece só pela metade, na borda direita, enquanto fala, e em Q24 ela está fora do quadro."
+    },
+    "continuidade": {
+      "nota": 8,
+      "evidencia": ["Q05", "Q07", "Q13", "Q19", "Q20", "Q26", "Q27", "Q23", "D4"],
+      "comentario": "O mostrador segue a história: ▼ S1 (Q12), ▼ S2 (Q13, Q19), T (Q20, D4). A luz muda só no apagão (Q05 → Q07), e o lugar troca só no mergulho no preto (Q26 → Q27). O elevador já está aberto antes de a câmera chegar (Q23)."
+    },
+    "acabamento": {
+      "nota": 8,
+      "evidencia": ["Q01", "Q07", "D4", "Q14", "Q38", "Q28", "Q30", "D2", "Q21"],
+      "comentario": "O estilo do canal está em todos os quadros, inclusive na imagem nova da câmera do S2 (Q14). O subsolo é escuro, mas legível, com o traço preto (Q28, Q30, Q38). Pequenos: a mão em V ao pegar o celular (D2) e o batente ocupando meio quadro por um instante (Q21)."
+    },
+    "dilema_final": {
+      "nota": 8,
+      "evidencia": ["Q41", "D5", "D6", "Q42", "Q45"],
+      "comentario": "O fim chega no cadeado (Q41, D5). A pergunta tem duas opções claras, com o vermelho na arriscada (ABRIR O ESTOQUE PRA TODOS), emojis coloridos e 'Comenta aqui 👇' (D6). A porta e a lista aparecem atrás do véu; o cadeado fica quase todo atrás do botão vermelho."
+    }
+  },
+  "defeitos": [
+    {
+      "quadro": "Q01",
+      "criterio": "gancho",
+      "gravidade": 1,
+      "descricao": "Os dois primeiros segundos são parados: mãos em repouso, a senhora e o carrinho pequenos no quadro, e o visor 'CANAL 1' cortado na borda direita puxa o olho para o canto.",
+      "correcao": "Para os próximos episódios: no primeiro quadro, mãos fazendo algo e quem fala maior no quadro. Neste, a nota passa."
+    },
+    {
+      "quadro": "Q13",
+      "criterio": "clareza_acao",
+      "gravidade": 1,
+      "descricao": "Com a lente fechada no mostrador, a senhora que diz 'Sem luz? Como?' fica cortada pela borda direita.",
+      "correcao": "Aceitável: o mostrador é o que importa na linha, e a cor da legenda identifica quem fala. Num próximo mundo, uma marca entre o mostrador e a personagem permitiria enquadrar os dois."
+    },
+    {
+      "quadro": "Q31",
+      "criterio": "legibilidade",
+      "gravidade": 1,
+      "descricao": "As etiquetas 'ESTOCADO EM MAIO' ainda estão pequenas no instante da fala 'Maio...' e só crescem com a aproximação.",
+      "correcao": "Aceitável: as caixas da frente já se leem. Se o dono achar pouco, olhar caixas_comida já na caminhada da linha 20."
+    }
+  ],
+  "patch": { "mudancas": [] },
+  "veredito": "Aprovado na rodada 2 (7/8/8/8/8/8): os textos de que as falas dependem agora se leem; restam ressalvas pequenas no início parado, na senhora cortada pela borda em Q13 e nas etiquetas no limite em Q31."
+}

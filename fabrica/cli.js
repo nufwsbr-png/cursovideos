@@ -108,7 +108,7 @@ async function comandoCritico({ canal, args, E }) {
     const p = await prepararSessao({ canal, ep: resolverEpisodio(alvo.dir) });
     log.ok(`rodada ${p.n} preparada: leia ${relativo(p.pedido)}`);
     for (const im of p.imagens) log.info(`  ${relativo(im)}`);
-    log.info(`depois escreva olhar.json e julgar.json em ${relativo(p.pasta)} e rode: node fabrica/cli.js critico --aplicar --episodio ${alvo.numero}`);
+    log.info(`depois escreva olhar.json e julgar.json em ${relativo(p.pasta)} e rode: node fabrica/cli.js critico --aplicar --episodio ${alvo.ref ?? alvo.numero}`);
     return;
   }
   if (args.aplicar) {
@@ -118,9 +118,9 @@ async function comandoCritico({ canal, args, E }) {
     const c = r.critico, u = c.rodadas.at(-1);
     log.info(`notas: ${Object.entries(u.notas).map(([k, v]) => `${k} ${v}`).join(" · ")}`);
     if (r.fim) await registrarCritico(canal, alvo, args);
-    if (c.aprovado) log.ok(`APROVADO na rodada ${u.n}. Próximo: node fabrica/cli.js episodio --episodio ${alvo.numero} (render → entrega)`);
+    if (c.aprovado) log.ok(`APROVADO na rodada ${u.n}. Próximo: node fabrica/cli.js episodio --episodio ${alvo.ref ?? alvo.numero} (render → entrega)`);
     else if (r.fim) log.aviso(`REPROVADO: ${c.motivo}`);
-    else log.info(`patch aplicado; prepare a rodada ${u.n + 1}: node fabrica/cli.js critico --preparar --episodio ${alvo.numero}`);
+    else log.info(`patch aplicado; prepare a rodada ${u.n + 1}: node fabrica/cli.js critico --preparar --episodio ${alvo.ref ?? alvo.numero}`);
     return;
   }
   const r = await produzir({ canal, ep: alvo, de: "roteiro", ate: "critico", opcoes: { ...opcoesProducao(args), refazer: args.refazer ? opcoesProducao(args).refazer : ["critico"] }, E });

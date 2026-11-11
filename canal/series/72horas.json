@@ -1,6 +1,11 @@
 {
-  "_aviso": "Série 72 HORAS do canal ToquinhoVivo, aprovada pelo dono em 2026-11-10. Este arquivo substitui, para os episódios desta série, as chaves que trouxer do canal.json (motor/canal_serie.js). Ficção numa cidade inventada: sem data, órgão, empresa ou pessoa reais. Em construção: o mundo (Edifício Aurora) e o elenco entram nas fases S3 e S4.",
+  "_aviso": "Série 72 HORAS do canal ToquinhoVivo, aprovada pelo dono em 2026-11-10. Este arquivo substitui, para os episódios desta série, as chaves que trouxer do canal.json (motor/canal_serie.js; 'estilo' é fundido). Ficção numa cidade inventada (Vila Aurora): sem data, órgão, empresa ou pessoa reais; o boato do apagão de 3 dias só aparece como boato na boca dos personagens.",
   "frase_do_canal": "Você é o porteiro da noite do Edifício Aurora quando um relógio REINÍCIO EM 72:00:00 aparece em todas as telas e a cidade apaga, e a regra é: ninguém desce no subsolo antes do zero.",
+  "nicho": {
+    "resumo": "POV de suspense em primeira pessoa num prédio residencial durante um apagão de 3 dias: a síndica estocou água no subsolo e escolhe quem desce antes do zero.",
+    "publico": "quem mora ou trabalha em prédio (porteiro, interfone, síndica, grupo do condomínio) e viu o boato do apagão",
+    "diferencial": "o relógio do reinício na tela e uma vilã para odiar"
+  },
   "protagonista": {
     "id": "eu",
     "nome_real": "nunca dito",
@@ -9,8 +14,8 @@
     "pistas": {
       "maos": "pele branca, unhas curtas, relógio digital barato no pulso esquerdo",
       "roupa": "camisa polo cinza da portaria com 'ED. AURORA' bordado no peito",
-      "objeto": "lanterna amarela de borracha e o rádio comunicador da síndica",
-      "celular": "capinha transparente com uma foto 3x4 da mãe atrás; bateria sempre no fim",
+      "objeto": "o rádio comunicador da síndica e o caderno de ocorrências",
+      "celular": "capinha transparente com uma foto 3x4 da mãe atrás; bateria sempre no fim; é a lanterna dele no apagão",
       "jeito_de_falar": "fala pouco e baixo, educado demais com morador, engole o que pensa"
     },
     "maos": {
@@ -19,10 +24,278 @@
       "punho": "#7b838b",
       "detalhe": "relógio digital preto no pulso esquerdo"
     },
-    "objetos": ["lanterna", "radio", "celular"],
+    "objetos": ["radio", "celular", "caderno"],
     "voz": {
       "nome": "Umbriel",
       "estilo_base": "young man in his early twenties, polite and tired, speaks little and low, swallows what he thinks"
     }
-  }
+  },
+  "elenco": [
+    {
+      "id": "cida",
+      "nome": "Dona Cida",
+      "apelido": "Dona Cida",
+      "idade": 71,
+      "papel": "colega",
+      "funcao_no_lugar": "moradora do 402 há 30 anos; desce para conversar com o porteiro toda noite",
+      "funcao_na_historia": "faz rir e acredita em todo boato: é a primeira a estocar e a única que não ri do relógio",
+      "quer": "subir os galões antes que acabe a luz",
+      "esconde": "guarda um rádio a pilha e já viu o prédio apagar assim uma vez, há muitos anos",
+      "frase_tipica": "Eu falei! Ninguém me escuta neste prédio.",
+      "quando_para_de_brincar": "quando o elevador desce sozinho sem energia",
+      "visivel": true,
+      "visual": {
+        "pele": "#c68642",
+        "cabelo": "#d9d9d9",
+        "cabelo_estilo": "cacheado",
+        "oculos": true,
+        "roupa_cima": "#d4688a",
+        "roupa_baixo": "#3b4f73",
+        "altura": 1.5,
+        "proporcao": "baixa_forte",
+        "sapato": "#5a4636"
+      },
+      "voz": {
+        "nome": "Sulafat",
+        "estilo_base": "woman in her seventies, chatty, funny, warm, from the suburbs of São Paulo",
+        "filtro": null,
+        "status": "A CONFIRMAR no casting"
+      },
+      "cor_legenda": "#fcb46c"
+    },
+    {
+      "id": "wanderley",
+      "nome": "Seu Wanderley",
+      "apelido": "Seu Wanderley",
+      "idade": 63,
+      "papel": "voz_distante",
+      "funcao_no_lugar": "zelador do prédio há 30 anos; faz a ronda pelos andares com a lanterna",
+      "funcao_na_historia": "nega o perigo pelo rádio ('boato da internet'), ensinou o protagonista e conhece todos os segredos do prédio",
+      "quer": "terminar a ronda e não se meter com a síndica",
+      "esconde": "sabe por que o subsolo foi trancado da última vez",
+      "frase_tipica": "Calma, garoto. Prédio velho faz barulho.",
+      "quando_para_de_brincar": "quando a síndica fala em lista",
+      "visivel": true,
+      "visual": {
+        "pele": "#a0704a",
+        "cabelo": "#9a9a9a",
+        "cabelo_estilo": "careca",
+        "roupa_cima": "#3b5a7a",
+        "roupa_baixo": "#2c3a4d",
+        "altura": 1.72,
+        "proporcao": "forte",
+        "objeto": "lanterna",
+        "sapato": "#2a2a2a"
+      },
+      "voz": {
+        "nome": "Charon",
+        "estilo_base": "man in his sixties, calm, deep, a little hoarse, fatherly, never in a hurry",
+        "filtro": "radio",
+        "status": "A CONFIRMAR no casting"
+      },
+      "cor_legenda": "#b4ccfc"
+    },
+    {
+      "id": "celina",
+      "nome": "Dona Celina",
+      "apelido": "Dona Celina, a síndica",
+      "idade": 54,
+      "papel": "vilao",
+      "funcao_no_lugar": "síndica do Edifício Aurora; mora no 1401; manda no grupo do prédio",
+      "funcao_na_historia": "a vilã: mente no grupo ('é boato'), esconde água e comida no subsolo há meses, humilha o porteiro e escolhe quem desce antes do zero",
+      "quer": "descer com os 'seus' antes do zero e manter todo mundo calmo lá em cima",
+      "esconde": "sabe o que acontece quando o relógio zera: já viveu um reinício",
+      "frase_tipica": "Querido, isso não é da sua conta.",
+      "quando_para_de_brincar": "nunca brinca: sorri",
+      "visivel": true,
+      "visual": {
+        "pele": "#f0c8a8",
+        "cabelo": "#4a2f22",
+        "cabelo_estilo": "curto_penteado",
+        "roupa_cima": "#7b2d3b",
+        "acessorio": "casaco (roupão vinho)",
+        "roupa_camisa": "#efe6d8",
+        "roupa_baixo": "#5b2430",
+        "altura": 1.68,
+        "proporcao": "magro",
+        "objeto": "lanterna",
+        "sapato": "#2a1a1a"
+      },
+      "voz": {
+        "nome": "Despina",
+        "estilo_base": "woman in her fifties, smooth, sweet and polite on the surface, cold underneath, never raises her voice",
+        "filtro": null,
+        "status": "A CONFIRMAR no casting"
+      },
+      "cor_legenda": "#ff9e9e"
+    },
+    {
+      "id": "mae",
+      "nome": "Dona Lurdes",
+      "apelido": "a mãe",
+      "idade": 52,
+      "papel": "quem_voce_ama",
+      "funcao_no_lugar": "mora na periferia da cidade, longe do prédio",
+      "funcao_na_historia": "o motivo: está sem água e sem luz, e só fala com o filho por mensagem",
+      "quer": "que o filho volte para casa",
+      "esconde": "não contou que acabou o gás",
+      "frase_tipica": "Tô bem, filho. Só me responde.",
+      "quando_para_de_brincar": "—",
+      "visivel": false,
+      "voz": null,
+      "cor_legenda": "#ffd1dc"
+    }
+  ],
+  "estilo": {
+    "legenda": {
+      "cores_por_personagem": { "eu": "#ffffff", "cida": "#fcb46c", "wanderley": "#b4ccfc", "celina": "#ff9e9e" }
+    }
+  },
+  "cenarios": [
+    {
+      "id": "portaria",
+      "mundo": "edificio_aurora",
+      "origem": [0, 0, 0],
+      "rot_y_graus": 0,
+      "nome": "Portaria do Edifício Aurora",
+      "descricao": "Guarita envidraçada de frente para o hall: monitores das câmeras, interfone, rádio da síndica. No hall, dois elevadores com mostrador, caixas de correio, a porta de vidro da rua, o quadro de luz e luzes de emergência.",
+      "ambiente": { "tipo": "corredor_servico", "ganho_db": -31 },
+      "camera_inicial": { "no": "gr_assento", "postura": "sentado", "olhar": "maos", "pos": [0, 1.48, 0] },
+      "piso": [
+        [-3.6, -6.85, 4.45, -1.1],
+        [1.6, -1.15, 4.45, 2.25],
+        [0.35, 1.3, 4.45, 2.25],
+        [-1, 0, 1, 1],
+        [0.35, 0.95, 0.85, 1.6]
+      ],
+      "caminho": {
+        "nos": {
+          "gr_assento": [0, 0, 0],
+          "gr_centro": [0.25, 0, 0.5],
+          "gr_porta_dentro": [0.6, 0, 0.92],
+          "gr_porta_fora": [0.6, 0, 1.75],
+          "hall_atras": [2.6, 0, 1.75],
+          "hall_lado": [2.6, 0, -1.6],
+          "hall_meio": [1.2, 0, -4.2],
+          "hall_elevador": [-0.9, 0, -6.1]
+        },
+        "arestas": [
+          ["gr_assento", "gr_centro"],
+          ["gr_centro", "gr_porta_dentro"],
+          ["gr_porta_fora", "hall_atras"],
+          ["hall_atras", "hall_lado"],
+          ["hall_lado", "hall_meio"],
+          ["hall_meio", "hall_elevador"]
+        ],
+        "assentos": { "gr_assento": { "yaw_graus": 0 } }
+      },
+      "marcas": {
+        "cida_elevador": [1.45, 0, -5.55],
+        "cida_frente": [0.35, 0, -2.1],
+        "hall_entrada": [-3.0, 0, -3.2]
+      },
+      "props": [
+        { "id": "sala_portaria", "tipo": "sala", "tamanho": [8.4, 3.0, 9.4], "centro": [0.4, 0, -2.3], "cor_piso": "#cfc6b4", "piso_padrao": "ladrilho", "cor_rejunte": "#a39a88", "cor_parede": "#e7e0cf", "cor_faixa": "#2e5d6b", "altura_faixa": 1.0, "rabiscos": 6,
+          "aberturas": [
+            { "parede": "norte", "centro": -0.9, "largura": 1.0, "altura": 2.1 },
+            { "parede": "norte", "centro": 1.7, "largura": 1.0, "altura": 2.1 },
+            { "parede": "oeste", "centro": -3.2, "largura": 1.8, "altura": 2.4 }
+          ] },
+        { "id": "guarita", "tipo": "guiche", "pos": [0, 0, -0.55], "largura": 2.2, "altura_balcao": 1.05, "cor_balcao": "#6f6a63", "cor_vidro": "#c5dbe6", "furos": false, "fenda": false, "porta_fundos": { "x": 0.6, "largura": 1.1, "altura": 2.2 }, "piso_cabine": true, "cor_piso_cabine": "#8a8478", "banqueta": { "altura": 0.74, "pos": [0, 0, 0.12] } },
+        { "id": "porta_guarita", "tipo": "porta", "pos": [0.6, 0, 1.25], "tamanho": [0.8, 2.05], "folhas": 1, "dobradica": "leste", "abre_para": "+z", "angulo_max_graus": 165, "tempo_abrir_s": 0.6, "cor": "#6f6a63", "vidro": false, "estado": "fechada" },
+        { "id": "monitores", "tipo": "monitores", "pos": [-0.5, 1.05, -0.5], "rot": [0, 0.55, 0], "grade": [2, 2], "tamanho_tela": [0.3, 0.21], "hora_inicial": "23:58",
+          "telas": [ { "cena": "hall", "rotulo": "CAM 1 HALL" }, { "cena": "entrada", "rotulo": "CAM 2 ENTRADA" }, { "cena": "garagem", "rotulo": "CAM 3 S1" }, { "cena": "elevador", "rotulo": "CAM 5 ELEVADOR" } ] },
+        { "id": "interfone", "tipo": "interfone", "pos": [0.8, 1.3, -0.44], "tamanho": [0.24, 0.36] },
+        { "id": "radio_sindica", "tipo": "radio_base", "pos": [0.42, 1.05, -0.34], "rot": [0, -0.8, 0], "vozes": { "celina": "SÍNDICA", "wanderley": "ZELADOR" } },
+        { "id": "caderno", "tipo": "caixa", "pos": [-0.02, 1.05, -0.57], "tamanho": [0.2, 0.012, 0.15], "cor": "#2f4a6a" },
+        { "id": "luz_guarita", "tipo": "lampada", "pos": [0, 2.95, 0.35] },
+        { "id": "luz_hall", "tipo": "lampada", "pos": [0.4, 2.98, -4.2], "quantidade": 2 },
+        { "id": "elevador_social", "tipo": "elevador", "pos": [-0.9, 0, -7.0], "largura": 1.0, "altura": 2.1, "texto": ["T"], "estado": "fechado" },
+        { "id": "elevador_servico", "tipo": "elevador", "pos": [1.7, 0, -7.0], "largura": 1.0, "altura": 2.1, "texto": ["12"], "estado": "fechado" },
+        { "id": "placa_edificio", "tipo": "placa", "pos": [0.4, 2.62, -6.93], "tamanho": [2.2, 0.3], "texto": ["EDIFÍCIO AURORA"], "cor": "#2e5d6b", "cor_texto": "#f3ead8" },
+        { "id": "porta_rua", "tipo": "porta", "pos": [-3.8, 0, -3.2], "rot": [0, 1.5707963267948966, 0], "tamanho": [1.8, 2.3], "folhas": 2, "cor": "#3a4248", "vidro": true, "placa_texto": null, "estado": "fechada" },
+        { "id": "caixas_correio", "tipo": "armario_volumes", "pos": [4.25, 0, -4.6], "rot": [0, -1.5707963267948966, 0], "tamanho": [1.3, 1.5, 0.3], "colunas": 6, "linhas": 6, "cor": "#8a8f88" },
+        { "id": "quadro_luz", "tipo": "quadro_luz", "pos": [4.45, 1.6, -2.4], "rot": [0, -1.5707963267948966, 0], "estado": "normal" },
+        { "id": "emerg_leste", "tipo": "luz_emergencia", "pos": [4.45, 2.45, -1.0], "rot": [0, -1.5707963267948966, 0] },
+        { "id": "emerg_oeste", "tipo": "luz_emergencia", "pos": [-3.65, 2.45, -5.6], "rot": [0, 1.5707963267948966, 0] },
+        { "id": "emerg_norte", "tipo": "luz_emergencia", "pos": [3.2, 2.55, -6.9] },
+        { "id": "planta_hall", "tipo": "planta", "pos": [-3.2, 0, -6.4] },
+        { "id": "tapete", "tipo": "caixa", "pos": [-3.0, 0, -3.2], "tamanho": [1.2, 0.012, 1.8], "cor": "#5b4a3a" },
+        { "id": "carrinho_cida", "tipo": "carrinho_feira", "pos": [2.05, 0, -5.8] }
+      ],
+      "detalhes_vida": []
+    },
+    {
+      "id": "subsolo",
+      "mundo": "edificio_aurora",
+      "origem": [40, 0, 0],
+      "rot_y_graus": 0,
+      "nome": "Subsolo 2 (S2) do Edifício Aurora",
+      "descricao": "Garagem do segundo subsolo: colunas, faixas amarelas, o carro da síndica, paletes de galões até quase o teto, caixas de comida com etiqueta e a porta do depósito com cadeado e uma lista colada.",
+      "ambiente": { "tipo": "guarda_volumes", "ganho_db": -32 },
+      "camera_inicial": { "no": "s2_elevador", "postura": "em_pe", "olhar": "s2_meio" },
+      "piso": [
+        [-4.8, -10.8, 4.8, 0.8]
+      ],
+      "caminho": {
+        "nos": {
+          "s2_elevador": [0, 0, 0.3],
+          "s2_meio": [0.6, 0, -4.0],
+          "s2_estoque": [2.2, 0, -5.2],
+          "s2_deposito": [1.6, 0, -10.2]
+        },
+        "arestas": [
+          ["s2_elevador", "s2_meio"],
+          ["s2_meio", "s2_estoque"],
+          ["s2_estoque", "s2_deposito"]
+        ]
+      },
+      "marcas": {
+        "s2_celina": [0.7, 0, -7.4]
+      },
+      "props": [
+        { "id": "sala_s2", "tipo": "sala", "tamanho": [10, 2.7, 12], "centro": [0, 0, -5], "cor_piso": "#77766f", "cor_parede": "#a7a69f", "cor_faixa": "#e0b53a", "altura_faixa": 0.9, "forro": false, "cor_teto": "#8d8c86", "rabiscos": 12,
+          "aberturas": [
+            { "parede": "sul", "centro": 0, "largura": 1.0, "altura": 2.1 },
+            { "parede": "norte", "centro": 1.6, "largura": 0.9, "altura": 2.1 }
+          ] },
+        { "id": "elevador_s2", "tipo": "elevador", "pos": [0, 0, 1.0], "rot": [0, 3.141592653589793, 0], "largura": 1.0, "altura": 2.1, "texto": ["S2"], "estado": "fechado" },
+        { "id": "coluna_1", "tipo": "caixa", "pos": [-2.5, 0, -3], "tamanho": [0.45, 2.7, 0.45], "cor": "#9a9993" },
+        { "id": "coluna_2", "tipo": "caixa", "pos": [2.5, 0, -3], "tamanho": [0.45, 2.7, 0.45], "cor": "#9a9993" },
+        { "id": "coluna_3", "tipo": "caixa", "pos": [-2.5, 0, -8], "tamanho": [0.45, 2.7, 0.45], "cor": "#9a9993" },
+        { "id": "coluna_4", "tipo": "caixa", "pos": [2.5, 0, -8], "tamanho": [0.45, 2.7, 0.45], "cor": "#9a9993" },
+        { "id": "placa_s2", "tipo": "placa", "pos": [-2.5, 1.8, -2.76], "tamanho": [0.42, 0.3], "texto": ["S2"], "cor": "#e0b53a", "cor_texto": "#1d1a17" },
+        { "id": "faixa_vaga_1", "tipo": "caixa", "pos": [-3.7, 0, -5.5], "tamanho": [0.08, 0.006, 4.6], "cor": "#e0b53a" },
+        { "id": "faixa_vaga_2", "tipo": "caixa", "pos": [-1.3, 0, -5.5], "tamanho": [0.08, 0.006, 4.6], "cor": "#e0b53a" },
+        { "id": "carro_celina", "tipo": "carro", "pos": [-2.5, 0, -5.5], "rot": [0, 1.5707963267948966, 0], "cor": "#2b2f36" },
+        { "id": "galoes_1", "tipo": "galoes", "pos": [3.7, 0, -2.8], "pilhas": [3, 3, 4] },
+        { "id": "galoes_2", "tipo": "galoes", "pos": [3.7, 0, -4.0], "pilhas": [3, 3, 4] },
+        { "id": "galoes_3", "tipo": "galoes", "pos": [3.7, 0, -5.2], "pilhas": [3, 3, 4] },
+        { "id": "galoes_4", "tipo": "galoes", "pos": [3.7, 0, -1.6], "pilhas": [3, 3, 3] },
+        { "id": "caixas_comida", "tipo": "caixas_estoque", "pos": [3.7, 0, -6.5], "rot": [0, -1.5707963267948966, 0], "pilhas": [3, 2, 4], "rotulo": ["ESTOCADO EM MAIO", "1401 · NÃO MEXER"] },
+        { "id": "porta_deposito", "tipo": "porta", "pos": [1.6, 0, -11.0], "tamanho": [0.9, 2.1], "folhas": 1, "dobradica": "oeste", "abre_para": "-z", "cor": "#4f6370", "vidro": false, "estado": "fechada" },
+        { "id": "cadeado_deposito", "tipo": "cadeado", "pos": [1.95, 1.05, -10.97] },
+        { "id": "lista_porta", "tipo": "papel_lista", "pos": [1.55, 1.55, -10.96], "tamanho": [0.42, 0.6], "titulo": "QUEM DESCE\nANTES DO ZERO",
+          "linhas": ["1401  CELINA (SÍNDICA) - SIM", "1402  DR. HÉLIO - SIM", "1301  FAMÍLIA PRADO - SIM", "1201  CASAL ARAGÃO - SIM", "1104  SRA. MOTTA - SIM", "", "!ZELADOR - NÃO", "!PORTEIRO - NÃO"] },
+        { "id": "luz_s2", "tipo": "lampada", "pos": [0, 2.68, -5.0], "quantidade": 3 },
+        { "id": "emerg_s2_oeste", "tipo": "luz_emergencia", "pos": [-4.95, 2.3, -3.0], "rot": [0, 1.5707963267948966, 0] },
+        { "id": "emerg_s2_leste", "tipo": "luz_emergencia", "pos": [4.95, 2.3, -9.0], "rot": [0, -1.5707963267948966, 0] },
+        { "id": "emerg_s2_sul", "tipo": "luz_emergencia", "pos": [-1.2, 2.4, 0.95], "rot": [0, 3.141592653589793, 0] },
+        { "id": "emerg_s2_norte", "tipo": "luz_emergencia", "pos": [-0.6, 2.4, -10.95] },
+        { "id": "lanterna_celular", "tipo": "lanterna", "pos": [0, 0, 0], "estado": "apagada" }
+      ],
+      "detalhes_vida": []
+    }
+  ],
+  "mundos": [
+    {
+      "id": "edificio_aurora",
+      "nome": "Edifício Aurora (madrugada do apagão)",
+      "modulos": ["portaria", "subsolo"],
+      "passagens": [
+        { "id": "p_guarita", "porta": "porta_guarita", "liga": ["gr_porta_dentro", "gr_porta_fora"], "auto": true },
+        { "id": "p_elevador", "elevador": true, "liga": ["hall_elevador", "s2_elevador"] }
+      ]
+    }
+  ]
 }

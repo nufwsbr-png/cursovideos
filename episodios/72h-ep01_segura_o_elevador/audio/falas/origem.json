@@ -1,0 +1,192 @@
+{
+  "f01": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Sulafat",
+    "gerado_em": "2026-11-10T23:20:23+00:00",
+    "duracao_s": 4.233,
+    "texto": "Moço, segura o elevador que eu tô estocando!",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, woman in her seventies, chatty, funny, warm, from the suburbs of São Paulo, loud from across the lobby, cheerful, a little out of breath, pushing a heavy cart",
+    "hash_conteudo": "sha256:7a43a5db3d4ec3eab21833cd5da6d7e457901277ae8201511bd13a46615d99a2"
+  },
+  "f02": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Umbriel",
+    "gerado_em": "2026-11-10T23:20:23+00:00",
+    "duracao_s": 4.168,
+    "texto": "Tudo isso, Dona Cida? Vai abrir um mercado?",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, young man in his early twenties, polite and tired, speaks little and low, swallows what he thinks, amused, polite, a small laugh",
+    "hash_conteudo": "sha256:5451b0386a98596ee3feec8c0b43178b91b8a24a3a678d090af14a3f33a839f3"
+  },
+  "f03": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Sulafat",
+    "gerado_em": "2026-11-10T23:20:23+00:00",
+    "duracao_s": 3.283,
+    "texto": "Viu? Eu falei! Ninguém me escuta.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, woman in her seventies, chatty, funny, warm, from the suburbs of São Paulo, half scared, half vindicated, fast",
+    "hash_conteudo": "sha256:73b18fe6018bb62760b3894b37b0e4e432a6d60cac85fa95b790c0bffb085c7d"
+  },
+  "f04": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Charon",
+    "gerado_em": "2026-11-10T23:20:23+00:00",
+    "duracao_s": 3.805,
+    "texto": "Calma, garoto. É o boato da internet.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, man in his sixties, calm, deep, a little hoarse, fatherly, never in a hurry, calm, fatherly, a little tired, over a walkie-talkie",
+    "hash_conteudo": "sha256:d6b636bd2f1a24861619c9360e4dfdbd83157861cdc615c0ecb1f6df88dd072b"
+  },
+  "f05": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Charon",
+    "gerado_em": "2026-11-10T23:20:23+00:00",
+    "duracao_s": 2.432,
+    "texto": "Amanhã cedo volta tudo.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, man in his sixties, calm, deep, a little hoarse, fatherly, never in a hurry, reassuring, slow",
+    "hash_conteudo": "sha256:8db9d6ce1248063f86e2a38c0d02edb61298189eb1030b2caa56f51b90b30e09"
+  },
+  "f06": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Umbriel",
+    "gerado_em": "2026-11-10T23:20:23+00:00",
+    "duracao_s": 2.548,
+    "texto": "O relógio... continua.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, young man in his early twenties, polite and tired, speaks little and low, swallows what he thinks, whisper, unsettled",
+    "hash_conteudo": "sha256:0a191d30359ee9c0ef3f03d106bd8503b9b077af62413063caf856f6fc7a69ff"
+  },
+  "f07": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Umbriel",
+    "gerado_em": "2026-11-10T23:20:23+00:00",
+    "duracao_s": 2.357,
+    "texto": "O elevador tá descendo.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, young man in his early twenties, polite and tired, speaks little and low, swallows what he thinks, low, confused",
+    "hash_conteudo": "sha256:a16589c5a888e64d93021d894cc5ae4f713d5f6b3a83bd3c51950275e97b16bd"
+  },
+  "f08": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Sulafat",
+    "gerado_em": "2026-11-10T23:20:23+00:00",
+    "duracao_s": 1.826,
+    "texto": "Sem luz? Como?",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, woman in her seventies, chatty, funny, warm, from the suburbs of São Paulo, scared, quiet",
+    "hash_conteudo": "sha256:31fa045dc2eb2fdc633605685a71886f57b7e61db6216077af786a9a541c4985"
+  },
+  "f09": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Umbriel",
+    "gerado_em": "2026-11-10T23:20:23+00:00",
+    "duracao_s": 3.416,
+    "texto": "Isso é água. Água até o teto.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, young man in his early twenties, polite and tired, speaks little and low, swallows what he thinks, slow, realizing, quiet anger",
+    "hash_conteudo": "sha256:308c007e180731f2b53a9bb6e9b8b523fa4dd4d4a551ef98758b368a7bd56858"
+  },
+  "f10": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Despina",
+    "gerado_em": "2026-11-10T23:20:23+00:00",
+    "duracao_s": 3.725,
+    "texto": "Querido, se pedirem água diz que acabou.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, woman in her fifties, smooth, sweet and polite on the surface, cold underneath, never raises her voice, sweet, smooth, cold, smiling, over a walkie-talkie",
+    "hash_conteudo": "sha256:66133a4f9cac66f3e5e12d47848332f34768dc1e0520bd18172efaa75e84cfd7"
+  },
+  "f11": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Despina",
+    "gerado_em": "2026-11-10T23:20:24+00:00",
+    "duracao_s": 2.864,
+    "texto": "E desliga a câmera do S2.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, woman in her fifties, smooth, sweet and polite on the surface, cold underneath, never raises her voice, light, polite, an order",
+    "hash_conteudo": "sha256:6533e7cddf4d1c88e9815c489fd3a6a4df5daf0823d91cb952e44a8479910449"
+  },
+  "f12": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Despina",
+    "gerado_em": "2026-11-10T23:20:24+00:00",
+    "duracao_s": 4.3,
+    "texto": "Você é pago pra abrir portão, não pra olhar.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, woman in her fifties, smooth, sweet and polite on the surface, cold underneath, never raises her voice, soft and smiling, humiliating, very calm",
+    "hash_conteudo": "sha256:7fbc76186200378cf0a8fb9211d8bb07ae6b79a21c7debfbdb7085d61c4d5a3c"
+  },
+  "f13": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Sulafat",
+    "gerado_em": "2026-11-10T23:20:24+00:00",
+    "duracao_s": 3.749,
+    "texto": "Ela jurou no grupo que era boato...",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, woman in her seventies, chatty, funny, warm, from the suburbs of São Paulo, hurt, quiet, disbelief",
+    "hash_conteudo": "sha256:3cc2157aafaa7286d1384d3cb27f2817fcd2a2ed7c5da634131e4b9417c86eff"
+  },
+  "f14": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Sulafat",
+    "gerado_em": "2026-11-10T23:20:24+00:00",
+    "duracao_s": 2.146,
+    "texto": "Não entra aí, moço.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, woman in her seventies, chatty, funny, warm, from the suburbs of São Paulo, scared, pleading, from a distance",
+    "hash_conteudo": "sha256:373b5e794896acc8d5ed82ea0d20f37e9a89ff991373e979469cede40bb99f3b"
+  },
+  "f15": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Umbriel",
+    "gerado_em": "2026-11-10T23:20:24+00:00",
+    "duracao_s": 1.184,
+    "texto": "Maio...",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, young man in his early twenties, polite and tired, speaks little and low, swallows what he thinks, whisper, reading, stunned",
+    "hash_conteudo": "sha256:adfa7fa69075ad160f722933150a1e65834c2075ed5dbd98816f5f52f294714a"
+  },
+  "f16": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Umbriel",
+    "gerado_em": "2026-11-10T23:20:24+00:00",
+    "duracao_s": 2.02,
+    "texto": "Porteiro... não.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, young man in his early twenties, polite and tired, speaks little and low, swallows what he thinks, whisper, breaking",
+    "hash_conteudo": "sha256:895531522ae10b52b8fe82b0030049a8812bc98689b9d96797fc477fae0974bf"
+  },
+  "f17": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Despina",
+    "gerado_em": "2026-11-10T23:20:24+00:00",
+    "duracao_s": 4.348,
+    "texto": "Você não sabe o que acontece no zero, querido.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, woman in her fifties, smooth, sweet and polite on the surface, cold underneath, never raises her voice, close, calm, sweet, almost kind",
+    "hash_conteudo": "sha256:df8bb8e2c1a0b1e9a49e49bd3fa32d0d5d02b7fb2b73a62f0d6d9e407af81841"
+  },
+  "f18": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Despina",
+    "gerado_em": "2026-11-10T23:20:24+00:00",
+    "duracao_s": 1.132,
+    "texto": "Eu sei.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, woman in her fifties, smooth, sweet and polite on the surface, cold underneath, never raises her voice, a whisper with a smile",
+    "hash_conteudo": "sha256:cb4e51f4e146e36cddaffad69c8425c2584fda90398534c50c1d744b4e55ee1b"
+  },
+  "f19": {
+    "provedor": "falso",
+    "modelo": "voz_falsa.py",
+    "voz": "Despina",
+    "gerado_em": "2026-11-10T23:20:24+00:00",
+    "duracao_s": 4.723,
+    "texto": "Agora segura o elevador... que eu tô estocando.",
+    "estilo": "native Brazilian Portuguese speaker from Brazil, Brazilian accent, no English accent, woman in her fifties, smooth, sweet and polite on the surface, cold underneath, never raises her voice, slow, smiling, chilling, the joke is gone",
+    "hash_conteudo": "sha256:97c3dd8fee0a50bb5bf89a9d209df566b00ad7f37d1973c1433aa4762f3aa873"
+  }
+}

@@ -34,7 +34,7 @@ export function montarMundo(canal, idCenario) {
   const { mundoDef, cenario } = moduloDoMundo(canal, idCenario);
   const ids = mundoDef ? mundoDef.modulos : [cenario.id];
   const modulos = ids.map((id) => (canal.cenarios || []).find((c) => c.id === id)).filter(Boolean);
-  const mundo = { id: mundoDef?.id ?? cenario.id, modulos: [], nos: {}, marcas: {}, props: {}, adj: {}, passagens: [], pisos: [], avisos: [] };
+  const mundo = { id: mundoDef?.id ?? cenario.id, modulos: [], nos: {}, marcas: {}, props: {}, adj: {}, passagens: [], elevadores: [], pisos: [], avisos: [] };
   for (const cen of modulos) {
     const tf = transformador(cen);
     const mod = { id: cen.id, def: cen, origem: tf.origem, rotY: tf.rotY, pisos: (cen.piso || []).map(tf.retangulo), ambiente: cen.ambiente || null, ver_tambem: cen.ver_tambem || [] };
@@ -57,6 +57,8 @@ export function montarMundo(canal, idCenario) {
     for (const [a, b] of cen.caminho?.arestas || []) ligar(mundo, a, b);
   }
   for (const ps of mundoDef?.passagens || []) {
+    // elevador: liga dois lugares sem caminho a pé (só se chega pela transição no preto, com camera.ir)
+    if (ps.elevador) { mundo.elevadores.push({ ...ps }); continue; }
     const [a, b] = ps.liga;
     ligar(mundo, a, b);
     mundo.passagens.push({ ...ps, auto: ps.auto !== false, pos: ps.porta && mundo.props[ps.porta] ? mundo.props[ps.porta].pos : null });
@@ -170,7 +172,8 @@ export function validarMundo(canal) {
     const nos = Object.keys(mundo.nos);
     if (nos.length) {
       const alcancados = new Set([nos[0]]); const fila = [nos[0]];
-      while (fila.length) { const u = fila.shift(); for (const v of mundo.adj[u] || []) if (!alcancados.has(v)) { alcancados.add(v); fila.push(v); } }
+      const vizinhos = (u) => [...(mundo.adj[u] || []), ...mundo.elevadores.flatMap((el) => (el.liga[0] === u ? [el.liga[1]] : el.liga[1] === u ? [el.liga[0]] : []))];
+      while (fila.length) { const u = fila.shift(); for (const v of vizinhos(u)) if (!alcancados.has(v)) { alcancados.add(v); fila.push(v); } }
       const soltos = nos.filter((n) => !alcancados.has(n));
       if (soltos.length) erros.push(`${w.id}: nós sem caminho até o resto: ${soltos.join(', ')}`);
     }

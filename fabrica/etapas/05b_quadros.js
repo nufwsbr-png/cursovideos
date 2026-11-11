@@ -27,7 +27,7 @@ export function temposImportantes(lt) {
 }
 
 export async function etapaQuadros({ canal, ep, escala = 1 }) {
-  log.passo(`Etapa 5b — Quadros e revisor do episódio ${ep.roteiro.numero} (escala ${escala})`);
+  log.passo(`Etapa 5b — Quadros e revisor do episódio ${ep.ref ?? ep.roteiro.numero} (escala ${escala})`);
   const lt = lerJson(path.join(ep.dir, "linha_do_tempo.json"));
   const comuns = ["--episodio", ep.dir, "--escala", String(escala)];
   // stills de rodadas anteriores podem estar em outra escala e confundir o revisor

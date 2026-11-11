@@ -25,7 +25,7 @@ async function folhaDoVideoPronto(arquivo, destino) {
 }
 
 export async function etapaProva({ canal, ep }) {
-  log.passo(`Etapa 8 — Prova do episódio ${ep.roteiro.numero}`);
+  log.passo(`Etapa 8 — Prova do episódio ${ep.ref ?? ep.roteiro.numero}`);
   const arquivo = path.join(ep.dir, nomeMp4(ep.roteiro.numero));
   if (!fs.existsSync(arquivo)) throw new Error(`Não existe ${arquivo}. Rode a etapa de som antes.`);
   const lt = lerJson(path.join(ep.dir, "linha_do_tempo.json"));

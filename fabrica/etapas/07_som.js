@@ -9,7 +9,7 @@ import { log } from "../util/log.js";
 export const nomeMp4 = (numero) => `ep${String(numero).padStart(2, "0")}.mp4`;
 
 export async function etapaSom({ canal, ep }) {
-  log.passo(`Etapa 7 — Som do episódio ${ep.roteiro.numero}`);
+  log.passo(`Etapa 7 — Som do episódio ${ep.ref ?? ep.roteiro.numero}`);
   await executar(PYTHON, [path.join(PASTA_AUDIO, "sintetizar.py"), "--episodio", ep.dir]);
   const video = path.join(ep.dir, "video_mudo.mp4");
   const saida = nomeMp4(ep.roteiro.numero);

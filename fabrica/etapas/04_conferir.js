@@ -7,7 +7,7 @@ import { log } from "../util/log.js";
 import { etapaVozes } from "./03_vozes.js";
 
 export async function etapaConferir({ canal, ep, regerar = true }) {
-  log.passo(`Etapa 4 — Conferir vozes do episódio ${ep.roteiro.numero}`);
+  log.passo(`Etapa 4 — Conferir vozes do episódio ${ep.ref ?? ep.roteiro.numero}`);
   await executar(PYTHON, [path.join(PASTA_AUDIO, "medir_falas.py"), "--episodio", ep.dir]);
   let medidas = lerJson(path.join(ep.dir, "medidas.json"));
   const origem = lerJson(path.join(ep.dir, "audio", "falas", "origem.json"), {});

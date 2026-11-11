@@ -95,3 +95,21 @@ _(a fábrica anexa aqui quando algo falha e é consertado)_
 - [2026-11-10] [REGRA] Dono pediu que os roteiros despertem emoção e vontade de assistir, estudando as estratégias de atenção: "Eles precisam ter raiva de algum personagem".
 - [2026-11-10] [REGRA] Dono aprovou o Epi. 01 de "72 HORAS": portaria do Edifício Aurora; a síndica Celina é a vilã (mente no grupo, esconde água no subsolo, humilha o porteiro, deixa os empregados fora da lista); a primeira frase volta na boca dela. O mapa de emoção está em `docs/metodo/emocoes_e_atencao.md`.
 - [2026-11-10] [REGRA] Dono aprovou as estratégias de emoção como regra de **todos** os roteiros, com a nota automática conferindo. Na primeira resposta disse "só o vilão"; pediu para refazer a pergunta e escolheu "virar regra".
+- [2026-11-10] [REGRA] Marca do canal: o personagem da marca é **humano** (o protagonista), não um mascote. Eu tinha proposto um "toquinho de árvore vivo" para a foto de perfil e o dono corrigiu: "O personagem é humano, não um toquinho de árvore". Motivo: a marca mostra quem o público é nos vídeos. Custo do erro: ≈ 11,5 créditos do Higgsfield em artes descartadas. Nos episódios o protagonista continua sem rosto (bíblia); se a foto de perfil mostra o rosto dele é decisão do dono (foram feitas as duas opções).
+- [2026-11-10] [MEDIDO] S3 (motor do Edifício Aurora: monitores com o relógio, elevador, interfone, apagão, lanterna, elevador entre lugares, sorriso da vilã):
+  - 0 pixel diferente em 4 stills do Guichê 3 antes e depois;
+  - mundo `edificio_aurora` válido (o elevador conta na ligação);
+  - roteiro 72h-1 com nota 100/100;
+  - quadros com vozes falsas: 112,2 s, revisor sem problema grave.
+- [2026-11-10] [MEDIDO] O revisor comparava todo episódio com `padrao_aprovado/quadros` (quadros do Guichê 3) e acusou "21 % de diferença" no 72h-1: alarme falso de série nova. Agora o padrão é por série (`padrao_aprovado/<série>/quadros`); sem a pasta, não compara.
+- [2026-11-10] [MEDIDO] Cinco defeitos vistos nos stills do 72h-1 antes do crítico, corrigidos no motor (depois: 0 pixel diferente em 8 stills do Guichê 3, 6 deles em pé):
+  1. a etiqueta das caixas saía cortada ("TOCADO EM MA"), justo a pista "MAIO". Agora o texto encolhe até caber (`texturaTexto({ ajustar: true })`), e a lista da porta faz o mesmo;
+  2. o celular na mão mostrava a mensagem do grupo da síndica dentro da conversa da "Mãe". Agora a tela mostra só a conversa de quem mandou a mensagem atual;
+  3. um "toco" escuro no canto, quando a câmera virava para a Celina, atrás dele. Com os braços pintados de cores diferentes, deu a manga do braço esquerdo: a cabeça girava 180° e o corpo continuava virado para a porta. Agora, em pé, o corpo acompanha a cabeça quando ela passa de ~35°;
+  4. as pernas de quem estava no facho pareciam transparentes: o clarão em `screen` levava o preto do traço a ~45 % de cinza. Agora o clarão é `soft-light`, e o traço fica escuro;
+  5. o rádio da portaria era uma caixa preta sem forma, e as falas da síndica pelo rádio não tinham dono na imagem. Agora o tipo `radio_base` tem um visor que mostra "SÍNDICA" ou "ZELADOR" enquanto a pessoa fala, e um led que pisca.
+- [2026-11-10] [HIPÓTESE] Voz sem corpo (rádio, telefone, alto-falante) precisa de um objeto que diga quem fala. Sem ele, o crítico desconta clareza, porque só a cor da legenda identifica a pessoa.
+- [2026-11-10] [MEDIDO] Crítico visual do 72h-1, rodada 1 (na sessão): gancho 7, legibilidade **6**, clareza 8, continuidade 8, acabamento 8, dilema 8.
+  - O que reprovou: texto importante pequeno justo na fala que depende dele. O mostrador do elevador ("▼ S1/S2", duas linhas num painel de 0,34 m a 6 m) nunca se lia, e a água na câmera do S2 eram retângulos miúdos.
+  - Causa da direção: o `aproximar` só fecha a lente durante a própria linha. Na linha seguinte, com `parar`, a lente volta a 115° em 1 s.
+  - Correção: patch nas linhas 9 e 11 (repetir o `aproximar`). Fora do patch: mostrador de 0,5 m numa linha só e galões grandes, com gargalo e tampa, na câmera do S2. Guichê 3: 0 pixel diferente.

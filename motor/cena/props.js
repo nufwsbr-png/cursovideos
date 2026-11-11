@@ -3,6 +3,7 @@
 import * as THREE from 'three';
 import { texturaTexto, texturaLadrilho, texturaForro, texturaParede, escurecer, clarear, geoCaixaArredondada, FONTE_PLACA } from './estilo.js';
 import { mulberry32, sementeDeTexto, lerp, clamp } from './util.js';
+import { TIPOS_PREDIO } from './props_predio.js';
 
 const V3 = (a) => new THREE.Vector3(a?.[0] || 0, a?.[1] || 0, a?.[2] || 0);
 // Luz pontual "falsa": guarda cor e intensidade (a história usa) sem entrar no shader. A luz do canal é chapada, como na referência;
@@ -312,6 +313,7 @@ const TIPOS = {
         const s = est?.estado || 'normal';
         let fator = s === 'apagada' ? 0 : s === 'fraca' ? 0.42 : s === 'piscar' ? padraoPisca[Math.floor(t * 9) % padraoPisca.length] : 1;
         fator *= q.luz;
+        if (!def.emergencia) fator *= 1 - (q.apagao || 0); // no apagão do prédio só a luz de emergência fica
         for (const l of luzes) l.intensity = (def.intensidade || 1.0) * fator * 1.5;
         for (const tb of tubos) tb.material.color.set(fator > 0.3 ? '#fff7dc' : fator > 0.05 ? '#8a8470' : '#3a3a3a');
       },
@@ -838,6 +840,9 @@ const TIPOS = {
     return { grupo: g, atualizar() {} };
   },
 };
+
+// props do Edifício Aurora (série 72 Horas): monitores, elevador, galões, lista, luz de emergência, quadro de luz...
+Object.assign(TIPOS, TIPOS_PREDIO);
 
 function rotacionarEmTorno(ext, interno, def) {
   // mantém a posição do def como pivô de rotação (a rotação é aplicada em criarProp no grupo externo;

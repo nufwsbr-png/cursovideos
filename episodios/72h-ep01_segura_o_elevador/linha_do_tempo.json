@@ -1,0 +1,1079 @@
+{
+  "fps": 30,
+  "duracao_total_s": 112.207,
+  "deslocamento_final_s": 16.207,
+  "origem": "linha_do_tempo.js",
+  "falas": [
+    {
+      "id": "f01",
+      "quem": "cida",
+      "inicio_s": 0,
+      "fim_s": 4.233,
+      "filtro": null,
+      "texto": "Moço, segura o elevador que eu tô estocando!"
+    },
+    {
+      "id": "f02",
+      "quem": "eu",
+      "inicio_s": 4.583,
+      "fim_s": 8.751,
+      "filtro": null,
+      "texto": "Tudo isso, Dona Cida? Vai abrir um mercado?"
+    },
+    {
+      "id": "f03",
+      "quem": "cida",
+      "inicio_s": 11.501,
+      "fim_s": 14.784,
+      "filtro": null,
+      "texto": "Viu? Eu falei! Ninguém me escuta."
+    },
+    {
+      "id": "f04",
+      "quem": "wanderley",
+      "inicio_s": 15.134,
+      "fim_s": 18.939,
+      "filtro": "radio",
+      "texto": "Calma, garoto. É o boato da internet."
+    },
+    {
+      "id": "f05",
+      "quem": "wanderley",
+      "inicio_s": 19.289,
+      "fim_s": 21.721,
+      "filtro": "radio",
+      "texto": "Amanhã cedo volta tudo."
+    },
+    {
+      "id": "f06",
+      "quem": "eu",
+      "inicio_s": 26.571,
+      "fim_s": 29.119,
+      "filtro": null,
+      "texto": "O relógio... continua."
+    },
+    {
+      "id": "f07",
+      "quem": "eu",
+      "inicio_s": 29.469,
+      "fim_s": 31.826,
+      "filtro": null,
+      "texto": "O elevador tá descendo."
+    },
+    {
+      "id": "f08",
+      "quem": "cida",
+      "inicio_s": 32.176,
+      "fim_s": 34.002,
+      "filtro": null,
+      "texto": "Sem luz? Como?"
+    },
+    {
+      "id": "f09",
+      "quem": "eu",
+      "inicio_s": 36.852,
+      "fim_s": 40.268,
+      "filtro": null,
+      "texto": "Isso é água. Água até o teto."
+    },
+    {
+      "id": "f10",
+      "quem": "celina",
+      "inicio_s": 40.618,
+      "fim_s": 44.343,
+      "filtro": "radio",
+      "texto": "Querido, se pedirem água diz que acabou."
+    },
+    {
+      "id": "f11",
+      "quem": "celina",
+      "inicio_s": 44.693,
+      "fim_s": 47.557,
+      "filtro": "radio",
+      "texto": "E desliga a câmera do S2."
+    },
+    {
+      "id": "f12",
+      "quem": "celina",
+      "inicio_s": 47.907,
+      "fim_s": 52.207,
+      "filtro": "radio",
+      "texto": "Você é pago pra abrir portão, não pra olhar."
+    },
+    {
+      "id": "f13",
+      "quem": "cida",
+      "inicio_s": 52.557,
+      "fim_s": 56.306,
+      "filtro": null,
+      "texto": "Ela jurou no grupo que era boato..."
+    },
+    {
+      "id": "f14",
+      "quem": "cida",
+      "inicio_s": 68.227,
+      "fim_s": 70.373,
+      "filtro": null,
+      "texto": "Não entra aí, moço."
+    },
+    {
+      "id": "f15",
+      "quem": "eu",
+      "inicio_s": 78.066,
+      "fim_s": 79.25,
+      "filtro": null,
+      "texto": "Maio..."
+    },
+    {
+      "id": "f16",
+      "quem": "eu",
+      "inicio_s": 91.566,
+      "fim_s": 93.586,
+      "filtro": null,
+      "texto": "Porteiro... não."
+    },
+    {
+      "id": "f17",
+      "quem": "celina",
+      "inicio_s": 93.936,
+      "fim_s": 98.284,
+      "filtro": null,
+      "texto": "Você não sabe o que acontece no zero, querido."
+    },
+    {
+      "id": "f18",
+      "quem": "celina",
+      "inicio_s": 98.634,
+      "fim_s": 99.766,
+      "filtro": null,
+      "texto": "Eu sei."
+    },
+    {
+      "id": "f19",
+      "quem": "celina",
+      "inicio_s": 100.134,
+      "fim_s": 104.857,
+      "filtro": null,
+      "texto": "Agora segura o elevador... que eu tô estocando."
+    }
+  ],
+  "linhas": [
+    {
+      "indice": 0,
+      "t_nominal": 0,
+      "inicio_s": 0,
+      "fim_s": 4.583,
+      "t_eventos": 0,
+      "ato": "rotina",
+      "fala": "f01",
+      "direcao": {
+        "olhar": "cida",
+        "acao": "parar",
+        "clima": "rotina",
+        "eventos": [
+          "personagem.cida.visivel=true",
+          "personagem.cida.posicao=cida_elevador",
+          "personagem.cida.pose=em_pe",
+          "personagem.cida.expressao=normal"
+        ]
+      },
+      "som": "carrinho rangendo no piso",
+      "imagem": "Dona Cida no hall, entre os elevadores, com um carrinho de feira cheio de galões e fardos de papel higiênico; o porteiro na guarita"
+    },
+    {
+      "indice": 1,
+      "t_nominal": 3.3,
+      "inicio_s": 4.583,
+      "fim_s": 9.101,
+      "t_eventos": 4.583,
+      "ato": "rotina",
+      "fala": "f02",
+      "direcao": {
+        "olhar": "carrinho_cida",
+        "acao": "parar",
+        "clima": "rotina",
+        "eventos": []
+      },
+      "som": "",
+      "imagem": "ele olha o carrinho lotado"
+    },
+    {
+      "indice": 2,
+      "t_nominal": 5.2,
+      "inicio_s": 9.101,
+      "fim_s": 11.501,
+      "t_eventos": 9.101,
+      "ato": "sinal",
+      "fala": null,
+      "direcao": {
+        "olhar": "monitores",
+        "acao": "pegar_celular",
+        "clima": "sinal",
+        "eventos": [
+          "celular.notificacao=0",
+          "celular.tela=0",
+          "prop.monitores.estado=contando",
+          "prop.monitores.texto=relogio|relogio|relogio|relogio",
+          "prop.interfone.estado=todos"
+        ]
+      },
+      "som": "bipe triplo; o interfone toca de todos os apartamentos",
+      "imagem": "todos os monitores mostram REINÍCIO EM 72:00:00; o celular dele também; o interfone acende inteiro"
+    },
+    {
+      "indice": 3,
+      "t_nominal": 7.6,
+      "inicio_s": 11.501,
+      "fim_s": 15.134,
+      "t_eventos": 11.501,
+      "ato": "sinal",
+      "fala": "f03",
+      "direcao": {
+        "olhar": "cida",
+        "acao": "guardar_celular",
+        "clima": "sinal",
+        "eventos": [
+          "prop.quadro_luz.estado=apagao",
+          "personagem.cida.expressao=surpresa"
+        ]
+      },
+      "som": "estalo; a luz cai",
+      "imagem": "as luzes piscam e apagam; acendem as luzes de emergência; os monitores continuam acesos, contando"
+    },
+    {
+      "indice": 4,
+      "t_nominal": 10.5,
+      "inicio_s": 15.134,
+      "fim_s": 19.289,
+      "t_eventos": 15.134,
+      "ato": "negacao",
+      "fala": "f04",
+      "direcao": {
+        "olhar": "radio_sindica",
+        "acao": "parar",
+        "clima": "sinal",
+        "eventos": []
+      },
+      "som": "chiado do rádio",
+      "imagem": "o rádio da síndica chia em cima do balcão"
+    },
+    {
+      "indice": 5,
+      "t_nominal": 13.4,
+      "inicio_s": 19.289,
+      "fim_s": 22.071,
+      "t_eventos": 19.289,
+      "ato": "negacao",
+      "fala": "f05",
+      "direcao": {
+        "olhar": "radio_sindica",
+        "acao": "parar",
+        "clima": "sinal",
+        "eventos": []
+      },
+      "som": "",
+      "imagem": "o zelador, pelo rádio, de algum andar lá em cima"
+    },
+    {
+      "indice": 6,
+      "t_nominal": 15,
+      "inicio_s": 22.071,
+      "fim_s": 26.571,
+      "t_eventos": 22.071,
+      "ato": "negacao",
+      "fala": null,
+      "direcao": {
+        "olhar": "celular",
+        "acao": "pegar_celular",
+        "clima": "sinal",
+        "eventos": [
+          "celular.notificacao=1",
+          "celular.tela=1"
+        ]
+      },
+      "som": "vibração",
+      "imagem": "mensagem da síndica no grupo do prédio"
+    },
+    {
+      "indice": 7,
+      "t_nominal": 19.5,
+      "inicio_s": 26.571,
+      "fim_s": 29.469,
+      "t_eventos": 26.571,
+      "ato": "escalada",
+      "fala": "f06",
+      "direcao": {
+        "olhar": "monitores",
+        "acao": "guardar_celular",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "som": "",
+      "imagem": "o monitor sem energia continua contando: 71:59:46"
+    },
+    {
+      "indice": 8,
+      "t_nominal": 22,
+      "inicio_s": 29.469,
+      "fim_s": 32.176,
+      "t_eventos": 29.469,
+      "ato": "escalada",
+      "fala": "f07",
+      "direcao": {
+        "olhar": "elevador_social",
+        "acao": "aproximar:elevador_social",
+        "clima": "escalada",
+        "eventos": [
+          "prop.elevador_social.texto=▼|S1"
+        ]
+      },
+      "som": "ronco grave do poço do elevador",
+      "imagem": "o mostrador do elevador social desce sozinho: ▼ S1"
+    },
+    {
+      "indice": 9,
+      "t_nominal": 24.6,
+      "inicio_s": 32.176,
+      "fim_s": 34.352,
+      "t_eventos": 32.176,
+      "ato": "escalada",
+      "fala": "f08",
+      "direcao": {
+        "olhar": "elevador_social",
+        "acao": "aproximar:elevador_social",
+        "clima": "escalada",
+        "eventos": [
+          "prop.elevador_social.texto=▼|S2",
+          "personagem.cida.expressao=medo"
+        ]
+      },
+      "som": "",
+      "imagem": "o mostrador marca ▼ S2; Dona Cida recua do elevador"
+    },
+    {
+      "indice": 10,
+      "t_nominal": 26.5,
+      "inicio_s": 34.352,
+      "fim_s": 36.852,
+      "t_eventos": 34.352,
+      "ato": "escalada",
+      "fala": null,
+      "direcao": {
+        "olhar": "monitores",
+        "acao": "aproximar:monitores",
+        "clima": "escalada",
+        "eventos": [
+          "prop.monitores.texto=s2|relogio|relogio|relogio"
+        ]
+      },
+      "som": "",
+      "imagem": "o monitor principal troca sozinho para a câmera do S2: paletes de galões até o teto, caixas de comida e o carro da síndica"
+    },
+    {
+      "indice": 11,
+      "t_nominal": 29,
+      "inicio_s": 36.852,
+      "fim_s": 40.618,
+      "t_eventos": 36.852,
+      "ato": "escalada",
+      "fala": "f09",
+      "direcao": {
+        "olhar": "monitores",
+        "acao": "aproximar:monitores",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "som": "",
+      "imagem": "ele entende: a síndica guardou água"
+    },
+    {
+      "indice": 12,
+      "t_nominal": 32,
+      "inicio_s": 40.618,
+      "fim_s": 44.693,
+      "t_eventos": 40.618,
+      "ato": "autoridade",
+      "fala": "f10",
+      "direcao": {
+        "olhar": "radio_sindica",
+        "acao": "parar",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "som": "chiado do rádio",
+      "imagem": "a voz doce da síndica no rádio"
+    },
+    {
+      "indice": 13,
+      "t_nominal": 35,
+      "inicio_s": 44.693,
+      "fim_s": 47.907,
+      "t_eventos": 44.693,
+      "ato": "autoridade",
+      "fala": "f11",
+      "direcao": {
+        "olhar": "monitores",
+        "acao": "parar",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "som": "",
+      "imagem": "a ordem"
+    },
+    {
+      "indice": 14,
+      "t_nominal": 37.6,
+      "inicio_s": 47.907,
+      "fim_s": 52.557,
+      "t_eventos": 47.907,
+      "ato": "autoridade",
+      "fala": "f12",
+      "direcao": {
+        "olhar": "radio_sindica",
+        "acao": "parar",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "som": "",
+      "imagem": "a humilhação, dita sorrindo"
+    },
+    {
+      "indice": 15,
+      "t_nominal": 41.4,
+      "inicio_s": 52.557,
+      "fim_s": 56.656,
+      "t_eventos": 52.557,
+      "ato": "autoridade",
+      "fala": "f13",
+      "direcao": {
+        "olhar": "cida",
+        "acao": "parar",
+        "clima": "escalada",
+        "eventos": [
+          "personagem.cida.expressao=triste"
+        ]
+      },
+      "som": "",
+      "imagem": "Dona Cida, baixinho, do lado do carrinho"
+    },
+    {
+      "indice": 16,
+      "t_nominal": 44,
+      "inicio_s": 56.656,
+      "fim_s": 57.856,
+      "t_eventos": 56.656,
+      "ato": "desobediencia",
+      "fala": null,
+      "direcao": {
+        "olhar": "elevador_social",
+        "acao": "levantar",
+        "clima": "escalada",
+        "eventos": [
+          "prop.elevador_social.texto=T"
+        ]
+      },
+      "som": "",
+      "imagem": "ele levanta; o mostrador do elevador volta para T, sozinho",
+      "movimento": {
+        "tipo": "levantar",
+        "duracao_s": 0.9,
+        "atraso_s": 0,
+        "inicio_s": 56.656,
+        "fim_s": 57.556
+      }
+    },
+    {
+      "indice": 17,
+      "t_nominal": 45.2,
+      "inicio_s": 57.856,
+      "fim_s": 68.227,
+      "t_eventos": 57.856,
+      "ato": "desobediencia",
+      "fala": null,
+      "direcao": {
+        "olhar": "caminho",
+        "acao": "andar:hall_elevador",
+        "clima": "escalada",
+        "eventos": [
+          "prop.elevador_social.estado=aberto"
+        ]
+      },
+      "som": "passos; plim do elevador",
+      "imagem": "sai pela porta de trás da guarita e atravessa o hall no escuro; as portas do elevador abrem sozinhas, esperando",
+      "movimento": {
+        "tipo": "andar",
+        "nos": [
+          "gr_assento",
+          "gr_centro",
+          "gr_porta_dentro",
+          "gr_porta_fora",
+          "hall_atras",
+          "hall_lado",
+          "hall_meio",
+          "hall_elevador"
+        ],
+        "distancia_m": 12.832,
+        "duracao_s": 10.221,
+        "atraso_s": 0,
+        "passo_hz": 2.9,
+        "portas": [
+          {
+            "porta": "porta_guarita",
+            "s": 1.485,
+            "t_rel": 1.318
+          }
+        ],
+        "modulos": [
+          {
+            "modulo": "portaria",
+            "t_rel": 0
+          }
+        ],
+        "inicio_s": 57.856,
+        "fim_s": 68.077
+      }
+    },
+    {
+      "indice": 18,
+      "t_nominal": 55,
+      "inicio_s": 68.227,
+      "fim_s": 70.723,
+      "t_eventos": 68.227,
+      "ato": "desobediencia",
+      "fala": "f14",
+      "direcao": {
+        "olhar": "elevador_social",
+        "acao": "parar",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "som": "",
+      "imagem": "Dona Cida, de longe, sem chegar perto"
+    },
+    {
+      "indice": 19,
+      "t_nominal": 57,
+      "inicio_s": 70.723,
+      "fim_s": 72.723,
+      "t_eventos": 71.473,
+      "ato": "desobediencia",
+      "fala": null,
+      "direcao": {
+        "olhar": "frente",
+        "acao": "transicao:preto:1.6",
+        "clima": "escalada",
+        "eventos": [
+          "camera.ir=s2_elevador",
+          "camera.postura=em_pe",
+          "prop.elevador_s2.estado=aberto",
+          "prop.lanterna_celular.estado=acesa"
+        ]
+      },
+      "som": "portas fechando; o elevador desce sem energia",
+      "imagem": "preto. O elevador abre no S2; ele liga a lanterna do celular",
+      "transicao": {
+        "tipo": "preto",
+        "saida_s": 0.3,
+        "segurar_s": 0.9,
+        "entrada_s": 0.4,
+        "total_s": 1.6,
+        "t_eventos_rel": 0.75,
+        "ir": "s2_elevador",
+        "postura": "em_pe",
+        "inicio_s": 70.723
+      }
+    },
+    {
+      "indice": 20,
+      "t_nominal": 59,
+      "inicio_s": 72.723,
+      "fim_s": 78.066,
+      "t_eventos": 72.723,
+      "ato": "desobediencia",
+      "fala": null,
+      "direcao": {
+        "olhar": "caminho",
+        "acao": "andar:s2_estoque",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "som": "passos no concreto",
+      "imagem": "o facho da lanterna passa pelas colunas e pelo carro da síndica até os paletes de galões",
+      "movimento": {
+        "tipo": "andar",
+        "nos": [
+          "s2_elevador",
+          "s2_meio",
+          "s2_estoque"
+        ],
+        "distancia_m": 6.296,
+        "duracao_s": 5.193,
+        "atraso_s": 0,
+        "passo_hz": 2.9,
+        "portas": [],
+        "modulos": [
+          {
+            "modulo": "subsolo",
+            "t_rel": 0
+          }
+        ],
+        "inicio_s": 72.723,
+        "fim_s": 77.916
+      }
+    },
+    {
+      "indice": 21,
+      "t_nominal": 64,
+      "inicio_s": 78.066,
+      "fim_s": 80.566,
+      "t_eventos": 78.066,
+      "ato": "desobediencia",
+      "fala": "f15",
+      "direcao": {
+        "olhar": "caixas_comida",
+        "acao": "aproximar:caixas_comida",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "som": "",
+      "imagem": "a etiqueta das caixas: ESTOCADO EM MAIO · 1401 NÃO MEXER"
+    },
+    {
+      "indice": 22,
+      "t_nominal": 66.5,
+      "inicio_s": 80.566,
+      "fim_s": 85.066,
+      "t_eventos": 80.566,
+      "ato": "desobediencia",
+      "fala": null,
+      "direcao": {
+        "olhar": "caminho",
+        "acao": "andar:s2_deposito",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "som": "passos",
+      "imagem": "anda até a porta do depósito, que tem cadeado e uma folha colada",
+      "movimento": {
+        "tipo": "andar",
+        "nos": [
+          "s2_estoque",
+          "s2_deposito"
+        ],
+        "distancia_m": 5.036,
+        "duracao_s": 4.224,
+        "atraso_s": 0,
+        "passo_hz": 2.9,
+        "portas": [],
+        "modulos": [
+          {
+            "modulo": "subsolo",
+            "t_rel": 0
+          }
+        ],
+        "inicio_s": 80.566,
+        "fim_s": 84.79
+      }
+    },
+    {
+      "indice": 23,
+      "t_nominal": 71,
+      "inicio_s": 85.066,
+      "fim_s": 87.566,
+      "t_eventos": 85.066,
+      "ato": "dilema",
+      "fala": null,
+      "direcao": {
+        "olhar": "lista_porta",
+        "acao": "aproximar:lista_porta",
+        "clima": "escalada",
+        "eventos": []
+      },
+      "som": "",
+      "imagem": "a lista: QUEM DESCE ANTES DO ZERO"
+    },
+    {
+      "indice": 24,
+      "t_nominal": 73.5,
+      "inicio_s": 87.566,
+      "fim_s": 91.566,
+      "t_eventos": 87.566,
+      "ato": "dilema",
+      "fala": null,
+      "direcao": {
+        "olhar": "celular",
+        "acao": "pegar_celular",
+        "clima": "escalada",
+        "eventos": [
+          "celular.notificacao=2",
+          "celular.tela=2"
+        ]
+      },
+      "som": "vibração",
+      "imagem": "mensagem da mãe"
+    },
+    {
+      "indice": 25,
+      "t_nominal": 77.5,
+      "inicio_s": 91.566,
+      "fim_s": 93.936,
+      "t_eventos": 91.566,
+      "ato": "dilema",
+      "fala": "f16",
+      "direcao": {
+        "olhar": "lista_porta",
+        "acao": "aproximar:lista_porta",
+        "clima": "climax",
+        "eventos": []
+      },
+      "som": "",
+      "imagem": "no fim da lista, à mão, em vermelho: ZELADOR — NÃO. PORTEIRO — NÃO"
+    },
+    {
+      "indice": 26,
+      "t_nominal": 79.5,
+      "inicio_s": 93.936,
+      "fim_s": 98.634,
+      "t_eventos": 93.936,
+      "ato": "dilema",
+      "fala": "f17",
+      "direcao": {
+        "olhar": "celina",
+        "acao": "guardar_celular",
+        "clima": "climax",
+        "eventos": [
+          "personagem.celina.visivel=true",
+          "personagem.celina.posicao=s2_celina",
+          "personagem.celina.pose=em_pe",
+          "personagem.celina.expressao=sorriso"
+        ]
+      },
+      "som": "",
+      "imagem": "a voz vem de trás: a síndica, de roupão, com uma lanterna, sorrindo"
+    },
+    {
+      "indice": 27,
+      "t_nominal": 83.5,
+      "inicio_s": 98.634,
+      "fim_s": 100.134,
+      "t_eventos": 98.634,
+      "ato": "dilema",
+      "fala": "f18",
+      "direcao": {
+        "olhar": "celina",
+        "acao": "parar",
+        "clima": "climax",
+        "eventos": []
+      },
+      "som": "",
+      "imagem": "ela chega um passo mais perto"
+    },
+    {
+      "indice": 28,
+      "t_nominal": 85,
+      "inicio_s": 100.134,
+      "fim_s": 105.207,
+      "t_eventos": 100.134,
+      "ato": "dilema",
+      "fala": "f19",
+      "direcao": {
+        "olhar": "celina",
+        "acao": "parar",
+        "clima": "climax",
+        "eventos": []
+      },
+      "som": "",
+      "imagem": "a primeira frase da noite, na boca dela"
+    },
+    {
+      "indice": 29,
+      "t_nominal": 89,
+      "inicio_s": 105.207,
+      "fim_s": 108.207,
+      "t_eventos": 105.207,
+      "ato": "dilema",
+      "fala": null,
+      "direcao": {
+        "olhar": "cadeado_deposito",
+        "acao": "avancar:cadeado_deposito",
+        "clima": "climax",
+        "eventos": []
+      },
+      "som": "",
+      "imagem": "a câmera volta devagar para o cadeado do depósito"
+    },
+    {
+      "indice": 30,
+      "t_nominal": 92,
+      "inicio_s": 108.207,
+      "fim_s": 112.207,
+      "t_eventos": 108.207,
+      "ato": "pergunta",
+      "fala": null,
+      "direcao": {
+        "olhar": "cadeado_deposito",
+        "acao": "parar",
+        "clima": "pergunta",
+        "eventos": []
+      },
+      "som": "",
+      "imagem": "pergunta por cima do cadeado"
+    }
+  ],
+  "climas": [
+    {
+      "inicio_s": 0,
+      "clima": "rotina"
+    },
+    {
+      "inicio_s": 9.101,
+      "clima": "sinal"
+    },
+    {
+      "inicio_s": 26.571,
+      "clima": "escalada"
+    },
+    {
+      "inicio_s": 91.566,
+      "clima": "climax"
+    },
+    {
+      "inicio_s": 108.207,
+      "clima": "pergunta"
+    }
+  ],
+  "celular": [
+    {
+      "inicio_s": 9.101,
+      "evento": "notificacao",
+      "indice": 0,
+      "de": "Sistema Aurora",
+      "texto": "REINÍCIO EM 72 HORAS",
+      "tipo": "alerta",
+      "hora": "23:58",
+      "rotulo": "SISTEMA AURORA",
+      "duracao_s": 4,
+      "fim_s": 13.401
+    },
+    {
+      "inicio_s": 9.101,
+      "evento": "tela",
+      "indice": 0,
+      "de": "Sistema Aurora",
+      "texto": "REINÍCIO EM 72 HORAS",
+      "tipo": "alerta",
+      "hora": "23:58",
+      "rotulo": "SISTEMA AURORA"
+    },
+    {
+      "inicio_s": 22.071,
+      "evento": "notificacao",
+      "indice": 1,
+      "de": "Grupo Ed. Aurora · Celina",
+      "texto": "Gente, é BOATO. Ninguém precisa estocar 🙏",
+      "tipo": "mensagem",
+      "hora": "23:59",
+      "duracao_s": 4,
+      "fim_s": 26.371
+    },
+    {
+      "inicio_s": 22.071,
+      "evento": "tela",
+      "indice": 1,
+      "de": "Grupo Ed. Aurora · Celina",
+      "texto": "Gente, é BOATO. Ninguém precisa estocar 🙏",
+      "tipo": "mensagem",
+      "hora": "23:59"
+    },
+    {
+      "inicio_s": 87.566,
+      "evento": "notificacao",
+      "indice": 2,
+      "de": "Mãe",
+      "texto": "Filho, o mercado tá vazio. Tem água aí?",
+      "tipo": "mensagem",
+      "hora": "00:01",
+      "duracao_s": 4,
+      "fim_s": 91.866
+    },
+    {
+      "inicio_s": 87.566,
+      "evento": "tela",
+      "indice": 2,
+      "de": "Mãe",
+      "texto": "Filho, o mercado tá vazio. Tem água aí?",
+      "tipo": "mensagem",
+      "hora": "00:01"
+    }
+  ],
+  "efeitos": [
+    {
+      "t": 0.05,
+      "tipo": "porta_abrir"
+    },
+    {
+      "t": 9.101,
+      "tipo": "celular_vibrar"
+    },
+    {
+      "t": 9.201,
+      "tipo": "clique",
+      "ganho_db": -8
+    },
+    {
+      "t": 9.201,
+      "tipo": "campainha",
+      "duracao_s": null,
+      "repeticoes": 3,
+      "intervalo_s": 0.7,
+      "ganho_db": -4
+    },
+    {
+      "t": 9.401,
+      "tipo": "alerta_bipe"
+    },
+    {
+      "t": 11.501,
+      "tipo": "lampada_estalo",
+      "duracao_s": null,
+      "repeticoes": null,
+      "intervalo_s": null,
+      "ganho_db": null
+    },
+    {
+      "t": 11.551,
+      "tipo": "lampada_estalo"
+    },
+    {
+      "t": 11.601,
+      "tipo": "clique",
+      "ganho_db": -8
+    },
+    {
+      "t": 22.071,
+      "tipo": "celular_vibrar"
+    },
+    {
+      "t": 22.171,
+      "tipo": "clique",
+      "ganho_db": -8
+    },
+    {
+      "t": 22.221,
+      "tipo": "notificacao"
+    },
+    {
+      "t": 26.671,
+      "tipo": "clique",
+      "ganho_db": -8
+    },
+    {
+      "t": 29.469,
+      "tipo": "grave_crescente",
+      "duracao_s": 4.5,
+      "repeticoes": null,
+      "intervalo_s": null,
+      "ganho_db": null
+    },
+    {
+      "t": 57.906,
+      "tipo": "passos",
+      "duracao_s": 6.0
+    },
+    {
+      "t": 58.056,
+      "tipo": "sino",
+      "duracao_s": null,
+      "repeticoes": null,
+      "intervalo_s": null,
+      "ganho_db": -6
+    },
+    {
+      "t": 58.103,
+      "tipo": "passos_camera",
+      "duracao_s": 9.824,
+      "intervalo_s": 0.34483,
+      "piso": "ladrilho",
+      "corrida": false
+    },
+    {
+      "t": 58.574,
+      "tipo": "porta_abrir",
+      "ganho_db": -4
+    },
+    {
+      "t": 71.523,
+      "tipo": "porta_fechar"
+    },
+    {
+      "t": 72.773,
+      "tipo": "passos",
+      "duracao_s": 5.34
+    },
+    {
+      "t": 72.931,
+      "tipo": "passos_camera",
+      "duracao_s": 4.835,
+      "intervalo_s": 0.34483,
+      "piso": "ladrilho",
+      "corrida": false
+    },
+    {
+      "t": 80.616,
+      "tipo": "passos",
+      "duracao_s": 4.5
+    },
+    {
+      "t": 80.862,
+      "tipo": "passos_camera",
+      "duracao_s": 3.778,
+      "intervalo_s": 0.34483,
+      "piso": "ladrilho",
+      "corrida": false
+    },
+    {
+      "t": 87.566,
+      "tipo": "celular_vibrar"
+    },
+    {
+      "t": 87.666,
+      "tipo": "clique",
+      "ganho_db": -8
+    },
+    {
+      "t": 87.716,
+      "tipo": "notificacao"
+    },
+    {
+      "t": 94.036,
+      "tipo": "clique",
+      "ganho_db": -8
+    }
+  ],
+  "ambiente": [
+    {
+      "inicio_s": 0,
+      "fim_s": 71.773,
+      "tipo": "corredor_servico",
+      "ganho_db": -31
+    },
+    {
+      "inicio_s": 71.173,
+      "fim_s": 112.207,
+      "tipo": "guarda_volumes",
+      "ganho_db": -32
+    }
+  ],
+  "silencios": [],
+  "pergunta": {
+    "inicio_s": 108.207,
+    "fim_s": 112.207,
+    "pergunta": "O que você faria?",
+    "opcao_a": "Abrir o estoque pra todos",
+    "opcao_b": "Seguir a lista",
+    "emoji_a": "🔓",
+    "emoji_b": "📋",
+    "arriscada": "a"
+  },
+  "efeitos_por": "audio/_linha_previa.py"
+}

@@ -1,0 +1,417 @@
+{
+  "rubrica": "docs/criterios_visuais.md",
+  "rubrica_hash": "sha256:d606b91f6d2b88ed84bec59020d2b7145ae5ecc8f14b8876b0dd864a0225cad4",
+  "nota_minima": 7,
+  "rodadas_max": 3,
+  "status": "aprovado",
+  "aprovado": true,
+  "motivo": "todas as notas ≥ 7 na rodada 2",
+  "fonte": "sessao_claude_code",
+  "rodadas": [
+    {
+      "n": 1,
+      "fonte": "sessao_claude_code",
+      "cego": false,
+      "modelo": "sessão do Claude Code",
+      "em": "2026-11-11T00:05:25.041Z",
+      "quadros": 51,
+      "folhas": [
+        "critico/rodada_1/folha_1.jpg",
+        "critico/rodada_1/folha_2.jpg",
+        "critico/rodada_1/folha_3.jpg",
+        "critico/rodada_1/folha_4.jpg"
+      ],
+      "hash_quadros": "sha256:c17913e0a121c79bc1619b3164e6e53554730f4eaf255bd9a23ab6a3a272d8ca",
+      "notas": {
+        "gancho": 7,
+        "legibilidade": 6,
+        "clareza_acao": 8,
+        "continuidade": 8,
+        "acabamento": 8,
+        "dilema_final": 8
+      },
+      "evidencias": {
+        "gancho": [
+          "Q01",
+          "Q02",
+          "Q03",
+          "Q04",
+          "D1"
+        ],
+        "legibilidade": [
+          "Q12",
+          "Q13",
+          "Q15",
+          "Q31",
+          "D2",
+          "D3",
+          "Q08",
+          "Q16",
+          "Q35",
+          "D6"
+        ],
+        "clareza_acao": [
+          "Q08",
+          "Q16",
+          "Q18",
+          "Q07",
+          "Q19",
+          "Q38",
+          "Q10",
+          "Q21",
+          "Q22",
+          "Q23",
+          "D4",
+          "Q28",
+          "Q33"
+        ],
+        "continuidade": [
+          "Q05",
+          "Q07",
+          "Q26",
+          "Q27",
+          "Q23",
+          "D4",
+          "Q21"
+        ],
+        "acabamento": [
+          "Q01",
+          "Q07",
+          "D4",
+          "Q38",
+          "Q28",
+          "Q30",
+          "D2",
+          "Q21"
+        ],
+        "dilema_final": [
+          "Q41",
+          "D5",
+          "D6",
+          "Q42",
+          "Q45"
+        ]
+      },
+      "comentarios": {
+        "gancho": "O lugar se reconhece no primeiro quadro (hall, dois elevadores, placa EDIFÍCIO AURORA), a primeira legenda está na tela desde Q01 e o carrinho lotado de galões é o detalhe estranho. Mas os 2 s são parados, as mãos só descansam no balcão, a senhora e o carrinho são pequenos no quadro e o visor verde 'CANAL 1', cortado na borda direita (D1), puxa o olho para o canto.",
+        "legibilidade": "Cartões, legendas, visor do rádio, monitores e a lista se leem bem (D2, D3, Q08, Q16, Q35, D6). Três textos importantes, porém, ficam pequenos demais justo quando a fala depende deles. O mostrador do elevador ('▼ S1', depois '▼ S2') nunca se lê: Q12 está no meio do giro e em Q13 a câmera já abriu de novo. A imagem da câmera do S2 com a água ocupa um quarto da pilha de monitores, com galões miúdos, em 'Isso é água' (Q15). As etiquetas das caixas ainda não se leem em 'Maio...' (Q31).",
+        "clareza_acao": "Sempre se sabe quem fala: o visor do rádio diz ZELADOR ou SÍNDICA (Q08, Q16, Q18), a senhora está em quadro nas falas dela (Q07, Q19) e a síndica aparece nas falas finais (Q38). As mãos fazem coisas legíveis (celular em Q10 e Q36). O caminho da guarita ao elevador (Q21–Q24, D4) e o do subsolo até a porta (Q28–Q34) são claros. Ressalva pequena: em Q24 a dona da fala está fora do quadro.",
+        "continuidade": "A troca de lugar acontece só no mergulho no preto (Q26 → Q27). A luz do hall muda com motivo, o apagão (Q05 → Q07). O elevador já está aberto antes de a câmera chegar (Q23, D4), e a senhora e o carrinho ficam no mesmo lugar. Em Q21 a câmera passa rente ao batente da porta da guarita, sem atravessar.",
+        "acabamento": "O estilo do canal está em todos os quadros: olho-de-peixe, traço preto, cores chapadas, bonecos de olhos grandes (Q01, D4, Q38). O subsolo é escuro, mas o facho deixa tudo legível e o traço continua preto (Q28, Q30). Pequenos: a mão direita com dedos em V ao pegar o celular (D2) e o batente ocupando meio quadro por um instante (Q21).",
+        "dilema_final": "O fim chega no cadeado da porta (Q41, D5). O cartão tem as duas opções claras, com o vermelho na arriscada (ABRIR O ESTOQUE PRA TODOS), emojis coloridos 🔓 📋 e 'Comenta aqui 👇' visível (D6). Atrás do véu ainda se veem a porta e a lista. Ressalva: durante a pergunta, o cadeado fica quase todo atrás do botão vermelho."
+      },
+      "minima": 6,
+      "pior": "legibilidade",
+      "aprovado": false,
+      "defeitos": [
+        {
+          "quadro": "Q13",
+          "criterio": "legibilidade",
+          "gravidade": 2,
+          "descricao": "O mostrador do elevador, que mostra o elevador descendo sozinho até o S2, nunca se lê. É um painel pequeno com '▼' e 'S1/S2' em duas linhas, a 6 m. A linha 8 aproxima, mas a linha 9 volta a abrir a câmera em 1 s, e em Q13 o mostrador vira um ponto laranja.",
+          "correcao": "Linha 9: olhar elevador_social e acao aproximar:elevador_social, para segurar o zoom da linha 8 enquanto o mostrador troca para S2; a senhora fica no quadro, ao lado. Fora do patch: um mostrador maior, numa linha só ('▼ S2')."
+        },
+        {
+          "quadro": "Q15",
+          "criterio": "legibilidade",
+          "gravidade": 2,
+          "descricao": "Em 'Isso é água. Água até o teto.', a imagem da câmera do S2 é um quarto da pilha de monitores, e os galões são retângulos miúdos: não se reconhece água. A linha 10 aproxima, e a linha 11 abre de novo justo na fala.",
+          "correcao": "Linha 11: acao aproximar:monitores, para segurar o zoom da linha 10. Fora do patch: desenhar na câmera do S2 galões maiores, com gargalo e tampa, até o alto da tela."
+        },
+        {
+          "quadro": "Q31",
+          "criterio": "legibilidade",
+          "gravidade": 1,
+          "descricao": "As etiquetas 'ESTOCADO EM MAIO' ainda estão pequenas no quadro da fala 'Maio...'. A aproximação da linha 21 começa com a fala, e as letras só crescem depois.",
+          "correcao": "Conferir na próxima rodada, quando o zoom da linha 21 tiver avançado; se continuar pequeno, olhar caixas_comida já na caminhada da linha 20."
+        }
+      ],
+      "veredito": "Reprovado só na legibilidade (6): o mostrador do elevador e a imagem da água na câmera do S2 ficam pequenos justo nas falas que dependem deles; o patch segura o zoom nas linhas 9 e 11, e o motor ganha um mostrador maior e galões reconhecíveis na câmera.",
+      "historia_entendida": "Um porteiro de prédio vê uma moradora estocando galões quando um relógio REINÍCIO EM 72 HORAS toma todas as telas e a luz cai; pelo rádio o zelador diz que é boato e a síndica manda esconder a água e desligar a câmera do S2, onde o monitor mostra água estocada. Ele desce de elevador ao S2, acha caixas 'ESTOCADO EM MAIO' e, na porta trancada, uma lista em que porteiro e zelador estão fora; a síndica aparece atrás dele e a pergunta é abrir o estoque para todos ou seguir a lista.",
+      "impressao_geral": "Estilo coerente em todos os quadros (olho-de-peixe, traço preto, cores chapadas) e textos importantes legíveis: cartões, monitores, visor do rádio e a lista. A metade no subsolo é escura, mas o facho deixa tudo legível. Pontos fracos: a imagem da água na câmera do S2 e o mostrador do elevador são pequenos para o peso que as falas dão a eles, e a etiqueta das caixas ainda não se lê no quadro em que ele diz 'Maio...'.",
+      "problemas_vistos": [
+        {
+          "id": "Q01",
+          "problemas": [
+            "visor do rádio encosta na borda direita (o '1' fica no limite)"
+          ]
+        },
+        {
+          "id": "Q06",
+          "problemas": [
+            "dedos da mão direita abertos em V ao lado do celular, pose estranha (leve)"
+          ]
+        },
+        {
+          "id": "Q07",
+          "problemas": [
+            "a legenda passa por cima do celular branco no balcão (continua legível)"
+          ]
+        },
+        {
+          "id": "Q12",
+          "problemas": [
+            "o mostrador do elevador, de que a fala trata, é pequeno demais para ler neste quadro"
+          ]
+        },
+        {
+          "id": "Q13",
+          "problemas": [
+            "mostrador do elevador ilegível a essa distância"
+          ]
+        },
+        {
+          "id": "Q15",
+          "problemas": [
+            "a imagem da câmera do S2 ocupa só um quarto da pilha de monitores: os galões viram fileiras pequenas"
+          ]
+        },
+        {
+          "id": "Q21",
+          "problemas": [
+            "câmera muito perto do batente (metade do quadro é batente), dura só o instante da passagem"
+          ]
+        },
+        {
+          "id": "Q31",
+          "problemas": [
+            "o texto das etiquetas ainda não se lê neste quadro, quando a fala sai"
+          ]
+        },
+        {
+          "id": "D1",
+          "problemas": [
+            "visor 'CANAL 1' cortado pela borda direita (leve)"
+          ]
+        },
+        {
+          "id": "D2",
+          "problemas": [
+            "mão direita com dois dedos esticados em V ao lado do celular (leve)"
+          ]
+        }
+      ],
+      "patch": {
+        "propostas": 3,
+        "aplicadas": [
+          {
+            "alvo": "linha",
+            "indice": 9,
+            "campo": "olhar",
+            "valor": "elevador_social",
+            "motivo": "o mostrador troca para ▼ S2 nesta linha; a câmera fica nele, e a senhora continua no quadro ao lado"
+          },
+          {
+            "alvo": "linha",
+            "indice": 9,
+            "campo": "acao",
+            "valor": "aproximar:elevador_social",
+            "motivo": "segura o zoom da linha 8 (antes a câmera voltava a abrir em 1 s e o mostrador sumia)"
+          },
+          {
+            "alvo": "linha",
+            "indice": 11,
+            "campo": "acao",
+            "valor": "aproximar:monitores",
+            "motivo": "segura o zoom da linha 10 na fala 'Isso é água. Água até o teto.', para a imagem da câmera do S2 ficar grande"
+          }
+        ],
+        "recusadas": [],
+        "aplicado": true,
+        "motivo": null,
+        "nota_roteiro": 100,
+        "hash_historia": "sha256:4fa120d8df2c9d092de58d2507c0cc914799442824b7c407b9bd66d885f35a20",
+        "hash_historia_depois": "sha256:4fa120d8df2c9d092de58d2507c0cc914799442824b7c407b9bd66d885f35a20"
+      }
+    },
+    {
+      "n": 2,
+      "fonte": "sessao_claude_code",
+      "cego": false,
+      "modelo": "sessão do Claude Code",
+      "em": "2026-11-11T00:12:40.460Z",
+      "quadros": 51,
+      "folhas": [
+        "critico/rodada_2/folha_1.jpg",
+        "critico/rodada_2/folha_2.jpg",
+        "critico/rodada_2/folha_3.jpg",
+        "critico/rodada_2/folha_4.jpg"
+      ],
+      "hash_quadros": "sha256:9149330a82d03bcfc9ab9de9db66fa43dc569a5f22525811d1a6ed25884d14bc",
+      "notas": {
+        "gancho": 7,
+        "legibilidade": 8,
+        "clareza_acao": 8,
+        "continuidade": 8,
+        "acabamento": 8,
+        "dilema_final": 8
+      },
+      "evidencias": {
+        "gancho": [
+          "Q01",
+          "Q02",
+          "Q03",
+          "Q04",
+          "D1"
+        ],
+        "legibilidade": [
+          "Q13",
+          "Q14",
+          "Q15",
+          "Q31",
+          "D4",
+          "D2",
+          "D3",
+          "Q08",
+          "Q16",
+          "Q35",
+          "D6"
+        ],
+        "clareza_acao": [
+          "Q08",
+          "Q16",
+          "Q18",
+          "Q07",
+          "Q19",
+          "Q38",
+          "Q10",
+          "Q21",
+          "Q22",
+          "Q23",
+          "D4",
+          "Q28",
+          "Q33",
+          "Q13"
+        ],
+        "continuidade": [
+          "Q05",
+          "Q07",
+          "Q13",
+          "Q19",
+          "Q20",
+          "Q26",
+          "Q27",
+          "Q23",
+          "D4"
+        ],
+        "acabamento": [
+          "Q01",
+          "Q07",
+          "D4",
+          "Q14",
+          "Q38",
+          "Q28",
+          "Q30",
+          "D2",
+          "Q21"
+        ],
+        "dilema_final": [
+          "Q41",
+          "D5",
+          "D6",
+          "Q42",
+          "Q45"
+        ]
+      },
+      "comentarios": {
+        "gancho": "Igual à rodada 1. O lugar se reconhece no primeiro quadro, a primeira legenda está na tela desde Q01 e o carrinho lotado de galões chama o olho. Os 2 s, porém, são parados, as mãos só descansam no balcão e o visor 'CANAL 1', cortado na borda (D1), disputa a atenção.",
+        "legibilidade": "Os textos de que as falas dependem agora se leem: '▼ S2' grande em cima do elevador (Q13), os galões de água na câmera do S2 (Q14, Q15), os mostradores 'T' e '12' (D4) e as etiquetas 'ESTOCADO EM MAIO' nas caixas da frente (Q31, ainda pequenas no instante da fala). Cartões, legendas, visor do rádio, monitores, lista e pergunta continuam nítidos (D2, D3, Q08, Q16, Q35, D6).",
+        "clareza_acao": "Sempre se sabe quem fala: o visor do rádio diz ZELADOR ou SÍNDICA (Q08, Q16, Q18), a senhora (Q07, Q19) e a síndica (Q38) estão em quadro nas suas falas. Os caminhos são claros (Q21–Q24, Q28–Q34). Ressalvas pequenas: em Q13 a senhora aparece só pela metade, na borda direita, enquanto fala, e em Q24 ela está fora do quadro.",
+        "continuidade": "O mostrador segue a história: ▼ S1 (Q12), ▼ S2 (Q13, Q19), T (Q20, D4). A luz muda só no apagão (Q05 → Q07), e o lugar troca só no mergulho no preto (Q26 → Q27). O elevador já está aberto antes de a câmera chegar (Q23).",
+        "acabamento": "O estilo do canal está em todos os quadros, inclusive na imagem nova da câmera do S2 (Q14). O subsolo é escuro, mas legível, com o traço preto (Q28, Q30, Q38). Pequenos: a mão em V ao pegar o celular (D2) e o batente ocupando meio quadro por um instante (Q21).",
+        "dilema_final": "O fim chega no cadeado (Q41, D5). A pergunta tem duas opções claras, com o vermelho na arriscada (ABRIR O ESTOQUE PRA TODOS), emojis coloridos e 'Comenta aqui 👇' (D6). A porta e a lista aparecem atrás do véu; o cadeado fica quase todo atrás do botão vermelho."
+      },
+      "minima": 7,
+      "pior": "gancho",
+      "aprovado": true,
+      "defeitos": [
+        {
+          "quadro": "Q01",
+          "criterio": "gancho",
+          "gravidade": 1,
+          "descricao": "Os dois primeiros segundos são parados: mãos em repouso, a senhora e o carrinho pequenos no quadro, e o visor 'CANAL 1' cortado na borda direita puxa o olho para o canto.",
+          "correcao": "Para os próximos episódios: no primeiro quadro, mãos fazendo algo e quem fala maior no quadro. Neste, a nota passa."
+        },
+        {
+          "quadro": "Q13",
+          "criterio": "clareza_acao",
+          "gravidade": 1,
+          "descricao": "Com a lente fechada no mostrador, a senhora que diz 'Sem luz? Como?' fica cortada pela borda direita.",
+          "correcao": "Aceitável: o mostrador é o que importa na linha, e a cor da legenda identifica quem fala. Num próximo mundo, uma marca entre o mostrador e a personagem permitiria enquadrar os dois."
+        },
+        {
+          "quadro": "Q31",
+          "criterio": "legibilidade",
+          "gravidade": 1,
+          "descricao": "As etiquetas 'ESTOCADO EM MAIO' ainda estão pequenas no instante da fala 'Maio...' e só crescem com a aproximação.",
+          "correcao": "Aceitável: as caixas da frente já se leem. Se o dono achar pouco, olhar caixas_comida já na caminhada da linha 20."
+        }
+      ],
+      "veredito": "Aprovado na rodada 2 (7/8/8/8/8/8): os textos de que as falas dependem agora se leem; restam ressalvas pequenas no início parado, na senhora cortada pela borda em Q13 e nas etiquetas no limite em Q31.",
+      "historia_entendida": "Um porteiro de prédio vê uma moradora estocando galões quando um relógio REINÍCIO EM 72 HORAS toma todas as telas e a luz cai; pelo rádio o zelador diz que é boato e a síndica manda esconder a água e desligar a câmera do S2, onde o monitor mostra água estocada. Ele desce de elevador ao S2, acha caixas 'ESTOCADO EM MAIO' e, na porta trancada, uma lista em que porteiro e zelador estão fora; a síndica aparece atrás dele e a pergunta é abrir o estoque para todos ou seguir a lista.",
+      "impressao_geral": "Mesmo acabamento da rodada anterior; agora os textos de que as falas dependem se leem: '▼ S2' no mostrador do elevador (Q13), os galões na câmera do S2 (Q14, Q15) e as etiquetas 'ESTOCADO EM MAIO' (Q31, no limite). Resta a senhora cortada pela borda na fala 'Sem luz? Como?' (Q13) e o início parado (Q01–Q04).",
+      "problemas_vistos": [
+        {
+          "id": "Q01",
+          "problemas": [
+            "visor do rádio encosta na borda direita (o '1' fica no limite)"
+          ]
+        },
+        {
+          "id": "Q06",
+          "problemas": [
+            "dedos da mão direita abertos em V ao lado do celular, pose estranha (leve)"
+          ]
+        },
+        {
+          "id": "Q07",
+          "problemas": [
+            "a legenda passa por cima do celular branco no balcão (continua legível)"
+          ]
+        },
+        {
+          "id": "Q12",
+          "problemas": [
+            "no meio do giro; o mostrador ainda pequeno"
+          ]
+        },
+        {
+          "id": "Q13",
+          "problemas": [
+            "quem fala (a senhora) está cortada pela borda direita"
+          ]
+        },
+        {
+          "id": "Q21",
+          "problemas": [
+            "câmera muito perto do batente (metade do quadro é batente), dura só o instante da passagem"
+          ]
+        },
+        {
+          "id": "Q31",
+          "problemas": [
+            "etiquetas ainda pequenas no instante da fala (legíveis nas caixas da frente)"
+          ]
+        },
+        {
+          "id": "D1",
+          "problemas": [
+            "visor 'CANAL 1' cortado pela borda direita (leve)"
+          ]
+        },
+        {
+          "id": "D2",
+          "problemas": [
+            "mão direita com dois dedos esticados em V ao lado do celular (leve)"
+          ]
+        }
+      ],
+      "patch": null
+    }
+  ],
+  "ciclos_anteriores": [],
+  "iniciado_em": "2026-11-10T23:53:15.041Z",
+  "preparada": null,
+  "hash_roteiro": "sha256:358bdbf88f4d6e6ea9de7b8e23f3b44df2fbedb4f9c3a8a811cc168cfe3c2bfa",
+  "atualizado_em": "2026-11-11T00:12:40.462Z"
+}

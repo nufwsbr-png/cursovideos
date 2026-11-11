@@ -15,7 +15,7 @@ function scriptLinhaDoTempo() {
 }
 
 export async function etapaTempo({ canal, ep }) {
-  log.passo(`Etapa 5 — Linha do tempo do episódio ${ep.roteiro.numero}`);
+  log.passo(`Etapa 5 — Linha do tempo do episódio ${ep.ref ?? ep.roteiro.numero}`);
   const saida = path.join(ep.dir, "linha_do_tempo.json");
   // 1) tempos (falas, movimentos, cartões, pergunta, ambientes): a mesma função que o motor usa
   await executar("node", [path.join(PASTA_MOTOR, "montar_linha.js"), "--episodio", ep.dir, "--saida", saida]);

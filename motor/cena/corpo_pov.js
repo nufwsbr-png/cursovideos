@@ -19,6 +19,8 @@ export class CorpoPOV {
     // objetos do balcão (carimbo, bloco, caneta, celular, fone) ficam numa âncora presa ao assento do guichê:
     // quando o protagonista levanta e anda, eles ficam no balcão; só o que está na mão segue o corpo.
     this.ancora = new THREE.Group(); this.ancora.name = 'balcao_objetos';
+    // sem lista (canal antigo) mostra tudo; com lista, só o que o protagonista tem (canal.json → protagonista.objetos)
+    this.temObjeto = (k) => !Array.isArray(protagonista?.objetos) || protagonista.objetos.includes(k);
     this.balcaoY = balcao?.y ?? 1.05; this.balcaoZ = balcao?.zBeira ?? -0.1;
     const maos = protagonista.maos || {};
     this.pele = maos.pele || '#7a4a28';
@@ -126,10 +128,10 @@ export class CorpoPOV {
 
   objetosNoBalcao() {
     const o = this.objetos;
-    o.bloco_passagens.visible = true; o.bloco_passagens.position.set(-0.05, 1.065, -0.52); o.bloco_passagens.rotation.set(0, 0.12, 0);
-    o.caneta.visible = true; o.caneta.position.set(0.12, 1.056, -0.56); o.caneta.rotation.set(Math.PI / 2, 0, 0.25);
-    o.carimbo.visible = true; o.carimbo.position.set(0.2, 1.068, -0.44); o.carimbo.rotation.set(0, 0, 0);
-    o.celular.visible = true; o.celular.position.copy(this.celularNoBalcao); o.celular.rotation.set(-Math.PI / 2 + 0.05, 0.3, 0);
+    o.bloco_passagens.visible = this.temObjeto('bloco_passagens'); o.bloco_passagens.position.set(-0.05, 1.065, -0.52); o.bloco_passagens.rotation.set(0, 0.12, 0);
+    o.caneta.visible = this.temObjeto('caneta'); o.caneta.position.set(0.12, 1.056, -0.56); o.caneta.rotation.set(Math.PI / 2, 0, 0.25);
+    o.carimbo.visible = this.temObjeto('carimbo'); o.carimbo.position.set(0.2, 1.068, -0.44); o.carimbo.rotation.set(0, 0, 0);
+    o.celular.visible = this.temObjeto('celular'); o.celular.position.copy(this.celularNoBalcao); o.celular.rotation.set(-Math.PI / 2 + 0.05, 0.3, 0);
     o.fone.visible = false; o.pano.visible = false;
   }
 
@@ -179,10 +181,10 @@ export class CorpoPOV {
     for (const lado of ['esq', 'dir']) for (const d of this.dedos[lado]) { d.base.rotation.x = -0.08 + Math.sin(t * 0.9) * 0.015; d.junta.rotation.x = -0.18; }
 
     // objetos de descanso: bloco sob a mão esquerda; carimbo na mão direita; celular no balcão
-    const bloco = this.objetos.bloco_passagens; bloco.visible = true; bloco.position.set(-0.05, 1.065, -0.52); bloco.rotation.set(0, 0.12, 0);
-    const caneta = this.objetos.caneta; caneta.visible = true; caneta.position.set(0.12, 1.056, -0.56); caneta.rotation.set(Math.PI / 2, 0, 0.25);
-    const carimbo = this.objetos.carimbo; carimbo.visible = true;
-    const celular = this.objetos.celular; celular.visible = true; celular.position.copy(this.celularNoBalcao); celular.rotation.set(-Math.PI / 2 + 0.05, 0.3, 0);
+    const bloco = this.objetos.bloco_passagens; bloco.visible = this.temObjeto('bloco_passagens'); bloco.position.set(-0.05, 1.065, -0.52); bloco.rotation.set(0, 0.12, 0);
+    const caneta = this.objetos.caneta; caneta.visible = this.temObjeto('caneta'); caneta.position.set(0.12, 1.056, -0.56); caneta.rotation.set(Math.PI / 2, 0, 0.25);
+    const carimbo = this.objetos.carimbo; carimbo.visible = this.temObjeto('carimbo');
+    const celular = this.objetos.celular; celular.visible = this.temObjeto('celular'); celular.position.copy(this.celularNoBalcao); celular.rotation.set(-Math.PI / 2 + 0.05, 0.3, 0);
     const colocarCarimboNaMaoDireita = () => { carimbo.position.copy(dir.position).add(new THREE.Vector3(0.0, 0.04, -0.03)); carimbo.rotation.set(0, 0, 0); for (const d of this.dedos.dir) { d.base.rotation.x = -0.9; d.junta.rotation.x = -1.1; } };
     if (levantando) { this.objetosNoBalcao(); return; } // levantando/sentando: mãos apoiadas, nada na mão
     colocarCarimboNaMaoDireita();
