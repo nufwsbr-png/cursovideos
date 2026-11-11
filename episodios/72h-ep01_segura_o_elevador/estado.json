@@ -1,5 +1,5 @@
 {
-  "etapa": "quadros",
+  "etapa": "entrega",
   "aprovado": false,
   "bloqueios": [
     "voz falsa: gere as vozes de verdade antes de publicar"
@@ -145,6 +145,46 @@
     {
       "em": "2026-11-11T00:12:40.505Z",
       "etapa": "quadros"
+    },
+    {
+      "em": "2026-11-11T11:34:54.698Z",
+      "etapa": "render"
+    },
+    {
+      "em": "2026-11-11T11:34:54.824Z",
+      "etapa": "render"
+    },
+    {
+      "em": "2026-11-11T11:54:43.857Z",
+      "etapa": "som"
+    },
+    {
+      "em": "2026-11-11T11:54:44.120Z",
+      "etapa": "som"
+    },
+    {
+      "em": "2026-11-11T11:54:57.040Z",
+      "etapa": "som"
+    },
+    {
+      "em": "2026-11-11T11:54:57.044Z",
+      "etapa": "prova"
+    },
+    {
+      "em": "2026-11-11T11:54:57.173Z",
+      "etapa": "prova"
+    },
+    {
+      "em": "2026-11-11T11:55:13.660Z",
+      "etapa": "capa"
+    },
+    {
+      "em": "2026-11-11T11:55:13.685Z",
+      "etapa": "capa"
+    },
+    {
+      "em": "2026-11-11T11:55:14.365Z",
+      "etapa": "entrega"
     }
   ],
   "bloqueios_por_etapa": {
@@ -154,9 +194,12 @@
     ],
     "tempo": [],
     "quadros": [],
-    "critico": []
+    "critico": [],
+    "prova": [
+      "voz falsa: gere as vozes de verdade antes de publicar"
+    ]
   },
-  "atualizado_em": "2026-11-11T00:12:40.505Z",
+  "atualizado_em": "2026-11-11T11:55:14.365Z",
   "versoes": {
     "roteiro": {
       "entrada": {
@@ -252,8 +295,82 @@
         "critico.json": "sha256:6f21bc12ddec59f5cad6c15481da43a60488adab8d0b890e299b19e1fca7fb33"
       },
       "em": "2026-11-11T00:12:40.504Z"
+    },
+    "render": {
+      "entrada": {
+        "hash": "sha256:04f470321178fee55276de119f04b722df34912e39401f10905b37b5940297bf",
+        "partes": {
+          "roteiro": "sha256:358bdbf88f4d6e6ea9de7b8e23f3b44df2fbedb4f9c3a8a811cc168cfe3c2bfa",
+          "linha": "sha256:3c8cc186fcbc10d7ad6125a62fbf0aba980e93bde08ec4d672b642b45ef71d66",
+          "medidas": "sha256:9f99be6cb9f7c50d328160d2ade36c528c6a68942e08f2cf7932092fbb73e18e",
+          "canal": "sha256:6dfd1753ac88ee914f2010a3f0bd98e56f6fb4b8b3419dbd7be912d9451a63da",
+          "motor": "sha256:0bfc4cbc8deb5bcc595c77307b76e54672e6e607d8b7b82eefc4f93afaa21c96",
+          "escala": "sha256:6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+        }
+      },
+      "saidas": {
+        "video_mudo.mp4": "sha256:55dbbe77db21e2f8abeb6c5491019fccecfc7f91ce304ba0f4d1d90f69de66d5"
+      },
+      "em": "2026-11-11T11:34:54.823Z"
+    },
+    "som": {
+      "entrada": {
+        "hash": "sha256:2b32f0a034b4b1f74cff26b05ca20dbdfe6b6f75930d8b0e17e28e49d83784bc",
+        "partes": {
+          "linha": "sha256:3c8cc186fcbc10d7ad6125a62fbf0aba980e93bde08ec4d672b642b45ef71d66",
+          "falas": "sha256:5188375d5e7a0840ae94bcd21ddc261a0aa6e6b3f985cad4621b92f5d9623a52",
+          "video": "sha256:55dbbe77db21e2f8abeb6c5491019fccecfc7f91ce304ba0f4d1d90f69de66d5",
+          "audio": "sha256:cb8ef374fee488c214d42d361e1f4c5f739f5870349119c0655c88c7754e5020",
+          "codigo": "sha256:b83361d5758f485a3c1116f48c7cc001698b743d63f5fb2424fcd7fc4ab8046c"
+        }
+      },
+      "saidas": {
+        "ep01.mp4": "sha256:2e7ed12eafc1432fb3a3ae0a08fc6cdc66646d71a313790a1d46e05f6e8bdb07",
+        "mix.wav": "sha256:128ac2e5db25fe8a16766697ca0697e34cffbdcac7c918a1aad20193c4873f96"
+      },
+      "em": "2026-11-11T11:54:44.119Z"
+    },
+    "prova": {
+      "entrada": {
+        "hash": "sha256:265652745f07d9238a50601d797041d6f55c22842db3d5a2385ec0eaad03f709",
+        "partes": {
+          "mp4": "sha256:2e7ed12eafc1432fb3a3ae0a08fc6cdc66646d71a313790a1d46e05f6e8bdb07",
+          "revisao": "sha256:81de1b2faae2e2fdf8990729032886a2d903af25b699994fcf32fe53d4f04f13",
+          "origem": "sha256:f2eaa9326c9be4ffbc4a111ef4df40ba204ecff480ed86fceee1c9453da17c8c",
+          "fontes": "sha256:3698b9047cf9bd731ca28b48c6ba02658c804942ce9848743299e779ee446403",
+          "formato": "sha256:3503fce526b97435a8d76791318adcb10ac67be5ef28005d15cf7667c09efced",
+          "audio": "sha256:cb8ef374fee488c214d42d361e1f4c5f739f5870349119c0655c88c7754e5020",
+          "codigo": "sha256:948b42f91ebbceaafb17b83637db2368c184dd9e0cc0b1fe2698469fa35cf399"
+        }
+      },
+      "saidas": {
+        "prova.json": "sha256:ce3fe99ed70d61797128bb6bdd1dc4a1114afff3f9e3b94b233f2f55a572a148"
+      },
+      "em": "2026-11-11T11:54:57.172Z"
+    },
+    "capa": {
+      "entrada": {
+        "hash": "sha256:0e463c27d9653b3c001f5d6af9c41b66deb1cdd0f2de8405345f76f356905d1a",
+        "partes": {
+          "roteiro": "sha256:358bdbf88f4d6e6ea9de7b8e23f3b44df2fbedb4f9c3a8a811cc168cfe3c2bfa",
+          "linha": "sha256:3c8cc186fcbc10d7ad6125a62fbf0aba980e93bde08ec4d672b642b45ef71d66",
+          "canal": "sha256:6c38a016328a0b412fa2329e1db96a6306606b15a1a5bbe200dc5bd9ccd578ed",
+          "motor": "sha256:0bfc4cbc8deb5bcc595c77307b76e54672e6e607d8b7b82eefc4f93afaa21c96",
+          "codigo": "sha256:2a185a1913c3973748fb3c094eb82664ec00af7e1133e19c5b0e16d0774e8844"
+        }
+      },
+      "saidas": {
+        "capa.png": "sha256:a5fd1f2a12dc4ba9d344fe764eba1ccf2a1f52fbbc609403826afc49fa453394",
+        "textos.json": "sha256:2ab739bc16d0f020f527ff9fd3f678c6890f5951831b64fe8771f8358c97d8e3"
+      },
+      "em": "2026-11-11T11:55:13.683Z"
     }
   },
   "avisos_vozes": [],
-  "duracao_s": 112.207
+  "duracao_s": 112.207,
+  "avisos_prova": [
+    "falas possivelmente encobertas (vá ouvir): f15",
+    "transcrição não conferida: todas as falas têm voz falsa; confere sozinha quando houver voz de verdade"
+  ],
+  "publicavel": false
 }

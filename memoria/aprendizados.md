@@ -113,3 +113,16 @@ _(a fábrica anexa aqui quando algo falha e é consertado)_
   - O que reprovou: texto importante pequeno justo na fala que depende dele. O mostrador do elevador ("▼ S1/S2", duas linhas num painel de 0,34 m a 6 m) nunca se lia, e a água na câmera do S2 eram retângulos miúdos.
   - Causa da direção: o `aproximar` só fecha a lente durante a própria linha. Na linha seguinte, com `parar`, a lente volta a 115° em 1 s.
   - Correção: patch nas linhas 9 e 11 (repetir o `aproximar`). Fora do patch: mostrador de 0,5 m numa linha só e galões grandes, com gargalo e tampa, na câmera do S2. Guichê 3: 0 pixel diferente.
+- [2026-11-11] [MEDIDO] Render do ep01: 3366 quadros, 12.13 s/quadro, 680.7 min no total, escala 1, renderer ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver).
+- [2026-11-11] [MEDIDO] ep01: 112.2 s, 1080x1920, -14 LUFS, pico -1.52 dBTP, 56.1 MB.
+- [2026-11-11] [MEDIDO] 72 Horas Epi. 01 produzido inteiro com voz falsa:
+  - `ep01.mp4` 1080×1920, 30 fps, 1:52,2;
+  - som −14,0 LUFS, pico −1,52 dBTP, LRA 1,7;
+  - prova sem bloqueio além da voz falsa; aviso na fala f15 ("Maio..."): margem de 5,9 dB contra o critério de 6;
+  - 3 capas "A SÍNDICA ESCONDEU A ÁGUA" (150/147/120 px), em quadros de 34,6, 9,4 e 72,8 s;
+  - entrega "não publicável" só pela voz falsa.
+- [2026-11-11] [MEDIDO] O render de 680,7 min não foi lentidão, foi o notebook parado:
+  - no ritmo do motor: ≈ 1,4–1,5 s/quadro na tomada (os primeiros 2.560 quadros em ≈ 62 min) e ≈ 4,3 s/quadro na bateria;
+  - registro de energia do Windows: a fonte de energia mudou 6 vezes entre 17:26 e 22:13; às 22:13 o notebook foi para a bateria; às 22:57, "bateria crítica" e suspensão; voltou às 08:21 e terminou;
+  - o episódio inteiro, na tomada e sem pausa, leva ≈ 85–90 min nesta máquina.
+- [2026-11-11] [REGRA] Render longo só na tomada, com o carregador firme. A suspensão por bateria crítica para o render por horas: o processo dorme junto e continua quando o PC acorda, sem perder quadros. Antes de lançar, conferir a fonte (`Win32_Battery.BatteryStatus` = 2) e a carga.

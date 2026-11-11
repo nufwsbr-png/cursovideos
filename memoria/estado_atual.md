@@ -11,8 +11,9 @@ _A parte de cima é escrita à mão ao fechar cada sessão; o painel no fim é d
   - roteiro com nota 100; quadros com voz falsa (112,2 s); revisor sem aviso;
   - crítico visual na sessão: a rodada 1 reprovou a legibilidade (mostrador do elevador e câmera do S2 pequenos); a
     rodada 2 aprovou, com notas 7/8/8/8/8/8. Detalhes em `revisoes.md`;
-  - **falta:** render → som → prova → capa → entrega (`node fabrica/cli.js episodio --episodio 72h-1`, ≈ 2,5 h em CPU).
-    Sem a `GEMINI_API_KEY`, a entrega sai "não publicável — voz falsa".
+  - **produzido inteiro em 2026-11-11** (`ep01.mp4`, 1:52, −14,0 LUFS, 3 capas). Entrega **não publicável só por voz
+    falsa**. Com a `GEMINI_API_KEY`, `episodio --episodio 72h-1` refaz as falas e o que depende delas (≈ 1,5 h na tomada).
+  - ouvir a fala f15 ("Maio..."): a prova avisa voz possivelmente encoberta (5,9 dB contra o critério de 6).
 - Os stills tirados antes do crítico mostraram cinco defeitos de motor, corrigidos com 0 pixel diferente no Guichê 3
   (lista em `aprendizados.md`).
 - 2026-11-08/09: motor refeito no estilo da referência que o dono mandou; estudo do modelo de edição do canal de

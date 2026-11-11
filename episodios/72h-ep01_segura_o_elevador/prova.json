@@ -1,0 +1,194 @@
+{
+  "arquivo": "ep01.mp4",
+  "arquivo_hash": "sha256:2e7ed12eafc1432fb3a3ae0a08fc6cdc66646d71a313790a1d46e05f6e8bdb07",
+  "medido_em": "2026-11-11T11:54:57.035Z",
+  "formato": {
+    "largura": 1080,
+    "altura": 1920,
+    "fps": 30,
+    "codec_video": "h264",
+    "pix_fmt": "yuvj420p",
+    "codec_audio": "aac",
+    "taxa_audio": 48000,
+    "duracao_s": 112.2,
+    "tamanho_mb": 56.13927
+  },
+  "som": {
+    "arquivo": "C:\\Users\\PC\\Desktop\\cursovideos\\episodios\\72h-ep01_segura_o_elevador\\ep01.mp4",
+    "formato": "mov,mp4,m4a,3gp,3g2,mj2",
+    "duracao_s": 112.2,
+    "tamanho_mb": 56.14,
+    "video": {
+      "codec": "h264",
+      "largura": 1080,
+      "altura": 1920,
+      "fps": 30,
+      "pix_fmt": "yuvj420p"
+    },
+    "audio": {
+      "codec": "aac",
+      "taxa": 48000,
+      "canais": 1
+    },
+    "lufs_integrado": -14,
+    "pico_verdadeiro_dbtp": -1.52,
+    "faixa_de_loudness_lra": 1.7,
+    "volume_medio_dbfs": -10.16,
+    "pico_amostra_dbfs": -1.52,
+    "alvo_lufs": -14,
+    "ok_lufs": true,
+    "ok_pico": true,
+    "bandas": {
+      "fracao_20_80": 0.854,
+      "picos_graves_hz": [
+        45,
+        69,
+        91
+      ],
+      "nivel_1s_p10_db": -12.6,
+      "nivel_1s_p90_db": -8.5,
+      "trechos_abaixo_40db": [],
+      "rms_fala_menos_sem_fala_db": -0.3,
+      "fim_considerado_s": 112.207
+    },
+    "banda_de_voz": {
+      "com_fala_dbfs": -19.8,
+      "sem_fala_dbfs": -28.1,
+      "diferenca_db": 8.3,
+      "criterio_db": 6,
+      "veredito": "voz se destaca",
+      "falas_possivelmente_encobertas": [
+        "f15"
+      ],
+      "por_fala": [
+        {
+          "id": "f01",
+          "banda_voz_dbfs": -17.7,
+          "margem_db": 10.4
+        },
+        {
+          "id": "f02",
+          "banda_voz_dbfs": -19.6,
+          "margem_db": 8.5
+        },
+        {
+          "id": "f03",
+          "banda_voz_dbfs": -19.9,
+          "margem_db": 8.3
+        },
+        {
+          "id": "f04",
+          "banda_voz_dbfs": -18.9,
+          "margem_db": 9.2
+        },
+        {
+          "id": "f05",
+          "banda_voz_dbfs": -19.1,
+          "margem_db": 9.1
+        },
+        {
+          "id": "f06",
+          "banda_voz_dbfs": -21.9,
+          "margem_db": 6.2
+        },
+        {
+          "id": "f07",
+          "banda_voz_dbfs": -20.3,
+          "margem_db": 7.8
+        },
+        {
+          "id": "f08",
+          "banda_voz_dbfs": -22,
+          "margem_db": 6.1
+        },
+        {
+          "id": "f09",
+          "banda_voz_dbfs": -20,
+          "margem_db": 8.1
+        },
+        {
+          "id": "f10",
+          "banda_voz_dbfs": -19.4,
+          "margem_db": 8.7
+        },
+        {
+          "id": "f11",
+          "banda_voz_dbfs": -18.9,
+          "margem_db": 9.2
+        },
+        {
+          "id": "f12",
+          "banda_voz_dbfs": -19,
+          "margem_db": 9.1
+        },
+        {
+          "id": "f13",
+          "banda_voz_dbfs": -20.2,
+          "margem_db": 7.9
+        },
+        {
+          "id": "f14",
+          "banda_voz_dbfs": -20.7,
+          "margem_db": 7.4
+        },
+        {
+          "id": "f15",
+          "banda_voz_dbfs": -22.2,
+          "margem_db": 5.9
+        },
+        {
+          "id": "f16",
+          "banda_voz_dbfs": -21.9,
+          "margem_db": 6.2
+        },
+        {
+          "id": "f17",
+          "banda_voz_dbfs": -20.8,
+          "margem_db": 7.3
+        },
+        {
+          "id": "f18",
+          "banda_voz_dbfs": -21.9,
+          "margem_db": 6.2
+        },
+        {
+          "id": "f19",
+          "banda_voz_dbfs": -21.1,
+          "margem_db": 7.1
+        }
+      ]
+    }
+  },
+  "transcricao": {
+    "conferido_por": "nao_conferido",
+    "motivo": "todas as falas têm voz falsa (não é fala: não há o que transcrever)"
+  },
+  "revisao_quadros": {
+    "graves": 0,
+    "avisos": 0
+  },
+  "lista": {
+    "Formato 1080x1920, fps e duração": true,
+    "Volume -14 LUFS e pico abaixo de -1 dB": true,
+    "Zumbido grave contínuo, sem silêncio (como a referência)": true,
+    "Voz se destaca do fundo": true,
+    "Todas as falas no vídeo pronto (transcrição)": "não conferido",
+    "Quadros revisados (revisor automático)": true,
+    "Vozes de verdade": false,
+    "Assistido inteiro no celular, com e sem som": "só o dono confere",
+    "Ouvido com fones (sotaque, interpretação, efeitos)": "só o dono confere"
+  },
+  "bloqueios": [
+    "voz falsa: gere as vozes de verdade antes de publicar"
+  ],
+  "avisos": [
+    "falas possivelmente encobertas (vá ouvir): f15",
+    "transcrição não conferida: todas as falas têm voz falsa; confere sozinha quando houver voz de verdade"
+  ],
+  "nao_conferido": [
+    "sotaque",
+    "interpretação",
+    "som ouvido de verdade",
+    "movimento entre quadros"
+  ]
+}

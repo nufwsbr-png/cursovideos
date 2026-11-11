@@ -1,0 +1,91 @@
+{
+  "episodio": 1,
+  "titulo": "Segura o elevador",
+  "publicavel": false,
+  "motivos": [
+    "voz_real: 19 fala(s) com voz falsa",
+    "prova: voz falsa: gere as vozes de verdade antes de publicar",
+    "bloqueios: voz falsa: gere as vozes de verdade antes de publicar"
+  ],
+  "checagens": {
+    "voz_real": {
+      "ok": false,
+      "detalhe": "19 fala(s) com voz falsa"
+    },
+    "linter": {
+      "ok": true,
+      "nota": 100,
+      "minimo": 70,
+      "detalhe": "nota 100"
+    },
+    "revisor": {
+      "ok": true,
+      "graves": 0,
+      "detalhe": "sem problemas graves"
+    },
+    "critico": {
+      "ok": true,
+      "exigido": true,
+      "fonte": "sessao_claude_code",
+      "notas": {
+        "gancho": 7,
+        "legibilidade": 8,
+        "clareza_acao": 8,
+        "continuidade": 8,
+        "acabamento": 8,
+        "dilema_final": 8
+      },
+      "detalhe": "aprovado (sessao_claude_code)"
+    },
+    "prova": {
+      "ok": false,
+      "bloqueios": [
+        "voz falsa: gere as vozes de verdade antes de publicar"
+      ],
+      "detalhe": "voz falsa: gere as vozes de verdade antes de publicar"
+    },
+    "fontes": {
+      "ok": true,
+      "detalhe": "Verdana Bold e emoji conferidos"
+    },
+    "bloqueios": {
+      "ok": false,
+      "lista": [
+        "voz falsa: gere as vozes de verdade antes de publicar"
+      ],
+      "detalhe": "voz falsa: gere as vozes de verdade antes de publicar"
+    },
+    "aprovacao": {
+      "ok": true,
+      "exigida": false,
+      "detalhe": "o canal não exige"
+    },
+    "versoes": {
+      "ok": true,
+      "invalidas": [],
+      "detalhe": "todas as etapas em dia"
+    },
+    "arquivos": {
+      "ok": true,
+      "detalhe": "vídeo, capa e textos presentes"
+    }
+  },
+  "arquivos": {
+    "video": {
+      "caminho": "ep01.mp4",
+      "hash": "sha256:2e7ed12eafc1432fb3a3ae0a08fc6cdc66646d71a313790a1d46e05f6e8bdb07",
+      "bytes": 56139270
+    },
+    "capa": {
+      "caminho": "capa.png",
+      "hash": "sha256:a5fd1f2a12dc4ba9d344fe764eba1ccf2a1f52fbbc609403826afc49fa453394",
+      "bytes": 736180
+    },
+    "textos": {
+      "caminho": "textos.json",
+      "hash": "sha256:2ab739bc16d0f020f527ff9fd3f678c6890f5951831b64fe8771f8358c97d8e3",
+      "bytes": 4859
+    }
+  },
+  "gerado_em": "2026-11-11T11:55:14.359Z"
+}
